@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "626b9e7ddd47fb7eff9aaa53cce0c9ad",
+    "content-hash": "02b236bfee874fb22c9082e038d74f65",
     "packages": [
         {
             "name": "brick/math",
@@ -2005,6 +2005,80 @@
                 }
             ],
             "time": "2024-12-08T08:18:47+00:00"
+        },
+        {
+            "name": "mattyeend/logging",
+            "version": "v1.1.9",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/MatthewYeend/Logging.git",
+                "reference": "73b105b635e1b20be50648690fc8221d70d7b71a"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/MatthewYeend/Logging/zipball/73b105b635e1b20be50648690fc8221d70d7b71a",
+                "reference": "73b105b635e1b20be50648690fc8221d70d7b71a",
+                "shasum": ""
+            },
+            "require": {
+                "laravel/framework": "^9.0 || ^10.0 || ^11.0",
+                "php": "^7.4 || ^8.0 || ^8.1 || ^8.2"
+            },
+            "require-dev": {
+                "fakerphp/faker": "^1.9.1",
+                "friendsofphp/php-cs-fixer": "^3.0",
+                "illuminate/database": "^9.0 || ^10.0 || ^11.0",
+                "laravel/legacy-factories": "^2.0",
+                "orchestra/testbench": "^7.0",
+                "phpunit/phpunit": "^9.0 || ^10.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "MattYeend\\Logging\\LoggingServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "MattYeend\\Logging\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Matt Yeend",
+                    "email": "mail@mattyeend.co.uk"
+                }
+            ],
+            "description": "A comprehensive logging library for Laravel applications.",
+            "keywords": [
+                "Audit",
+                "laravel",
+                "logger",
+                "logging",
+                "package",
+                "tracking"
+            ],
+            "support": {
+                "issues": "https://github.com/MatthewYeend/Logging/issues",
+                "source": "https://github.com/MatthewYeend/Logging/tree/v1.1.9"
+            },
+            "funding": [
+                {
+                    "url": "https://www.buymeacoffee.com/mattyeend",
+                    "type": "buy_me_a_coffee"
+                },
+                {
+                    "url": "https://github.com/MattYeend",
+                    "type": "github"
+                }
+            ],
+            "time": "2025-01-22T12:19:03+00:00"
         },
         {
             "name": "monolog/monolog",
