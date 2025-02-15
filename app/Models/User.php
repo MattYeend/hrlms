@@ -9,6 +9,9 @@ use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use App\Models\Role;
+use App\Models\Department;
+use App\Models\JobTitle;
 
 class User extends Authenticatable
 {
@@ -76,6 +79,18 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    public function role() {
+        return $this->belongsTo(Role::class);
+    }
+    
+    public function department() {
+        return $this->belongsTo(Department::class);
+    }
+    
+    public function jobTitle() {
+        return $this->belongsTo(JobTitle::class);
     }
 
     public function isSuperAdmin()
