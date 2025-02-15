@@ -85,7 +85,7 @@ class UserController extends Controller
         $oldRole = $user->role->name;
         $this->userRepository->update($user, $request->validated());
         $newRole = $user->role->name;
-
+    
         if ($oldRole !== $newRole) {
             $user->notify(new UserNotification(
                 'role_changed',
