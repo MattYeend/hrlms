@@ -41,6 +41,9 @@ return new class extends Migration
             $table->integer('remote_based')->nullable();
             $table->integer('hybrid_based')->nullable();
             $table->boolean('is_live')->default(true);
+            $table->unsignedBigInteger('role_id')->nullable();
+            $table->unsignedBigInteger('department_id')->nullable();
+            $table->unsignedBigInteger('job_title_id')->nullable();
             $table->unsignedBigInteger('created_by')->nullable();
             $table->unsignedBigInteger('updated_by')->nullable();
             $table->unsignedBigInteger('deleted_by')->nullable();
