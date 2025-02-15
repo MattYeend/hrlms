@@ -13,12 +13,44 @@ return new class extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
+            $table->string('title');
+            $table->string('first_name');
+            $table->string('middle_name')->nullable();
+            $table->string('last_name');
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
+            $table->string('phone_number')->nullable();
+            $table->string('profile_picture')->nullable();
+            $table->string('cv_path')->nullable();
+            $table->string('cover_letter_path')->nullable();
+            $table->integer('salary');
+            $table->string('first_line');
+            $table->string('second_line')->nullable();
+            $table->string('town')->nullable();
+            $table->string('city')->nullable();
+            $table->string('county')->nullable();
+            $table->string('country');
+            $table->string('post_code');
+            $table->string('full_or_part');
+            $table->string('region');
+            $table->string('timezone');
+            $table->date('start_date');
+            $table->date('end_date')->nullable();
+            $table->integer('office_based')->nullable();
+            $table->integer('remote_based')->nullable();
+            $table->integer('hybrid_based')->nullable();
+            $table->boolean('is_live')->default(true);
+            $table->unsignedBigInteger('created_by')->nullable();
+            $table->unsignedBigInteger('updated_by')->nullable();
+            $table->unsignedBigInteger('deleted_by')->nullable();
             $table->rememberToken();
             $table->timestamps();
+            $table->softDeletes();
+
+            $table->foreign('created_by')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('updated_by')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('deleted_by')->references('id')->on('users')->onDelete('cascade');
         });
 
         Schema::create('password_reset_tokens', function (Blueprint $table) {
