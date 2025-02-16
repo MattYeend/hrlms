@@ -1,0 +1,31 @@
+.navbar {
+    background-color: $navbar-bg-colour;
+    padding: 1rem;
+    position: sticky !important;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 999;
+    box-sizing: border-box;
+
+    .navbar-brand {
+        font-size: 1rem;
+        color: $navbar-bg-colour;
+    }
+
+    .navbar-nav {
+        list-style: none;
+        display: flex;
+
+        .nav-item {
+            margin-right: 1rem;
+
+            a {
+                color: $text-colour;
+                &:hover {
+                    color: $text-colour;
+                }
+            }
+        }
+    }
+}

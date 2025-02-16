@@ -1,0 +1,27 @@
+.button {
+    display: inline-block;
+    padding: 0.75rem 1.25rem;
+    border-radius: 0.25rem;
+    font-size: 1rem;
+    text-align: center;
+    cursor: pointer;
+    @include transition(all);
+
+    &--primary {
+        background-color: $primary-colour;
+        color: white;
+
+        &:hover {
+            background-color: $primary-dark;
+        }
+    }
+
+    &--secondary {
+        background-color: $secondary-colour;
+        color: black;
+
+        &:hover {
+            background-color: $secondary-dark;
+        }
+    }
+}

@@ -1,0 +1,19 @@
+.card {
+    border: 1px solid $border-colour;
+    border-radius: 0.25rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    background-color: white;
+
+    &-header {
+        margin-bottom: 1rem;
+    }
+
+    &-body {
+        color: $text-secondary-colour;
+    }
+
+    &-footer {
+        text-align: right;
+        margin-top: 1.5rem;
+    }
+}
