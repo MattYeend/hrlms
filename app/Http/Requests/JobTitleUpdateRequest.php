@@ -11,7 +11,7 @@ class JobTitleUpdateRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return true;
+        return auth()->user()->can('update', $this->jobTitle);
     }
 
     /**
