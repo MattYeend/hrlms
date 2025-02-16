@@ -103,6 +103,11 @@ class User extends Authenticatable
         return $this->role && $this->role->name === 'Admin';
     }
 
+    public function isDepartmentLead()
+    {
+        return $this->role && $this->role->name === 'Department Lead';
+    }
+
     public function createdBy(){
         return $this->belongsTo(User::class, 'created_by');
     }
