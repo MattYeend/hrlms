@@ -1,0 +1,44 @@
+footer {
+    background-color: $footer-colour;
+    padding: 8px;
+    text-align: left;
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    box-shadow: 0 -4px 6px rgba(0, 0, 0, 0.1);
+    margin: 0;
+    z-index: 999;
+}
+
+.footer-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.year {
+    display: flex;
+    align-items: center;
+}
+
+.languages {
+    display: flex;
+    align-items: center;
+}
+
+.languages span {
+    margin-right: 10px;
+}
+
+.horizontal-list {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    gap: 10px;
+}
+
+.horizontal-list li {
+    display: inline;
+}
