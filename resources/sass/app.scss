@@ -4,5 +4,19 @@
 // Variables
 @import 'variables';
 
+@import 'base/mixins';
+@import 'base/colours';
+@import 'base/utilities';
+@import 'base/typography';
+
+@import 'components/buttons';
+@import 'components/card';
+@import 'components/dropdown';
+@import 'components/navbar';
+@import 'components/slider';
+
+@import 'layout/menu';
+@import 'layout/footer';
+
 // Bootstrap
 @import 'bootstrap/scss/bootstrap';
