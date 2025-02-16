@@ -15,6 +15,7 @@ class JobTitleController extends Controller
     public function __construct(JobTitleRepository $jobTitleRepository) 
     {
         $this->jobTitleRepository = $jobTitleRepository;
+        $this->middleware('auth');
     }
 
     /**
@@ -22,6 +23,7 @@ class JobTitleController extends Controller
      */
     public function index()
     {
+        $this->authorize('viewAny', JobTitle::class);
         $jobTitles = $this->jobTitleRepository->getAll();
         return view('job_titles.index', compact('jobTitles'));
     }
@@ -31,6 +33,7 @@ class JobTitleController extends Controller
      */
     public function create()
     {
+        $this->authorize('create', JobTitle::class);
         return view('job_titles.create');
     }
 
@@ -39,6 +42,7 @@ class JobTitleController extends Controller
      */
     public function store(JobTitleStoreRequest $request)
     {
+        $this->authorize('create', JobTitle::class);
         $this->jobTitleRepository->create($request->validated());
         return redirect()->route('job_titles.index')->with('success', 'Job Title created successfully.');
     }
@@ -48,6 +52,7 @@ class JobTitleController extends Controller
      */
     public function show(JobTitle $jobTitle) 
     {
+        $this->authorize('view', $jobTitle);
         return view('job_titles.show', compact('jobTitle'));
     }
 
@@ -56,6 +61,7 @@ class JobTitleController extends Controller
      */
     public function edit(JobTitle $jobTitle) 
     {
+        $this->authorize('update', $jobTitle);
         return view('job_titles.edit', compact('jobTitle'));
     }
 
@@ -64,6 +70,7 @@ class JobTitleController extends Controller
      */
     public function update(JobTitleUpdateRequest $request, JobTitle $jobTitle) 
     {
+        $this->authorize('update', $jobTitle);
         $this->jobTitleRepository->update($jobTitle, $request->validated());
         return redirect()->route('job_titles.index')->with('success', 'Job Title updated successfully.');
     }
@@ -73,6 +80,7 @@ class JobTitleController extends Controller
      */
     public function destroy(JobTitle $jobTitle) 
     {
+        $this->authorize('delete', $jobTitle);
         $this->jobTitleRepository->delete($jobTitle);
         return redirect()->route('job_titles.index')->with('success', 'Job Title deleted successfully.');
     }

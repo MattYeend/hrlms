@@ -16,6 +16,7 @@ class UserController extends Controller
 
     public function __construct(UserRepository $userRepository) {
         $this->userRepository = $userRepository;
+        $this->middleware('auth');
     }
     
     /**
@@ -23,6 +24,7 @@ class UserController extends Controller
      */
     public function index()
     {
+        $this->authorize('viewAny', User::class);
         $users = $this->userRepository->getAll();
         return view('users.index', compact('users'));
     }
@@ -32,6 +34,7 @@ class UserController extends Controller
      */
     public function create()
     {
+        $this->authorize('create', User::class);
         return view('users.create');
     }
 
@@ -40,6 +43,7 @@ class UserController extends Controller
      */
     public function store(UserStoreRequest $request)
     {
+        $this->authorize('create', User::class);
         $password = Str::random(8);
 
         $user = $this->userRepository->create([
@@ -66,6 +70,7 @@ class UserController extends Controller
      */
     public function show(User $user)
     {
+        $this->authorize('view', $user);
         return view('users.show', compact('user'));
     }
 
@@ -74,6 +79,7 @@ class UserController extends Controller
      */
     public function edit(User $user)
     {
+        $this->authorize('update', $user);
         return view('users.edit', compact('user'));
     }
 
@@ -82,6 +88,7 @@ class UserController extends Controller
      */
     public function update(UserUpdateRequest $request, User $user)
     {
+        $this->authorize('update', $user);
         $oldRole = $user->role->name;
         $this->userRepository->update($user, $request->validated());
         $newRole = $user->role->name;
@@ -104,6 +111,7 @@ class UserController extends Controller
      */
     public function destroy(User $user)
     {
+        $this->authorize('delete', $user);
         $this->userRepository->delete($user);
         return redirect()->route('users.index')->with('success', 'User deleted successfully.');
     }

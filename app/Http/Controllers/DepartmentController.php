@@ -16,6 +16,7 @@ class DepartmentController extends Controller
     public function __construct(DepartmentRepository $departmentRepository) 
     {
         $this->departmentRepository = $departmentRepository;
+        $this->middleware('auth');
     }
 
     /**
@@ -23,6 +24,7 @@ class DepartmentController extends Controller
      */
     public function index()
     {
+        $this->authorize('viewAny', Department::class);
         $departments = $this->departmentRepository->getAll();
         return view('departments.index', compact('departments'));
     }
@@ -32,6 +34,7 @@ class DepartmentController extends Controller
      */
     public function create()
     {
+        $this->authorize('create', Department::class);
         return view('departments.create');
     }
 
@@ -40,6 +43,7 @@ class DepartmentController extends Controller
      */
     public function store(DepartmentStoreRequest $request) 
     {
+        $this->authorize('create', Department::class);
         $this->departmentRepository->create($request->validated());
         return redirect()->route('departments.index')->with('success', 'Department created successfully.');
     }
@@ -49,6 +53,7 @@ class DepartmentController extends Controller
      */
     public function show(Department $department)
     {
+        $this->authorize('view', $department);
         return view('departments.show', compact('department'));
     }
 
@@ -57,6 +62,7 @@ class DepartmentController extends Controller
      */
     public function edit(Department $department) 
     {
+        $this->authorize('update', $department);
         return view('departments.edit', compact('department'));
     }
 
@@ -65,6 +71,7 @@ class DepartmentController extends Controller
      */
     public function update(DepartmentUpdateRequest $request, Department $department) 
     {
+        $this->authorize('update', $department);
         $department = $this->departmentRepository->find($id);
     
         $oldLead = $department->lead_id;
@@ -88,6 +95,7 @@ class DepartmentController extends Controller
      */
     public function destroy(Department $department) 
     {
+        $this->authorize('delete', $department);
         $this->departmentRepository->delete($department);
         return redirect()->route('departments.index')->with('success', 'Department deleted successfully.');
     }

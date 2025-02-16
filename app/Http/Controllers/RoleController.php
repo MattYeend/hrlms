@@ -15,6 +15,7 @@ class RoleController extends Controller
     public function __construct(RoleRepository $roleRepository) 
     {
         $this->roleRepository = $roleRepository;
+        $this->middleware('auth');
     }
 
     /**
@@ -22,6 +23,7 @@ class RoleController extends Controller
      */
     public function index()
     {
+        $this->authorize('viewAny', Role::class);
         $roles = $this->roleRepository->getAll();
         return view('roles.index', compact('roles'));
     }
@@ -31,6 +33,7 @@ class RoleController extends Controller
      */
     public function create()
     {
+        $this->authorize('create', Role::class);
         return view('roles.create');
     }
 
@@ -39,6 +42,7 @@ class RoleController extends Controller
      */
     public function store(RoleStoreRequest $request) 
     {
+        $this->authorize('create', Role::class);
         $this->roleRepository->create($request->validated());
         return redirect()->route('roles.index')->with('success', 'Role created successfully.');
     }
@@ -48,6 +52,7 @@ class RoleController extends Controller
      */
     public function show(Role $role) 
     {
+        $this->authorize('view', $role);
         return view('roles.show', compact('role'));
     }
 
@@ -56,6 +61,7 @@ class RoleController extends Controller
      */
     public function edit(Role $role) 
     {
+        $this->authorize('update', $role);
         return view('roles.edit', compact('role'));
     }
 
@@ -64,6 +70,7 @@ class RoleController extends Controller
      */
     public function update(RoleUpdateRequest $request, Role $role) 
     {
+        $this->authorize('update', $role);
         $this->roleRepository->update($role, $request->validated());
         return redirect()->route('roles.index')->with('success', 'Role updated successfully.');
     }
@@ -73,6 +80,7 @@ class RoleController extends Controller
      */
     public function destroy(Role $role) 
     {
+        $this->authorize('delete', $role);
         $this->roleRepository->delete($role);
         return redirect()->route('roles.index')->with('success', 'Role deleted successfully.');
     }
