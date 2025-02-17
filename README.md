@@ -34,3 +34,7 @@
 - Push branch
 - Create a pull request to fully describe the fix
 - Any new text on screen, add to relevant file(s) within the lang/ folder
+
+## Language files
+- When creating a new view page, nor new module, ensure there is a relevant language file(s) for said module (or add to existing language file if adding to existing viewable page)
+- Ensure the language files makes sense to what it does, e.g. `users.php` for Users
