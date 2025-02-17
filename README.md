@@ -24,3 +24,13 @@
 - Run individual seeder (`php artisan db:seed --Class=<seederName>`)
 - Add seeder to DatabaseSeeder file
 - Commit
+
+## How to contribute
+- Log an issue
+- Add as much information as possible
+- Assign it to yourself
+- Checkout branch, add issue number to start of branch (from develop branch, `git checkout -b number-short-description-branch`)
+- Commit message should start with a hash (#) and the issue number then message of issue
+- Push branch
+- Create a pull request to fully describe the fix
+- Any new text on screen, add to relevant file(s) within the lang/ folder
