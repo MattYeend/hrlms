@@ -1,5 +1,5 @@
 ## Setup
-- Run git clone `https://github.com/MattYeend/hrlms.git`
+- Run `git clone https://github.com/MattYeend/hrlms.git`
 - Run `composer install`
 - Copy `.env.example` and rename as `.env`
 - Add database configuration, e.g. `DB_DATABASE` and `DB_USERNAME`
