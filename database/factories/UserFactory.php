@@ -24,11 +24,35 @@ class UserFactory extends Factory
     public function definition(): array
     {
         return [
-            'name' => fake()->name(),
-            'email' => fake()->unique()->safeEmail(),
+            'title' => $this->faker->title,
+            'first_name' => $this->faker->firstName,
+            'middle_name' => $this->faker->randomElement([null, $this->faker->firstName]),
+            'last_name' => $this->faker->lastName,
+            'email' => $this->faker->unique()->safeEmail,
             'email_verified_at' => now(),
-            'password' => static::$password ??= Hash::make('password'),
+            'password' => Hash::make('password'),
+            'phone_number' => $this->faker->phoneNumber,
+            'salary' => $this->faker->numberBetween(30000, 120000),
+            'first_line' => $this->faker->streetAddress,
+            'second_line' => $this->faker->optional()->secondaryAddress,
+            'town' => $this->faker->city,
+            'city' => $this->faker->city,
+            'county' => $this->faker->state,
+            'country' => $this->faker->country,
+            'post_code' => $this->faker->postcode,
+            'full_or_part' => $this->faker->randomElement(['Full-time', 'Part-time']),
+            'region' => $this->faker->randomElement(['North America', 'Europe', 'Asia']),
+            'timezone' => $this->faker->timezone,
+            'start_date' => $this->faker->date,
+            'end_date' => $this->faker->optional()->date,
+            'office_based' => $this->faker->randomElement([1, 0]),
+            'remote_based' => $this->faker->randomElement([1, 0]),
+            'hybrid_based' => $this->faker->randomElement([1, 0]),
+            'is_live' => true,
+            'created_by' => null,
             'remember_token' => Str::random(10),
+            'department_id' => $this->faker->randomElement([2, 17]),
+            'job_title_id' => $this->faker->randomElement([2, 52]),
         ];
     }
 
