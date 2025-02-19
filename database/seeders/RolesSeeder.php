@@ -14,9 +14,30 @@ class RolesSeeder extends Seeder
     public function run(): void
     {
         DB::table('roles')->insert([
-            ['name' => 'Super Admin', 'created_by' => null, 'updated_by' => null, 'deleted_by' => null, 'created_at' => now(), 'updated_at' => now()],
-            ['name' => 'Admin', 'created_by' => null, 'updated_by' => null, 'deleted_by' => null, 'created_at' => now(), 'updated_at' => now()],
-            ['name' => 'User', 'created_by' => null, 'updated_by' => null, 'deleted_by' => null, 'created_at' => now(), 'updated_at' => now()],
+            [
+                'name' => 'Super Admin', 
+                'created_by' => null, 
+                'updated_by' => null, 
+                'deleted_by' => null, 
+                'created_at' => now(), 
+                'updated_at' => now()
+            ],
+            [
+                'name' => 'Admin', 
+                'created_by' => null, 
+                'updated_by' => null, 
+                'deleted_by' => null, 
+                'created_at' => now(), 
+                'updated_at' => now()
+            ],
+            [
+                'name' => 'User', 
+                'created_by' => null, 
+                'updated_by' => null, 
+                'deleted_by' => null, 
+                'created_at' => now(), 
+                'updated_at' => now()
+            ],
         ]);
     }
 }
