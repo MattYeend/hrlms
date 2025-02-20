@@ -10,6 +10,8 @@ use App\Http\Controllers\RoleController;
 use App\Http\Controllers\DepartmentController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\CourseController;
+use App\Http\Controllers\EnrollmentController;
+use App\Http\Controllers\ProgressController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -77,5 +79,15 @@ Route::middleware(['auth'])->group(function () {
         Route::delete('/{course}', [CourseController::class, 'destroy'])->name('destroy');
         Route::post('/{course}/enroll', [CourseController::class, 'enroll'])->name('enroll');
         Route::post('/{course}/progress', [CourseController::class, 'trackProgress'])->name('progress');
+    });
+
+    Route::prefix('enrollments')->name('enrollments.')->group(function () {
+        Route::get('/', [EnrollmentController::class, 'index'])->name('index');
+        Route::get('/{id}', [EnrollmentController::class, 'show'])->name('show');
+    });
+
+    Route::prefix('progress')->name('progress.')->group(function () {
+        Route::get('/', [ProgressController::class, 'index'])->name('index');
+        Route::get('/{id}', [ProgressController::class, 'show'])->name('show');
     });
 });
