@@ -2,11 +2,10 @@
 
 namespace App\Http\Requests;
 
-
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
 
-class JobTitleUpdateRequest extends FormRequest
+class UpdateCourseRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -26,10 +25,12 @@ class JobTitleUpdateRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'required|string|unique:job_titles,name,' . $this->route('job_title'),
-            'created_by' => 'nullable|exists:users,id',
-            'updated_by' => 'nullable|exists:users,id',
-            'deleted_by' => 'nullable|exists:users,id',
+            'title' => 'sometimes|required|string|max:255',
+            'description' => 'nullable|string',
+            'thumbnail' => 'nullable|image',
+            'category' => 'nullable|string|max:100',
+            'duration' => 'nullable|integer',
+            'status' => 'required|in:draft,published',
         ];
     }
 }

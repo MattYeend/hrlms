@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Auth;
 
 class UserUpdateRequest extends FormRequest
 {
@@ -11,7 +12,9 @@ class UserUpdateRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return auth()->user()->can('update', $this->user);
+        $user = Auth::user();
+
+        return $user && ($user->isAdmin() || $user->isSuperAdmin());
     }
 
     /**
