@@ -18,6 +18,8 @@ class User extends Authenticatable
     /** @use HasFactory<\Database\Factories\UserFactory> */
     use HasFactory, Notifiable, HasApiTokens, SoftDeletes;
 
+    protected $table = 'users';
+
     /**
      * The attributes that are mass assignable.
      *
@@ -81,7 +83,8 @@ class User extends Authenticatable
         ];
     }
 
-    public function role() {
+    public function role()
+    {
         return $this->belongsTo(Role::class);
     }
     

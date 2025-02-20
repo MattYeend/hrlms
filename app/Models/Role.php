@@ -12,6 +12,8 @@ class Role extends Model
 {
     use HasFactory, Notifiable, SoftDeletes;
 
+    protected $table = 'roles';
+    
     protected $fillable = [
         'name',
         'created_by',
@@ -21,4 +23,9 @@ class Role extends Model
         'deleted_by',
         'deleted_at'
     ];
+
+    public function users()
+    {
+        return $this->hasMany(User::class);
+    }
 }

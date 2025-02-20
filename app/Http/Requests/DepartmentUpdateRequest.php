@@ -2,17 +2,23 @@
 
 namespace App\Http\Requests;
 
-use Illuminate\Foundation\Http\FormRequest;
+use App\Models\User;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Foundation\Http\FormRequest;
 
 class DepartmentUpdateRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
+     *
+     * @return bool
      */
     public function authorize(): bool
     {
-        return auth()->user()->isSuperAdmin() || auth()->user()->isAdmin();
+        /** @var User|null $user */
+        $user = Auth::user();
+
+        return $user && ($user->isSuperAdmin() || $user->isAdmin());
     }
 
     /**
