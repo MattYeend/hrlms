@@ -72,11 +72,12 @@ class DepartmentController extends Controller
     public function update(DepartmentUpdateRequest $request, Department $department) 
     {
         $this->authorize('update', $department);
-        $department = $this->departmentRepository->find($id);
-    
+
         $oldLead = $department->lead_id;
-        $this->departmentRepository->update($department, $request->validated());
-    
+        $this->departmentRepository->update($department->id, $request->validated());
+        
+        $department->refresh();
+
         if ($oldLead !== $department->lead_id && $department->lead) {
             $department->lead->notify(new UserNotification(
                 'department_lead_assigned',
@@ -86,7 +87,7 @@ class DepartmentController extends Controller
                 ['department_name' => $department->name]
             ));
         }
-        
+
         return redirect()->route('departments.index')->with('success', 'Department updated successfully.');
     }
 
