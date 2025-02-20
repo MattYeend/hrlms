@@ -7,6 +7,7 @@ use App\Http\Controllers\JobTitleController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\DepartmentController;
 use App\Http\Controllers\NotificationController;
+use App\Http\Controllers\CourseController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -62,5 +63,15 @@ Route::middleware(['auth'])->group(function () {
         Route::post('/send', [NotificationController::class, 'sendNotification'])->name('send');
         Route::post('/{id}/read', [NotificationController::class, 'markAsRead'])->name('read');
         Route::post('/read-all', [NotificationController::class, 'markAllAsRead'])->name('readAll');
+    });
+
+    Route::prefix('courses')->name('courses.')->group(function () {
+        Route::get('/', [CourseController::class, 'index'])->name('index');
+        Route::get('/create', [CourseController::class, 'create'])->name('create');
+        Route::post('/', [CourseController::class, 'store'])->name('store');
+        Route::get('/{course}', [CourseController::class, 'show'])->name('show');
+        Route::get('/{course}/edit', [CourseController::class, 'edit'])->name('edit');
+        Route::put('/{course}', [CourseController::class, 'update'])->name('update');
+        Route::delete('/{course}', [CourseController::class, 'destroy'])->name('destroy');
     });
 });
