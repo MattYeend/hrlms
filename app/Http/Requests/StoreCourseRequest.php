@@ -12,9 +12,7 @@ class StoreCourseRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        $user = Auth::user();
-
-        return in_array($user->role->name, ['Admin', 'Super Admin']);
+        return auth()->user()->isSuperAdmin() || auth()->user()->isAdmin();
     }
 
     /**

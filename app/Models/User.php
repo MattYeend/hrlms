@@ -103,11 +103,6 @@ class User extends Authenticatable
         return $this->role && $this->role->name === 'Admin';
     }
 
-    public function isDepartmentLead()
-    {
-        return $this->role && $this->role->name === 'Department Lead';
-    }
-
     public function createdBy(){
         return $this->belongsTo(User::class, 'created_by');
     }
@@ -137,7 +132,7 @@ class User extends Authenticatable
             'CEO', // Chief Engineering Officer
             'CHRO' // Chief HR Officer
         ];
-        return $this->job && in_array($this->job->code, $cSuiteCodes);
+        return $this->job && in_array($this->job->short_code, $cSuiteCodes);
     }
 
     public function hrStaff(){
@@ -154,7 +149,7 @@ class User extends Authenticatable
             'HRAS', // HR Assistant
             'HRD' // HR Director
         ];
-        return $this->job && in_array($this->job->code, $hrStaffCodes);
+        return $this->job && in_array($this->job->short_code, $hrStaffCodes);
     }
 
     public function getShortName(): string{

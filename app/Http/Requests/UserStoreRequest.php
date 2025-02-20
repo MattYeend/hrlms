@@ -3,7 +3,6 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Support\Facades\Auth;
 
 class UserStoreRequest extends FormRequest
 {
@@ -12,9 +11,7 @@ class UserStoreRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        $user = Auth::user();
-
-        return in_array($user->role->name, ['Admin', 'Super Admin']);
+        return auth()->user()->isSuperAdmin() || auth()->user()->isAdmin();
     }
 
     /**
