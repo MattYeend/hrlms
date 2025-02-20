@@ -75,5 +75,7 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/{course}/edit', [CourseController::class, 'edit'])->name('edit');
         Route::put('/{course}', [CourseController::class, 'update'])->name('update');
         Route::delete('/{course}', [CourseController::class, 'destroy'])->name('destroy');
+        Route::post('/{course}/enroll', [CourseController::class, 'enroll'])->name('enroll');
+        Route::post('/{course}/progress', [CourseController::class, 'trackProgress'])->name('progress');
     });
 });

@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Course;
 use App\Repositories\CourseRepository;
+use App\Repositories\EnrollmentRepository;
+use App\Repositories\ProgressRepository;
 use App\Http\Requests\StoreCourseRequest;
 use App\Http\Requests\UpdateCourseRequest;
 use Illuminate\Http\Request;
@@ -10,10 +13,14 @@ use Illuminate\Http\Request;
 class CourseController extends Controller
 {
     protected $courseRepository;
+    protected $enrollmentRepository;
+    protected $progressRepository;
 
-    public function __construct(CourseRepository $courseRepository)
+    public function __construct(CourseRepository $courseRepository, EnrollmentRepository $enrollmentRepository, ProgressRepository $progressRepository)
     {
         $this->courseRepository = $courseRepository;
+        $this->enrollmentRepository = $enrollmentRepository;
+        $this->progressRepository = $progressRepository;
         $this->middleware('auth');
     }
 
@@ -77,5 +84,37 @@ class CourseController extends Controller
     {
         $this->courseRepository->delete($id);
         return redirect()->route('courses.index')->with('success', 'Course deleted successfully.');
+    }
+
+    /**
+     * Enroll a user in a course.
+     */
+    public function enroll(Request $request, $courseId)
+    {
+        $user = auth()->user();
+        $course = $this->courseRepository->getById($courseId);
+
+        if ($this->enrollmentRepository->isEnrolled($user, $course)) {
+            return redirect()->back()->with('error', 'You are already enrolled in this course.');
+        }
+
+        $this->enrollmentRepository->enroll($user, $course);
+        return redirect()->route('courses.show', $courseId)->with('success', 'Enrolled successfully.');
+    }
+
+    /**
+     * Track user progress in a course.
+     */
+    public function trackProgress(Request $request, $courseId)
+    {
+        $request->validate([
+            'progress' => 'required|integer|min:0|max:100',
+        ]);
+
+        $user = auth()->user();
+        $course = $this->courseRepository->getById($courseId);
+
+        $this->progressRepository->trackProgress($user, $course, $request->progress);
+        return redirect()->route('courses.show', $courseId)->with('success', 'Progress updated.');
     }
 }
