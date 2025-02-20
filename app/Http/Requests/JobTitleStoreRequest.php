@@ -14,7 +14,7 @@ class JobTitleStoreRequest extends FormRequest
     {
         $user = Auth::user();
 
-        return $user && ($user->isAdmin() || $user->isSuperAdmin());
+        return in_array($user->role->name, ['Admin', 'Super Admin']);
     }
 
     /**
