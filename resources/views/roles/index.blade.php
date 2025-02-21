@@ -13,7 +13,6 @@
         <thead>
             <tr>
                 <th>Name</th>
-                <th>Description</th>
                 <th>Actions</th>
             </tr>
         </thead>
@@ -21,7 +20,6 @@
             @foreach($roles as $role)
             <tr>
                 <td>{{ $role->name }}</td>
-                <td>{{ $role->description }}</td>
                 <td>
                     <a href="{{ route('roles.show', $role) }}" class="btn btn-info btn-sm">View</a>
                     <a href="{{ route('roles.edit', $role) }}" class="btn btn-warning btn-sm">Edit</a>

@@ -3,7 +3,6 @@
 @section('content')
 <div class="container">
     <h1>{{ $role->name }}</h1>
-    <p><strong>Description:</strong> {{ $role->description }}</p>
 
     <a href="{{ route('roles.index') }}" class="btn btn-secondary">Back to List</a>
     <a href="{{ route('roles.edit', $role) }}" class="btn btn-warning">Edit</a>
