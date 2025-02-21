@@ -14,8 +14,15 @@
         </div>
 
         <div class="mb-3">
-            <label for="description" class="form-label">Description</label>
-            <textarea class="form-control" id="description" name="description" rows="3">{{ $department->description }}</textarea>
+            <label for="lead_id" class="form-label">Department Lead</label>
+            <select class="form-control" id="lead_id" name="lead_id">
+                <option value="">Select Lead</option>
+                @foreach($users as $user)
+                    <option value="{{ $user->id }}" {{ $department->lead_id == $user->id ? 'selected' : '' }}>
+                        {{ $user->getName() }}
+                    </option>
+                @endforeach
+            </select>
         </div>
 
         <button type="submit" class="btn btn-success">Update</button>

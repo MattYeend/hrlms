@@ -13,7 +13,6 @@
         <thead>
             <tr>
                 <th>Name</th>
-                <th>Description</th>
                 <th>Lead</th>
                 <th>Actions</th>
             </tr>
@@ -22,8 +21,7 @@
             @foreach($departments as $department)
             <tr>
                 <td>{{ $department->name }}</td>
-                <td>{{ $department->description }}</td>
-                <td>{{ $department->lead ? $department->lead->getFullNameLong() : 'None' }}</td>
+                <td>{{ $department->lead ? $department->lead->getName() : 'No Lead Assigned' }}</td>
                 <td>
                     <a href="{{ route('departments.show', $department) }}" class="btn btn-info btn-sm">View</a>
                     <a href="{{ route('departments.edit', $department) }}" class="btn btn-warning btn-sm">Edit</a>
