@@ -70,6 +70,9 @@
                                     <a class="dropdown-item" href="{{ route('roles.index') }}">
                                         {{ __('Roles') }}
                                     </a>
+                                    <a class="dropdown-item" href="{{ route('job-titles.index') }}">
+                                        {{ __('Job Titles') }}
+                                    </a>
                                     <a class="dropdown-item" href="{{ route('users.index') }}">
                                         {{ __('Users') }}
                                     </a>
