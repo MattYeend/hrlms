@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Http\Requests\UserStoreRequest;
 use App\Http\Requests\UserUpdateRequest;
 use App\Models\User;
+use App\Models\Role;
+use App\Models\Department;
 use App\Repositories\UserRepository;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
@@ -35,7 +37,9 @@ class UserController extends Controller
     public function create()
     {
         $this->authorize('create', User::class);
-        return view('users.create');
+        $roles = Role::all();
+        $departments = Department::all();
+        return view('users.create', compact('roles', 'departments'));
     }
 
     /**
@@ -80,7 +84,9 @@ class UserController extends Controller
     public function edit(User $user)
     {
         $this->authorize('update', $user);
-        return view('users.edit', compact('user'));
+        $roles = Role::all();
+        $departments = Department::all();
+        return view('users.edit', compact('user', 'roles', 'departments'));
     }
 
     /**
