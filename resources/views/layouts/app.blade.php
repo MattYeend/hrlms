@@ -64,6 +64,9 @@
                                     <a class="dropdown-item" href="{{ route('progress.index') }}">
                                         {{ __('Progress') }}
                                     </a>
+                                    <a class="dropdown-item" href="{{ route('users.index') }}">
+                                        {{ __('Users') }}
+                                    </a>
 
                                     <hr>
 
