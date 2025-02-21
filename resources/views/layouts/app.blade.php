@@ -64,6 +64,12 @@
                                     <a class="dropdown-item" href="{{ route('progress.index') }}">
                                         {{ __('Progress') }}
                                     </a>
+                                    <a class="dropdown-item" href="{{ route('departments.index') }}">
+                                        {{ __('Departments') }}
+                                    </a>
+                                    <a class="dropdown-item" href="{{ route('roles.index') }}">
+                                        {{ __('Roles') }}
+                                    </a>
                                     <a class="dropdown-item" href="{{ route('users.index') }}">
                                         {{ __('Users') }}
                                     </a>
