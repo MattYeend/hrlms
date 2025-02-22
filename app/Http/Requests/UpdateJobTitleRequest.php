@@ -6,7 +6,7 @@ use App\Models\User;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
 
-class JobTitleStoreRequest extends FormRequest
+class UpdateJobTitleRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -29,7 +29,7 @@ class JobTitleStoreRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'required|string|unique:job_titles,name',
+            'name' => 'required|string|unique:job_titles,name,' . $this->route('job_title'),
             'created_by' => 'nullable|exists:users,id',
             'updated_by' => 'nullable|exists:users,id',
             'deleted_by' => 'nullable|exists:users,id',

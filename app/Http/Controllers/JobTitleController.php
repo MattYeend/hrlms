@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\JobTitleStoreRequest;
-use App\Http\Requests\JobTitleUpdateRequest;
+use App\Http\Requests\StoreJobTitleRequest;
+use App\Http\Requests\UpdateJobTitleRequest;
 use App\Models\JobTitle;
 use App\Repositories\JobTitleRepository;
 use Illuminate\Http\Request;
@@ -40,7 +40,7 @@ class JobTitleController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(JobTitleStoreRequest $request)
+    public function store(StoreJobTitleRequest $request)
     {
         $this->authorize('create', JobTitle::class);
         $this->jobTitleRepository->create($request->validated());
@@ -68,7 +68,7 @@ class JobTitleController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(JobTitleUpdateRequest $request, JobTitle $jobTitle) 
+    public function update(UpdateJobTitleRequest $request, JobTitle $jobTitle) 
     {
         $this->authorize('update', $jobTitle);
         $this->jobTitleRepository->update($jobTitle, $request->validated());
