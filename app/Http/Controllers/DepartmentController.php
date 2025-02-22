@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\DepartmentStoreRequest;
-use App\Http\Requests\DepartmentUpdateRequest;
+use App\Http\Requests\StoreDepartmentRequest;
+use App\Http\Requests\UpdateDepartmentRequest;
 use App\Models\Department;
 use App\Repositories\DepartmentRepository;
 use App\Notifications\UserNotification;
@@ -41,7 +41,7 @@ class DepartmentController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(DepartmentStoreRequest $request) 
+    public function store(StoreDepartmentRequest $request) 
     {
         $this->authorize('create', Department::class);
         $this->departmentRepository->create($request->validated());
@@ -69,12 +69,12 @@ class DepartmentController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(DepartmentUpdateRequest $request, Department $department) 
+    public function update(UpdateDepartmentRequest $request, Department $department) 
     {
         $this->authorize('update', $department);
 
         $oldLead = $department->lead_id;
-        $this->departmentRepository->update($department->id, $request->validated());
+        $this->departmentRepository->update($department, $request->validated());
         
         $department->refresh();
 
