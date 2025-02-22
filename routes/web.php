@@ -30,6 +30,9 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/{user}/edit', [UserController::class, 'edit'])->name('edit');
         Route::put('/{user}', [UserController::class, 'update'])->name('update');
         Route::delete('/{user}', [UserController::class, 'destroy'])->name('destroy');
+        Route::post('/{user}/profile-picture', [UserController::class, 'uploadProfilePicture'])->name('uploadProfilePicture');
+        Route::post('/{user}/cv', [UserController::class, 'uploadCv'])->name('uploadCv');
+        Route::post('/{user}/cover-letter', [UserController::class, 'uploadCoverLetter'])->name('uploadCoverLetter');
     });
 
     Route::prefix('job-titles')->name('job_titles.')->group(function () {
