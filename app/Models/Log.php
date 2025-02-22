@@ -62,6 +62,13 @@ class Log extends Model
     const ACTION_FIVE_HUNDRED_ERRORS = 30;
     const ACTION_CLEAR_CACHE = 31;
 
+    const ACTION_PROFILE_PICTURE_UPLOAD = 32;
+    const ACTION_PROFILE_PICTURE_CHANGE = 33;
+    const ACTION_CV_UPLOAD = 34;
+    const ACTION_CV_CHANGE = 35;
+    const ACTION_COVER_LETTER_UPLOAD = 36;
+    const ACTION_COVER_LETTER_CHANGE = 37;
+
     public static function log($action = 0, $data = null, $logged_in_user_id = null, $related_to_user_id = null)
     {
         if (isset($action)) {
