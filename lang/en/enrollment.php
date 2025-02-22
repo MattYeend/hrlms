@@ -24,7 +24,7 @@ return [
     'no' => 'No',
     'select_option' => 'Select an option',
     'action' => 'Actions',
-    'no_course' => 'No Enrollments',
+    'no_enrollment' => 'No Enrollments',
     'unauthorized_action' => 'Unauthorized Action',
     'created_success' => 'Enrollment created successfully',
     'updated_success' => 'Enrollment updated successfully',
