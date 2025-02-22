@@ -11,6 +11,7 @@ use App\Models\Log;
 use App\Repositories\UserRepository;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use App\Notifications\UserNotification;
 
 class UserController extends Controller
@@ -92,10 +93,11 @@ class UserController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(User $user)
+    public function show(User $user, Request $request)
     {
         $this->authorize('view', $user);
-        return view('users.show', compact('user'));
+        $canViewSensitiveDocs = $request->user()->can('viewSensitiveDocs', $user);
+        return view('users.show', compact('user', 'canViewSensitiveDocs'));
     }
 
     /**
@@ -116,7 +118,7 @@ class UserController extends Controller
     {
         $this->authorize('update', $user);
         $oldRole = $user->role->name;
-        
+
         $updatedData = $request->validated();
 
         // Profile Picture

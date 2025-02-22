@@ -27,11 +27,11 @@
                 <td>
                     <a href="{{ route('users.show', $user->id) }}" class="btn btn-info btn-sm">View</a>
                     @can('update', $user)
-                        <a href="{{ route('user.edit', $user->id) }}" class="btn btn-warning btn-sm d-block mb-2">{{ __('users.edit') }}</a>
+                        <a href="{{ route('users.edit', $user->id) }}" class="btn btn-warning btn-sm d-block mb-2">{{ __('users.edit') }}</a>
                     @endcan
                     @can('delete', $user)
                         @if (auth()->user()->id !== $user->id)
-                            <form action="{{ route('user.delete', $user->id) }}" method="POST" style="display: inline-block;">
+                            <form action="{{ route('users.destroy', $user->id) }}" method="POST" style="display: inline-block;">
                                 @csrf
                                 @method('DELETE')
                                 <button type="submit" class="btn btn-danger btn-sm d-block mb-2" onclick="return confirm('Are you sure?')">{{ __('users.delete') }}</button>

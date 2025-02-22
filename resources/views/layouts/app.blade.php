@@ -56,25 +56,32 @@
 
                                 <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
                                     <a class="dropdown-item" href="{{ route('courses.index') }}">
-                                        {{ __('Courses') }}
+                                        {{-- {{ __('Courses') }} --}}
+                                        Courses
                                     </a>
                                     <a class="dropdown-item" href="{{ route('enrollments.index') }}">
-                                        {{ __('Enrollment') }}
+                                        {{-- {{ __('Enrollment') }} --}}
+                                        Enrollment
                                     </a>
                                     <a class="dropdown-item" href="{{ route('progress.index') }}">
-                                        {{ __('Progress') }}
+                                        {{-- {{ __('Progress') }} --}}
+                                        Progress
                                     </a>
                                     <a class="dropdown-item" href="{{ route('departments.index') }}">
-                                        {{ __('Departments') }}
+                                        {{-- {{ __('Departments') }} --}}
+                                        Departments
                                     </a>
                                     <a class="dropdown-item" href="{{ route('roles.index') }}">
-                                        {{ __('Roles') }}
+                                        {{-- {{ __('Roles') }} --}}
+                                        Roles
                                     </a>
-                                    <a class="dropdown-item" href="{{ route('job-titles.index') }}">
-                                        {{ __('Job Titles') }}
+                                    <a class="dropdown-item" href="{{ route('job_titles.index') }}">
+                                        {{-- {{ __('Job Titles') }} --}}
+                                        Job Titles
                                     </a>
                                     <a class="dropdown-item" href="{{ route('users.index') }}">
-                                        {{ __('Users') }}
+                                        {{-- {{ __('Users') }} --}}
+                                        Users
                                     </a>
 
                                     <hr>
