@@ -23,7 +23,7 @@ return [
     'no' => 'No',
     'select_option' => 'Select an option',
     'action' => 'Actions',
-    'no_roles' => 'No Role',
+    'no_roles' => 'No Roles',
     'unauthorized_action' => 'Unauthorized Action',
     'created_success' => 'Role created successfully',
     'updated_success' => 'Role updated successfully',

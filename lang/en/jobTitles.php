@@ -24,7 +24,7 @@ return [
     'no' => 'No',
     'select_option' => 'Select an option',
     'action' => 'Actions',
-    'no_job' => 'No Job',
+    'no_job' => 'No Jobs',
     'unauthorized_action' => 'Unauthorized Action',
     'created_success' => 'Job created successfully',
     'updated_success' => 'Job updated successfully',
