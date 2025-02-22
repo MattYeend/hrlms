@@ -51,14 +51,33 @@ class UserController extends Controller
         $this->authorize('create', User::class);
         $password = Str::random(8);
 
-        $user = $this->userRepository->create([
+        $userData = [
             'name' => $request->validated()['name'],
             'email' => $request->validated()['email'],
             'password' => bcrypt($password),
             'role_id' => $request->validated()['role_id'],
             'department_id' => $request->validated()['department_id'],
             'job_title_id' => $request->validated()['job_title_id']
-        ]);
+        ];
+    
+        // Profile Picture
+        if ($request->hasFile('profile_picture')) {
+            $userData['profile_picture'] = $request->file('profile_picture')->store('profile_pictures', 'public');
+        }
+    
+        // CV
+        if ($request->hasFile('cv')) {
+            $cvFilename = $request->file('cv')->getClientOriginalName();
+            $userData['cv_path'] = $request->file('cv')->storeAs('cvs', $cvFilename, 'public');
+        }
+    
+        // Cover Letter
+        if ($request->hasFile('cover_letter')) {
+            $coverLetterFilename = $request->file('cover_letter')->getClientOriginalName();
+            $userData['cover_letter'] = $request->file('cover_letter')->storeAs('cover_letters', $coverLetterFilename, 'public');
+        }
+    
+        $user = $this->userRepository->create($userData);
 
         $user->notify(new UserNotification(
             'user_created',
@@ -97,7 +116,28 @@ class UserController extends Controller
     {
         $this->authorize('update', $user);
         $oldRole = $user->role->name;
-        $this->userRepository->update($user, $request->validated());
+        
+        $updatedData = $request->validated();
+
+        // Profile Picture
+        if ($request->hasFile('profile_picture')) {
+            $updatedData['profile_picture'] = $request->file('profile_picture')->store('profile_pictures', 'public');
+        }
+    
+        // CV
+        if ($request->hasFile('cv')) {
+            $cvFilename = $request->file('cv')->getClientOriginalName();
+            $updatedData['cv_path'] = $request->file('cv')->storeAs('cvs', $cvFilename, 'public');
+        }
+    
+        // Cover Letter
+        if ($request->hasFile('cover_letter')) {
+            $coverLetterFilename = $request->file('cover_letter')->getClientOriginalName();
+            $updatedData['cover_letter'] = $request->file('cover_letter')->storeAs('cover_letters', $coverLetterFilename, 'public');
+        }
+    
+        // Update user via repository
+        $this->userRepository->update($user, $updatedData);
         $newRole = $user->role->name;
     
         if ($oldRole !== $newRole) {
