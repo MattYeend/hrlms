@@ -12,7 +12,6 @@
     <p><strong>Role:</strong> {{ $user->role->name ?? 'N/A' }}</p>
     <p><strong>Department:</strong> {{ $user->department->name ?? 'N/A' }}</p>
 
-    <a href="{{ route('users.edit', $user->id) }}" class="btn btn-warning">Edit</a>
     @can('update', $user)
         <a href="{{ route('users.edit', $user->id) }}" class="btn btn-warning btn-sm d-block mb-2">{{ __('users.edit') }}</a>
     @endcan
