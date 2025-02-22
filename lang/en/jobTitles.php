@@ -12,20 +12,21 @@ return [
     |
     */
 
-    'role' => 'Role',
-    'create' => 'Create a Role',
+    'jobTitle' => 'Job Title',
+    'create' => 'Create a Job',
     'edit' => 'Update',
-    'view' => 'View Role',
+    'view' => 'View Job',
     'delete' => 'Delete',
     'name' => 'Name',
+    'short_code' => 'Short Code',
     'not_provided' => 'Not Provided',
     'yes' => 'Yes',
     'no' => 'No',
     'select_option' => 'Select an option',
     'action' => 'Actions',
-    'no_roles' => 'No Role',
+    'no_job' => 'No Job',
     'unauthorized_action' => 'Unauthorized Action',
-    'created_success' => 'Role created successfully',
-    'updated_success' => 'Role updated successfully',
-    'deleted_success' => 'Role deleted successfully',
+    'created_success' => 'Job created successfully',
+    'updated_success' => 'Job updated successfully',
+    'deleted_success' => 'Job deleted successfully',
 ];
