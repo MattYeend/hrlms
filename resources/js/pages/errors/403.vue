@@ -1,7 +1,12 @@
 <script setup lang="ts">
 import ErrorLayout from './ErrorLayout.vue';
+
+defineProps({
+    status: Number,
+    message: String
+});
 </script>
 
 <template>
-    <ErrorLayout :code="403" message="You do not have permission to view this page." />
+    <ErrorLayout :code="status" :message="message" />
 </template>

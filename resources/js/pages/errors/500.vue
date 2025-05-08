@@ -1,7 +1,12 @@
 <script setup lang="ts">
 import ErrorLayout from './ErrorLayout.vue';
+
+defineProps({
+    status: Number,
+    message: String
+});
 </script>
 
 <template>
-    <ErrorLayout :code="500" message="Server error. We're working to fix it." />
+    <ErrorLayout :code="status" :message="message" />
 </template>

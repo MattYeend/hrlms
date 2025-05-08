@@ -1,7 +1,12 @@
 <script setup lang="ts">
 import ErrorLayout from './ErrorLayout.vue';
+
+defineProps({
+    status: Number,
+    message: String
+});
 </script>
 
 <template>
-    <ErrorLayout :code="503" message="Service unavailable. Please check back later." />
+    <ErrorLayout :code="status" :message="message" />
 </template>

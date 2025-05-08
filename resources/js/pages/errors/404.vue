@@ -1,7 +1,12 @@
 <script setup lang="ts">
 import ErrorLayout from './ErrorLayout.vue';
+
+defineProps({
+    status: Number,
+    message: String
+});
 </script>
 
 <template>
-    <ErrorLayout :code="404" message="The page you are looking for could not be found." />
+    <ErrorLayout :code="status" :message="message" />
 </template>
