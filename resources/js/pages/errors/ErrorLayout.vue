@@ -7,8 +7,8 @@
         </Link>
     </div>
 </template>
-  
-<script setup>
+
+<script setup lang="ts">
     defineProps({
         code: Number,
         message: String
