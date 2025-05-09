@@ -3,16 +3,17 @@
 namespace App\Exceptions;
 
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
-use Throwable;
 use Inertia\Inertia;
-use Illuminate\Http\Request;
 use Symfony\Component\HttpKernel\Exception\HttpExceptionInterface;
+use Throwable;
 
 class Handler extends ExceptionHandler
 {
     public function render($request, Throwable $exception)
     {
-        if ($request->expectsJson() || !($exception instanceof HttpExceptionInterface)) {
+        if ($request->expectsJson() ||
+            ! ($exception instanceof HttpExceptionInterface)
+        ) {
             return parent::render($request, $exception);
         }
 
