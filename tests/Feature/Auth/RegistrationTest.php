@@ -14,9 +14,7 @@ test('registration screen can be rendered', function () {
 test('new users can register', function () {
     $response = $this->post('/register', [
         'title' => 'Mr',
-        'first_name' => 'Test',
-        'middle_name' => 'A',
-        'last_name' => 'User',
+        'name' => 'Test User',
         'email' => 'test@example.com',
         'first_line' => '123 Example St',
         'second_line' => 'Apt 456',
@@ -39,8 +37,7 @@ test('new users can register', function () {
 
     $this->assertDatabaseHas('users', [
         'email' => 'test@example.com',
-        'first_name' => 'Test',
-        'last_name' => 'User',
+        'name' => 'Test User',
         'role_id' => 1,
         'department_id' => 1,
     ]);

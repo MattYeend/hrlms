@@ -10,9 +10,7 @@ import { LoaderCircle } from 'lucide-vue-next';
 
 const form = useForm({
     title: '',
-    first_name: '',
-    middle_name: '',
-    last_name: '',
+    name: '',
     email: '',
     first_line: '',
     second_line: '',
@@ -50,19 +48,9 @@ const submit = () => {
                         <InputError :message="form.errors.title" />
                     </div>
                     <div>
-                        <Label for="first_name">First Name</Label>
-                        <Input id="first_name" required v-model="form.first_name" />
-                        <InputError :message="form.errors.first_name" />
-                    </div>
-                    <div>
-                        <Label for="middle_name">Middle Name</Label>
-                        <Input id="middle_name" v-model="form.middle_name" />
-                        <InputError :message="form.errors.middle_name" />
-                    </div>
-                    <div>
-                        <Label for="last_name">Last Name</Label>
-                        <Input id="last_name" required v-model="form.last_name" />
-                        <InputError :message="form.errors.last_name" />
+                        <Label for="name">Full Name</Label>
+                        <Input id="name" required v-model="form.name" />
+                        <InputError :message="form.errors.name" />
                     </div>
                 </div>
 
