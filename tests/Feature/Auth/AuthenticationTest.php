@@ -1,6 +1,9 @@
 <?php
 
 use App\Models\User;
+use App\Models\Role;
+use App\Models\Department;
+use App\Models\Company;
 
 uses(\Illuminate\Foundation\Testing\RefreshDatabase::class);
 
@@ -11,7 +14,21 @@ test('login screen can be rendered', function () {
 });
 
 test('users can authenticate using the login screen', function () {
-    $user = User::factory()->create();
+    $role = Role::factory()->create();
+    
+    $company = Company::factory()->create();
+    $department = Department::factory()->create([
+        'company_id' => $company->id,
+    ]);
+    
+    $admin = User::factory()->create();
+
+    $user = User::factory()->create([
+        'role_id' => $role->id,
+        'department_id' => $department->id,
+        'created_by' => $admin->id,
+        'updated_by' => $admin->id,
+    ]);
 
     $response = $this->post('/login', [
         'email' => $user->email,
@@ -23,7 +40,21 @@ test('users can authenticate using the login screen', function () {
 });
 
 test('users can not authenticate with invalid password', function () {
-    $user = User::factory()->create();
+    $role = Role::factory()->create();
+    
+    $company = Company::factory()->create();
+    $department = Department::factory()->create([
+        'company_id' => $company->id,
+    ]);
+    
+    $admin = User::factory()->create();
+
+    $user = User::factory()->create([
+        'role_id' => $role->id,
+        'department_id' => $department->id,
+        'created_by' => $admin->id,
+        'updated_by' => $admin->id,
+    ]);
 
     $this->post('/login', [
         'email' => $user->email,
@@ -34,7 +65,21 @@ test('users can not authenticate with invalid password', function () {
 });
 
 test('users can logout', function () {
-    $user = User::factory()->create();
+    $role = Role::factory()->create();
+    
+    $company = Company::factory()->create();
+    $department = Department::factory()->create([
+        'company_id' => $company->id,
+    ]);
+    
+    $admin = User::factory()->create();
+
+    $user = User::factory()->create([
+        'role_id' => $role->id,
+        'department_id' => $department->id,
+        'created_by' => $admin->id,
+        'updated_by' => $admin->id,
+    ]);
 
     $response = $this->actingAs($user)->post('/logout');
 

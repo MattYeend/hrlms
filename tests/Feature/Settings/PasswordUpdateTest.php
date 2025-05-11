@@ -1,12 +1,29 @@
 <?php
 
+use App\Models\Role;
+use App\Models\Department;
 use App\Models\User;
+use App\Models\Company;
 use Illuminate\Support\Facades\Hash;
 
 uses(\Illuminate\Foundation\Testing\RefreshDatabase::class);
 
 test('password can be updated', function () {
-    $user = User::factory()->create();
+    $role = Role::factory()->create();
+    
+    $company = Company::factory()->create();
+    $department = Department::factory()->create([
+        'company_id' => $company->id,
+    ]);
+    
+    $admin = User::factory()->create();
+
+    $user = User::factory()->create([
+        'role_id' => $role->id,
+        'department_id' => $department->id,
+        'created_by' => $admin->id,
+        'updated_by' => $admin->id,
+    ]);
 
     $response = $this
         ->actingAs($user)
@@ -25,7 +42,21 @@ test('password can be updated', function () {
 });
 
 test('correct password must be provided to update password', function () {
-    $user = User::factory()->create();
+    $role = Role::factory()->create();
+    
+    $company = Company::factory()->create();
+    $department = Department::factory()->create([
+        'company_id' => $company->id,
+    ]);
+    
+    $admin = User::factory()->create();
+
+    $user = User::factory()->create([
+        'role_id' => $role->id,
+        'department_id' => $department->id,
+        'created_by' => $admin->id,
+        'updated_by' => $admin->id,
+    ]);
 
     $response = $this
         ->actingAs($user)

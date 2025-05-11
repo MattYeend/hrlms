@@ -1,6 +1,9 @@
 <?php
 
 use App\Models\User;
+use App\Models\Department;
+use App\Models\Role;
+use App\Models\Company;
 use Illuminate\Auth\Notifications\ResetPassword;
 use Illuminate\Support\Facades\Notification;
 
@@ -15,7 +18,21 @@ test('reset password link screen can be rendered', function () {
 test('reset password link can be requested', function () {
     Notification::fake();
 
-    $user = User::factory()->create();
+    $role = Role::factory()->create();
+    
+    $company = Company::factory()->create();
+    $department = Department::factory()->create([
+        'company_id' => $company->id,
+    ]);
+    
+    $admin = User::factory()->create();
+
+    $user = User::factory()->create([
+        'role_id' => $role->id,
+        'department_id' => $department->id,
+        'created_by' => $admin->id,
+        'updated_by' => $admin->id,
+    ]);
 
     $this->post('/forgot-password', ['email' => $user->email]);
 
@@ -25,7 +42,21 @@ test('reset password link can be requested', function () {
 test('reset password screen can be rendered', function () {
     Notification::fake();
 
-    $user = User::factory()->create();
+    $role = Role::factory()->create();
+    
+    $company = Company::factory()->create();
+    $department = Department::factory()->create([
+        'company_id' => $company->id,
+    ]);
+    
+    $admin = User::factory()->create();
+
+    $user = User::factory()->create([
+        'role_id' => $role->id,
+        'department_id' => $department->id,
+        'created_by' => $admin->id,
+        'updated_by' => $admin->id,
+    ]);
 
     $this->post('/forgot-password', ['email' => $user->email]);
 
@@ -41,7 +72,21 @@ test('reset password screen can be rendered', function () {
 test('password can be reset with valid token', function () {
     Notification::fake();
 
-    $user = User::factory()->create();
+    $role = Role::factory()->create();
+    
+    $company = Company::factory()->create();
+    $department = Department::factory()->create([
+        'company_id' => $company->id,
+    ]);
+    
+    $admin = User::factory()->create();
+
+    $user = User::factory()->create([
+        'role_id' => $role->id,
+        'department_id' => $department->id,
+        'created_by' => $admin->id,
+        'updated_by' => $admin->id,
+    ]);
 
     $this->post('/forgot-password', ['email' => $user->email]);
 

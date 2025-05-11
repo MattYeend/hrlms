@@ -1,12 +1,29 @@
 <?php
 
 use App\Models\User;
+use App\Models\Department;
+use App\Models\Role;
+use App\Models\Company;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 uses(RefreshDatabase::class);
 
 test('profile page is displayed', function () {
-    $user = User::factory()->create();
+    $role = Role::factory()->create();
+    
+    $company = Company::factory()->create();
+    $department = Department::factory()->create([
+        'company_id' => $company->id,
+    ]);
+    
+    $admin = User::factory()->create();
+
+    $user = User::factory()->create([
+        'role_id' => $role->id,
+        'department_id' => $department->id,
+        'created_by' => $admin->id,
+        'updated_by' => $admin->id,
+    ]);
 
     $response = $this
         ->actingAs($user)
@@ -16,8 +33,23 @@ test('profile page is displayed', function () {
 });
 
 test('profile information can be updated', function () {
+    $role = Role::factory()->create();
+    
+    $company = Company::factory()->create();
+    $department = Department::factory()->create([
+        'company_id' => $company->id,
+    ]);
+    
+    $admin = User::factory()->create();
+
     $user = User::factory()->create([
+        'role_id' => $role->id,
+        'department_id' => $department->id,
+        'created_by' => $admin->id,
+        'updated_by' => $admin->id,
         'email_verified_at' => now(),
+        'first_line' => '123 Main St',
+        'post_code' => '12345',
     ]);
 
     $response = $this
@@ -25,6 +57,8 @@ test('profile information can be updated', function () {
         ->patch('/settings/profile', [
             'name' => 'Updated User',
             'email' => 'updated@example.com',
+            'first_line' => '456 New Address',
+            'post_code' => '67890',
         ]);
 
     $response
@@ -39,8 +73,23 @@ test('profile information can be updated', function () {
 });
 
 test('email verification status is unchanged when email is unchanged', function () {
+    $role = Role::factory()->create();
+    
+    $company = Company::factory()->create();
+    $department = Department::factory()->create([
+        'company_id' => $company->id,
+    ]);
+    
+    $admin = User::factory()->create();
+
     $user = User::factory()->create([
+        'role_id' => $role->id,
+        'department_id' => $department->id,
+        'created_by' => $admin->id,
+        'updated_by' => $admin->id,
         'email_verified_at' => now(),
+        'first_line' => '123 Main St',
+        'post_code' => '12345',
     ]);
 
     $response = $this
@@ -48,6 +97,8 @@ test('email verification status is unchanged when email is unchanged', function 
         ->patch('/settings/profile', [
             'name' => 'Still Verified',
             'email' => $user->email,
+            'first_line' => '456 New Address',
+            'post_code' => '67890',
         ]);
 
     $response
@@ -58,7 +109,20 @@ test('email verification status is unchanged when email is unchanged', function 
 });
 
 test('user can delete their account', function () {
+    $role = Role::factory()->create();
+    
+    $company = Company::factory()->create();
+    $department = Department::factory()->create([
+        'company_id' => $company->id,
+    ]);
+    
+    $admin = User::factory()->create();
+
     $user = User::factory()->create([
+        'role_id' => $role->id,
+        'department_id' => $department->id,
+        'created_by' => $admin->id,
+        'updated_by' => $admin->id,
         'password' => bcrypt('password'),
     ]);
 
@@ -77,7 +141,20 @@ test('user can delete their account', function () {
 });
 
 test('correct password must be provided to delete account', function () {
+    $role = Role::factory()->create();
+    
+    $company = Company::factory()->create();
+    $department = Department::factory()->create([
+        'company_id' => $company->id,
+    ]);
+    
+    $admin = User::factory()->create();
+
     $user = User::factory()->create([
+        'role_id' => $role->id,
+        'department_id' => $department->id,
+        'created_by' => $admin->id,
+        'updated_by' => $admin->id,
         'password' => bcrypt('password'),
     ]);
 
