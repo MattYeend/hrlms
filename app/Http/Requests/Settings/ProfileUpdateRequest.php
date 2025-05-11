@@ -5,6 +5,7 @@ namespace App\Http\Requests\Settings;
 use App\Models\User;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
+use Illuminate\Validation\Rules\Password as RulesPassword;
 
 class ProfileUpdateRequest extends FormRequest
 {
@@ -16,7 +17,11 @@ class ProfileUpdateRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => ['required', 'string', 'max:255'],
+            'title' => 'nullable|string|max:20',
+            'first_name' => 'required|string|max:255',
+            'middle_name' => 'nullable|string|max:255',
+            'last_name' => 'required|string|max:255',
+            
             'email' => [
                 'required',
                 'string',
@@ -25,6 +30,22 @@ class ProfileUpdateRequest extends FormRequest
                 'max:255',
                 Rule::unique(User::class)->ignore($this->user()->id),
             ],
+
+            'password' => ['nullable', 'confirmed', RulesPassword::defaults()],
+
+            'first_line' => 'required|string|max:255',
+            'second_line' => 'nullable|string|max:255',
+            'town' => 'nullable|string|max:255',
+            'city' => 'nullable|string|max:255',
+            'county' => 'nullable|string|max:255',
+            'country' => 'nullable|string|max:255',
+            'post_code' => 'required|string|max:20',
+
+            'full_time' => 'nullable|boolean',
+            'part_time' => 'nullable|boolean',
+
+            'role_id' => 'nullable|exists:roles,id',
+            'department_id' => 'nullable|exists:departments,id',
         ];
     }
 }

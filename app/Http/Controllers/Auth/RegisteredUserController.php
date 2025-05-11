@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules;
 use Inertia\Inertia;
 use Inertia\Response;
+use Illuminate\Validation\Rule;
 
 class RegisteredUserController extends Controller
 {
@@ -31,16 +32,57 @@ class RegisteredUserController extends Controller
     public function store(Request $request): RedirectResponse
     {
         $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'required|string|lowercase|
-                email|max:255|unique:'.User::class,
+            'title' => 'nullable|string|max:20',
+            'first_name' => 'required|string|max:255',
+            'middle_name' => 'nullable|string|max:255',
+            'last_name' => 'required|string|max:255',
+            
+            'email' => [
+                'required',
+                'string',
+                'lowercase',
+                'email',
+                'max:255',
+                Rule::unique('users', 'email'),
+            ],
+        
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
+        
+            'first_line' => 'required|string|max:255',
+            'second_line' => 'nullable|string|max:255',
+            'town' => 'nullable|string|max:255',
+            'city' => 'nullable|string|max:255',
+            'county' => 'nullable|string|max:255',
+            'country' => 'nullable|string|max:255',
+            'post_code' => 'required|string|max:20',
+        
+            'full_time' => 'boolean',
+            'part_time' => 'boolean',
+        
+            'role_id' => 'nullable|exists:roles,id',
+            'department_id' => 'nullable|exists:departments,id',
         ]);
-
+        
         $user = User::create([
-            'name' => $request->name,
+            'title' => $request->title,
+            'first_name' => $request->first_name,
+            'middle_name' => $request->middle_name,
+            'last_name' => $request->last_name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
+            'first_line' => $request->first_line,
+            'second_line' => $request->second_line,
+            'town' => $request->town,
+            'city' => $request->city,
+            'county' => $request->county,
+            'country' => $request->country,
+            'post_code' => $request->post_code,
+            'full_time' => $request->full_time ?? false,
+            'part_time' => $request->part_time ?? false,
+            'role_id' => $request->role_id,
+            'department_id' => $request->department_id,
+            'created_by' => auth()->id(),
+            'updated_by' => auth()->id(),
         ]);
 
         event(new Registered($user));
