@@ -27,8 +27,10 @@ We welcome contributions! To contribute:
 1. Fork the repository.
 2. Create a new branch: `git checkout -b feature/your-feature-name`.
 3. Make your changes and commit: `git commit -m 'Add your message here'`.
-4. Push to your fork: `git push origin feature/your-feature-name`.
-5. Create a Pull Request.
+4. Ensure there's relevant tests and that they work and pass.
+5. If anything requires vue.js changes, run: `npm i && npm run build`
+6. Push to your fork: `git push origin feature/your-feature-name`.
+7. Create a Pull Request.
 
 Please follow the code style and commit message conventions.
 
@@ -48,7 +50,7 @@ Follow these steps to set up the project locally:
     ```
 3. **Install Node dependencies**
     ```bash
-    npm install
+    npm install && npm run build
     ```
 4. **Set up environment**
     ```bash
