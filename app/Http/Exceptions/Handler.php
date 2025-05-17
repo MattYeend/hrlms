@@ -20,7 +20,7 @@ class Handler extends ExceptionHandler
         $status = $exception->getStatusCode();
 
         if (in_array($status, [403, 404, 419, 429, 500, 503])) {
-            return Inertia::render("Errors/{$status}", [
+            return Inertia::render("errors/{$status}", [
                 'status' => $status,
                 'message' => __('errors.' . $status),
             ])->toResponse($request)->setStatusCode($status);

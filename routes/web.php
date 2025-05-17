@@ -14,3 +14,10 @@ Route::get('dashboard', function () {
 
 require __DIR__.'/settings.php';
 require __DIR__.'/auth.php';
+
+Route::get('/errors/403', fn () => Inertia::render('errors/403'));
+Route::get('/errors/404', fn () => Inertia::render('errors/404'));
+Route::get('/errors/419', fn () => Inertia::render('errors/419'));
+Route::get('/errors/429', fn () => Inertia::render('errors/429'));
+Route::get('/errors/500', fn () => Inertia::render('errors/500'));
+Route::get('/errors/503', fn () => Inertia::render('errors/503'));
