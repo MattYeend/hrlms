@@ -13,7 +13,7 @@ class CompanyController extends Controller
      */
     public function index()
     {
-        //
+        // Empty, as this needs to be updated in due course
     }
 
     /**
@@ -21,7 +21,7 @@ class CompanyController extends Controller
      */
     public function create()
     {
-        //
+        // Empty, as this needs to be updated in due course
     }
 
     /**
@@ -29,7 +29,7 @@ class CompanyController extends Controller
      */
     public function store(StoreCompanyRequest $request)
     {
-        //
+        // Empty, as this needs to be updated in due course
     }
 
     /**
@@ -37,7 +37,7 @@ class CompanyController extends Controller
      */
     public function show(Company $company)
     {
-        //
+        // Empty, as this needs to be updated in due course
     }
 
     /**
@@ -45,7 +45,7 @@ class CompanyController extends Controller
      */
     public function edit(Company $company)
     {
-        //
+        // Empty, as this needs to be updated in due course
     }
 
     /**
@@ -53,7 +53,7 @@ class CompanyController extends Controller
      */
     public function update(UpdateCompanyRequest $request, Company $company)
     {
-        //
+        // Empty, as this needs to be updated in due course
     }
 
     /**
@@ -61,6 +61,6 @@ class CompanyController extends Controller
      */
     public function destroy(Company $company)
     {
-        //
+        // Empty, as this needs to be updated in due course
     }
 }

@@ -9,10 +9,10 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Validation\Rule;
 use Illuminate\Validation\Rules;
 use Inertia\Inertia;
 use Inertia\Response;
-use Illuminate\Validation\Rule;
 
 class RegisteredUserController extends Controller
 {
@@ -31,21 +31,25 @@ class RegisteredUserController extends Controller
      */
     public function store(Request $request): RedirectResponse
     {
-        $request->validate([
+        $validated = $this->validateUser($request);
+        $user = $this->createUser($validated);
+
+        event(new Registered($user));
+        Auth::login($user);
+
+        return to_route('dashboard');
+    }
+
+    private function validateUser(Request $request): array
+    {
+        return $request->validate([
             'title' => 'nullable|string|max:20',
             'name' => 'required|string|max:255',
-            
             'email' => [
-                'required',
-                'string',
-                'lowercase',
-                'email',
-                'max:255',
+                'required', 'string', 'lowercase', 'email', 'max:255',
                 Rule::unique('users', 'email'),
             ],
-        
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
-        
             'first_line' => 'required|string|max:255',
             'second_line' => 'nullable|string|max:255',
             'town' => 'nullable|string|max:255',
@@ -53,38 +57,33 @@ class RegisteredUserController extends Controller
             'county' => 'nullable|string|max:255',
             'country' => 'nullable|string|max:255',
             'post_code' => 'required|string|max:20',
-        
             'full_time' => 'boolean',
             'part_time' => 'boolean',
-        
             'role_id' => 'nullable|exists:roles,id',
             'department_id' => 'nullable|exists:departments,id',
         ]);
-        
-        $user = User::create([
-            'title' => $request->title,
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
-            'first_line' => $request->first_line,
-            'second_line' => $request->second_line,
-            'town' => $request->town,
-            'city' => $request->city,
-            'county' => $request->county,
-            'country' => $request->country,
-            'post_code' => $request->post_code,
-            'full_time' => $request->full_time ?? false,
-            'part_time' => $request->part_time ?? false,
-            'role_id' => $request->role_id,
-            'department_id' => $request->department_id,
+    }
+
+    private function createUser(array $data): User
+    {
+        return User::create([
+            'title' => $data['title'] ?? null,
+            'name' => $data['name'],
+            'email' => $data['email'],
+            'password' => Hash::make($data['password']),
+            'first_line' => $data['first_line'],
+            'second_line' => $data['second_line'] ?? null,
+            'town' => $data['town'] ?? null,
+            'city' => $data['city'] ?? null,
+            'county' => $data['county'] ?? null,
+            'country' => $data['country'] ?? null,
+            'post_code' => $data['post_code'],
+            'full_time' => $data['full_time'] ?? false,
+            'part_time' => $data['part_time'] ?? false,
+            'role_id' => $data['role_id'] ?? null,
+            'department_id' => $data['department_id'] ?? null,
             'created_by' => auth()->id(),
             'updated_by' => auth()->id(),
         ]);
-
-        event(new Registered($user));
-
-        Auth::login($user);
-
-        return to_route('dashboard');
     }
 }

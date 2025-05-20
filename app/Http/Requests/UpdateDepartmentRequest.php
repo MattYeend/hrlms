@@ -22,7 +22,7 @@ class UpdateDepartmentRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            // Empty, as this needs to be updated in due course
         ];
     }
 }

@@ -13,7 +13,7 @@ class DepartmentController extends Controller
      */
     public function index()
     {
-        //
+        // Empty, as this needs to be updated in due course
     }
 
     /**
@@ -21,7 +21,7 @@ class DepartmentController extends Controller
      */
     public function create()
     {
-        //
+        // Empty, as this needs to be updated in due course
     }
 
     /**
@@ -29,7 +29,7 @@ class DepartmentController extends Controller
      */
     public function store(StoreDepartmentRequest $request)
     {
-        //
+        // Empty, as this needs to be updated in due course
     }
 
     /**
@@ -37,7 +37,7 @@ class DepartmentController extends Controller
      */
     public function show(Department $department)
     {
-        //
+        // Empty, as this needs to be updated in due course
     }
 
     /**
@@ -45,15 +45,17 @@ class DepartmentController extends Controller
      */
     public function edit(Department $department)
     {
-        //
+        // Empty, as this needs to be updated in due course
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateDepartmentRequest $request, Department $department)
-    {
-        //
+    public function update(
+        UpdateDepartmentRequest $request,
+        Department $department
+    ) {
+        // Empty, as this needs to be updated in due course
     }
 
     /**
@@ -61,6 +63,6 @@ class DepartmentController extends Controller
      */
     public function destroy(Department $department)
     {
-        //
+        // Empty, as this needs to be updated in due course
     }
 }
