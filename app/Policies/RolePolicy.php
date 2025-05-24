@@ -12,7 +12,7 @@ class RolePolicy
      */
     public function viewAny(User $user): bool
     {
-        return false;
+        return in_array($user->role->slug, ['admin', 'super-admin']);
     }
 
     /**
@@ -20,7 +20,7 @@ class RolePolicy
      */
     public function view(User $user, Role $role): bool
     {
-        return false;
+        return in_array($user->role->slug, ['admin', 'super-admin']);
     }
 
     /**

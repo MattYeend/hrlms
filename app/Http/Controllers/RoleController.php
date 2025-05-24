@@ -2,34 +2,38 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\StoreRoleRequest;
-use App\Http\Requests\UpdateRoleRequest;
 use App\Models\Role;
+use Illuminate\Http\Request;
+use Inertia\Inertia;
 
 class RoleController extends Controller
 {
+    public function __construct()
+    {
+        $this->authorizeResource(Role::class, 'role');
+    }
+
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        // Empty, as this needs to be updated in due course
-    }
+        $this->authorize('viewAny', Role::class);
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        // Empty, as this needs to be updated in due course
-    }
+        $roles = Role::all()->map(function ($role) {
+            return [
+                'id' => $role->id,
+                'name' => $role->name,
+                'slug' => $role->slug,
+                'description' => $role->description,
+                'is_active' => $role->is_active,
+                'is_default' => $role->is_default,
+            ];
+        });
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(StoreRoleRequest $request)
-    {
-        // Empty, as this needs to be updated in due course
+        return Inertia::render('roles/Index', [
+            'roles' => $roles
+        ]);
     }
 
     /**
@@ -37,30 +41,17 @@ class RoleController extends Controller
      */
     public function show(Role $role)
     {
-        // Empty, as this needs to be updated in due course
-    }
+        $this->authorize('view', $role);
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Role $role)
-    {
-        // Empty, as this needs to be updated in due course
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(UpdateRoleRequest $request, Role $role)
-    {
-        // Empty, as this needs to be updated in due course
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Role $role)
-    {
-        // Empty, as this needs to be updated in due course
+        return Inertia::render('roles/Show', [
+            'role' => [
+                'id' => $role->id,
+                'name' => $role->name,
+                'slug' => $role->slug,
+                'description' => $role->description,
+                'is_active' => $role->is_active,
+                'is_default' => $role->is_default,
+            ]
+        ]);
     }
 }

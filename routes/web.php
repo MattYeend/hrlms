@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
+use App\Http\Controllers\RoleController;
 
 Route::get('/', function () {
     // return Inertia::render('Welcome');
@@ -21,3 +22,7 @@ Route::get('/errors/419', fn () => Inertia::render('errors/419'));
 Route::get('/errors/429', fn () => Inertia::render('errors/429'));
 Route::get('/errors/500', fn () => Inertia::render('errors/500'));
 Route::get('/errors/503', fn () => Inertia::render('errors/503'));
+
+Route::middleware(['auth', 'verified'])->group(function () {
+    Route::resource('roles', RoleController::class)->only(['index', 'show']);
+});
