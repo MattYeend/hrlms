@@ -31,7 +31,7 @@ class RoleController extends Controller
         });
 
         return Inertia::render('roles/Index', [
-            'roles' => $roles
+            'roles' => $roles,
         ]);
     }
 
@@ -50,7 +50,7 @@ class RoleController extends Controller
                 'description' => $role->description,
                 'is_active' => $role->is_active,
                 'is_default' => $role->is_default,
-            ]
+            ],
         ]);
     }
 }

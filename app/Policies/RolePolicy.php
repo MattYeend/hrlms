@@ -20,6 +20,7 @@ class RolePolicy
      */
     public function view(User $user, Role $role): bool
     {
+        unset($role);
         return in_array($user->role->slug, ['admin', 'super-admin']);
     }
 
@@ -28,6 +29,7 @@ class RolePolicy
      */
     public function create(User $user): bool
     {
+        unset($user);
         return false;
     }
 
@@ -36,6 +38,8 @@ class RolePolicy
      */
     public function update(User $user, Role $role): bool
     {
+        unset($user);
+        unset($role);
         return false;
     }
 
@@ -44,6 +48,8 @@ class RolePolicy
      */
     public function delete(User $user, Role $role): bool
     {
+        unset($user);
+        unset($role);
         return false;
     }
 
@@ -52,6 +58,8 @@ class RolePolicy
      */
     public function restore(User $user, Role $role): bool
     {
+        unset($user);
+        unset($role);
         return false;
     }
 
@@ -60,6 +68,8 @@ class RolePolicy
      */
     public function forceDelete(User $user, Role $role): bool
     {
+        unset($user);
+        unset($role);
         return false;
     }
 }
