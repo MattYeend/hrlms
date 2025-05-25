@@ -12,6 +12,7 @@ import { computed } from 'vue';
 const page = usePage();
 const auth = computed(() => page.props.auth);
 const isSuperAdmin = computed(() => page.props.auth?.user?.role_id === 1);
+const isAtleastAdmin = computed(() => page.props.auth?.user?.role_id === 1 || page.props.auth?.user?.role_id === 2);
 
 const mainNavItems = computed<NavItem[]>(() => {
   const items: NavItem[] = [
@@ -21,13 +22,14 @@ const mainNavItems = computed<NavItem[]>(() => {
       icon: LayoutGrid,
     },
   ];
-
-  if (isSuperAdmin.value) {
+  if (isAtleastAdmin.value) {
     items.push({
       title: 'Roles',
       href: '/roles',
       icon: LayoutGrid,
     });
+  }
+  if (isSuperAdmin.value) {
     items.push({
       title: 'Companies',
       href: '/companies',

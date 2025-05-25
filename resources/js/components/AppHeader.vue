@@ -31,6 +31,8 @@ const props = withDefaults(defineProps<Props>(), {
 
 const page = usePage();
 const auth = computed(() => page.props.auth);
+const isSuperAdmin = computed(() => page.props.auth?.user?.role_id === 1);
+const isAtleastAdmin = computed(() => page.props.auth?.user?.role_id === 1 || page.props.auth?.user?.role_id === 2);
 
 const isCurrentRoute = computed(() => (url: string) => page.url === url);
 
@@ -38,18 +40,31 @@ const activeItemStyles = computed(
     () => (url: string) => (isCurrentRoute.value(url) ? 'text-neutral-900 dark:bg-neutral-800 dark:text-neutral-100' : ''),
 );
 
-const mainNavItems: NavItem[] = [
+const mainNavItems = computed<NavItem[]>(() => {
+  const items: NavItem[] = [
     {
-        title: 'Dashboard',
-        href: '/dashboard',
-        icon: LayoutGrid,
+      title: 'Dashboard',
+      href: '/dashboard',
+      icon: LayoutGrid,
     },
-    {
-        title: 'Roles',
-        href: '/roles',
-        icon: LayoutGrid,
-    },
-];
+  ];
+  if (isAtleastAdmin.value) {
+    items.push({
+      title: 'Roles',
+      href: '/roles',
+      icon: LayoutGrid,
+    });
+  }
+  if (isSuperAdmin.value) {
+    items.push({
+      title: 'Companies',
+      href: '/companies',
+      icon: LayoutGrid,
+    });
+  }
+
+  return items;
+});
 
 const rightNavItems: NavItem[] = [
     {
