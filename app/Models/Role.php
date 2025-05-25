@@ -10,7 +10,7 @@ class Role extends Model
     /** @use HasFactory<\Database\Factories\RoleFactory> */
     use HasFactory;
 
-    const SUPER_ADMIN = 1;
-    const ADMIN = 2;
-    const USER = 3;
+    public const SUPER_ADMIN = 1;
+    public const ADMIN = 2;
+    public const USER = 3;
 }
