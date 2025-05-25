@@ -22,7 +22,12 @@ class StoreCompanyRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => ['required', 'string', 'max:255', 'unique:companies,name'],
+            'name' => [
+                'required',
+                'string',
+                'max:255',
+                'unique:companies,name',
+            ],
             'first_line' => ['required', 'string'],
             'second_line' => ['nullable', 'string'],
             'town' => ['nullable', 'string'],

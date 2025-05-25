@@ -50,7 +50,10 @@ class CompanyController extends Controller
 
         $company = Company::create($data);
 
-        return redirect()->route('companies.show', $company)->with('success', 'Company created successfully.');
+        return redirect()->route(
+            'companies.show',
+            $company
+        )->with('success', 'Company created successfully.');
     }
 
     /**
@@ -85,7 +88,10 @@ class CompanyController extends Controller
 
         $company->update($data);
 
-        return redirect()->route('companies.show', $company)->with('success', 'Company updated.');
+        return redirect()->route(
+            'companies.show',
+            $company
+        )->with('success', 'Company updated.');
     }
 
     /**
@@ -98,7 +104,9 @@ class CompanyController extends Controller
         $company->update(['deleted_by' => auth()->id()]);
         $company->delete();
 
-        return redirect()->route('companies.index')->with('success', 'Company deleted.');
+        return redirect()->route(
+            'companies.index'
+        )->with('success', 'Company deleted.');
     }
 
     public function restore($id)
@@ -108,6 +116,9 @@ class CompanyController extends Controller
 
         $company->restore();
 
-        return redirect()->route('companies.show', $company)->with('success', 'Company restored.');
+        return redirect()->route(
+            'companies.show',
+            $company
+        )->with('success', 'Company restored.');
     }
 }
