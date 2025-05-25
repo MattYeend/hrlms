@@ -66,7 +66,7 @@
     </form>
   </template>
   
-  <script setup>
+  <script setup lang="ts">
   import { reactive } from 'vue'
   import { useForm } from '@inertiajs/vue3'
   
