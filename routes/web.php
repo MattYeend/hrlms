@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CompanyController;
 use App\Http\Controllers\RoleController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -25,4 +26,8 @@ Route::get('/errors/503', fn () => Inertia::render('errors/503'));
 
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::resource('roles', RoleController::class)->only(['index', 'show']);
+
+    Route::resource('companies', CompanyController::class);
+    Route::post('companies/{company}/restore', [CompanyController::class, 'restore'])
+        ->name('companies.restore');
 });

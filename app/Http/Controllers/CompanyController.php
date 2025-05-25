@@ -5,15 +5,26 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreCompanyRequest;
 use App\Http\Requests\UpdateCompanyRequest;
 use App\Models\Company;
+use Illuminate\Support\Str;
+use Inertia\Inertia;
 
 class CompanyController extends Controller
 {
+    public function __construct()
+    {
+        $this->authorizeResource(Company::class, 'company');
+    }
+
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        // Empty, as this needs to be updated in due course
+        $this->authorize('viewAny', Company::class);
+
+        return Inertia::render('companies/Index', [
+            'companies' => Company::all(),
+        ]);
     }
 
     /**
@@ -21,7 +32,9 @@ class CompanyController extends Controller
      */
     public function create()
     {
-        // Empty, as this needs to be updated in due course
+        $this->authorize('create', Company::class);
+
+        return Inertia::render('companies/Create');
     }
 
     /**
@@ -29,7 +42,15 @@ class CompanyController extends Controller
      */
     public function store(StoreCompanyRequest $request)
     {
-        // Empty, as this needs to be updated in due course
+        $this->authorize('create', Company::class);
+
+        $data = $request->validated();
+        $data['slug'] = Str::slug($data['name']);
+        $data['created_by'] = auth()->id();
+
+        $company = Company::create($data);
+
+        return redirect()->route('companies.show', $company)->with('success', 'Company created successfully.');
     }
 
     /**
@@ -37,7 +58,9 @@ class CompanyController extends Controller
      */
     public function show(Company $company)
     {
-        // Empty, as this needs to be updated in due course
+        $this->authorize('view', $company);
+
+        return Inertia::render('companies/Show', ['company' => $company]);
     }
 
     /**
@@ -45,7 +68,9 @@ class CompanyController extends Controller
      */
     public function edit(Company $company)
     {
-        // Empty, as this needs to be updated in due course
+        $this->authorize('update', $company);
+
+        return Inertia::render('companies/Edit', ['company' => $company]);
     }
 
     /**
@@ -53,7 +78,14 @@ class CompanyController extends Controller
      */
     public function update(UpdateCompanyRequest $request, Company $company)
     {
-        // Empty, as this needs to be updated in due course
+        $this->authorize('update', $company);
+
+        $data = $request->validated();
+        $data['updated_by'] = auth()->id();
+
+        $company->update($data);
+
+        return redirect()->route('companies.show', $company)->with('success', 'Company updated.');
     }
 
     /**
@@ -61,6 +93,21 @@ class CompanyController extends Controller
      */
     public function destroy(Company $company)
     {
-        // Empty, as this needs to be updated in due course
+        $this->authorize('delete', $company);
+
+        $company->update(['deleted_by' => auth()->id()]);
+        $company->delete();
+
+        return redirect()->route('companies.index')->with('success', 'Company deleted.');
+    }
+
+    public function restore($id)
+    {
+        $company = Company::withTrashed()->findOrFail($id);
+        $this->authorize('restore', $company);
+
+        $company->restore();
+
+        return redirect()->route('companies.show', $company)->with('success', 'Company restored.');
     }
 }

@@ -11,7 +11,7 @@ class UpdateCompanyRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return auth()->user()?->isSuperAdmin ?? false;
     }
 
     /**
@@ -22,7 +22,18 @@ class UpdateCompanyRequest extends FormRequest
     public function rules(): array
     {
         return [
-            // Empty, as this needs to be updated in due course
+            'name' => ['required', 'string', 'max:255', 'unique:companies,name'],
+            'first_line' => ['required', 'string'],
+            'second_line' => ['nullable', 'string'],
+            'town' => ['nullable', 'string'],
+            'city' => ['nullable', 'string'],
+            'county' => ['nullable', 'string'],
+            'country' => ['nullable', 'string'],
+            'postcode' => ['required', 'string'],
+            'phone' => ['nullable', 'string'],
+            'email' => ['nullable', 'email'],
+            'is_active' => ['boolean'],
+            'is_default' => ['boolean'],
         ];
     }
 }

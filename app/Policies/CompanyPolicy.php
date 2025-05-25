@@ -7,6 +7,11 @@ use App\Models\User;
 
 class CompanyPolicy
 {
+    public function before(User $user, $ability)
+    {
+        return $user->isSuperAdmin;
+    }
+
     /**
      * Determine whether the user can view any models.
      */
