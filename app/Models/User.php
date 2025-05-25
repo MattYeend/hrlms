@@ -48,6 +48,21 @@ class User extends Authenticatable
         'remember_token',
     ];
 
+    public function isSuperAdmin(): bool
+    {
+        return $this->role_id === Role::SUPER_ADMIN;
+    }
+
+    public function isAdmin(): bool
+    {
+        return $this->role_id === Role::ADMIN;
+    }
+
+    public function isUser()
+    {
+        return $this->role_id === Role::USER;
+    }
+
     public function role()
     {
         return $this->belongsTo(Role::class, 'role_id');
