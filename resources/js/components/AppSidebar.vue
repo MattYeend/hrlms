@@ -4,22 +4,39 @@ import NavMain from '@/components/NavMain.vue';
 import NavUser from '@/components/NavUser.vue';
 import { Sidebar, SidebarContent, SidebarFooter, SidebarHeader, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from '@/components/ui/sidebar';
 import { type NavItem } from '@/types';
-import { Link } from '@inertiajs/vue3';
+import { Link, usePage } from '@inertiajs/vue3';
 import { BookOpen, Folder, LayoutGrid } from 'lucide-vue-next';
 import AppLogo from './AppLogo.vue';
+import { computed } from 'vue';
 
-const mainNavItems: NavItem[] = [
+const page = usePage();
+const auth = computed(() => page.props.auth);
+const isSuperAdmin = computed(() => page.props.auth?.user?.role_id === 1);
+
+const mainNavItems = computed<NavItem[]>(() => {
+  const items: NavItem[] = [
     {
-        title: 'Dashboard',
-        href: '/dashboard',
-        icon: LayoutGrid,
+      title: 'Dashboard',
+      href: '/dashboard',
+      icon: LayoutGrid,
     },
-    {
-        title: 'Roles',
-        href: '/roles',
-        icon: LayoutGrid,
-    },
-];
+  ];
+
+  if (isSuperAdmin.value) {
+    items.push({
+      title: 'Roles',
+      href: '/roles',
+      icon: LayoutGrid,
+    });
+    items.push({
+      title: 'Companies',
+      href: '/companies',
+      icon: LayoutGrid,
+    });
+  }
+
+  return items;
+});
 
 const footerNavItems: NavItem[] = [
     {

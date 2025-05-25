@@ -62,6 +62,12 @@ const breadcrumbs: BreadcrumbItem[] = [
                   class="text-blue-600 dark:text-blue-400 hover:underline"
                 >
                   View
+                </Link> |
+                <Link
+                  :href="route('companies.edit', company.id)"
+                  class="text-blue-600 dark:text-blue-400 hover:underline"
+                >
+                  Edit
                 </Link>
               </td>
             </tr>

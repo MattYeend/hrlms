@@ -11,7 +11,7 @@ class StoreCompanyRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return auth()->user()?->isSuperAdmin ?? false;
+        return auth()->user()?->isSuperAdmin() ?? false;
     }
 
     /**

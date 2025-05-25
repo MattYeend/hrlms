@@ -11,7 +11,7 @@ class UpdateCompanyRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return auth()->user()?->isSuperAdmin ?? false;
+        return auth()->user()?->isSuperAdmin() ?? false;
     }
 
     /**
@@ -22,7 +22,7 @@ class UpdateCompanyRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => ['required', 'string', 'max:255', 'unique:companies,name'],
+            'name' => ['required', 'string', 'max:255', 'unique:companies,name,' . $this->route('company')->id],
             'first_line' => ['required', 'string'],
             'second_line' => ['nullable', 'string'],
             'town' => ['nullable', 'string'],

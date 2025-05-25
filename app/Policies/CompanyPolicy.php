@@ -9,7 +9,7 @@ class CompanyPolicy
 {
     public function before(User $user, $ability)
     {
-        return $user->isSuperAdmin;
+        return $user->isSuperAdmin();
     }
 
     /**

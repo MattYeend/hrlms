@@ -8,6 +8,11 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 
+/**
+ * @method bool isSuperAdmin()
+ * @method bool isAdmin()
+ * @method bool isUser()
+ */
 class User extends Authenticatable
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
@@ -48,16 +53,25 @@ class User extends Authenticatable
         'remember_token',
     ];
 
+    /**
+     * @method bool isSuperAdmin()
+     */
     public function isSuperAdmin(): bool
     {
         return $this->role_id === Role::SUPER_ADMIN;
     }
 
+    /**
+     * @method bool isAdmin()
+     */
     public function isAdmin(): bool
     {
         return $this->role_id === Role::ADMIN;
     }
 
+    /**
+     * @method bool isUser()
+     */
     public function isUser()
     {
         return $this->role_id === Role::USER;
