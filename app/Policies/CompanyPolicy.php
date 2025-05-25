@@ -9,6 +9,7 @@ class CompanyPolicy
 {
     public function before(User $user, $ability)
     {
+        unset($ability);
         return $user->isSuperAdmin();
     }
 
@@ -17,6 +18,8 @@ class CompanyPolicy
      */
     public function viewAny(User $user): bool
     {
+        unset($user);
+        unset($company);
         return false;
     }
 
@@ -25,6 +28,8 @@ class CompanyPolicy
      */
     public function view(User $user, Company $company): bool
     {
+        unset($user);
+        unset($company);
         return false;
     }
 
@@ -33,6 +38,8 @@ class CompanyPolicy
      */
     public function create(User $user): bool
     {
+        unset($user);
+        unset($company);
         return false;
     }
 
@@ -41,6 +48,8 @@ class CompanyPolicy
      */
     public function update(User $user, Company $company): bool
     {
+        unset($user);
+        unset($company);
         return false;
     }
 
@@ -49,6 +58,8 @@ class CompanyPolicy
      */
     public function delete(User $user, Company $company): bool
     {
+        unset($user);
+        unset($company);
         return false;
     }
 
@@ -57,6 +68,8 @@ class CompanyPolicy
      */
     public function restore(User $user, Company $company): bool
     {
+        unset($user);
+        unset($company);
         return false;
     }
 
@@ -65,6 +78,8 @@ class CompanyPolicy
      */
     public function forceDelete(User $user, Company $company): bool
     {
+        unset($user);
+        unset($company);
         return false;
     }
 }

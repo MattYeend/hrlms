@@ -11,10 +11,7 @@ uses(RefreshDatabase::class);
 test('profile page is displayed', function () {
     $role = Role::factory()->create();
     
-    $company = Company::factory()->create();
-    $department = Department::factory()->create([
-        'company_id' => $company->id,
-    ]);
+    $department = Department::factory()->create();
     
     $admin = User::factory()->create();
 
@@ -35,10 +32,7 @@ test('profile page is displayed', function () {
 test('profile information can be updated', function () {
     $role = Role::factory()->create();
     
-    $company = Company::factory()->create();
-    $department = Department::factory()->create([
-        'company_id' => $company->id,
-    ]);
+    $department = Department::factory()->create();
     
     $admin = User::factory()->create();
 
@@ -75,10 +69,7 @@ test('profile information can be updated', function () {
 test('email verification status is unchanged when email is unchanged', function () {
     $role = Role::factory()->create();
     
-    $company = Company::factory()->create();
-    $department = Department::factory()->create([
-        'company_id' => $company->id,
-    ]);
+    $department = Department::factory()->create();
     
     $admin = User::factory()->create();
 
@@ -111,10 +102,7 @@ test('email verification status is unchanged when email is unchanged', function 
 test('user can delete their account', function () {
     $role = Role::factory()->create();
     
-    $company = Company::factory()->create();
-    $department = Department::factory()->create([
-        'company_id' => $company->id,
-    ]);
+    $department = Department::factory()->create();
     
     $admin = User::factory()->create();
 
@@ -137,16 +125,15 @@ test('user can delete their account', function () {
         ->assertRedirect('/');
 
     $this->assertGuest();
-    expect($user->fresh())->toBeNull();
+    $this->assertSoftDeleted('users', [
+        'id' => $user->id,
+    ]);
 });
 
 test('correct password must be provided to delete account', function () {
     $role = Role::factory()->create();
     
-    $company = Company::factory()->create();
-    $department = Department::factory()->create([
-        'company_id' => $company->id,
-    ]);
+    $department = Department::factory()->create();
     
     $admin = User::factory()->create();
 

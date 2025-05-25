@@ -16,10 +16,7 @@ test('login screen can be rendered', function () {
 test('users can authenticate using the login screen', function () {
     $role = Role::factory()->create();
     
-    $company = Company::factory()->create();
-    $department = Department::factory()->create([
-        'company_id' => $company->id,
-    ]);
+    $department = Department::factory()->create();
     
     $admin = User::factory()->create();
 
@@ -42,10 +39,7 @@ test('users can authenticate using the login screen', function () {
 test('users can not authenticate with invalid password', function () {
     $role = Role::factory()->create();
     
-    $company = Company::factory()->create();
-    $department = Department::factory()->create([
-        'company_id' => $company->id,
-    ]);
+    $department = Department::factory()->create();
     
     $admin = User::factory()->create();
 
@@ -67,10 +61,7 @@ test('users can not authenticate with invalid password', function () {
 test('users can logout', function () {
     $role = Role::factory()->create();
     
-    $company = Company::factory()->create();
-    $department = Department::factory()->create([
-        'company_id' => $company->id,
-    ]);
+    $department = Department::factory()->create();
     
     $admin = User::factory()->create();
 

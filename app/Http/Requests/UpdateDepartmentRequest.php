@@ -11,7 +11,8 @@ class UpdateDepartmentRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return auth()->user()?->role_id === \App\Models\Role::SUPER_ADMIN ||
+               auth()->user()?->role_id === \App\Models\Role::ADMIN;
     }
 
     /**
@@ -21,8 +22,19 @@ class UpdateDepartmentRequest extends FormRequest
      */
     public function rules(): array
     {
+        $department = $this->route('department');
+
         return [
-            // Empty, as this needs to be updated in due course
+            'name' => ['required', 'string', 'max:255'],
+            'slug' => [
+                'required',
+                'string',
+                'max:255',
+                'unique:departments,slug,' . $department->id,
+            ],
+            'description' => ['nullable', 'string'],
+            'is_active' => ['boolean'],
+            'is_default' => ['boolean'],
         ];
     }
 }

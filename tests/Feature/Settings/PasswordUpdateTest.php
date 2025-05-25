@@ -10,11 +10,8 @@ uses(\Illuminate\Foundation\Testing\RefreshDatabase::class);
 
 test('password can be updated', function () {
     $role = Role::factory()->create();
-    
-    $company = Company::factory()->create();
-    $department = Department::factory()->create([
-        'company_id' => $company->id,
-    ]);
+
+    $department = Department::factory()->create();
     
     $admin = User::factory()->create();
 
@@ -44,10 +41,7 @@ test('password can be updated', function () {
 test('correct password must be provided to update password', function () {
     $role = Role::factory()->create();
     
-    $company = Company::factory()->create();
-    $department = Department::factory()->create([
-        'company_id' => $company->id,
-    ]);
+    $department = Department::factory()->create();
     
     $admin = User::factory()->create();
 

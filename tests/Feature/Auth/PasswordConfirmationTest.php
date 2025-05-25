@@ -10,10 +10,7 @@ uses(\Illuminate\Foundation\Testing\RefreshDatabase::class);
 test('confirm password screen can be rendered', function () {
     $role = Role::factory()->create();
     
-    $company = Company::factory()->create();
-    $department = Department::factory()->create([
-        'company_id' => $company->id,
-    ]);
+    $department = Department::factory()->create();
     
     $admin = User::factory()->create();
 
@@ -32,10 +29,7 @@ test('confirm password screen can be rendered', function () {
 test('password can be confirmed', function () {
     $role = Role::factory()->create();
     
-    $company = Company::factory()->create();
-    $department = Department::factory()->create([
-        'company_id' => $company->id,
-    ]);
+    $department = Department::factory()->create();
     
     $admin = User::factory()->create();
 
@@ -57,10 +51,7 @@ test('password can be confirmed', function () {
 test('password is not confirmed with invalid password', function () {
     $role = Role::factory()->create();
     
-    $company = Company::factory()->create();
-    $department = Department::factory()->create([
-        'company_id' => $company->id,
-    ]);
+    $department = Department::factory()->create();
     
     $admin = User::factory()->create();
 

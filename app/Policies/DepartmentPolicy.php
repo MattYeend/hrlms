@@ -12,7 +12,9 @@ class DepartmentPolicy
      */
     public function viewAny(User $user): bool
     {
-        return false;
+        unset($user);
+        unset($department);
+        return true;
     }
 
     /**
@@ -20,7 +22,9 @@ class DepartmentPolicy
      */
     public function view(User $user, Department $department): bool
     {
-        return false;
+        unset($user);
+        unset($department);
+        return true;
     }
 
     /**
@@ -28,7 +32,7 @@ class DepartmentPolicy
      */
     public function create(User $user): bool
     {
-        return false;
+        return in_array($user->role->slug, ['admin', 'super-admin']);
     }
 
     /**
@@ -36,7 +40,8 @@ class DepartmentPolicy
      */
     public function update(User $user, Department $department): bool
     {
-        return false;
+        unset($department);
+        return in_array($user->role->slug, ['admin', 'super-admin']);
     }
 
     /**
@@ -44,7 +49,8 @@ class DepartmentPolicy
      */
     public function delete(User $user, Department $department): bool
     {
-        return false;
+        unset($department);
+        return in_array($user->role->slug, ['admin', 'super-admin']);
     }
 
     /**
@@ -52,7 +58,8 @@ class DepartmentPolicy
      */
     public function restore(User $user, Department $department): bool
     {
-        return false;
+        unset($department);
+        return in_array($user->role->slug, ['admin', 'super-admin']);
     }
 
     /**
@@ -60,6 +67,8 @@ class DepartmentPolicy
      */
     public function forceDelete(User $user, Department $department): bool
     {
+        unset($user);
+        unset($department);
         return false;
     }
 }

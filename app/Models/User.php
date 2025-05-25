@@ -4,19 +4,15 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 
-/**
- * @method bool isSuperAdmin()
- * @method bool isAdmin()
- * @method bool isUser()
- */
 class User extends Authenticatable
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
-    use HasApiTokens, HasFactory, Notifiable;
+    use HasApiTokens, HasFactory, Notifiable, SoftDeletes;
 
     /**
      * The attributes that are mass assignable.
@@ -41,6 +37,10 @@ class User extends Authenticatable
         'department_id',
         'created_by',
         'updated_by',
+        'deleted_by',
+        'created_at',
+        'updated_at',
+        'deleted_at',
     ];
 
     /**
@@ -53,25 +53,16 @@ class User extends Authenticatable
         'remember_token',
     ];
 
-    /**
-     * @method bool isSuperAdmin()
-     */
     public function isSuperAdmin(): bool
     {
         return $this->role_id === Role::SUPER_ADMIN;
     }
 
-    /**
-     * @method bool isAdmin()
-     */
     public function isAdmin(): bool
     {
         return $this->role_id === Role::ADMIN;
     }
 
-    /**
-     * @method bool isUser()
-     */
     public function isUser()
     {
         return $this->role_id === Role::USER;
@@ -80,6 +71,11 @@ class User extends Authenticatable
     public function role()
     {
         return $this->belongsTo(Role::class, 'role_id');
+    }
+
+    public function department()
+    {
+        return $this->belongsTo(Department::class, 'department_id');
     }
 
     /**

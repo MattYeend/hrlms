@@ -20,10 +20,7 @@ test('reset password link can be requested', function () {
 
     $role = Role::factory()->create();
     
-    $company = Company::factory()->create();
-    $department = Department::factory()->create([
-        'company_id' => $company->id,
-    ]);
+    $department = Department::factory()->create();
     
     $admin = User::factory()->create();
 
@@ -44,10 +41,7 @@ test('reset password screen can be rendered', function () {
 
     $role = Role::factory()->create();
     
-    $company = Company::factory()->create();
-    $department = Department::factory()->create([
-        'company_id' => $company->id,
-    ]);
+    $department = Department::factory()->create();
     
     $admin = User::factory()->create();
 
@@ -74,10 +68,7 @@ test('password can be reset with valid token', function () {
 
     $role = Role::factory()->create();
     
-    $company = Company::factory()->create();
-    $department = Department::factory()->create([
-        'company_id' => $company->id,
-    ]);
+    $department = Department::factory()->create();
     
     $admin = User::factory()->create();
 

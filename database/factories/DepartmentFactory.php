@@ -19,13 +19,10 @@ class DepartmentFactory extends Factory
      */
     public function definition(): array
     {
-        $company = Company::factory()->create(); 
-
         return [
             'name' => fake()->company(),
             'slug' => Str::slug(fake()->company()),
             'description' => fake()->sentence(),
-            'company_id' => $company->id,
             'is_active' => true,
             'is_default' => false,
             'created_at' => now(),

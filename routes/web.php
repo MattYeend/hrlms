@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\CompanyController;
+use App\Http\Controllers\DepartmentController;
 use App\Http\Controllers\RoleController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -32,4 +33,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
         'companies/{company}/restore',
         [CompanyController::class, 'restore']
     )->name('companies.restore');
+
+    Route::resource('departments', DepartmentController::class);
+    Route::post(
+        'departments/{department}/restore',
+        [DepartmentController::class, 'restore']
+    )->name('departments.restore');
 });

@@ -36,8 +36,7 @@ test('unauthorized users cannot view roles', function () {
 
 test('admin or super-admin users can view all roles', function () {
     $adminRole = Role::factory()->create(['slug' => 'admin']);
-    $company = Company::factory()->create();
-    $department = Department::factory()->create(['company_id' => $company->id]);
+    $department = Department::factory()->create();
     $creator = User::factory()->create();
 
     $admin = User::factory()->create([
@@ -60,8 +59,7 @@ test('admin or super-admin users can view all roles', function () {
 
 test('admin or super-admin users can view a specific role', function () {
     $superAdminRole = Role::factory()->create(['slug' => 'super-admin']);
-    $company = Company::factory()->create();
-    $department = Department::factory()->create(['company_id' => $company->id]);
+    $department = Department::factory()->create();
     $creator = User::factory()->create();
 
     $superAdmin = User::factory()->create([

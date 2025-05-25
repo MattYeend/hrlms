@@ -27,13 +27,18 @@ const mainNavItems = computed<NavItem[]>(() => {
       href: '/roles',
       icon: LayoutGrid,
     });
-  }
-  if (isSuperAdmin.value) {
     items.push({
-      title: 'Companies',
-      href: '/companies',
+      title: 'Departments',
+      href: '/departments',
       icon: LayoutGrid,
     });
+  }
+  if (isSuperAdmin.value) {
+    // items.push({
+    //   title: 'Companies',
+    //   href: '/companies',
+    //   icon: LayoutGrid,
+    // });
   }
 
   return items;

@@ -5,15 +5,26 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreDepartmentRequest;
 use App\Http\Requests\UpdateDepartmentRequest;
 use App\Models\Department;
+use Illuminate\Support\Str;
+use Inertia\Inertia;
 
 class DepartmentController extends Controller
 {
+    public function __construct()
+    {
+        $this->authorizeResource(Department::class, 'department');
+    }
+
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        // Empty, as this needs to be updated in due course
+        $this->authorize('viewAny', Department::class);
+
+        return Inertia::render('departments/Index', [
+            'departments' => Department::get(),
+        ]);
     }
 
     /**
@@ -21,7 +32,9 @@ class DepartmentController extends Controller
      */
     public function create()
     {
-        // Empty, as this needs to be updated in due course
+        $this->authorize('create', Department::class);
+
+        return Inertia::render('departments/Create');
     }
 
     /**
@@ -29,7 +42,16 @@ class DepartmentController extends Controller
      */
     public function store(StoreDepartmentRequest $request)
     {
-        // Empty, as this needs to be updated in due course
+        $this->authorize('create', Department::class);
+
+        $data = $request->validated();
+        $data['slug'] = Str::slug($data['name']);
+        $data['created_by'] = auth()->id();
+
+        $department = Department::create($data);
+
+        return redirect()->route('departments.show', $department)
+            ->with('success', 'Department created successfully.');
     }
 
     /**
@@ -37,7 +59,11 @@ class DepartmentController extends Controller
      */
     public function show(Department $department)
     {
-        // Empty, as this needs to be updated in due course
+        $this->authorize('view', $department);
+
+        return Inertia::render('departments/Show', [
+            'department' => $department,
+        ]);
     }
 
     /**
@@ -45,7 +71,10 @@ class DepartmentController extends Controller
      */
     public function edit(Department $department)
     {
-        // Empty, as this needs to be updated in due course
+        $this->authorize('update', $department);
+        return Inertia::render('departments/Edit', [
+            'department' => $department,
+        ]);
     }
 
     /**
@@ -55,7 +84,15 @@ class DepartmentController extends Controller
         UpdateDepartmentRequest $request,
         Department $department
     ) {
-        // Empty, as this needs to be updated in due course
+        $this->authorize('update', $department);
+
+        $data = $request->validated();
+        $data['updated_by'] = auth()->id();
+
+        $department->update($data);
+
+        return redirect()->route('departments.show', $department)
+            ->with('success', 'Department updated successfully.');
     }
 
     /**
@@ -63,6 +100,25 @@ class DepartmentController extends Controller
      */
     public function destroy(Department $department)
     {
-        // Empty, as this needs to be updated in due course
+        $this->authorize('delete', $department);
+
+        $department->update(['deleted_by' => auth()->id()]);
+        $department->delete();
+
+        return redirect()->route('departments.index')
+            ->with('success', 'Department deleted successfully.');
+    }
+
+    public function restore($id)
+    {
+        $department = Department::withTrashed()->findOrFail($id);
+        $this->authorize('restore', $department);
+
+        $department->restore();
+
+        return redirect()->route(
+            'departments.show',
+            $department
+        )->with('success', 'Department restored.');
     }
 }

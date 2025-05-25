@@ -15,10 +15,7 @@ test('guests are redirected to the login page', function () {
 test('authenticated users can visit the dashboard', function () {
     $role = Role::factory()->create();
     
-    $company = Company::factory()->create();
-    $department = Department::factory()->create([
-        'company_id' => $company->id,
-    ]);
+    $department = Department::factory()->create();
     
     $admin = User::factory()->create();
 
