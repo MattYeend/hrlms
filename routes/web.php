@@ -3,6 +3,7 @@
 use App\Http\Controllers\CompanyController;
 use App\Http\Controllers\DepartmentController;
 use App\Http\Controllers\RoleController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -39,4 +40,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
         'departments/{department}/restore',
         [DepartmentController::class, 'restore']
     )->name('departments.restore');
+
+    Route::resource('users', UserController::class);
+    Route::post(
+        'users/{user}/restore',
+        [UserController::class, 'restore']
+    )->name('users.restore');
 });
