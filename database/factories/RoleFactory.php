@@ -22,7 +22,6 @@ class RoleFactory extends Factory
             'name' => fake()->company(),
             'slug' => Str::slug(fake()->company()),
             'description' => fake()->sentence(),
-            'is_active' => true,
             'is_default' => false,
             'created_at' => now(),
             'updated_at' => now(),

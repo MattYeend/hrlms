@@ -30,7 +30,6 @@ class CompanyFactory extends Factory
             'postcode' => $this->faker->postcode,
             'phone' => $this->faker->phoneNumber,
             'email' => $this->faker->companyEmail,
-            'is_active' => true,
             'is_default' => false,
             'created_at' => now(),
             'updated_at' => now(),
