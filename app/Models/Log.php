@@ -59,7 +59,6 @@ class Log extends Model
     public const ACTION_VIEW_COMPANIES = 50;
     public const ACTION_SHOW_COMPANY = 51;
     public const ACTION_REINSTATE_COMPANY = 52;
-    
 
     protected $table = 'logs';
 
@@ -95,7 +94,7 @@ class Log extends Model
 
             if (is_array($data)) {
                 $data = json_encode($data);
-            } elseif (!is_null($data)) {
+            } elseif (! is_null($data)) {
                 throw new \InvalidArgumentException(
                     'Data must be an array or null.'
                 );
