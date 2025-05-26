@@ -4,8 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreUserRequest;
 use App\Http\Requests\UpdateUserRequest;
-use App\Models\Role;
 use App\Models\Department;
+use App\Models\Role;
 use App\Models\User;
 use Inertia\Inertia;
 
@@ -24,9 +24,16 @@ class UserController extends Controller
         $this->authorize('viewAny', User::class);
 
         return Inertia::render('users/Index', [
-            'users' => User::with(['role:id,name', 'department:id,name'])->get(),
+            'users' => User::with([
+                'role:id,name',
+                'department:id,name',
+            ])->get(),
             'roles' => Role::select('id', 'name')->get(),
             'departments' => Department::select('id', 'name')->get(),
+            'authUser' => User::where(
+                'id',
+                auth()->id()
+            )->with('role:id,name')->first(),
         ]);
     }
 
@@ -67,7 +74,7 @@ class UserController extends Controller
         $this->authorize('view', $user);
 
         $user->load(['role:id,name', 'department:id,name']);
-        
+
         return Inertia::render('users/Show', [
             'user' => $user,
             'roles' => Role::select('id', 'name')->get(),

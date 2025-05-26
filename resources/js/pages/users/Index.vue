@@ -11,6 +11,10 @@ defineProps<{
     role: { name: string }
     department: { name: string }
   }>
+  authUser: {
+    id: number
+    role: { name: string }
+  }
 }>()
 
 const breadcrumbs: BreadcrumbItem[] = [
@@ -56,8 +60,10 @@ const breadcrumbs: BreadcrumbItem[] = [
                 <td class="p-3">{{ user.role?.name ?? '-' }}</td>
                 <td class="p-3">{{ user.department?.name ?? '-' }}</td>
                 <td class="p-3">
-                  <Link :href="route('users.show', user.id)" class="text-blue-600 dark:text-blue-400 hover:underline">View</Link> |
-                  <Link :href="route('users.edit', user.id)" class="text-blue-600 dark:text-blue-400 hover:underline">Edit</Link>
+                  <Link :href="route('users.show', user.id)" class="text-blue-600 dark:text-blue-400 hover:underline">View</Link>
+                  <span v-if="authUser.id === user.id || ['Admin', 'Super Admin'].includes(authUser.role.name)">
+                    | <Link :href="route('users.edit', user.id)" class="text-blue-600 dark:text-blue-400 hover:underline">Edit</Link>
+                  </span>
                 </td>
               </tr>
             </tbody>

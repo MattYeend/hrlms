@@ -3,13 +3,17 @@ import { Head, Link } from '@inertiajs/vue3'
 import AppLayout from '@/layouts/AppLayout.vue'
 import { type BreadcrumbItem } from '@/types'
 
-defineProps<{
+const props = defineProps<{
   departments: Array<{
     id: number
     name: string
     slug: string
     is_default: boolean
   }>
+  authUser: {
+    id: number
+    role: { name: string }
+  }
 }>()
 
 const breadcrumbs: BreadcrumbItem[] = [
@@ -53,8 +57,14 @@ const breadcrumbs: BreadcrumbItem[] = [
               <td class="p-3">{{ department.slug }}</td>
               <td class="p-3">{{ department.is_default ? 'Yes' : 'No' }}</td>
               <td class="p-3">
-                <Link :href="route('departments.show', department.id)" class="text-blue-600 dark:text-blue-400 hover:underline">View</Link> |
-                <Link :href="route('departments.edit', department.id)" class="text-blue-600 dark:text-blue-400 hover:underline">Edit</Link>
+                <Link :href="route('departments.show', department.id)" class="text-blue-600 dark:text-blue-400 hover:underline">
+                  View
+                </Link>
+                <span v-if="['Admin', 'Super Admin'].includes(authUser.role.name)">
+                  | <Link :href="route('departments.edit', department.id)" class="text-blue-600 dark:text-blue-400 hover:underline">
+                    Edit
+                  </Link>
+                </span>
               </td>
             </tr>
           </tbody>

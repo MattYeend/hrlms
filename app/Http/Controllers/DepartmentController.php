@@ -24,6 +24,7 @@ class DepartmentController extends Controller
 
         return Inertia::render('departments/Index', [
             'departments' => Department::get(),
+            'authUser' => auth()->user()->load('role')->only('id', 'role'),
         ]);
     }
 
