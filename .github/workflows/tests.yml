@@ -4,10 +4,12 @@ on:
   push:
     branches:
       - develop
+      - UAT
       - main
   pull_request:
     branches:
       - develop
+      - UAT
       - main
 
 jobs:
