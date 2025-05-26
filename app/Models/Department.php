@@ -19,7 +19,6 @@ class Department extends Model
         'name',
         'slug',
         'description',
-        'is_active',
         'is_default',
         'created_by',
         'updated_by',

@@ -23,7 +23,6 @@ class Company extends Model
         'postcode',
         'phone',
         'email',
-        'is_active',
         'is_default',
         'created_by',
         'updated_by',
