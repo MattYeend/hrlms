@@ -25,7 +25,6 @@ class RoleController extends Controller
                 'name' => $role->name,
                 'slug' => $role->slug,
                 'description' => $role->description,
-                'is_active' => $role->is_active,
                 'is_default' => $role->is_default,
             ];
         });
@@ -48,7 +47,6 @@ class RoleController extends Controller
                 'name' => $role->name,
                 'slug' => $role->slug,
                 'description' => $role->description,
-                'is_active' => $role->is_active,
                 'is_default' => $role->is_default,
             ],
         ]);
