@@ -36,8 +36,13 @@ class Log extends Model
     public const ACTION_PERMISSION_REVOKED = 27;
     public const ACTION_GENERAL_ERROR = 28;
     public const ACTION_FOUR_HUNDRED_ERROR = 29;
-    public const ACTION_FIVE_HUNDRED_ERRORS = 30;
-    public const ACTION_CLEAR_CACHE = 31;
+    public const ACTION_FOUR_ZERO_THREE_ERROR = 30;
+    public const ACTION_FOUR_ZERO_FOUR_ERROR = 31;
+    public const ACTION_FOUR_ONE_NINE_ERROR = 32;
+    public const ACTION_FOUR_TWO_NINE_ERROR = 33;
+    public const ACTION_FIVE_HUNDRED_ERROR = 34;
+    public const ACTION_FIVE_ZERO_THREE_ERROR = 35;
+    public const ACTION_CLEAR_CACHE = 36;
 
     protected $table = 'logs';
 
