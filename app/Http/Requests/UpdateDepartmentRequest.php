@@ -33,7 +33,6 @@ class UpdateDepartmentRequest extends FormRequest
                 'unique:departments,slug,' . $department->id,
             ],
             'description' => ['nullable', 'string'],
-            'is_active' => ['boolean'],
             'is_default' => ['boolean'],
         ];
     }

@@ -37,7 +37,6 @@ class StoreCompanyRequest extends FormRequest
             'postcode' => ['required', 'string'],
             'phone' => ['nullable', 'string'],
             'email' => ['nullable', 'email'],
-            'is_active' => ['boolean'],
             'is_default' => ['boolean'],
         ];
     }

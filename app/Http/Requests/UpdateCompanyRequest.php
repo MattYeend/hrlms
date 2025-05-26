@@ -37,7 +37,6 @@ class UpdateCompanyRequest extends FormRequest
             'postcode' => ['required', 'string'],
             'phone' => ['nullable', 'string'],
             'email' => ['nullable', 'email'],
-            'is_active' => ['boolean'],
             'is_default' => ['boolean'],
         ];
     }

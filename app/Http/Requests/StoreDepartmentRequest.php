@@ -31,7 +31,6 @@ class StoreDepartmentRequest extends FormRequest
                 'unique:departments,slug',
             ],
             'description' => ['nullable', 'string'],
-            'is_active' => ['boolean'],
             'is_default' => ['boolean'],
         ];
     }
