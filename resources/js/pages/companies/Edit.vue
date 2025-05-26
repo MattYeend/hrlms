@@ -18,7 +18,6 @@ const props = defineProps<{
     postcode: string
     phone: string | null
     email: string | null
-    is_active: boolean
     is_default: boolean
   }
 }>()

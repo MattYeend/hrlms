@@ -80,7 +80,6 @@ test('superadmins can create a company', function () {
         'postcode' => 'AB12 3CD',
         'phone' => '01234 567890',
         'email' => 'info@uniquecompany.com',
-        'is_active' => true,
         'is_default' => false,
     ];
 
@@ -94,7 +93,6 @@ test('superadmins can create a company', function () {
         'first_line' => '123 Main Street',
         'postcode' => 'AB12 3CD',
         'email' => 'info@uniquecompany.com',
-        'is_active' => true,
         'is_default' => false,
     ]);
 });
@@ -130,7 +128,6 @@ test('superadmins can update a company', function () {
         'postcode' => 'ZY98 7YX',
         'phone' => '09876 543210',
         'email' => 'updated@company.com',
-        'is_active' => false,
         'is_default' => true,
     ];
 
@@ -145,7 +142,6 @@ test('superadmins can update a company', function () {
         'first_line' => '456 New Road',
         'postcode' => 'ZY98 7YX',
         'email' => 'updated@company.com',
-        'is_active' => false,
         'is_default' => true,
     ]);
 });

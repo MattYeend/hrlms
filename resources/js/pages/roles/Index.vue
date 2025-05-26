@@ -9,7 +9,6 @@ const props = defineProps<{
         name: string
         slug: string
         description: string
-        is_active: boolean
         is_default: boolean
     }[]
 }>()
@@ -33,7 +32,6 @@ const breadcrumbs: BreadcrumbItem[] = [
                         <tr>
                             <th class="text-left p-3 border-b border-gray-200 dark:border-gray-600 text-gray-700 dark:text-gray-200">Name</th>
                             <th class="text-left p-3 border-b border-gray-200 dark:border-gray-600 text-gray-700 dark:text-gray-200">Slug</th>
-                            <th class="text-left p-3 border-b border-gray-200 dark:border-gray-600 text-gray-700 dark:text-gray-200">Active</th>
                             <th class="text-left p-3 border-b border-gray-200 dark:border-gray-600 text-gray-700 dark:text-gray-200">Default</th>
                             <th class="text-left p-3 border-b border-gray-200 dark:border-gray-600 text-gray-700 dark:text-gray-200">Actions</th>
                         </tr>
@@ -46,7 +44,6 @@ const breadcrumbs: BreadcrumbItem[] = [
                         >
                             <td class="p-3 border-b border-gray-200 dark:border-gray-600 text-gray-800 dark:text-gray-100">{{ role.name }}</td>
                             <td class="p-3 border-b border-gray-200 dark:border-gray-600 text-gray-800 dark:text-gray-100">{{ role.slug }}</td>
-                            <td class="p-3 border-b border-gray-200 dark:border-gray-600 text-gray-800 dark:text-gray-100">{{ role.is_active ? 'Yes' : 'No' }}</td>
                             <td class="p-3 border-b border-gray-200 dark:border-gray-600 text-gray-800 dark:text-gray-100">{{ role.is_default ? 'Yes' : 'No' }}</td>
                             <td class="p-3 border-b border-gray-200 dark:border-gray-600">
                                 <Link

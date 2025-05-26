@@ -26,17 +26,6 @@
           <label class="inline-flex items-center mt-6">
             <input
               type="checkbox"
-              v-model="form.is_active"
-              class="rounded border-gray-300 text-blue-600 shadow-sm focus:ring focus:ring-blue-300"
-            />
-            <span class="ml-2 text-sm text-gray-700 dark:text-gray-300">Active</span>
-          </label>
-        </div>
-  
-        <div>
-          <label class="inline-flex items-center mt-6">
-            <input
-              type="checkbox"
               v-model="form.is_default"
               class="rounded border-gray-300 text-blue-600 shadow-sm focus:ring focus:ring-blue-300"
             />
@@ -62,7 +51,6 @@
       default: () => ({
         name: '',
         description: '',
-        is_active: true,
         is_default: false,
       }),
     },
@@ -76,7 +64,6 @@
   const form = useForm({
     name: props.department.name || '',
     description: props.department.description || '',
-    is_active: Boolean(props.department.is_active),
     is_default: Boolean(props.department.is_default),
   })
   

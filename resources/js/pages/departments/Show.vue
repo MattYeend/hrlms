@@ -25,7 +25,6 @@ const breadcrumbs: BreadcrumbItem[] = [
         <p><strong>Name:</strong> {{ department.name }}</p>
         <p><strong>Slug:</strong> {{ department.slug }}</p>
         <p><strong>Description:</strong> {{ department.description }}</p>
-        <p><strong>Active:</strong> {{ department.is_active ? 'Yes' : 'No' }}</p>
         <p><strong>Default:</strong> {{ department.is_default ? 'Yes' : 'No' }}</p>
       </div>
 

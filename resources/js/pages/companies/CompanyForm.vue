@@ -47,12 +47,6 @@
         </div>
         <div>
           <label>
-            <input type="checkbox" v-model="form.is_active" />
-            Active
-          </label>
-        </div>
-        <div>
-          <label>
             <input type="checkbox" v-model="form.is_default" />
             Default
           </label>
@@ -85,7 +79,6 @@
         postcode: '',
         phone: '',
         email: '',
-        is_active: true,
         is_default: false,
       }),
     },

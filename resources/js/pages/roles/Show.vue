@@ -9,7 +9,6 @@ const props = defineProps<{
     name: string
     slug: string
     description: string
-    is_active: boolean
     is_default: boolean
   }
 }>()
@@ -32,7 +31,6 @@ const breadcrumbs: BreadcrumbItem[] = [
         <p><strong>Name:</strong> {{ props.role.name }}</p>
         <p><strong>Description:</strong> {{ props.role.description }}</p>
         <p><strong>Slug:</strong> {{ props.role.slug }}</p>
-        <p><strong>Active:</strong> {{ props.role.is_active ? 'Yes' : 'No' }}</p>
         <p><strong>Default:</strong> {{ props.role.is_default ? 'Yes' : 'No' }}</p>
       </div>
 

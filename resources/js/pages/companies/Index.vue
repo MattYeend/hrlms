@@ -9,7 +9,6 @@ const props = defineProps<{
         name: string
         slug: string
         email: string | null
-        is_active: boolean
         is_default: boolean
     }[]
 }>()
@@ -41,7 +40,6 @@ const breadcrumbs: BreadcrumbItem[] = [
             <tr>
               <th class="text-left p-3">Name</th>
               <th class="text-left p-3">Email</th>
-              <th class="text-left p-3">Active</th>
               <th class="text-left p-3">Default</th>
               <th class="text-left p-3">Actions</th>
             </tr>
@@ -54,7 +52,6 @@ const breadcrumbs: BreadcrumbItem[] = [
             >
               <td class="p-3">{{ company.name }}</td>
               <td class="p-3">{{ company.email ?? '-' }}</td>
-              <td class="p-3">{{ company.is_active ? 'Yes' : 'No' }}</td>
               <td class="p-3">{{ company.is_default ? 'Yes' : 'No' }}</td>
               <td class="p-3">
                 <Link
