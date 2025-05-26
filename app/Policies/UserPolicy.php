@@ -38,7 +38,7 @@ class UserPolicy
      */
     public function update(User $user, User $target): bool
     {
-        return $user->id === $target->id;
+        return $user->id === $target->id || $user->isAdmin() || $user->isSuperAdmin();
     }
 
     /**
