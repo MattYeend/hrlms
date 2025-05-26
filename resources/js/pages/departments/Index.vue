@@ -3,7 +3,7 @@ import { Head, Link } from '@inertiajs/vue3'
 import AppLayout from '@/layouts/AppLayout.vue'
 import { type BreadcrumbItem } from '@/types'
 
-const props = defineProps<{
+defineProps<{
   departments: Array<{
     id: number
     name: string
