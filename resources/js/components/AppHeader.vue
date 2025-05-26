@@ -47,6 +47,11 @@ const mainNavItems = computed<NavItem[]>(() => {
       href: '/dashboard',
       icon: LayoutGrid,
     },
+    {
+      title: 'Users',
+      href: '/users',
+      icon: LayoutGrid,
+    },
   ];
   if (isAtleastAdmin.value) {
     items.push({

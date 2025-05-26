@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreUserRequest;
 use App\Http\Requests\UpdateUserRequest;
+use App\Models\Role;
+use App\Models\Department;
 use App\Models\User;
 use Inertia\Inertia;
 
@@ -22,7 +24,9 @@ class UserController extends Controller
         $this->authorize('viewAny', User::class);
 
         return Inertia::render('users/Index', [
-            'user' => User::get(),
+            'users' => User::with(['role:id,name', 'department:id,name'])->get(),
+            'roles' => Role::select('id', 'name')->get(),
+            'departments' => Department::select('id', 'name')->get(),
         ]);
     }
 
@@ -33,7 +37,10 @@ class UserController extends Controller
     {
         $this->authorize('create', User::class);
 
-        return Inertia::render('users/Create');
+        return Inertia::render('users/Create', [
+            'roles' => Role::select('id', 'name')->get(),
+            'departments' => Department::select('id', 'name')->get(),
+        ]);
     }
 
     /**
@@ -59,8 +66,12 @@ class UserController extends Controller
     {
         $this->authorize('view', $user);
 
+        $user->load(['role:id,name', 'department:id,name']);
+        
         return Inertia::render('users/Show', [
             'user' => $user,
+            'roles' => Role::select('id', 'name')->get(),
+            'departments' => Department::select('id', 'name')->get(),
         ]);
     }
 
@@ -70,8 +81,11 @@ class UserController extends Controller
     public function edit(User $user)
     {
         $this->authorize('update', $user);
+
         return Inertia::render('users/Edit', [
             'user' => $user,
+            'roles' => Role::select('id', 'name')->get(),
+            'departments' => Department::select('id', 'name')->get(),
         ]);
     }
 

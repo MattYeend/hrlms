@@ -1,0 +1,43 @@
+<script setup lang="ts">
+import { Head, Link } from '@inertiajs/vue3'
+import AppLayout from '@/layouts/AppLayout.vue'
+import { type BreadcrumbItem } from '@/types'
+
+defineProps<{
+  user: {
+    id: number
+    name: string
+    email: string
+    role: { name: string } | null
+    department: { name: string } | null
+  }
+}>()
+
+const breadcrumbs: BreadcrumbItem[] = [
+  { title: 'Dashboard', href: route('dashboard') },
+  { title: 'Users', href: route('users.index') },
+  { title: 'Details', href: '#' },
+]
+</script>
+
+<template>
+  <AppLayout title="User Details" :breadcrumbs="breadcrumbs">
+    <Head title="User Details" />
+
+    <div class="px-4 sm:px-6 lg:px-8 py-4 sm:py-6 lg:py-8 space-y-6">
+      <h1 class="text-3xl font-bold text-gray-900 dark:text-white">User Details</h1>
+
+      <div class="bg-white dark:bg-gray-800 rounded-xl shadow p-6 space-y-2">
+        <p><strong>Name:</strong> {{ user.name }}</p>
+        <p><strong>Email:</strong> {{ user.email }}</p>
+        <p><strong>Role:</strong> {{ user.role?.name ?? '—' }}</p>
+        <p><strong>Department:</strong> {{ user.department?.name ?? '—' }}</p>
+      </div>
+
+      <div class="flex space-x-4">
+        <Link :href="route('users.edit', user.id)" class="btn btn-primary">Edit</Link>
+        <Link :href="route('users.index')" class="btn btn-secondary">Back</Link>
+      </div>
+    </div>
+  </AppLayout>
+</template>
