@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class UpdateUserRequest extends FormRequest
 {
@@ -11,7 +12,7 @@ class UpdateUserRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -21,8 +22,26 @@ class UpdateUserRequest extends FormRequest
      */
     public function rules(): array
     {
-        return [
-            //
-        ];
+        $userId = $this->route('user')?->id ?? $this->user()->id;
+        $uniqueEmailRule = Rule::unique('users', 'email')->ignore($userId);
+
+        return array_merge([
+            'title' => ['nullable', 'string', 'max:10'],
+            'name' => ['sometimes', 'required', 'string', 'max:255'],
+            'email' => ['sometimes', 'required', 'email', $uniqueEmailRule],
+            'password' => ['nullable', 'string', 'min:8', 'confirmed'],
+            'first_line' => ['sometimes', 'required', 'string', 'max:255'],
+            'second_line' => ['nullable', 'string', 'max:255'],
+            'post_code' => ['sometimes', 'required', 'string', 'max:20'],
+        ], [
+            'town' => ['nullable', 'string', 'max:255'],
+            'city' => ['nullable', 'string', 'max:255'],
+            'county' => ['nullable', 'string', 'max:255'],
+            'country' => ['nullable', 'string', 'max:255'],
+            'full_time' => ['sometimes', 'required', 'boolean'],
+            'part_time' => ['sometimes', 'required', 'boolean'],
+            'role_id' => ['nullable', 'exists:roles,id'],
+            'department_id' => ['nullable', 'exists:departments,id'],
+        ]);
     }
 }
