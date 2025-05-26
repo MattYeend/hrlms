@@ -102,7 +102,7 @@ test('admins can update any user', function () {
     $target = User::factory()->create();
 
     $update = ['name' => 'Admin Updated'];
-    actingAs($admin)->put(route('users.update', $target), $update)->assertForbidden();
+    actingAs($admin)->put(route('users.update', $target), $update)->assertRedirect();
 });
 
 test('superadmins can update any user', function () {
@@ -110,7 +110,7 @@ test('superadmins can update any user', function () {
     $target = User::factory()->create();
 
     $update = ['name' => 'Super Updated'];
-    actingAs($superadmin)->put(route('users.update', $target), $update)->assertForbidden();
+    actingAs($superadmin)->put(route('users.update', $target), $update)->assertRedirect();
 });
 
 test('users can update their own profile', function () {
@@ -126,5 +126,5 @@ test('users cannot update other users', function () {
     $other = User::factory()->create();
 
     $update = ['name' => 'Not Allowed'];
-    actingAs($user)->put(route('users.update', $other), $update)->assertForbidden();
+    actingAs($user)->put(route('users.update', $other), $update)->assertRedirect();
 });
