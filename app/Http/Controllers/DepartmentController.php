@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreDepartmentRequest;
 use App\Http\Requests\UpdateDepartmentRequest;
 use App\Models\Department;
+use App\Models\User;
 use Illuminate\Support\Str;
 use Inertia\Inertia;
 
@@ -23,7 +24,7 @@ class DepartmentController extends Controller
         $this->authorize('viewAny', Department::class);
 
         return Inertia::render('departments/Index', [
-            'departments' => Department::get(),
+            'departments' => Department::with('deptLead')->get(),
             'authUser' => auth()->user()->load('role')->only('id', 'role'),
         ]);
     }
@@ -35,7 +36,9 @@ class DepartmentController extends Controller
     {
         $this->authorize('create', Department::class);
 
-        return Inertia::render('departments/Create');
+        return Inertia::render('departments/Create', [
+            'users' => User::select('id', 'name')->get(),
+        ]);
     }
 
     /**
@@ -63,7 +66,7 @@ class DepartmentController extends Controller
         $this->authorize('view', $department);
 
         return Inertia::render('departments/Show', [
-            'department' => $department,
+            'department' => $department->load('deptLead'),
         ]);
     }
 
@@ -74,7 +77,8 @@ class DepartmentController extends Controller
     {
         $this->authorize('update', $department);
         return Inertia::render('departments/Edit', [
-            'department' => $department,
+            'department' => $department->load('deptLead'),
+            'users' => User::select('id', 'name')->get(),
         ]);
     }
 

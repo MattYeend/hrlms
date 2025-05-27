@@ -9,6 +9,7 @@ defineProps<{
     name: string
     slug: string
     is_default: boolean
+    dept_lead?: { id: number, name: string }
   }>
   authUser: {
     id: number
@@ -44,6 +45,7 @@ const breadcrumbs: BreadcrumbItem[] = [
               <th class="text-left p-3">Name</th>
               <th class="text-left p-3">Slug</th>
               <th class="text-left p-3">Default</th>
+              <th class="text-left p-3">Lead</th>
               <th class="text-left p-3">Actions</th>
             </tr>
           </thead>
@@ -56,6 +58,7 @@ const breadcrumbs: BreadcrumbItem[] = [
               <td class="p-3">{{ department.name }}</td>
               <td class="p-3">{{ department.slug }}</td>
               <td class="p-3">{{ department.is_default ? 'Yes' : 'No' }}</td>
+              <td class="p-3">{{ department.dept_lead?.name || '—' }}</td>
               <td class="p-3">
                 <Link :href="route('departments.show', department.id)" class="text-blue-600 dark:text-blue-400 hover:underline">
                   View

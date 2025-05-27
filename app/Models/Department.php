@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use App\Models\User;
 
 class Department extends Model
 {
@@ -29,4 +30,9 @@ class Department extends Model
         'deleted_at',
         'dept_lead',
     ];
+
+    public function deptLead()
+    {
+        return $this->belongsTo(User::class, 'dept_lead');
+    }
 }

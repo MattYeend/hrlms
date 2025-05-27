@@ -6,6 +6,7 @@ import { type BreadcrumbItem } from '@/types'
 
 defineProps<{
   department: Record<string, any>
+  users: Array<{ id: number, name: string }>
 }>()
 
 const breadcrumbs: BreadcrumbItem[] = [
@@ -21,7 +22,7 @@ const breadcrumbs: BreadcrumbItem[] = [
 
     <div class="px-4 sm:px-6 lg:px-8 py-4 sm:py-6 lg:py-8">
       <h1 class="text-3xl font-bold text-gray-900 dark:text-white mb-6">Edit Department</h1>
-      <DepartmentForm :is-edit="true" :department="department" />
+      <DepartmentForm :is-edit="true" :department="department" :users="users" />
     </div>
   </AppLayout>
 </template>

@@ -21,6 +21,25 @@
             rows="3"
           ></textarea>
         </div>
+
+        <div>
+          <label for="dept_lead" class="block font-medium text-sm text-gray-700 dark:text-gray-300">Department Lead</label>
+          <select
+            id="dept_lead"
+            v-model="form.dept_lead"
+            required
+            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm"
+          >
+            <option disabled value="">Select a user</option>
+            <option
+              v-for="user in users"
+              :key="user.id"
+              :value="user.id"
+            >
+              {{ user.name }}
+            </option>
+          </select>
+        </div>
   
         <div>
           <label class="inline-flex items-center mt-6">
@@ -58,6 +77,10 @@
       type: Boolean,
       default: false,
     },
+    users: {
+      type: Array,
+      default: () => []
+    },
   })
   
   // Coerce checkbox values to booleans explicitly
@@ -65,6 +88,7 @@
     name: props.department.name || '',
     description: props.department.description || '',
     is_default: Boolean(props.department.is_default),
+    dept_lead: props.department.dept_lead || '',
   })
   
   const submit = () => {
