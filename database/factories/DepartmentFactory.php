@@ -26,6 +26,7 @@ class DepartmentFactory extends Factory
             'is_default' => false,
             'created_at' => now(),
             'updated_at' => now(),
+            'dept_lead' => 1, 
         ];
     }
 }
