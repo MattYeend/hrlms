@@ -34,6 +34,9 @@ class UpdateDepartmentRequest extends FormRequest
             ],
             'description' => ['nullable', 'string'],
             'is_default' => ['boolean'],
+            'dept_lead' => [
+                'exists:users,id',
+            ],
         ];
     }
 }

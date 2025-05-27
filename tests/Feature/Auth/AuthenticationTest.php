@@ -15,17 +15,20 @@ test('login screen can be rendered', function () {
 
 test('users can authenticate using the login screen', function () {
     $role = Role::factory()->create();
-    
-    $department = Department::factory()->create();
-    
     $admin = User::factory()->create();
 
     $user = User::factory()->create([
         'role_id' => $role->id,
-        'department_id' => $department->id,
+        'department_id' => null,
         'created_by' => $admin->id,
         'updated_by' => $admin->id,
     ]);
+
+    $department = Department::factory()->create([
+        'dept_lead' => $user->id
+    ]);
+
+    $user->update(['department_id' => $department->id]);
 
     $response = $this->post('/login', [
         'email' => $user->email,
@@ -39,9 +42,20 @@ test('users can authenticate using the login screen', function () {
 test('users can not authenticate with invalid password', function () {
     $role = Role::factory()->create();
     
-    $department = Department::factory()->create();
-    
     $admin = User::factory()->create();
+
+    $user = User::factory()->create([
+        'role_id' => $role->id,
+        'department_id' => null,
+        'created_by' => $admin->id,
+        'updated_by' => $admin->id,
+    ]);
+
+    $department = Department::factory()->create([
+        'dept_lead' => $user->id
+    ]);
+
+    $user->update(['department_id' => $department->id]);
 
     $user = User::factory()->create([
         'role_id' => $role->id,
@@ -61,9 +75,20 @@ test('users can not authenticate with invalid password', function () {
 test('users can logout', function () {
     $role = Role::factory()->create();
     
-    $department = Department::factory()->create();
-    
     $admin = User::factory()->create();
+
+    $user = User::factory()->create([
+        'role_id' => $role->id,
+        'department_id' => null,
+        'created_by' => $admin->id,
+        'updated_by' => $admin->id,
+    ]);
+
+    $department = Department::factory()->create([
+        'dept_lead' => $user->id
+    ]);
+
+    $user->update(['department_id' => $department->id]);
 
     $user = User::factory()->create([
         'role_id' => $role->id,

@@ -40,7 +40,7 @@ class UserFactory extends Factory
             'full_time' => fake()->boolean(70),
             'part_time' => fake()->boolean(30),
             'role_id' => 1,
-            'department_id' => 1,
+            'department_id' => null,
             'created_by' => 1,
             'updated_by' => 1,
         ];
