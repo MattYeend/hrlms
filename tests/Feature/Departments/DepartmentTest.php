@@ -9,18 +9,22 @@ use Illuminate\Support\Facades\Auth;
 
 uses(RefreshDatabase::class);
 
-// Helper
 function userWithRole(string $roleSlug): User {
     $role = Role::factory()->create(['slug' => $roleSlug]);
-    $department = Department::factory()->create();
+    $admin = User::factory()->create();
 
-    $user = User::factory()->create([
+    $user = User::factory()->unverified()->create([
         'role_id' => $role->id,
-        'department_id' => $department->id,
+        'department_id' => null,
+        'created_by' => $admin->id,
+        'updated_by' => $admin->id,
     ]);
 
-    $user->created_by = $user->id;
-    $user->updated_by = $user->id;
+    $department = Department::factory()->create([
+        'dept_lead' => $user->id
+    ]);
+
+    $user->update(['department_id' => $department->id]);
     $user->save();
 
     return $user;
@@ -28,7 +32,19 @@ function userWithRole(string $roleSlug): User {
 
 // Guest access
 test('guests cannot access any department routes', function () {
-    $department = Department::factory()->create();
+    $role = Role::factory()->create();
+    $user = User::factory()->unverified()->create([
+        'role_id' => $role->id,
+        'department_id' => null,
+        'created_by' => 1,
+        'updated_by' => 1
+    ]);
+
+    $department = Department::factory()->create([
+        'dept_lead' => $user->id
+    ]);
+
+    $user->update(['department_id' => $department->id]);
 
     $routes = [
         'get' => [
@@ -69,7 +85,6 @@ test('guests cannot access any department routes', function () {
 // Viewing
 test('authenticated users can view departments index', function () {
     $user = userWithRole('user');
-    $this->actingAs($user)->get(route('departments.index'))->assertOk();
     $this->actingAs($user)->get(route('departments.index'))->assertOk();
 });
 

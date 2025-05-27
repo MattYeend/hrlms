@@ -11,14 +11,20 @@ uses(\Illuminate\Foundation\Testing\RefreshDatabase::class);
 
 test('email verification screen can be rendered', function () {
     $role = Role::factory()->create();
-    $department = Department::factory()->create();
+    $admin = User::factory()->create();
 
     $user = User::factory()->unverified()->create([
         'role_id' => $role->id,
-        'department_id' => $department->id,
-        'created_by' => 1,
-        'updated_by' => 1,
+        'department_id' => null,
+        'created_by' => $admin->id,
+        'updated_by' => $admin->id,
     ]);
+
+    $department = Department::factory()->create([
+        'dept_lead' => $user->id
+    ]);
+
+    $user->update(['department_id' => $department->id]);
 
     $response = $this->actingAs($user)->get('/verify-email');
 
@@ -27,7 +33,19 @@ test('email verification screen can be rendered', function () {
 
 test('email can be verified', function () {
     $role = Role::factory()->create();
-    $department = Department::factory()->create();
+    $admin = User::factory()->create();
+    $user = User::factory()->create([
+        'role_id' => $role->id,
+        'department_id' => null,
+        'created_by' => $admin->id,
+        'updated_by' => $admin->id,
+    ]);
+
+    $department = Department::factory()->create([
+        'dept_lead' => $user->id
+    ]);
+
+    $user->update(['department_id' => $department->id]);
 
     $user = User::factory()->unverified()->create([
         'role_id' => $role->id,
@@ -53,14 +71,20 @@ test('email can be verified', function () {
 
 test('email is not verified with invalid hash', function () {
     $role = Role::factory()->create();
-    $department = Department::factory()->create();
+    $admin = User::factory()->create();
 
     $user = User::factory()->unverified()->create([
         'role_id' => $role->id,
-        'department_id' => $department->id,
-        'created_by' => 1,
-        'updated_by' => 1,
+        'department_id' => null,
+        'created_by' => $admin->id,
+        'updated_by' => $admin->id,
     ]);
+
+    $department = Department::factory()->create([
+        'dept_lead' => $user->id
+    ]);
+
+    $user->update(['department_id' => $department->id]);
 
     $verificationUrl = URL::temporarySignedRoute(
         'verification.verify',

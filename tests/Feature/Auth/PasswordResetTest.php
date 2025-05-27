@@ -20,16 +20,20 @@ test('reset password link can be requested', function () {
 
     $role = Role::factory()->create();
     
-    $department = Department::factory()->create();
-    
     $admin = User::factory()->create();
 
-    $user = User::factory()->create([
+    $user = User::factory()->unverified()->create([
         'role_id' => $role->id,
-        'department_id' => $department->id,
+        'department_id' => null,
         'created_by' => $admin->id,
         'updated_by' => $admin->id,
     ]);
+
+    $department = Department::factory()->create([
+        'dept_lead' => $user->id
+    ]);
+
+    $user->update(['department_id' => $department->id]);
 
     $this->post('/forgot-password', ['email' => $user->email]);
 
@@ -41,16 +45,20 @@ test('reset password screen can be rendered', function () {
 
     $role = Role::factory()->create();
     
-    $department = Department::factory()->create();
-    
     $admin = User::factory()->create();
 
-    $user = User::factory()->create([
+    $user = User::factory()->unverified()->create([
         'role_id' => $role->id,
-        'department_id' => $department->id,
+        'department_id' => null,
         'created_by' => $admin->id,
         'updated_by' => $admin->id,
     ]);
+
+    $department = Department::factory()->create([
+        'dept_lead' => $user->id
+    ]);
+
+    $user->update(['department_id' => $department->id]);
 
     $this->post('/forgot-password', ['email' => $user->email]);
 
@@ -68,16 +76,20 @@ test('password can be reset with valid token', function () {
 
     $role = Role::factory()->create();
     
-    $department = Department::factory()->create();
-    
     $admin = User::factory()->create();
 
-    $user = User::factory()->create([
+    $user = User::factory()->unverified()->create([
         'role_id' => $role->id,
-        'department_id' => $department->id,
+        'department_id' => null,
         'created_by' => $admin->id,
         'updated_by' => $admin->id,
     ]);
+
+    $department = Department::factory()->create([
+        'dept_lead' => $user->id
+    ]);
+
+    $user->update(['department_id' => $department->id]);
 
     $this->post('/forgot-password', ['email' => $user->email]);
 

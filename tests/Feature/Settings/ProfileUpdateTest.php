@@ -11,16 +11,20 @@ uses(RefreshDatabase::class);
 test('profile page is displayed', function () {
     $role = Role::factory()->create();
     
-    $department = Department::factory()->create();
-    
     $admin = User::factory()->create();
 
-    $user = User::factory()->create([
+    $user = User::factory()->unverified()->create([
         'role_id' => $role->id,
-        'department_id' => $department->id,
+        'department_id' => null,
         'created_by' => $admin->id,
         'updated_by' => $admin->id,
     ]);
+
+    $department = Department::factory()->create([
+        'dept_lead' => $user->id
+    ]);
+
+    $user->update(['department_id' => $department->id]);
 
     $response = $this
         ->actingAs($user)
@@ -32,19 +36,20 @@ test('profile page is displayed', function () {
 test('profile information can be updated', function () {
     $role = Role::factory()->create();
     
-    $department = Department::factory()->create();
-    
     $admin = User::factory()->create();
 
-    $user = User::factory()->create([
+    $user = User::factory()->unverified()->create([
         'role_id' => $role->id,
-        'department_id' => $department->id,
+        'department_id' => null,
         'created_by' => $admin->id,
         'updated_by' => $admin->id,
-        'email_verified_at' => now(),
-        'first_line' => '123 Main St',
-        'post_code' => '12345',
     ]);
+
+    $department = Department::factory()->create([
+        'dept_lead' => $user->id
+    ]);
+
+    $user->update(['department_id' => $department->id]);
 
     $response = $this
         ->actingAs($user)
@@ -69,19 +74,22 @@ test('profile information can be updated', function () {
 test('email verification status is unchanged when email is unchanged', function () {
     $role = Role::factory()->create();
     
-    $department = Department::factory()->create();
-    
     $admin = User::factory()->create();
 
+    // Create a verified user
     $user = User::factory()->create([
         'role_id' => $role->id,
-        'department_id' => $department->id,
+        'department_id' => null,
         'created_by' => $admin->id,
         'updated_by' => $admin->id,
-        'email_verified_at' => now(),
-        'first_line' => '123 Main St',
-        'post_code' => '12345',
+        'email_verified_at' => now(), // ✅ mark as verified
     ]);
+
+    $department = Department::factory()->create([
+        'dept_lead' => $user->id
+    ]);
+
+    $user->update(['department_id' => $department->id]);
 
     $response = $this
         ->actingAs($user)
@@ -102,17 +110,20 @@ test('email verification status is unchanged when email is unchanged', function 
 test('user can delete their account', function () {
     $role = Role::factory()->create();
     
-    $department = Department::factory()->create();
-    
     $admin = User::factory()->create();
 
-    $user = User::factory()->create([
+    $user = User::factory()->unverified()->create([
         'role_id' => $role->id,
-        'department_id' => $department->id,
+        'department_id' => null,
         'created_by' => $admin->id,
         'updated_by' => $admin->id,
-        'password' => bcrypt('password'),
     ]);
+
+    $department = Department::factory()->create([
+        'dept_lead' => $user->id
+    ]);
+
+    $user->update(['department_id' => $department->id]);
 
     $response = $this
         ->actingAs($user)
@@ -133,17 +144,20 @@ test('user can delete their account', function () {
 test('correct password must be provided to delete account', function () {
     $role = Role::factory()->create();
     
-    $department = Department::factory()->create();
-    
     $admin = User::factory()->create();
 
-    $user = User::factory()->create([
+    $user = User::factory()->unverified()->create([
         'role_id' => $role->id,
-        'department_id' => $department->id,
+        'department_id' => null,
         'created_by' => $admin->id,
         'updated_by' => $admin->id,
-        'password' => bcrypt('password'),
     ]);
+
+    $department = Department::factory()->create([
+        'dept_lead' => $user->id
+    ]);
+
+    $user->update(['department_id' => $department->id]);
 
     $response = $this
         ->actingAs($user)

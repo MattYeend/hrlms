@@ -15,16 +15,21 @@ test('guests cannot view roles index or show pages', function () {
 });
 
 test('unauthorized users cannot view roles', function () {
-    $role = Role::factory()->create(); // create a non-admin role
-    $department = Department::factory()->create();
-    $creator = User::factory()->create();
+    $role = Role::factory()->create();
+    $admin = User::factory()->create();
 
-    $user = User::factory()->create([
+    $user = User::factory()->unverified()->create([
         'role_id' => $role->id,
-        'department_id' => $department->id,
-        'created_by' => $creator->id,
-        'updated_by' => $creator->id,
+        'department_id' => null,
+        'created_by' => $admin->id,
+        'updated_by' => $admin->id,
     ]);
+
+    $department = Department::factory()->create([
+        'dept_lead' => $user->id
+    ]);
+
+    $user->update(['department_id' => $department->id]);
 
     $this->actingAs($user);
 
@@ -36,15 +41,20 @@ test('unauthorized users cannot view roles', function () {
 
 test('admin or super-admin users can view all roles', function () {
     $adminRole = Role::factory()->create(['slug' => 'admin']);
-    $department = Department::factory()->create();
-    $creator = User::factory()->create();
+    $admin = User::factory()->create();
 
-    $admin = User::factory()->create([
+    $user = User::factory()->unverified()->create([
         'role_id' => $adminRole->id,
-        'department_id' => $department->id,
-        'created_by' => $creator->id,
-        'updated_by' => $creator->id,
+        'department_id' => null,
+        'created_by' => $admin->id,
+        'updated_by' => $admin->id,
     ]);
+
+    $department = Department::factory()->create([
+        'dept_lead' => $user->id
+    ]);
+
+    $user->update(['department_id' => $department->id]);
 
     $this->actingAs($admin);
 
@@ -59,15 +69,20 @@ test('admin or super-admin users can view all roles', function () {
 
 test('admin or super-admin users can view a specific role', function () {
     $superAdminRole = Role::factory()->create(['slug' => 'super-admin']);
-    $department = Department::factory()->create();
     $creator = User::factory()->create();
 
-    $superAdmin = User::factory()->create([
+    $superAdmin = User::factory()->unverified()->create([
         'role_id' => $superAdminRole->id,
-        'department_id' => $department->id,
+        'department_id' => null,
         'created_by' => $creator->id,
         'updated_by' => $creator->id,
     ]);
+
+    $department = Department::factory()->create([
+        'dept_lead' => $superAdmin->id
+    ]);
+
+    $superAdmin->update(['department_id' => $department->id]);
 
     $this->actingAs($superAdmin);
 

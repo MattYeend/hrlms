@@ -2,11 +2,12 @@
 
 use App\Models\User;
 use App\Models\Role;
+use App\Models\Department;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 
-uses(RefreshDatabase::class)->in(__DIR__);
+uses(\Illuminate\Foundation\Testing\RefreshDatabase::class);
 
 use function Pest\Laravel\actingAs;
 
@@ -16,20 +17,22 @@ function userWithRoleForUsers(string $roleName): User {
         ['slug' => Str::slug($roleName)]
     );
 
-    $department = \App\Models\Department::factory()->create();
     $creator = User::factory()->create();
 
-    return User::factory()->create([
+    $user = User::factory()->unverified()->create([
         'role_id' => $role->id,
-        'department_id' => $department->id,
+        'department_id' => null,
         'created_by' => $creator->id,
         'updated_by' => $creator->id,
-        'password' => Hash::make('password'),
-        'first_line' => '123 Main St',
-        'post_code' => 'AB12 3CD',
-        'full_time' => true,
-        'part_time' => false,
     ]);
+
+    $department = Department::factory()->create([
+        'dept_lead' => $user->id
+    ]);
+
+    $user->update(['department_id' => $department->id]);
+
+    return $user->fresh();
 }
 
 // Guest access

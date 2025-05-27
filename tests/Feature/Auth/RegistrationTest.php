@@ -14,8 +14,20 @@ test('registration screen can be rendered', function () {
 
 test('new users can register', function () {
     $role = Role::factory()->create();
-    $department = Department::factory()->create();
     $admin = User::factory()->create();
+
+    $user = User::factory()->unverified()->create([
+        'role_id' => $role->id,
+        'department_id' => null,
+        'created_by' => $admin->id,
+        'updated_by' => $admin->id,
+    ]);
+
+    $department = Department::factory()->create([
+        'dept_lead' => $user->id
+    ]);
+
+    $user->update(['department_id' => $department->id]);
 
     $response = $this->post('/register', [
         'name' => 'Test User',
