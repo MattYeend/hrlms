@@ -23,6 +23,7 @@ class DepartmentSeeder extends Seeder
                 'is_default' => true,
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now(),
+                'dept_lead' => 1,
             ],
             [
                 'name' => 'IT Department',
@@ -31,6 +32,7 @@ class DepartmentSeeder extends Seeder
                 'is_default' => false,
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now(),
+                'dept_lead' => 1,
             ],
             [
                 'name' => 'Finance',
@@ -39,6 +41,7 @@ class DepartmentSeeder extends Seeder
                 'is_default' => false,
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now(),
+                'dept_lead' => 1,
             ],
             [
                 'name' => 'Marketing',
@@ -47,6 +50,7 @@ class DepartmentSeeder extends Seeder
                 'is_default' => false,
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now(),
+                'dept_lead' => 1,
             ],
             [
                 'name' => 'Sales',
@@ -55,6 +59,7 @@ class DepartmentSeeder extends Seeder
                 'is_default' => false,
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now(),
+                'dept_lead' => 1,
             ],
             [
                 'name' => 'Customer Support',
@@ -63,6 +68,7 @@ class DepartmentSeeder extends Seeder
                 'is_default' => false,
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now(),
+                'dept_lead' => 1,
             ],
         ]);
     }
