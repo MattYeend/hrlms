@@ -35,6 +35,7 @@ class User extends Authenticatable
         'part_time',
         'role_id',
         'department_id',
+        'archived',
         'created_by',
         'updated_by',
         'deleted_by',

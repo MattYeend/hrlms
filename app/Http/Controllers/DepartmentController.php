@@ -24,7 +24,10 @@ class DepartmentController extends Controller
         $this->authorize('viewAny', Department::class);
 
         return Inertia::render('departments/Index', [
-            'departments' => Department::with('deptLead')->get(),
+            'departments' => Department::withTrashed()
+                ->with('deptLead')
+                ->withCount('users')
+                ->get(),
             'authUser' => auth()->user()->load('role')->only('id', 'role'),
         ]);
     }
@@ -107,7 +110,7 @@ class DepartmentController extends Controller
     {
         $this->authorize('delete', $department);
 
-        $department->update(['deleted_by' => auth()->id()]);
+        $department->update(['deleted_by' => auth()->id(), 'archived' => true]);
         $department->delete();
 
         return redirect()->route('departments.index')
@@ -119,6 +122,7 @@ class DepartmentController extends Controller
         $department = Department::withTrashed()->findOrFail($id);
         $this->authorize('restore', $department);
 
+        $department->update(['deleted_by' => null, 'archived' => false]);
         $department->restore();
 
         return redirect()->route(

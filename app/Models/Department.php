@@ -29,10 +29,16 @@ class Department extends Model
         'updated_at',
         'deleted_at',
         'dept_lead',
+        'archived',
     ];
 
     public function deptLead()
     {
         return $this->belongsTo(User::class, 'dept_lead');
+    }
+
+    public function users()
+    {
+        return $this->hasMany(User::class);
     }
 }

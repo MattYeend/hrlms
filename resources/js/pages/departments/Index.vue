@@ -10,6 +10,8 @@ defineProps<{
     slug: string
     is_default: boolean
     dept_lead?: { id: number, name: string }
+    archived: boolean
+    users_count: number
   }>
   authUser: {
     id: number
@@ -68,6 +70,22 @@ const breadcrumbs: BreadcrumbItem[] = [
                     Edit
                   </Link>
                 </span>
+                <span
+                v-if="
+                  ['Admin', 'Super Admin'].includes(authUser.role.name) &&
+                  department.users_count === 0
+                "
+              >
+                |
+                <Link
+                  :href="route(department.archived ? 'departments.restore' : 'departments.destroy', department.id)"
+                  :method="department.archived ? 'post' : 'delete'"
+                  as="button"
+                  class="text-red-600 dark:text-red-400 hover:underline"
+                >
+                  {{ department.archived ? 'Restore' : 'Archive' }}
+                </Link>
+              </span>
               </td>
             </tr>
           </tbody>

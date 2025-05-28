@@ -24,7 +24,7 @@ class UserController extends Controller
         $this->authorize('viewAny', User::class);
 
         return Inertia::render('users/Index', [
-            'users' => User::with([
+            'users' => User::withTrashed()->with([
                 'role:id,name',
                 'department:id,name',
             ])->get(),
@@ -121,7 +121,7 @@ class UserController extends Controller
     {
         $this->authorize('delete', $user);
 
-        $user->update(['deleted_by' => auth()->id()]);
+        $user->update(['deleted_by' => auth()->id(), 'archived' => true]);
         $user->delete();
 
         return redirect()->route('users.index')
@@ -133,6 +133,7 @@ class UserController extends Controller
         $user = User::withTrashed()->findOrFail($id);
         $this->authorize('restore', $user);
 
+        $user->update(['deleted_by' => null, 'archived' => false]);
         $user->restore();
 
         return redirect()->route(

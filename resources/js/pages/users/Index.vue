@@ -10,6 +10,7 @@ defineProps<{
     email: string
     role: { name: string }
     department: { name: string }
+    archived: boolean
   }>
   authUser: {
     id: number
@@ -63,6 +64,19 @@ const breadcrumbs: BreadcrumbItem[] = [
                   <Link :href="route('users.show', user.id)" class="text-blue-600 dark:text-blue-400 hover:underline">View</Link>
                   <span v-if="authUser.id === user.id || ['Admin', 'Super Admin'].includes(authUser.role.name)">
                     | <Link :href="route('users.edit', user.id)" class="text-blue-600 dark:text-blue-400 hover:underline">Edit</Link>
+                  </span>
+                  <span
+                    v-if="['Admin', 'Super Admin'].includes(authUser.role.name) && authUser.id !== user.id"
+                  >
+                    |
+                    <Link
+                      :href="route(user.archived ? 'users.restore' : 'users.destroy', user.id)"
+                      :method="user.archived ? 'post' : 'delete'"
+                      as="button"
+                      class="text-red-600 dark:text-red-400 hover:underline"
+                    >
+                      {{ user.archived ? 'Restore' : 'Archive' }}
+                    </Link>
                   </span>
                 </td>
               </tr>
