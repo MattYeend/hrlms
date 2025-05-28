@@ -7,6 +7,7 @@ use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\DB;
 
 class UserSeeder extends Seeder
 {
@@ -34,7 +35,7 @@ class UserSeeder extends Seeder
                 'full_time' => true,
                 'part_time' => false,
                 'role_id' => 1,
-                'department_id' => 1,
+                // 'department_id' => 1,
                 'created_by' => 1,
                 'updated_by' => 1,
                 'created_at' => $now,
@@ -43,21 +44,21 @@ class UserSeeder extends Seeder
         ];
 
         $extraUsers = [
-            ['Miss', 'Emma', 'Wilson', 'emma.wilson@example.com', 2, 2],
-            ['Mr', 'Liam', 'Johnson', 'liam.johnson@example.com', 3, 3],
-            ['Mrs', 'Sophia', 'Turner', 'sophia.turner@example.com', 3, 4],
-            ['Ms', 'Olivia', 'Green', 'olivia.green@example.com', 3, 5],
-            ['Mr', 'Noah', 'Walker', 'noah.walker@example.com', 3, 6],
-            ['Mrs', 'Ava', 'Martin', 'ava.martin@example.com', 3, 7],
-            ['Mr', 'William', 'King', 'william.king@example.com', 3, 2],
-            ['Miss', 'Isabella', 'Scott', 'isabella.scott@example.com', 2, 3],
-            ['Mr', 'James', 'White', 'james.white@example.com', 3, 4],
-            ['Miss', 'Mia', 'Baker', 'mia.baker@example.com', 3, 5],
-            ['Mr', 'Lucas', 'Reed', 'lucas.reed@example.com', 2, 6],
-            ['Mrs', 'Amelia', 'Wright', 'amelia.wright@example.com', 3, 7],
+            ['Miss', 'Emma', 'Wilson', 'emma.wilson@example.com', 2],
+            ['Mr', 'Liam', 'Johnson', 'liam.johnson@example.com', 3],
+            ['Mrs', 'Sophia', 'Turner', 'sophia.turner@example.com', 3],
+            ['Ms', 'Olivia', 'Green', 'olivia.green@example.com', 3],
+            ['Mr', 'Noah', 'Walker', 'noah.walker@example.com', 3],
+            ['Mrs', 'Ava', 'Martin', 'ava.martin@example.com', 3],
+            ['Mr', 'William', 'King', 'william.king@example.com', 3],
+            ['Miss', 'Isabella', 'Scott', 'isabella.scott@example.com', 2],
+            ['Mr', 'James', 'White', 'james.white@example.com', 3],
+            ['Miss', 'Mia', 'Baker', 'mia.baker@example.com', 3],
+            ['Mr', 'Lucas', 'Reed', 'lucas.reed@example.com', 2],
+            ['Mrs', 'Amelia', 'Wright', 'amelia.wright@example.com', 3],
         ];
 
-        foreach ($extraUsers as $index => [$title, $first, $last, $email, $roleId, $deptId]) {
+        foreach ($extraUsers as $index => [$title, $first, $last, $email, $roleId]) {
             $users[] = [
                 'title' => "$title",
                 'name' => "$first $last",
@@ -74,7 +75,7 @@ class UserSeeder extends Seeder
                 'full_time' => true,
                 'part_time' => false,
                 'role_id' => $roleId,
-                'department_id' => $deptId,
+                // 'department_id' => $deptId,
                 'created_by' => 1,
                 'updated_by' => 1,
                 'created_at' => $now,
@@ -83,5 +84,32 @@ class UserSeeder extends Seeder
         }
 
         User::insert($users);
+
+        $updates = [
+            'superadmin@example.com' => 1,
+            'emma.wilson@example.com' => 2,
+            'liam.johnson@example.com' => 3,
+            'sophia.turner@example.com' => 4,
+            'olivia.green@example.com' => 5,
+            'noah.walker@example.com' => 6,
+            'ava.martin@example.com' => 7,
+            'william.king@example.com' => 2, 
+            'isabella.scott@example.com' => 3,
+            'james.white@example.com' => 4,
+            'mia.baker@example.com' => 5,
+            'lucas.reed@example.com' => 6,
+            'amelia.wright@example.com' => 7,
+        ];
+        foreach ($updates as $email => $deptId) {
+            User::where('email', $email)->update(['department_id' => $deptId]);
+        }
+
+        DB::table('departments')->where('id', 1)->update(['dept_lead' => 1]);
+        DB::table('departments')->where('id', 2)->update(['dept_lead' => 1]);
+        DB::table('departments')->where('id', 3)->update(['dept_lead' => 1]);
+        DB::table('departments')->where('id', 4)->update(['dept_lead' => 1]);
+        DB::table('departments')->where('id', 5)->update(['dept_lead' => 1]);
+        DB::table('departments')->where('id', 6)->update(['dept_lead' => 1]);
+        DB::table('departments')->where('id', 7)->update(['dept_lead' => 1]);
     }
 }

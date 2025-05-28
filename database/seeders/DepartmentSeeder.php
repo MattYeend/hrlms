@@ -23,7 +23,7 @@ class DepartmentSeeder extends Seeder
                 'is_default' => true,
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now(),
-                'dept_lead' => 1,
+                'dept_lead' => null,
             ],
             [
                 'name' => 'Human Resources',
@@ -32,7 +32,7 @@ class DepartmentSeeder extends Seeder
                 'is_default' => false,
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now(),
-                'dept_lead' => 1,
+                'dept_lead' => null,
             ],
             [
                 'name' => 'IT Department',
@@ -41,7 +41,7 @@ class DepartmentSeeder extends Seeder
                 'is_default' => false,
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now(),
-                'dept_lead' => 1,
+                'dept_lead' => null,
             ],
             [
                 'name' => 'Finance',
@@ -50,7 +50,7 @@ class DepartmentSeeder extends Seeder
                 'is_default' => false,
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now(),
-                'dept_lead' => 1,
+                'dept_lead' => null,
             ],
             [
                 'name' => 'Marketing',
@@ -59,7 +59,7 @@ class DepartmentSeeder extends Seeder
                 'is_default' => false,
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now(),
-                'dept_lead' => 1,
+                'dept_lead' => null,
             ],
             [
                 'name' => 'Sales',
@@ -68,7 +68,7 @@ class DepartmentSeeder extends Seeder
                 'is_default' => false,
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now(),
-                'dept_lead' => 1,
+                'dept_lead' => null,
             ],
             [
                 'name' => 'Customer Support',
@@ -77,7 +77,7 @@ class DepartmentSeeder extends Seeder
                 'is_default' => false,
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now(),
-                'dept_lead' => 1,
+                'dept_lead' => null,
             ],
         ]);
     }
