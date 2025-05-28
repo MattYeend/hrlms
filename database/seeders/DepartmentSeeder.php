@@ -17,10 +17,19 @@ class DepartmentSeeder extends Seeder
     {
         DB::table('departments')->insert([
             [
+                'name' => 'All Departments',
+                'slug' => Str::slug('All Departments'),
+                'description' => 'This is a placeholder for all departments.',
+                'is_default' => true,
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
+                'dept_lead' => 1,
+            ],
+            [
                 'name' => 'Human Resources',
                 'slug' => Str::slug('Human Resources'),
                 'description' => 'Handles employee relations and hiring.',
-                'is_default' => true,
+                'is_default' => false,
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now(),
                 'dept_lead' => 1,
