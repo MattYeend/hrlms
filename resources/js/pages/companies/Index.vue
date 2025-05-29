@@ -40,7 +40,6 @@ const breadcrumbs: BreadcrumbItem[] = [
             <tr>
               <th class="text-left p-3">Name</th>
               <th class="text-left p-3">Email</th>
-              <th class="text-left p-3">Default</th>
               <th class="text-left p-3">Actions</th>
             </tr>
           </thead>
@@ -52,7 +51,6 @@ const breadcrumbs: BreadcrumbItem[] = [
             >
               <td class="p-3">{{ company.name }}</td>
               <td class="p-3">{{ company.email ?? '-' }}</td>
-              <td class="p-3">{{ company.is_default ? 'Yes' : 'No' }}</td>
               <td class="p-3">
                 <Link
                   :href="route('companies.show', company.id)"

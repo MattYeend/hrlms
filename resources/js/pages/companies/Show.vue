@@ -17,7 +17,6 @@ const props = defineProps<{
     postcode: string
     phone: string | null
     email: string | null
-    is_default: boolean
   }
 }>()
 
@@ -57,7 +56,6 @@ const breadcrumbs: BreadcrumbItem[] = [
         </p>
         <p><strong>Email:</strong> {{ props.company.email ?? '-' }}</p>
         <p><strong>Phone:</strong> {{ props.company.phone ?? '-' }}</p>
-        <p><strong>Default:</strong> {{ props.company.is_default ? 'Yes' : 'No' }}</p>
       </div>
     </div>
   </AppLayout>
