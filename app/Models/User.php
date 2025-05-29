@@ -24,7 +24,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
-        'slugs',
+        'slug',
         'first_line',
         'second_line',
         'town',

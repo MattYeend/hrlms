@@ -20,6 +20,7 @@ function userWithRoleForUsers(string $roleName): User {
     $creator = User::factory()->create();
 
     $user = User::factory()->unverified()->create([
+        'slug' => Str::slug('Test User'),
         'role_id' => $role->id,
         'department_id' => null,
         'created_by' => $creator->id,
@@ -49,6 +50,7 @@ test('admins can create users', function () {
     $userData = User::factory()->make()->only(['name', 'email']) + [
         'password' => 'secret123',
         'password_confirmation' => 'secret123',
+        'slug' => Str::slug('Test User'),
         'first_line' => '123 Main St',
         'post_code' => 'AB12 3CD',
         'full_time' => true,
@@ -63,6 +65,7 @@ test('superadmins can create users', function () {
     $userData = User::factory()->make()->only(['name', 'email']) + [
         'password' => 'secret123',
         'password_confirmation' => 'secret123',
+        'slug' => Str::slug('Test User'),
         'first_line' => '123 Main St',
         'post_code' => 'AB12 3CD',
         'full_time' => true,
@@ -77,6 +80,7 @@ test('normal users cannot create users', function () {
     $userData = User::factory()->make()->only(['name', 'email']) + [
         'password' => 'secret123',
         'password_confirmation' => 'secret123',
+        'slug' => Str::slug('Test User'),
         'first_line' => '123 Main St',
         'post_code' => 'AB12 3CD',
         'full_time' => true,

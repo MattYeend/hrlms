@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rule;
 use Illuminate\Validation\Rules;
+use Illuminate\Support\Str;
 use Inertia\Inertia;
 use Inertia\Response;
 
@@ -46,10 +47,18 @@ class RegisteredUserController extends Controller
             'title' => 'nullable|string|max:20',
             'name' => 'required|string|max:255',
             'email' => [
-                'required', 'string', 'lowercase', 'email', 'max:255',
+                'required',
+                'string',
+                'email',
+                'max:255',
                 Rule::unique('users', 'email'),
             ],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
+            'slug' => [
+                'required',
+                'string', 'max:255',
+                Rule::unique('users', 'slug'),
+            ],
             'first_line' => 'required|string|max:255',
             'second_line' => 'nullable|string|max:255',
             'town' => 'nullable|string|max:255',
@@ -66,11 +75,21 @@ class RegisteredUserController extends Controller
 
     private function createUser(array $data): User
     {
+        $slug = $data['slug'] ?? null;
+
+        if (empty($slug)) {
+            $slug = isset($data['name']) ? Str::slug($data['name']) : null;
+        }
+    
+        if (empty($slug)) {
+            $slug = uniqid('user-', true);
+        }
         return User::create([
             'title' => $data['title'] ?? null,
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
+            'slug' => $slug,
             'first_line' => $data['first_line'],
             'second_line' => $data['second_line'] ?? null,
             'town' => $data['town'] ?? null,
@@ -82,8 +101,8 @@ class RegisteredUserController extends Controller
             'part_time' => $data['part_time'] ?? false,
             'role_id' => $data['role_id'] ?? null,
             'department_id' => $data['department_id'] ?? null,
-            'created_by' => auth()->id(),
-            'updated_by' => auth()->id(),
+            'created_by' => auth()->id() ?? null,
+            'updated_by' => auth()->id() ?? null,
         ]);
     }
 }

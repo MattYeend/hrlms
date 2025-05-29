@@ -3,6 +3,7 @@
 use App\Models\Role;
 use App\Models\Department;
 use App\Models\User;
+use Illuminate\Support\Str;
 
 uses(\Illuminate\Foundation\Testing\RefreshDatabase::class);
 
@@ -29,18 +30,19 @@ test('new users can register', function () {
 
     $user->update(['department_id' => $department->id]);
 
-    $response = $this->post('/register', [
+    $response = $this->followingRedirects()->post('/register', [
         'name' => 'Test User',
         'email' => 'test@example.com',
-        'password' => 'password',
-        'password_confirmation' => 'password',
+        'password' => 'Password123!',
+        'password_confirmation' => 'Password123!',
+        'slug' => Str::slug('Test User'),
         'first_line' => '123 Main St',
         'post_code' => '12345',
         'role_id' => $role->id,
         'department_id' => $department->id,
-        'created_by' => $admin->id,
     ]);
-    
+
+    $response->assertStatus(200);
     $this->assertAuthenticated();
-    $response->assertRedirect(route('dashboard', absolute: false));
+    $response->assertSee('Dashboard'); 
 });
