@@ -169,10 +169,11 @@ test('admins can restore a deleted department', function () {
     $department->delete();
 
     $this->actingAs($admin)
-        ->post(route('departments.restore', $department->id))
+        ->post(route('departments.restore', $department->slug))
         ->assertRedirect();
 
-    expect(Department::find($department->id))->not()->toBeNull();
+    $restored = Department::where('slug', $department->slug)->first();
+    expect($restored)->not()->toBeNull();
 });
 
 test('non-admins cannot restore a department', function () {
@@ -181,6 +182,6 @@ test('non-admins cannot restore a department', function () {
     $department->delete();
 
     $this->actingAs($user)
-        ->post(route('departments.restore', $department->id))
+        ->post(route('departments.restore', $department->slug))
         ->assertForbidden();
 });

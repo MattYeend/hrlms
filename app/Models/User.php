@@ -80,6 +80,11 @@ class User extends Authenticatable
         return $this->belongsTo(Department::class, 'department_id');
     }
 
+    public function getRouteKeyName()
+    {
+        return 'slug';
+    }
+
     /**
      * Get the attributes that should be cast.
      *

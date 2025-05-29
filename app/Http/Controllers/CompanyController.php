@@ -109,9 +109,9 @@ class CompanyController extends Controller
         )->with('success', 'Company deleted.');
     }
 
-    public function restore($id)
+    public function restore(Company $company)
     {
-        $company = Company::withTrashed()->findOrFail($id);
+        $company = Company::withTrashed()->findOrFail($company);
         $this->authorize('restore', $company);
 
         $company->restore();

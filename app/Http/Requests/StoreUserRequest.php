@@ -27,7 +27,7 @@ class StoreUserRequest extends FormRequest
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'email', 'unique:users,email'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
-            'slug' => ['required', 'string', 'max:255', 'unique:users,slug'],
+            'slug' => ['nullable', 'string', 'max:255', 'unique:users,slug'],
             'first_line' => ['required', 'string', 'max:255'],
             'second_line' => ['nullable', 'string', 'max:255'],
             'town' => ['nullable', 'string', 'max:255'],

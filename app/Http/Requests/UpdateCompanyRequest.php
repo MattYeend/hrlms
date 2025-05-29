@@ -38,6 +38,7 @@ class UpdateCompanyRequest extends FormRequest
             'phone' => ['nullable', 'string'],
             'email' => ['nullable', 'email'],
             'is_default' => ['boolean'],
+            'slug' => ['nullable|unique:companies,slug'],
         ];
     }
 }

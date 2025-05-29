@@ -59,11 +59,11 @@ const breadcrumbs: BreadcrumbItem[] = [
               <td class="p-3">{{ department.slug }}</td>
               <td class="p-3">{{ department.dept_lead?.name || '—' }}</td>
               <td class="p-3">
-                <Link :href="route('departments.show', department.id)" class="text-blue-600 dark:text-blue-400 hover:underline">
+                <Link :href="route('departments.show', department.slug)" class="text-blue-600 dark:text-blue-400 hover:underline">
                   View
                 </Link>
                 <span v-if="['Admin', 'Super Admin'].includes(authUser.role.name)">
-                  | <Link :href="route('departments.edit', department.id)" class="text-blue-600 dark:text-blue-400 hover:underline">
+                  | <Link :href="route('departments.edit', department.slug)" class="text-blue-600 dark:text-blue-400 hover:underline">
                     Edit
                   </Link>
                 </span>
@@ -75,7 +75,7 @@ const breadcrumbs: BreadcrumbItem[] = [
               >
                 |
                 <Link
-                  :href="route(department.archived ? 'departments.restore' : 'departments.destroy', department.id)"
+                  :href="route(department.archived ? 'departments.restore' : 'departments.destroy', department.slug)"
                   :method="department.archived ? 'post' : 'delete'"
                   as="button"
                   class="text-red-600 dark:text-red-400 hover:underline"

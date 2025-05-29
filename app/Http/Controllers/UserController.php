@@ -128,9 +128,9 @@ class UserController extends Controller
             ->with('success', 'User deleted successfully.');
     }
 
-    public function restore($id)
+    public function restore(User $user)
     {
-        $user = User::withTrashed()->findOrFail($id);
+        $user = User::withTrashed()->findOrFail($user);
         $this->authorize('restore', $user);
 
         $user->update(['deleted_by' => null, 'archived' => false]);

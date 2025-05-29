@@ -1,3 +1,42 @@
+<script setup lang="ts">
+  import { useForm } from '@inertiajs/vue3'
+  
+  const props = defineProps({
+    department: {
+      type: Object,
+      default: () => ({
+        name: '',
+        description: '',
+        is_default: false,
+      }),
+    },
+    isEdit: {
+      type: Boolean,
+      default: false,
+    },
+    users: {
+      type: Array,
+      default: () => []
+    },
+  })
+  
+  // Coerce checkbox values to booleans explicitly
+  const form = useForm({
+    name: props.department.name || '',
+    description: props.department.description || '',
+    is_default: Boolean(props.department.is_default),
+    dept_lead: props.department.dept_lead || '',
+  })
+  
+  const submit = () => {
+    if (props.isEdit) {
+      form.put(route('departments.update', props.department.slug))
+    } else {
+      form.post(route('departments.store'))
+    }
+  }
+</script>
+
 <template>
     <form @submit.prevent="submit">
       <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -42,49 +81,14 @@
         </div>
       </div>
   
-      <div class="mt-6">
-        <button type="submit" class="btn btn-primary">
-          {{ isEdit ? 'Update' : 'Create' }}
-        </button>
-      </div>
+      <div>
+      <button
+        type="submit"
+        class="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700"
+        :disabled="form.processing"
+      >
+        {{ isEdit ? 'Update Department' : 'Create Department' }}
+      </button>
+    </div>
     </form>
-  </template>
-  
-  <script setup lang="ts">
-  import { useForm } from '@inertiajs/vue3'
-  
-  const props = defineProps({
-    department: {
-      type: Object,
-      default: () => ({
-        name: '',
-        description: '',
-        is_default: false,
-      }),
-    },
-    isEdit: {
-      type: Boolean,
-      default: false,
-    },
-    users: {
-      type: Array,
-      default: () => []
-    },
-  })
-  
-  // Coerce checkbox values to booleans explicitly
-  const form = useForm({
-    name: props.department.name || '',
-    description: props.department.description || '',
-    is_default: Boolean(props.department.is_default),
-    dept_lead: props.department.dept_lead || '',
-  })
-  
-  const submit = () => {
-    if (props.isEdit) {
-      form.put(route('departments.update', props.department.id))
-    } else {
-      form.post(route('departments.store'))
-    }
-  }
-  </script>
+</template>

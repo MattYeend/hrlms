@@ -92,7 +92,7 @@
   
   const submit = () => {
     if (props.isEdit) {
-      form.put(route('companies.update', props.company.id))
+      form.put(route('companies.update', props.company.slug))
     } else {
       form.post(route('companies.store'))
     }

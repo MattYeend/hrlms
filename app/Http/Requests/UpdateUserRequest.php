@@ -30,7 +30,7 @@ class UpdateUserRequest extends FormRequest
             'name' => ['sometimes', 'required', 'string', 'max:255'],
             'email' => ['sometimes', 'required', 'email', $uniqueEmailRule],
             'password' => ['nullable', 'string', 'min:8', 'confirmed'],
-            'slug' => ['string', 'max:255', Rule::unique('users', 'slug')->ignore($userId)],
+            'slug' => ['nullable', 'string', 'max:255', Rule::unique('users', 'slug')->ignore($userId)],
             'first_line' => ['sometimes', 'required', 'string', 'max:255'],
             'second_line' => ['nullable', 'string', 'max:255'],
             'post_code' => ['sometimes', 'required', 'string', 'max:20'],

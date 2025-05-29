@@ -10,6 +10,7 @@ defineProps<{
     email: string
     role: { name: string } | null
     department: { name: string } | null
+    slug: string
   }
 }>()
 
@@ -35,7 +36,7 @@ const breadcrumbs: BreadcrumbItem[] = [
       </div>
 
       <div class="flex space-x-4">
-        <Link :href="route('users.edit', user.id)" class="btn btn-primary">Edit</Link>
+        <Link :href="route('users.edit', user.slug)" class="btn btn-primary">Edit</Link>
         <Link :href="route('users.index')" class="btn btn-secondary">Back</Link>
       </div>
     </div>

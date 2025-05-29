@@ -29,7 +29,7 @@ const breadcrumbs: BreadcrumbItem[] = [
       </div>
 
       <div class="flex space-x-4">
-        <Link :href="route('departments.edit', department.id)" class="btn btn-primary">Edit</Link>
+        <Link :href="route('departments.edit', department.slug)" class="btn btn-primary">Edit</Link>
         <Link :href="route('departments.index')" class="btn btn-secondary">Back</Link>
       </div>
     </div>

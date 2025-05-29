@@ -53,13 +53,13 @@ const breadcrumbs: BreadcrumbItem[] = [
               <td class="p-3">{{ company.email ?? '-' }}</td>
               <td class="p-3">
                 <Link
-                  :href="route('companies.show', company.id)"
+                  :href="route('companies.show', company.slug)"
                   class="text-blue-600 dark:text-blue-400 hover:underline"
                 >
                   View
                 </Link> |
                 <Link
-                  :href="route('companies.edit', company.id)"
+                  :href="route('companies.edit', company.slug)"
                   class="text-blue-600 dark:text-blue-400 hover:underline"
                 >
                   Edit
