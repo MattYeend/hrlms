@@ -9,9 +9,9 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
 use Illuminate\Validation\Rules;
-use Illuminate\Support\Str;
 use Inertia\Inertia;
 use Inertia\Response;
 
@@ -41,9 +41,9 @@ class RegisteredUserController extends Controller
         return to_route('dashboard');
     }
 
-    private function validateUser(Request $request): array
+    private function userBasicInfo(): array
     {
-        return $request->validate([
+        return [
             'title' => 'nullable|string|max:20',
             'name' => 'required|string|max:255',
             'email' => [
@@ -56,9 +56,16 @@ class RegisteredUserController extends Controller
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
             'slug' => [
                 'required',
-                'string', 'max:255',
+                'string',
+                'max:255',
                 Rule::unique('users', 'slug'),
             ],
+        ];
+    }
+
+    private function addressInfo(): array
+    {
+        return [
             'first_line' => 'required|string|max:255',
             'second_line' => 'nullable|string|max:255',
             'town' => 'nullable|string|max:255',
@@ -66,30 +73,60 @@ class RegisteredUserController extends Controller
             'county' => 'nullable|string|max:255',
             'country' => 'nullable|string|max:255',
             'post_code' => 'required|string|max:20',
+        ];
+    }
+
+    private function employmentInfo(): array
+    {
+        return [
             'full_time' => 'boolean',
             'part_time' => 'boolean',
             'role_id' => 'nullable|exists:roles,id',
             'department_id' => 'nullable|exists:departments,id',
-        ]);
+        ];
+    }
+
+    private function userValidationRules(): array
+    {
+        return array_merge(
+            $this->userBasicInfo(),
+            $this->addressInfo(),
+            $this->employmentInfo()
+        );
+    }
+
+    private function validateUser(Request $request): array
+    {
+        return $request->validate($this->userValidationRules());
     }
 
     private function createUser(array $data): User
     {
-        $slug = $data['slug'] ?? null;
+        $slug = $data['slug'] ?? ($data['name'] ?? null);
+        $slug = $slug ? Str::slug($slug) : uniqid('user-', true);
 
-        if (empty($slug)) {
-            $slug = isset($data['name']) ? Str::slug($data['name']) : null;
-        }
-    
-        if (empty($slug)) {
-            $slug = uniqid('user-', true);
-        }
-        return User::create([
+        return User::create(array_merge(
+            $this->extractBasicUserFields($data, $slug),
+            $this->extractAddressFields($data),
+            $this->extractEmploymentFields($data),
+            $this->extractAuditFields()
+        ));
+    }
+
+    private function extractBasicUserFields(array $data, string $slug): array
+    {
+        return [
             'title' => $data['title'] ?? null,
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
             'slug' => $slug,
+        ];
+    }
+
+    private function extractAddressFields(array $data): array
+    {
+        return [
             'first_line' => $data['first_line'],
             'second_line' => $data['second_line'] ?? null,
             'town' => $data['town'] ?? null,
@@ -97,12 +134,25 @@ class RegisteredUserController extends Controller
             'county' => $data['county'] ?? null,
             'country' => $data['country'] ?? null,
             'post_code' => $data['post_code'],
+        ];
+    }
+
+    private function extractEmploymentFields(array $data): array
+    {
+        return [
             'full_time' => $data['full_time'] ?? false,
             'part_time' => $data['part_time'] ?? false,
             'role_id' => $data['role_id'] ?? null,
             'department_id' => $data['department_id'] ?? null,
-            'created_by' => auth()->id() ?? null,
-            'updated_by' => auth()->id() ?? null,
-        ]);
+        ];
+    }
+
+    private function extractAuditFields(): array
+    {
+        $userId = auth()->id();
+        return [
+            'created_by' => $userId,
+            'updated_by' => $userId,
+        ];
     }
 }

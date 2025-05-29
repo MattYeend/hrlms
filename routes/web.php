@@ -36,10 +36,12 @@ Route::middleware(['auth', 'verified'])->group(function () {
     )->name('companies.restore');
 
     Route::resource('departments', DepartmentController::class);
-    Route::post('departments/{department}/restore', [DepartmentController::class, 'restore'])
-    ->name('departments.restore')
-    ->middleware('auth')
-    ->scopeBindings();
+    Route::post(
+        'departments/{department}/restore',
+        [DepartmentController::class, 'restore']
+    )->name('departments.restore')
+        ->middleware('auth')
+        ->scopeBindings();
 
     Route::resource('users', UserController::class);
     Route::post(

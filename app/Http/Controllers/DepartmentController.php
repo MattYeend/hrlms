@@ -119,7 +119,9 @@ class DepartmentController extends Controller
 
     public function restore($slug)
     {
-        $department = Department::withTrashed()->where('slug', $slug)->firstOrFail();
+        $department = Department::withTrashed()
+            ->where('slug', $slug)
+            ->firstOrFail();
 
         $this->authorize('restore', $department);
 
