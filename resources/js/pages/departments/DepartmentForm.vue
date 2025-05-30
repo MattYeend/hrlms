@@ -1,5 +1,5 @@
 <script setup lang="ts">
-  import { useForm } from '@inertiajs/vue3'
+  import { useForm, Link } from '@inertiajs/vue3'
   
   const props = defineProps({
     department: {
@@ -89,6 +89,7 @@
       >
         {{ isEdit ? 'Update Department' : 'Create Department' }}
       </button>
+      <Link :href="route('departments.index')" class="btn btn-secondary">Back</Link>
     </div>
     </form>
 </template>

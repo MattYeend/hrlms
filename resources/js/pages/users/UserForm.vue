@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { watchEffect } from 'vue'
-import { useForm } from '@inertiajs/vue3'
+import { useForm, Link } from '@inertiajs/vue3'
 
 const props = defineProps<{
   isEdit: boolean
@@ -179,6 +179,7 @@ const submit = () => {
       >
         {{ isEdit ? 'Update User' : 'Create User' }}
       </button>
+      <Link :href="route('departments.index')" class="btn btn-secondary">Back</Link>
     </div>
   </form>
 </template>

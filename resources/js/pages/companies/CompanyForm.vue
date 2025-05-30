@@ -1,3 +1,42 @@
+<script setup lang="ts">
+import { reactive } from 'vue'
+import { useForm } from '@inertiajs/vue3'
+
+const props = defineProps({
+  company: {
+    type: Object,
+    default: () => ({
+      name: '',
+      slug: '',
+      first_line: '',
+      second_line: '',
+      town: '',
+      city: '',
+      county: '',
+      country: '',
+      postcode: '',
+      phone: '',
+      email: '',
+      is_default: false,
+    }),
+  },
+  isEdit: {
+    type: Boolean,
+    default: false,
+  },
+})
+
+const form = useForm({ ...props.company })
+
+const submit = () => {
+  if (props.isEdit) {
+    form.put(route('companies.update', props.company.slug))
+  } else {
+    form.post(route('companies.store'))
+  }
+}
+</script>
+
 <template>
     <form @submit.prevent="submit">
       <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -59,42 +98,3 @@
       </div>
     </form>
   </template>
-  
-  <script setup lang="ts">
-  import { reactive } from 'vue'
-  import { useForm } from '@inertiajs/vue3'
-  
-  const props = defineProps({
-    company: {
-      type: Object,
-      default: () => ({
-        name: '',
-        slug: '',
-        first_line: '',
-        second_line: '',
-        town: '',
-        city: '',
-        county: '',
-        country: '',
-        postcode: '',
-        phone: '',
-        email: '',
-        is_default: false,
-      }),
-    },
-    isEdit: {
-      type: Boolean,
-      default: false,
-    },
-  })
-  
-  const form = useForm({ ...props.company })
-  
-  const submit = () => {
-    if (props.isEdit) {
-      form.put(route('companies.update', props.company.slug))
-    } else {
-      form.post(route('companies.store'))
-    }
-  }
-  </script>
