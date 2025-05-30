@@ -166,17 +166,22 @@ class DepartmentController extends Controller
         ]);
         $department->restore();
 
-        Log::log(Log::ACTION_REINSTATE_DEPARTMENT, [
+        $this->restoreLog($department);
+
+        return redirect()->route(
+            'departments.show',
+            $department
+        )->with('success', 'Department restored.');
+    }
+
+    private function restoreLog($department)
+    {
+        return Log::log(Log::ACTION_REINSTATE_DEPARTMENT, [
             'id' => $department->id,
             'name' => $department->name,
             'slug' => $department->slug,
             'restored_at' => $department->restored_at,
             'restored_by' => $department->restored_by,
         ], auth()->id());
-
-        return redirect()->route(
-            'departments.show',
-            $department
-        )->with('success', 'Department restored.');
     }
 }

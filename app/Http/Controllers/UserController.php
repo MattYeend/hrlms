@@ -179,7 +179,19 @@ class UserController extends Controller
         ]);
         $user->restore();
 
-        Log::log()(Log::ACTION_REINSTATE_USER, [
+        $this->restoreLog($user);
+
+        return redirect()->route(
+            'users.show',
+            $user
+        )->with('success', 'User restored.');
+    }
+
+    private function restoreLog(User $user): array
+    {
+        $user->load(['role:id,name', 'department:id,name']);
+
+        return Log::log(Log::ACTION_REINSTATE_USER, [
             'id' => $user->id,
             'name' => $user->name,
             'email' => $user->email,
@@ -188,10 +200,5 @@ class UserController extends Controller
             'restored_at' => $user->restored_at,
             'restored_by' => $user->restored_by,
         ], auth()->id(), $user->id);
-
-        return redirect()->route(
-            'users.show',
-            $user
-        )->with('success', 'User restored.');
     }
 }
