@@ -23,7 +23,11 @@ class CompanyController extends Controller
     {
         $this->authorize('viewAny', Company::class);
 
-        Log::log(Log::ACTION_VIEW_COMPANIES, ['Viewed all companies'], auth()->id());
+        Log::log(
+            Log::ACTION_VIEW_COMPANIES,
+            ['Viewed all companies'],
+            auth()->id()
+        );
 
         return Inertia::render('companies/Index', [
             'companies' => Company::all(),
@@ -149,7 +153,7 @@ class CompanyController extends Controller
         Log::log(Log::ACTION_REINSTATE_COMPANY, [
             'id' => $company->id,
             'name' => $company->name,
-            'slug' => $company->slug
+            'slug' => $company->slug,
         ], auth()->id());
 
         return redirect()->route(

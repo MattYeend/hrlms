@@ -5,8 +5,8 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreDepartmentRequest;
 use App\Http\Requests\UpdateDepartmentRequest;
 use App\Models\Department;
-use App\Models\User;
 use App\Models\Log;
+use App\Models\User;
 use Illuminate\Support\Str;
 use Inertia\Inertia;
 
@@ -24,7 +24,11 @@ class DepartmentController extends Controller
     {
         $this->authorize('viewAny', Department::class);
 
-        Log::log(Log::ACTION_VIEW_DEPARTMENTS, ['Viewed all departments'], auth()->id());
+        Log::log(
+            Log::ACTION_VIEW_DEPARTMENTS,
+            ['Viewed all departments'],
+            auth()->id()
+        );
 
         return Inertia::render('departments/Index', [
             'departments' => Department::withTrashed()

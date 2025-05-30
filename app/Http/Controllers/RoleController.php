@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Role;
 use App\Models\Log;
+use App\Models\Role;
 use Inertia\Inertia;
 
 class RoleController extends Controller

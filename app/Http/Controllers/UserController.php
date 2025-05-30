@@ -5,9 +5,9 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreUserRequest;
 use App\Http\Requests\UpdateUserRequest;
 use App\Models\Department;
+use App\Models\Log;
 use App\Models\Role;
 use App\Models\User;
-use App\Models\Log;
 use Inertia\Inertia;
 
 class UserController extends Controller
