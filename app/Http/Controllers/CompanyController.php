@@ -148,12 +148,21 @@ class CompanyController extends Controller
         $company = Company::withTrashed()->findOrFail($company);
         $this->authorize('restore', $company);
 
+        $company->update([
+            'deleted_by' => null,
+            'archived' => false,
+            'restored_at' => now(),
+            'restored_by' => auth()->id(),
+        ]);
+
         $company->restore();
 
         Log::log(Log::ACTION_REINSTATE_COMPANY, [
             'id' => $company->id,
             'name' => $company->name,
             'slug' => $company->slug,
+            'restored_by' => $company->restored_by,
+            'restored_at' => $company->restored_at,
         ], auth()->id());
 
         return redirect()->route(

@@ -171,7 +171,12 @@ class UserController extends Controller
         $user = User::withTrashed()->findOrFail($user);
         $this->authorize('restore', $user);
 
-        $user->update(['deleted_by' => null, 'archived' => false]);
+        $user->update([
+            'deleted_by' => null,
+            'archived' => false,
+            'restored_at' => now(),
+            'restored_by' => auth()->id(),
+        ]);
         $user->restore();
 
         Log::log()(Log::ACTION_REINSTATE_USER, [
@@ -180,6 +185,8 @@ class UserController extends Controller
             'email' => $user->email,
             'role_id' => $user->role_id,
             'department_id' => $user->department_id,
+            'restored_at' => $user->restored_at,
+            'restored_by' => $user->restored_by,
         ], auth()->id(), $user->id);
 
         return redirect()->route(

@@ -158,13 +158,20 @@ class DepartmentController extends Controller
 
         $this->authorize('restore', $department);
 
-        $department->update(['deleted_by' => null, 'archived' => false]);
+        $department->update([
+            'deleted_by' => null,
+            'archived' => false,
+            'restored_at' => now(),
+            'restored_by' => auth()->id(),
+        ]);
         $department->restore();
 
         Log::log(Log::ACTION_REINSTATE_DEPARTMENT, [
             'id' => $department->id,
             'name' => $department->name,
             'slug' => $department->slug,
+            'restored_at' => $department->restored_at,
+            'restored_by' => $department->restored_by,
         ], auth()->id());
 
         return redirect()->route(
