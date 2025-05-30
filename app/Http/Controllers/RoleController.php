@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Role;
+use App\Models\Log;
 use Inertia\Inertia;
 
 class RoleController extends Controller
@@ -29,6 +30,8 @@ class RoleController extends Controller
             ];
         });
 
+        Log::log(Log::ACTION_VIEW_ROLES, ['Viewed all roles'], auth()->id());
+
         return Inertia::render('roles/Index', [
             'roles' => $roles,
         ]);
@@ -40,6 +43,13 @@ class RoleController extends Controller
     public function show(Role $role)
     {
         $this->authorize('view', $role);
+
+        Log::log(Log::ACTION_SHOW_ROLE, [
+            'id' => $role->id,
+            'name' => $role->name,
+            'slug' => $role->slug,
+            'description' => $role->description,
+        ], auth()->id());
 
         return Inertia::render('roles/Show', [
             'role' => [
