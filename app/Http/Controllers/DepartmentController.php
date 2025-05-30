@@ -6,6 +6,7 @@ use App\Http\Requests\StoreDepartmentRequest;
 use App\Http\Requests\UpdateDepartmentRequest;
 use App\Models\Department;
 use App\Models\User;
+use App\Models\Log;
 use Illuminate\Support\Str;
 use Inertia\Inertia;
 
@@ -22,6 +23,8 @@ class DepartmentController extends Controller
     public function index()
     {
         $this->authorize('viewAny', Department::class);
+
+        Log::log(Log::ACTION_VIEW_DEPARTMENTS, ['Viewed all departments'], auth()->id());
 
         return Inertia::render('departments/Index', [
             'departments' => Department::withTrashed()
@@ -57,6 +60,12 @@ class DepartmentController extends Controller
 
         $department = Department::create($data);
 
+        Log::log(Log::ACTION_CREATE_DEPARTMENT, [
+            'id' => $department->id,
+            'name' => $department->name,
+            'slug' => $department->slug,
+            'created_by' => $department->created_by,
+        ], auth()->id());
         return redirect()->route('departments.show', $department)
             ->with('success', 'Department created successfully.');
     }
@@ -67,6 +76,12 @@ class DepartmentController extends Controller
     public function show(Department $department)
     {
         $this->authorize('view', $department);
+
+        Log::log(Log::ACTION_SHOW_DEPARTMENT, [
+            'id' => $department->id,
+            'name' => $department->name,
+            'slug' => $department->slug,
+        ], auth()->id());
 
         return Inertia::render('departments/Show', [
             'department' => $department->load('deptLead'),
@@ -99,6 +114,13 @@ class DepartmentController extends Controller
 
         $department->update($data);
 
+        Log::log(Log::ACTION_UPDATE_DEPARTMENT, [
+            'id' => $department->id,
+            'name' => $department->name,
+            'slug' => $department->slug,
+            'updated_by' => $department->updated_by,
+        ], auth()->id());
+
         return redirect()->route('departments.show', $department)
             ->with('success', 'Department updated successfully.');
     }
@@ -112,6 +134,13 @@ class DepartmentController extends Controller
 
         $department->update(['deleted_by' => auth()->id(), 'archived' => true]);
         $department->delete();
+
+        Log::log(Log::ACTION_DELETE_DEPARTMENT, [
+            'id' => $department->id,
+            'name' => $department->name,
+            'slug' => $department->slug,
+            'deleted_by' => $department->deleted_by,
+        ], auth()->id());
 
         return redirect()->route('departments.index')
             ->with('success', 'Department deleted successfully.');
@@ -127,6 +156,12 @@ class DepartmentController extends Controller
 
         $department->update(['deleted_by' => null, 'archived' => false]);
         $department->restore();
+
+        Log::log(Log::ACTION_REINSTATE_DEPARTMENT, [
+            'id' => $department->id,
+            'name' => $department->name,
+            'slug' => $department->slug,
+        ], auth()->id());
 
         return redirect()->route(
             'departments.show',
