@@ -1,11 +1,25 @@
 <?php
 
+use App\Models\Department;
+use App\Models\User;
 use App\Http\Controllers\CompanyController;
 use App\Http\Controllers\DepartmentController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
+
+Route::bind('user', function ($value) {
+    return User::withTrashed()
+        ->where('slug', $value)
+        ->firstOrFail();
+});
+
+Route::bind('department', function ($value) {
+    return Department::withTrashed()
+        ->where('slug', $value)
+        ->firstOrFail();
+});
 
 Route::get('/', function () {
     // return Inertia::render('Welcome');

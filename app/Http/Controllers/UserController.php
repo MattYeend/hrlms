@@ -168,7 +168,6 @@ class UserController extends Controller
 
     public function restore(User $user)
     {
-        $user = User::withTrashed()->findOrFail($user);
         $this->authorize('restore', $user);
 
         $user->update([
@@ -189,9 +188,7 @@ class UserController extends Controller
 
     private function restoreLog(User $user): array
     {
-        $user->load(['role:id,name', 'department:id,name']);
-
-        return Log::log(Log::ACTION_REINSTATE_USER, [
+        $log = Log::log(Log::ACTION_REINSTATE_USER, [
             'id' => $user->id,
             'name' => $user->name,
             'email' => $user->email,
@@ -200,5 +197,7 @@ class UserController extends Controller
             'restored_at' => $user->restored_at,
             'restored_by' => $user->restored_by,
         ], auth()->id(), $user->id);
+
+        return $log ?? [];
     }
 }

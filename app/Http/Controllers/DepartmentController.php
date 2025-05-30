@@ -150,12 +150,8 @@ class DepartmentController extends Controller
             ->with('success', 'Department deleted successfully.');
     }
 
-    public function restore($slug)
+    public function restore(Department $department)
     {
-        $department = Department::withTrashed()
-            ->where('slug', $slug)
-            ->firstOrFail();
-
         $this->authorize('restore', $department);
 
         $department->update([
