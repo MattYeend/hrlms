@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreCompanyRequest;
 use App\Http\Requests\UpdateCompanyRequest;
 use App\Models\Company;
+use App\Models\Log;
 use Illuminate\Support\Str;
 use Inertia\Inertia;
 
@@ -21,6 +22,8 @@ class CompanyController extends Controller
     public function index()
     {
         $this->authorize('viewAny', Company::class);
+
+        Log::log(Log::ACTION_VIEW_COMPANIES, ['Viewed all companies'], auth()->id());
 
         return Inertia::render('companies/Index', [
             'companies' => Company::all(),
@@ -50,6 +53,13 @@ class CompanyController extends Controller
 
         $company = Company::create($data);
 
+        Log::log(Log::ACTION_CREATE_COMPANY, [
+            'id' => $company->id,
+            'name' => $company->name,
+            'slug' => $company->slug,
+            'created_by' => $company->created_by,
+        ], auth()->id());
+
         return redirect()->route(
             'companies.show',
             $company
@@ -62,6 +72,12 @@ class CompanyController extends Controller
     public function show(Company $company)
     {
         $this->authorize('view', $company);
+
+        Log::log(Log::ACTION_SHOW_COMPANY, [
+            'id' => $company->id,
+            'name' => $company->name,
+            'slug' => $company->slug,
+        ], auth()->id());
 
         return Inertia::render('companies/Show', ['company' => $company]);
     }
@@ -88,6 +104,13 @@ class CompanyController extends Controller
 
         $company->update($data);
 
+        Log::log(Log::ACTION_UPDATE_COMPANY, [
+            'id' => $company->id,
+            'name' => $company->name,
+            'slug' => $company->slug,
+            'updated_by' => $company->updated_by,
+        ], auth()->id());
+
         return redirect()->route(
             'companies.show',
             $company
@@ -104,6 +127,13 @@ class CompanyController extends Controller
         $company->update(['deleted_by' => auth()->id()]);
         $company->delete();
 
+        Log::log(Log::ACTION_DELETE_COMPANY, [
+            'id' => $company->id,
+            'name' => $company->name,
+            'slug' => $company->slug,
+            'deleted_by' => $company->deleted_by,
+        ], auth()->id());
+
         return redirect()->route(
             'companies.index'
         )->with('success', 'Company deleted.');
@@ -115,6 +145,12 @@ class CompanyController extends Controller
         $this->authorize('restore', $company);
 
         $company->restore();
+
+        Log::log(Log::ACTION_REINSTATE_COMPANY, [
+            'id' => $company->id,
+            'name' => $company->name,
+            'slug' => $company->slug
+        ], auth()->id());
 
         return redirect()->route(
             'companies.show',

@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Password;
 use Inertia\Inertia;
 use Inertia\Response;
+use App\Models\Log;
 
 class PasswordResetLinkController extends Controller
 {
@@ -35,6 +36,11 @@ class PasswordResetLinkController extends Controller
         Password::sendResetLink(
             $request->only('email')
         );
+
+        Log::log(Log::ACTION_RESET_PASSWORD, [
+            'ip' => $request->ip(),
+            'user_agent' => $request->userAgent(),
+        ], $request->user()?->id ?? null);
 
         return back()->with(
             'status',

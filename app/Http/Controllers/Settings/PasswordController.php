@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules\Password;
 use Inertia\Inertia;
 use Inertia\Response;
+use App\Models\Log;
 
 class PasswordController extends Controller
 {
@@ -33,6 +34,11 @@ class PasswordController extends Controller
         $request->user()->update([
             'password' => Hash::make($validated['password']),
         ]);
+
+        Log::log(Log::ACTION_PASSWORD_CHANGED, [
+            'ip' => $request->ip(),
+            'user_agent' => $request->userAgent(),
+        ], $request->user()->id);
 
         return back();
     }

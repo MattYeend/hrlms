@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use Inertia\Response;
+use App\Models\Log;
 
 class AuthenticatedSessionController extends Controller
 {
@@ -32,6 +33,10 @@ class AuthenticatedSessionController extends Controller
         $request->authenticate();
 
         $request->session()->regenerate();
+        Log::log(Log::ACTION_AUTHENTICATE_SESSION_CREATE, [
+            'ip' => $request->ip(),
+            'user_agent' => $request->userAgent(),
+        ], $request->user()->id);
 
         return redirect()->intended(route('dashboard', absolute: false));
     }
@@ -45,6 +50,11 @@ class AuthenticatedSessionController extends Controller
 
         $request->session()->invalidate();
         $request->session()->regenerateToken();
+
+        Log::log(Log::ACTION_AUTHENTICATE_SESSION_DESTROY, [
+            'ip' => $request->ip(),
+            'user_agent' => $request->userAgent(),
+        ]);
 
         return redirect('/');
     }

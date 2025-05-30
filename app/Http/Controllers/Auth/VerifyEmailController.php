@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Auth\Events\Verified;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use Illuminate\Http\RedirectResponse;
+use App\Models\Log;
 
 class VerifyEmailController extends Controller
 {
@@ -29,6 +30,11 @@ class VerifyEmailController extends Controller
             $user = $request->user();
             event(new Verified($user));
         }
+
+        Log::log(Log::ACTION_EMAIL_VERIFICATION, [
+            'ip' => $request->ip(),
+            'user_agent' => $request->userAgent(),
+        ], $request->user()->id);
 
         return redirect()->intended(
             route('dashboard', absolute: false).'?verified=1'

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use App\Models\Log;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -37,6 +38,11 @@ class RegisteredUserController extends Controller
 
         event(new Registered($user));
         Auth::login($user);
+
+        Log::log(Log::ACTION_REGISTER_USER, [
+            'ip' => $request->ip(),
+            'user_agent' => $request->userAgent(),
+        ], $user->id);
 
         return to_route('dashboard');
     }

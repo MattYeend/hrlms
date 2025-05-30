@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\ValidationException;
 use Inertia\Inertia;
 use Inertia\Response;
+use App\Models\Log;
 
 class ConfirmablePasswordController extends Controller
 {
@@ -35,6 +36,11 @@ class ConfirmablePasswordController extends Controller
         }
 
         $request->session()->put('auth.password_confirmed_at', time());
+
+        Log::log(Log::ACTION_CONFIRM_PASSWORD, [
+            'ip' => $request->ip(),
+            'user_agent' => $request->userAgent(),
+        ], $request->user()->id);
 
         return redirect()->intended(route('dashboard', absolute: false));
     }

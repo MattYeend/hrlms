@@ -13,6 +13,7 @@ use Illuminate\Validation\Rules;
 use Illuminate\Validation\ValidationException;
 use Inertia\Inertia;
 use Inertia\Response;
+use App\Models\Log;
 
 class NewPasswordController extends Controller
 {
@@ -45,6 +46,11 @@ class NewPasswordController extends Controller
             ),
             fn ($user) => $this->resetPassword($user, $request->password)
         );
+
+        Log::log(Log::ACTION_NEW_PASSWORD, [
+            'ip' => $request->ip(),
+            'user_agent' => $request->userAgent(),
+        ], $request->user()?->id ?? null);
 
         if ($status === Password::PASSWORD_RESET) {
             return to_route('login')->with('status', __($status));

@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 use Inertia\Response;
+use App\Models\Log;
 
 class ProfileController extends Controller
 {
@@ -37,6 +38,11 @@ class ProfileController extends Controller
 
         $request->user()->save();
 
+        Log::log(Log::ACTION_PROFILE_UPDATED, [
+            'ip' => $request->ip(),
+            'user_agent' => $request->userAgent(),
+        ], $request->user()->id);
+
         return to_route('profile.edit');
     }
 
@@ -57,6 +63,11 @@ class ProfileController extends Controller
 
         $request->session()->invalidate();
         $request->session()->regenerateToken();
+
+        Log::log(Log::ACTION_PROFILE_DELETED, [
+            'ip' => $request->ip(),
+            'user_agent' => $request->userAgent(),
+        ], $user->id);
 
         return redirect('/');
     }
