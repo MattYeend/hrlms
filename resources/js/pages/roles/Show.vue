@@ -7,7 +7,6 @@ const props = defineProps<{
   role: {
     id: number
     name: string
-    slug: string
     description: string
     is_default: boolean
   }
@@ -30,7 +29,6 @@ const breadcrumbs: BreadcrumbItem[] = [
       <div class="bg-white dark:bg-gray-800 rounded-xl shadow p-6 space-y-2">
         <p><strong>Name:</strong> {{ props.role.name }}</p>
         <p><strong>Description:</strong> {{ props.role.description }}</p>
-        <p><strong>Slug:</strong> {{ props.role.slug }}</p>
         <p><strong>Default:</strong> {{ props.role.is_default ? 'Yes' : 'No' }}</p>
       </div>
 

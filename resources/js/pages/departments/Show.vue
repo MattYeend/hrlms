@@ -23,7 +23,6 @@ const breadcrumbs: BreadcrumbItem[] = [
 
       <div class="bg-white dark:bg-gray-800 rounded-xl shadow p-6 space-y-2">
         <p><strong>Name:</strong> {{ department.name }}</p>
-        <p><strong>Slug:</strong> {{ department.slug }}</p>
         <p><strong>Description:</strong> {{ department.description }}</p>
         <p><strong>Lead:</strong> {{ department.dept_lead?.name || '—' }}</p>
       </div>

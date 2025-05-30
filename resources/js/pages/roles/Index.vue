@@ -33,7 +33,6 @@ const breadcrumbs: BreadcrumbItem[] = [
             <thead class="bg-gray-100 dark:bg-gray-700">
               <tr>
                 <th class="text-left p-3">Name</th>
-                <th class="text-left p-3">Slug</th>
                 <th class="text-left p-3">Default</th>
                 <th class="text-left p-3">Actions</th>
               </tr>
@@ -45,7 +44,6 @@ const breadcrumbs: BreadcrumbItem[] = [
                 class="hover:bg-gray-50 dark:hover:bg-gray-700 transition"
               >
                 <td class="p-3">{{ role.name }}</td>
-                <td class="p-3">{{ role.slug }}</td>
                 <td class="p-3">{{ role.is_default ? 'Yes' : 'No' }}</td>
                 <td class="p-3 space-x-2">
                   <Link :href="route('roles.show', role.slug)" class="text-blue-600 dark:text-blue-400 hover:underline">View</Link>

@@ -44,7 +44,6 @@ const breadcrumbs: BreadcrumbItem[] = [
           <thead class="bg-gray-100 dark:bg-gray-700">
             <tr>
               <th class="text-left p-3">Name</th>
-              <th class="text-left p-3">Slug</th>
               <th class="text-left p-3">Lead</th>
               <th class="text-left p-3">Actions</th>
             </tr>
@@ -56,7 +55,6 @@ const breadcrumbs: BreadcrumbItem[] = [
               class="hover:bg-gray-50 dark:hover:bg-gray-700 transition"
             >
               <td class="p-3">{{ department.name }}</td>
-              <td class="p-3">{{ department.slug }}</td>
               <td class="p-3">{{ department.dept_lead?.name || '—' }}</td>
               <td class="p-3">
                 <Link :href="route('departments.show', department.slug)" class="text-blue-600 dark:text-blue-400 hover:underline">
