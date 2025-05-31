@@ -4,6 +4,7 @@ use App\Http\Controllers\CompanyController;
 use App\Http\Controllers\DepartmentController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UserController;
+use App\Models\Company;
 use App\Models\Department;
 use App\Models\User;
 use Illuminate\Support\Facades\Route;
@@ -11,6 +12,12 @@ use Inertia\Inertia;
 
 Route::bind('user', function ($value) {
     return User::withTrashed()
+        ->where('slug', $value)
+        ->firstOrFail();
+});
+
+Route::bind('company', function ($value) {
+    return Company::withTrashed()
         ->where('slug', $value)
         ->firstOrFail();
 });

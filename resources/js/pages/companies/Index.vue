@@ -3,14 +3,19 @@ import { Head, Link } from '@inertiajs/vue3'
 import AppLayout from '@/layouts/AppLayout.vue'
 import { type BreadcrumbItem } from '@/types'
 
-const props = defineProps<{
-    companies: {
+defineProps<{
+  companies: Array<{
         id: number
         name: string
         slug: string
         email: string | null
         is_default: boolean
-    }[]
+        archived: boolean
+  }>
+    authUser: {
+        id: number
+        role: { name: string }
+    }
 }>()
 
 const breadcrumbs: BreadcrumbItem[] = [
@@ -45,7 +50,7 @@ const breadcrumbs: BreadcrumbItem[] = [
           </thead>
           <tbody>
             <tr
-              v-for="company in props.companies"
+              v-for="company in companies"
               :key="company.id"
               class="hover:bg-gray-50 dark:hover:bg-gray-700 transition"
             >
@@ -64,6 +69,21 @@ const breadcrumbs: BreadcrumbItem[] = [
                 >
                   Edit
                 </Link>
+                <span
+                v-if="
+                  ['Admin', 'Super Admin'].includes(authUser.role.name)
+                "
+              >
+                |
+                <Link
+                  :href="route(company.archived ? 'companies.restore' : 'companies.destroy', company.slug)"
+                  :method="company.archived ? 'post' : 'delete'"
+                  as="button"
+                  class="text-red-600 dark:text-red-400 hover:underline"
+                >
+                  {{ company.archived ? 'Restore' : 'Archive' }}
+                </Link>
+              </span>
               </td>
             </tr>
           </tbody>
