@@ -1,6 +1,11 @@
 <script setup lang="ts">
 import { watchEffect } from 'vue'
 import { useForm, Link } from '@inertiajs/vue3'
+import { Input } from '@/components/ui/input'
+import { Label } from '@/components/ui/label'
+import { Button } from '@/components/ui/button'
+import { Checkbox } from '@/components/ui/checkbox'
+import InputError from '@/components/InputError.vue'
 
 const props = defineProps<{
   isEdit: boolean
@@ -59,127 +64,136 @@ const submit = () => {
 </script>
 
 <template>
-  <form @submit.prevent="submit" class="space-y-6">
+  <form @submit.prevent="submit" class="space-y-6 max-w-2xl">
+    <div class="grid gap-4">
 
-    <!-- Title -->
-    <div>
-      <label for="title">Title</label>
-      <input v-model="form.title" id="title" type="text" class="input" />
-      <div v-if="form.errors.title" class="error">{{ form.errors.title }}</div>
-    </div>
+      <!-- Title -->
+      <div class="grid gap-2">
+        <Label for="title">Title</Label>
+        <select v-model="form.title" id="title" class="input">
+          <option value="">Select a title</option>
+          <option value="Mr">Mr</option>
+          <option value="Mrs">Mrs</option>
+          <option value="Miss">Miss</option>
+          <option value="Ms">Ms</option>
+          <option value="Dr">Dr</option>
+          <option value="Prof">Prof</option>
+        </select>
+        <InputError :message="form.errors.title" />
+      </div>
 
-    <!-- Name -->
-    <div>
-      <label for="name">Name</label>
-      <input v-model="form.name" id="name" type="text" class="input" />
-      <div v-if="form.errors.name" class="error">{{ form.errors.name }}</div>
-    </div>
+      <!-- Name -->
+      <div class="grid gap-2">
+        <Label for="name">Name</Label>
+        <Input id="name" v-model="form.name" type="text" required placeholder="Enter the persons name" />
+        <InputError :message="form.errors.name" />
+      </div>
 
-    <!-- Email -->
-    <div>
-      <label for="email">Email</label>
-      <input v-model="form.email" id="email" type="email" class="input" />
-      <div v-if="form.errors.email" class="error">{{ form.errors.email }}</div>
-    </div>
+      <!-- Email -->
+      <div class="grid gap-2">
+        <Label for="email">Email</Label>
+        <Input id="email" v-model="form.email" type="email" required placeholder="Enter a valid email address" />
+        <InputError :message="form.errors.email" />
+      </div>
 
-    <!-- Password (only if creating) -->
-    <div v-if="!isEdit">
-      <label for="password">Password</label>
-      <input v-model="form.password" id="password" type="password" class="input" />
-      <div v-if="form.errors.password" class="error">{{ form.errors.password }}</div>
-    </div>
+      <!-- Password -->
+      <div v-if="!isEdit" class="grid gap-2">
+        <Label for="password">Password</Label>
+        <Input id="password" v-model="form.password" type="password" required placeholder="Enter a secure and unique password" />
+        <InputError :message="form.errors.password" />
+      </div>
 
-    <div v-if="!isEdit">
-      <label for="password_confirmation">Confirm Password</label>
-      <input v-model="form.password_confirmation" id="password_confirmation" type="password" class="input" />
-    </div>
+      <!-- Password Confirmation -->
+      <div v-if="!isEdit" class="grid gap-2">
+        <Label for="password_confirmation">Confirm Password</Label>
+        <Input id="password_confirmation" v-model="form.password_confirmation" type="password" required placeholder="Re-enter the secure and unique password" />
+      </div>
 
-    <!-- Address Fields -->
-    <div>
-      <label for="first_line">Address Line 1</label>
-      <input v-model="form.first_line" id="first_line" type="text" class="input" />
-      <div v-if="form.errors.first_line" class="error">{{ form.errors.first_line }}</div>
-    </div>
+      <!-- Address Fields -->
+      <div class="grid gap-2">
+        <Label for="first_line">Address Line 1</Label>
+        <Input id="first_line" v-model="form.first_line" type="text" required placeholder="Enter first line of address" />
+        <InputError :message="form.errors.first_line" />
+      </div>
 
-    <div>
-      <label for="second_line">Address Line 2</label>
-      <input v-model="form.second_line" id="second_line" type="text" class="input" />
-    </div>
+      <div class="grid gap-2">
+        <Label for="second_line">Address Line 2</Label>
+        <Input id="second_line" v-model="form.second_line" type="text" placeholder="Enter second line of address if applicable" />
+      </div>
 
-    <div>
-      <label for="town">Town</label>
-      <input v-model="form.town" id="town" type="text" class="input" />
-    </div>
+      <div class="grid gap-2">
+        <Label for="town">Town</Label>
+        <Input id="town" v-model="form.town" type="text" placeholder="Enter town if applicable" />
+      </div>
 
-    <div>
-      <label for="city">City</label>
-      <input v-model="form.city" id="city" type="text" class="input" />
-    </div>
+      <div class="grid gap-2">
+        <Label for="city">City</Label>
+        <Input id="city" v-model="form.city" type="text" placeholder="Enter city if applicable" />
+      </div>
 
-    <div>
-      <label for="county">County</label>
-      <input v-model="form.county" id="county" type="text" class="input" />
-    </div>
+      <div class="grid gap-2">
+        <Label for="county">County</Label>
+        <Input id="county" v-model="form.county" type="text" placeholder="Enter county if applicable" />
+      </div>
 
-    <div>
-      <label for="country">Country</label>
-      <input v-model="form.country" id="country" type="text" class="input" />
-    </div>
+      <div class="grid gap-2">
+        <Label for="country">Country</Label>
+        <Input id="country" v-model="form.country" type="text" placeholder="Enter country if applicable" />
+      </div>
 
-    <div>
-      <label for="post_code">Post Code</label>
-      <input v-model="form.post_code" id="post_code" type="text" class="input" />
-      <div v-if="form.errors.post_code" class="error">{{ form.errors.post_code }}</div>
-    </div>
+      <div class="grid gap-2">
+        <Label for="post_code">Post Code</Label>
+        <Input id="post_code" v-model="form.post_code" type="text" required placeholder="Enter postcode" />
+        <InputError :message="form.errors.post_code" />
+      </div>
 
-    <!-- Full Time & Part Time -->
-    <div class="flex items-center space-x-4">
-      <label class="inline-flex items-center">
-        <input v-model="form.full_time" type="checkbox" class="form-checkbox" />
-        <span class="ml-2">Full Time</span>
-      </label>
-      <label class="inline-flex items-center">
-        <input v-model="form.part_time" type="checkbox" class="form-checkbox" />
-        <span class="ml-2">Part Time</span>
-      </label>
-    </div>
-    <div v-if="form.errors.full_time" class="error">{{ form.errors.full_time }}</div>
-    <div v-if="form.errors.part_time" class="error">{{ form.errors.part_time }}</div>
+      <!-- Full Time / Part Time -->
+      <div class="flex gap-6">
+        <Label class="inline-flex items-center gap-2">
+          <Checkbox v-model="form.full_time" id="full_time" />
+          Full Time
+        </Label>
+        <Label class="inline-flex items-center gap-2">
+          <Checkbox v-model="form.part_time" id="part_time" />
+          Part Time
+        </Label>
+      </div>
+      <InputError :message="form.errors.full_time" />
+      <InputError :message="form.errors.part_time" />
 
-    <!-- Role -->
-    <div>
-      <label for="role_id">Role</label>
-      <select v-model="form.role_id" id="role_id" class="input">
-        <option :value="null">Select a role</option>
-        <option v-for="role in roles" :key="role.id" :value="role.id">
-          {{ role.name }}
-        </option>
-      </select>
-      <div v-if="form.errors.role_id" class="error">{{ form.errors.role_id }}</div>
-    </div>
+      <!-- Role -->
+      <div class="grid gap-2">
+        <Label for="role_id">Role</Label>
+        <select v-model="form.role_id" id="role_id" class="input">
+          <option :value="null">Select a role</option>
+          <option v-for="role in roles" :key="role.id" :value="role.id">
+            {{ role.name }}
+          </option>
+        </select>
+        <InputError :message="form.errors.role_id" />
+      </div>
 
-    <!-- Department -->
-    <div>
-      <label for="department_id">Department</label>
-      <select v-model="form.department_id" id="department_id" class="input">
-        <option :value="null">Select a department</option>
-        <option v-for="dept in departments" :key="dept.id" :value="dept.id">
-          {{ dept.name }}
-        </option>
-      </select>
-      <div v-if="form.errors.department_id" class="error">{{ form.errors.department_id }}</div>
-    </div>
+      <!-- Department -->
+      <div class="grid gap-2">
+        <Label for="department_id">Department</Label>
+        <select v-model="form.department_id" id="department_id" class="input">
+          <option :value="null">Select a department</option>
+          <option v-for="dept in departments" :key="dept.id" :value="dept.id">
+            {{ dept.name }}
+          </option>
+        </select>
+        <InputError :message="form.errors.department_id" />
+      </div>
 
-    <!-- Submit -->
-    <div>
-      <button
-        type="submit"
-        class="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700"
-        :disabled="form.processing"
-      >
-        {{ isEdit ? 'Update User' : 'Create User' }}
-      </button>
-      <Link :href="route('departments.index')" class="btn btn-secondary">Back</Link>
+      <!-- Submit Buttons -->
+      <div class="flex gap-4">
+        <Button type="submit" :disabled="form.processing">
+          {{ isEdit ? 'Update User' : 'Create User' }}
+        </Button>
+        <Link :href="route('departments.index')" class="text-sm underline text-muted-foreground">
+          Back
+        </Link>
+      </div>
     </div>
   </form>
 </template>
