@@ -30,7 +30,7 @@ const breadcrumbs: BreadcrumbItem[] = [
 ]
 
 const page = usePage()
-const from = computed(() => page.props.from ?? 'index') 
+const pageFrom = computed(() => page.props.from ?? 'index')
 </script>
 
 <template>
@@ -57,8 +57,8 @@ const from = computed(() => page.props.from ?? 'index')
 				<p><strong>Phone:</strong> {{ props.company.phone ?? '-' }}</p>
 			</div>
 			<div class="flex space-x-4">
-				<Link :href="route('companies.edit', company.slug)" class="btn btn-primary">Edit</Link>
-				<Link :href="from === 'archived' ? route('companies.archived') : route('companies.index')" class="btn btn-secondary">Back</Link>
+				<Link :href="route('companies.edit', props.company.slug)" class="btn btn-primary">Edit</Link>
+				<Link :href="(props.from ?? pageFrom) === 'archived' ? route('companies.archived') : route('companies.index')" class="btn btn-secondary">Back</Link>
 			</div>
 		</div>
 	</AppLayout>

@@ -10,7 +10,7 @@ const breadcrumbs: BreadcrumbItem[] = [
 	{ title: 'Create', href: route('departments.create') },
 ]
 
-const props = defineProps({
+defineProps({
 	department: {
 		type: Object,
 		required: false,

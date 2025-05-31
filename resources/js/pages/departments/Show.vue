@@ -5,7 +5,7 @@ import { type BreadcrumbItem } from '@/types'
 import { computed, ref, onMounted } from 'vue'
 import { usePage } from '@inertiajs/vue3'
 
-defineProps<{
+const props = defineProps<{
 	department: Record<string, any>
 	from: 'index' | 'archived'
 }>()
@@ -17,7 +17,7 @@ const breadcrumbs: BreadcrumbItem[] = [
 ]
 
 const page = usePage()
-const from = computed(() => page.props.from ?? 'index') 
+const pageFrom = computed(() => page.props.from ?? 'index') 
 </script>
 
 <template>
@@ -35,7 +35,7 @@ const from = computed(() => page.props.from ?? 'index')
 
 			<div class="flex space-x-4">
 				<Link :href="route('departments.edit', department.slug)" class="btn btn-primary">Edit</Link>
-				<Link :href="from === 'archived' ? route('departments.archived') : route('departments.index')" class="btn btn-secondary">Back</Link>
+				<Link :href="(props.from ?? pageFrom) === 'archived' ? route('departments.archived') : route('departments.index')" class="btn btn-secondary">Back</Link>
 			</div>
 		</div>
 	</AppLayout>
