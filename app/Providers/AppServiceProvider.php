@@ -36,6 +36,14 @@ class AppServiceProvider extends ServiceProvider
                 // Check if there's at least one archived user
                 return User::onlyTrashed()->exists();
             },
+            'hasArchivedDepartments' => function () {
+                // Check if there's at least one archived department
+                return \App\Models\Department::onlyTrashed()->exists();
+            },
+            'hasArchivedCompanies' => function () {
+                // Check if there's at least one archived company
+                return \App\Models\Company::onlyTrashed()->exists();
+            },
         ]);
     }
 }

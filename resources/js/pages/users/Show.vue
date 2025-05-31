@@ -44,9 +44,7 @@ const from = computed(() => page.props.from ?? 'index')
 
       <div class="flex space-x-4">
         <Link :href="route('users.edit', user.slug)" class="btn btn-primary">Edit</Link>
-        <Link :href="props.from === 'archived' ? route('users.archived') : route('users.index')" class="btn btn-secondary">
-  Back
-</Link>
+        <Link :href="props.from === 'archived' ? route('users.archived') : route('users.index')" class="btn btn-secondary">Back</Link>
       </div>
     </div>
   </AppLayout>

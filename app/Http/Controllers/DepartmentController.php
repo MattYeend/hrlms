@@ -9,6 +9,7 @@ use App\Models\Log;
 use App\Models\User;
 use Illuminate\Support\Str;
 use Inertia\Inertia;
+use Illuminate\Http\Request;
 
 class DepartmentController extends Controller
 {
@@ -30,12 +31,14 @@ class DepartmentController extends Controller
             auth()->id()
         );
 
+        $archivedCount = Department::onlyTrashed()->count();
+
         return Inertia::render('departments/Index', [
-            'departments' => Department::withTrashed()
-                ->with('deptLead')
+            'departments' => Department::with('deptLead')
                 ->withCount('users')
                 ->get(),
             'authUser' => auth()->user()->load('role')->only('id', 'role'),
+            'hasArchivedDepartments' => $archivedCount > 0,
         ]);
     }
 
@@ -77,7 +80,7 @@ class DepartmentController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Department $department)
+    public function show(Department $department, Request $request)
     {
         $this->authorize('view', $department);
 
@@ -89,6 +92,7 @@ class DepartmentController extends Controller
 
         return Inertia::render('departments/Show', [
             'department' => $department->load('deptLead'),
+            'from' => $request->query('from', 'index'),
         ]);
     }
 
@@ -179,5 +183,24 @@ class DepartmentController extends Controller
             'restored_at' => $department->restored_at,
             'restored_by' => $department->restored_by,
         ], auth()->id());
+    }
+
+    public function archived()
+    {
+        $this->authorize('viewArchived', Department::class);
+
+        Log::log(
+            Log::ACTION_VIEW_ARCHIVED_DEPARTMENTS,
+            ['Viewed archived departments'],
+            auth()->id()
+        );
+
+        return Inertia::render('departments/Archived', [
+            'departments' => Department::onlyTrashed()
+                ->with('deptLead')
+                ->withCount('users')
+                ->get(),
+            'authUser' => auth()->user()->load('role')->only('id', 'role'),
+        ]);
     }
 }

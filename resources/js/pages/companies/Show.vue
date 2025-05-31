@@ -2,6 +2,8 @@
 import { Head, Link } from '@inertiajs/vue3'
 import AppLayout from '@/layouts/AppLayout.vue'
 import { type BreadcrumbItem } from '@/types'
+import { computed, ref, onMounted } from 'vue'
+import { usePage } from '@inertiajs/vue3'
 
 const props = defineProps<{
   company: {
@@ -18,6 +20,7 @@ const props = defineProps<{
     phone: string | null
     email: string | null
   }
+  from?: 'index' | 'archived'
 }>()
 
 const breadcrumbs: BreadcrumbItem[] = [
@@ -25,6 +28,9 @@ const breadcrumbs: BreadcrumbItem[] = [
   { title: 'Companies', href: route('companies.index') },
   { title: props.company.name, href: route('companies.show', props.company.id) },
 ]
+
+const page = usePage()
+const from = computed(() => page.props.from ?? 'index') 
 </script>
 
 <template>
@@ -34,16 +40,9 @@ const breadcrumbs: BreadcrumbItem[] = [
     <div class="px-4 sm:px-6 lg:px-8 py-4 sm:py-6 lg:py-8 space-y-4">
       <div class="flex justify-between items-center">
         <h1 class="text-3xl font-bold text-gray-900 dark:text-white">{{ props.company.name }}</h1>
-        <Link
-          :href="route('companies.edit', props.company.id)"
-          class="text-blue-600 hover:underline dark:text-blue-400"
-        >
-          Edit
-        </Link>
       </div>
 
       <div class="bg-white dark:bg-gray-800 rounded-md shadow-sm p-6 space-y-2">
-        <p><strong>Slug:</strong> {{ props.company.slug }}</p>
         <p>
           <strong>Address:</strong>
           {{ props.company.first_line }},
@@ -56,6 +55,10 @@ const breadcrumbs: BreadcrumbItem[] = [
         </p>
         <p><strong>Email:</strong> {{ props.company.email ?? '-' }}</p>
         <p><strong>Phone:</strong> {{ props.company.phone ?? '-' }}</p>
+      </div>
+      <div class="flex space-x-4">
+        <Link :href="route('companies.edit', company.slug)" class="btn btn-primary">Edit</Link>
+        <Link :href="from === 'archived' ? route('companies.archived') : route('companies.index')" class="btn btn-secondary">Back</Link>
       </div>
     </div>
   </AppLayout>

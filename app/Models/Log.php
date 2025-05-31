@@ -65,6 +65,9 @@ class Log extends Model
     public const ACTION_AUTHENTICATE_SESSION_DESTROY = 56;
     public const ACTION_EMAIL_VERIFICATION_NOTIFICATION = 57;
     public const ACTION_EMAIL_VERIFICATION = 58;
+    public const ACTION_VIEW_ARCHIVED_USERS = 59;
+    public const ACTION_VIEW_ARCHIVED_DEPARTMENTS = 60;
+    public const ACTION_VIEW_ARCHIVED_COMPANIES = 61;
 
     protected $table = 'logs';
 

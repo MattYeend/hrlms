@@ -48,6 +48,9 @@ class UserPolicy
         return $this->isAdminOrSuperAdmin($user);
     }
 
+    /**
+     * Determine whether the user can view archived users.
+     */
     public function viewArchived(User $user): bool
     {
         return $this->isAdminOrSuperAdmin($user);

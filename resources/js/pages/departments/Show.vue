@@ -2,9 +2,12 @@
 import { Head, Link } from '@inertiajs/vue3'
 import AppLayout from '@/layouts/AppLayout.vue'
 import { type BreadcrumbItem } from '@/types'
+import { computed, ref, onMounted } from 'vue'
+import { usePage } from '@inertiajs/vue3'
 
 defineProps<{
   department: Record<string, any>
+  from: 'index' | 'archived'
 }>()
 
 const breadcrumbs: BreadcrumbItem[] = [
@@ -12,6 +15,9 @@ const breadcrumbs: BreadcrumbItem[] = [
   { title: 'Departments', href: route('departments.index') },
   { title: 'Details', href: '#' },
 ]
+
+const page = usePage()
+const from = computed(() => page.props.from ?? 'index') 
 </script>
 
 <template>
@@ -29,7 +35,7 @@ const breadcrumbs: BreadcrumbItem[] = [
 
       <div class="flex space-x-4">
         <Link :href="route('departments.edit', department.slug)" class="btn btn-primary">Edit</Link>
-        <Link :href="route('departments.index')" class="btn btn-secondary">Back</Link>
+        <Link :href="from === 'archived' ? route('departments.archived') : route('departments.index')" class="btn btn-secondary">Back</Link>
       </div>
     </div>
   </AppLayout>

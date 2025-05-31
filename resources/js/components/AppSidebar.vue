@@ -13,49 +13,69 @@ const page = usePage();
 const isSuperAdmin = computed(() => page.props.auth?.user?.role_id === 1);
 const isAtleastAdmin = computed(() => page.props.auth?.user?.role_id === 1 || page.props.auth?.user?.role_id === 2);
 const hasArchivedUsers = computed(() => page.props.hasArchivedUsers);
+const hasArchivedDepartments = computed(() => page.props.hasArchivedDepartments);
+const hasArchivedCompanies = computed(() => page.props.hasArchivedCompanies);
 
 const mainNavItems = computed<NavItem[]>(() => {
-  const items: NavItem[] = [
-    {
-      title: 'Dashboard',
-      href: '/dashboard',
+  const items: NavItem[] = [];
+
+  const usersItem: NavItem = {
+    title: 'Users',
+    href: '/users',
+    icon: LayoutGrid,
+    children: [],
+  };
+  if (isAtleastAdmin.value && hasArchivedUsers.value) {
+    usersItem.children!.push({
+      title: 'Archived Users',
+      href: '/users/archived',
       icon: LayoutGrid,
-    },
-    {
-      title: 'Users',
-      href: '/users',
+    });
+  }
+  items.push(usersItem);
+
+  if (isAtleastAdmin.value) {
+    const departmentsItem: NavItem = {
+      title: 'Departments',
+      href: '/departments',
       icon: LayoutGrid,
       children: [],
-    },
-  ];
+    };
+    if (hasArchivedDepartments.value) {
+      departmentsItem.children!.push({
+        title: 'Archived Departments',
+        href: '/departments/archived',
+        icon: LayoutGrid,
+      });
+    }
+    items.push(departmentsItem);
+  }
+
+  // COMPANIES
+  if (isSuperAdmin.value) {
+    const companiesItem: NavItem = {
+      title: 'Companies',
+      href: '/companies',
+      icon: LayoutGrid,
+      children: [],
+    };
+    if (hasArchivedCompanies.value) {
+      companiesItem.children!.push({
+        title: 'Archived Companies',
+        href: '/companies/archived',
+        icon: LayoutGrid,
+      });
+    }
+    items.push(companiesItem);
+  }
+
+  // ROLES
   if (isAtleastAdmin.value) {
     items.push({
       title: 'Roles',
       href: '/roles',
       icon: LayoutGrid,
     });
-    items.push({
-      title: 'Departments',
-      href: '/departments',
-      icon: LayoutGrid,
-    });
-    if (hasArchivedUsers.value) {
-      const usersItem = items.find(item => item.title === 'Users');
-      if (usersItem) {
-        usersItem.children?.push({
-          title: 'Archived Users',
-          href: '/users/archived',
-          icon: LayoutGrid,
-        });
-      }
-    }
-  }
-  if (isSuperAdmin.value) {
-    // items.push({
-    //   title: 'Companies',
-    //   href: '/companies',
-    //   icon: LayoutGrid,
-    // });
   }
 
   return items;

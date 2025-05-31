@@ -220,6 +220,12 @@ class UserController extends Controller
             ->with('role:id,name')
             ->first();
 
+        Log::log(
+            Log::ACTION_VIEW_ARCHIVED_USERS,
+            ['Viewed archived users'],
+            auth()->id()
+        );
+
         return Inertia::render('users/Archived', [
             'users' => $archivedUsers,
             'roles' => $roles,

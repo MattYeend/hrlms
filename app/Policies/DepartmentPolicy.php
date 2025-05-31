@@ -71,4 +71,12 @@ class DepartmentPolicy
         unset($department);
         return false;
     }
+
+    /**
+     * Determine whether the user can view archived departments.
+     */
+    public function viewArchived(User $user): bool
+    {
+        return in_array($user->role->slug, ['admin', 'super-admin']);
+    }
 }

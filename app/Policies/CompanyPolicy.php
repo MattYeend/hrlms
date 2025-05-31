@@ -82,4 +82,12 @@ class CompanyPolicy
         unset($company);
         return false;
     }
+
+    /**
+     * Determine whether the user can view archived companies.
+     */
+    public function viewArchived(User $user): bool
+    {
+        return $user->isAdmin() || $user->isSuperAdmin();
+    }
 }

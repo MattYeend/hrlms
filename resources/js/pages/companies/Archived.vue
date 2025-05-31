@@ -3,7 +3,7 @@ import { Head, Link } from '@inertiajs/vue3'
 import AppLayout from '@/layouts/AppLayout.vue'
 import { type BreadcrumbItem } from '@/types'
 
-defineProps<{
+const props = defineProps<{
   companies: Array<{
         id: number
         name: string
@@ -22,6 +22,7 @@ const breadcrumbs: BreadcrumbItem[] = [
     { title: 'Dashboard', href: route('dashboard') },
     { title: 'Companies', href: route('companies.index') },
 ]
+
 </script>
 
 <template>
@@ -30,13 +31,7 @@ const breadcrumbs: BreadcrumbItem[] = [
 
     <div class="px-4 sm:px-6 lg:px-8 py-4 sm:py-6 lg:py-8">
       <div class="flex justify-between items-center mb-6">
-        <h1 class="text-3xl font-bold text-gray-900 dark:text-white">Companies</h1>
-        <Link
-          href="/companies/create"
-          class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md shadow-sm"
-        >
-          + New Company
-        </Link>
+        <h1 class="text-3xl font-bold text-gray-900 dark:text-white">Archived Companies</h1>
       </div>
 
       <div class="overflow-x-auto">
@@ -57,16 +52,12 @@ const breadcrumbs: BreadcrumbItem[] = [
               <td class="p-3">{{ company.name }}</td>
               <td class="p-3">{{ company.email ?? '-' }}</td>
               <td class="p-3">
-                <Link :href="route('companies.show', { slug: company.slug }) + `?from=index`" class="text-blue-600 dark:text-blue-400 hover:underline">
+                <Link :href="route('companies.show', {slug: company.slug}) + `?from=archived`" class="text-blue-600 dark:text-blue-400 hover:underline">
                   View
-                </Link> |
-                <Link :href="route('companies.edit', company.slug)" class="text-blue-600 dark:text-blue-400 hover:underline">
-                  Edit
                 </Link>
-                <span
-                v-if="['Admin', 'Super Admin'].includes(authUser.role.name)"> |
-                <Link :href="route('companies.destroy', company.slug)" :method="'delete'" as="button" class="text-red-600 dark:text-red-400 hover:underline">
-                  {{ 'Archive' }}
+                <span v-if="['Admin', 'Super Admin'].includes(authUser.role.name)">|
+                <Link :href="route('companies.restore', company.slug)" :method="'post'" as="button" class="text-red-600 dark:text-red-400 hover:underline">
+                  {{ 'Restore' }}
                 </Link>
               </span>
               </td>

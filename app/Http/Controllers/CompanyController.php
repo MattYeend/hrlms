@@ -8,6 +8,7 @@ use App\Models\Company;
 use App\Models\Log;
 use Illuminate\Support\Str;
 use Inertia\Inertia;
+use Illuminate\Http\Request;
 
 class CompanyController extends Controller
 {
@@ -29,8 +30,17 @@ class CompanyController extends Controller
             auth()->id()
         );
 
+        $archivedCount = Company::onlyTrashed()->count();
+
         return Inertia::render('companies/Index', [
             'companies' => Company::all(),
+            'authUser' => [
+                'id' => auth()->user()->id,
+                'role' => [
+                    'name' => auth()->user()->role->name,
+                ],
+            ],
+            'hasArchivedCompanies' => $archivedCount > 0,
         ]);
     }
 
@@ -73,7 +83,7 @@ class CompanyController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Company $company)
+    public function show(Company $company, Request $request)
     {
         $this->authorize('view', $company);
 
@@ -83,7 +93,10 @@ class CompanyController extends Controller
             'slug' => $company->slug,
         ], auth()->id());
 
-        return Inertia::render('companies/Show', ['company' => $company]);
+        return Inertia::render('companies/Show', [
+            'company' => $company,
+            'from' => $request->query('from', 'index'),
+        ]);
     }
 
     /**
@@ -145,7 +158,6 @@ class CompanyController extends Controller
 
     public function restore(Company $company)
     {
-        $company = Company::withTrashed()->findOrFail($company);
         $this->authorize('restore', $company);
 
         $company->update([
@@ -169,5 +181,26 @@ class CompanyController extends Controller
             'companies.show',
             $company
         )->with('success', 'Company restored.');
+    }
+
+    public function archived()
+    {
+        $this->authorize('viewArchived', Company::class);
+
+        Log::log(
+            Log::ACTION_VIEW_ARCHIVED_COMPANIES,
+            ['Viewed archived companies'],
+            auth()->id()
+        );
+        
+        return Inertia::render('companies/Archived', [
+            'companies' => Company::onlyTrashed()->get(),
+            'authUser' => [
+                'id' => auth()->user()->id,
+                'role' => [
+                    'name' => auth()->user()->role->name,
+                ],
+            ],
+        ]);
     }
 }
