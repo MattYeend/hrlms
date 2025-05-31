@@ -46,6 +46,13 @@ const activeItemStyles = computed(
 const mainNavItems = computed<NavItem[]>(() => {
 	const items: NavItem[] = [];
 
+	const dashboadItem: NavItem = {
+		title: 'Dashboard',
+		href: '/dashboard',
+		icon: LayoutGrid,
+	};
+	items.push(dashboadItem);
+
 	const usersItem: NavItem = {
 		title: 'Users',
 		href: '/users',

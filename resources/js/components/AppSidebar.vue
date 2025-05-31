@@ -19,6 +19,13 @@ const hasArchivedCompanies = computed(() => page.props.hasArchivedCompanies);
 const mainNavItems = computed<NavItem[]>(() => {
 	const items: NavItem[] = [];
 
+	const dashboadItem: NavItem = {
+		title: 'Dashboard',
+		href: '/dashboard',
+		icon: LayoutGrid,
+	};
+	items.push(dashboadItem);
+
 	const usersItem: NavItem = {
 		title: 'Users',
 		href: '/users',
@@ -82,16 +89,16 @@ const mainNavItems = computed<NavItem[]>(() => {
 });
 
 const footerNavItems: NavItem[] = [
-		{
-				title: 'Github Repo',
-				href: 'https://github.com/laravel/vue-starter-kit',
-				icon: Folder,
-		},
-		{
-				title: 'Documentation',
-				href: 'https://laravel.com/docs/starter-kits#vue',
-				icon: BookOpen,
-		},
+	{
+		title: 'Github Repo',
+		href: 'https://github.com/laravel/vue-starter-kit',
+		icon: Folder,
+	},
+	{
+		title: 'Documentation',
+		href: 'https://laravel.com/docs/starter-kits#vue',
+		icon: BookOpen,
+	},
 ];
 </script>
 
