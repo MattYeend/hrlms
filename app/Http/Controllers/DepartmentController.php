@@ -7,9 +7,9 @@ use App\Http\Requests\UpdateDepartmentRequest;
 use App\Models\Department;
 use App\Models\Log;
 use App\Models\User;
+use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Inertia\Inertia;
-use Illuminate\Http\Request;
 
 class DepartmentController extends Controller
 {
@@ -174,17 +174,6 @@ class DepartmentController extends Controller
         )->with('success', 'Department restored.');
     }
 
-    private function restoreLog($department)
-    {
-        return Log::log(Log::ACTION_REINSTATE_DEPARTMENT, [
-            'id' => $department->id,
-            'name' => $department->name,
-            'slug' => $department->slug,
-            'restored_at' => $department->restored_at,
-            'restored_by' => $department->restored_by,
-        ], auth()->id());
-    }
-
     public function archived()
     {
         $this->authorize('viewArchived', Department::class);
@@ -202,5 +191,16 @@ class DepartmentController extends Controller
                 ->get(),
             'authUser' => auth()->user()->load('role')->only('id', 'role'),
         ]);
+    }
+
+    private function restoreLog($department)
+    {
+        return Log::log(Log::ACTION_REINSTATE_DEPARTMENT, [
+            'id' => $department->id,
+            'name' => $department->name,
+            'slug' => $department->slug,
+            'restored_at' => $department->restored_at,
+            'restored_by' => $department->restored_by,
+        ], auth()->id());
     }
 }

@@ -50,14 +50,20 @@ Route::get('/errors/503', fn () => Inertia::render('errors/503'));
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::resource('roles', RoleController::class)->only(['index', 'show']);
 
-    Route::get('/companies/archived', [CompanyController::class, 'archived'])->name('companies.archived');
+    Route::get(
+        '/companies/archived',
+        [CompanyController::class, 'archived']
+    )->name('companies.archived');
     Route::resource('companies', CompanyController::class);
     Route::post(
         'companies/{company}/restore',
         [CompanyController::class, 'restore']
     )->name('companies.restore');
 
-    Route::get('/departments/archived', [DepartmentController::class, 'archived'])->name('departments.archived');
+    Route::get(
+        '/departments/archived',
+        [DepartmentController::class, 'archived']
+    )->name('departments.archived');
     Route::resource('departments', DepartmentController::class);
     Route::post(
         'departments/{department}/restore',
@@ -66,7 +72,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
         ->middleware('auth')
         ->scopeBindings();
 
-    Route::get('/users/archived', [UserController::class, 'archived'])->name('users.archived');
+    Route::get(
+        '/users/archived',
+        [UserController::class, 'archived']
+    )->name('users.archived');
     Route::resource('users', UserController::class);
     Route::post(
         'users/{user}/restore',

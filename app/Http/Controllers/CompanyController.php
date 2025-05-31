@@ -6,9 +6,9 @@ use App\Http\Requests\StoreCompanyRequest;
 use App\Http\Requests\UpdateCompanyRequest;
 use App\Models\Company;
 use App\Models\Log;
+use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Inertia\Inertia;
-use Illuminate\Http\Request;
 
 class CompanyController extends Controller
 {
@@ -192,7 +192,7 @@ class CompanyController extends Controller
             ['Viewed archived companies'],
             auth()->id()
         );
-        
+
         return Inertia::render('companies/Archived', [
             'companies' => Company::onlyTrashed()->get(),
             'authUser' => [

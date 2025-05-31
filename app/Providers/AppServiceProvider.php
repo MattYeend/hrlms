@@ -2,10 +2,12 @@
 
 namespace App\Providers;
 
+use App\Models\Company;
+use App\Models\Department;
+use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\ServiceProvider;
 use Inertia\Inertia;
-use App\Models\User;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -38,11 +40,11 @@ class AppServiceProvider extends ServiceProvider
             },
             'hasArchivedDepartments' => function () {
                 // Check if there's at least one archived department
-                return \App\Models\Department::onlyTrashed()->exists();
+                return Department::onlyTrashed()->exists();
             },
             'hasArchivedCompanies' => function () {
                 // Check if there's at least one archived company
-                return \App\Models\Company::onlyTrashed()->exists();
+                return Company::onlyTrashed()->exists();
             },
         ]);
     }

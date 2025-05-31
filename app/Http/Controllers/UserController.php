@@ -8,8 +8,8 @@ use App\Models\Department;
 use App\Models\Log;
 use App\Models\Role;
 use App\Models\User;
-use Inertia\Inertia;
 use Illuminate\Http\Request;
+use Inertia\Inertia;
 
 class UserController extends Controller
 {
@@ -191,21 +191,6 @@ class UserController extends Controller
         )->with('success', 'User restored.');
     }
 
-    private function restoreLog(User $user): array
-    {
-        $log = Log::log(Log::ACTION_REINSTATE_USER, [
-            'id' => $user->id,
-            'name' => $user->name,
-            'email' => $user->email,
-            'role_id' => $user->role_id,
-            'department_id' => $user->department_id,
-            'restored_at' => $user->restored_at,
-            'restored_by' => $user->restored_by,
-        ], auth()->id(), $user->id);
-
-        return $log ?? [];
-    }
-
     public function archived()
     {
         $this->authorize('viewArchived', User::class);
@@ -232,5 +217,20 @@ class UserController extends Controller
             'departments' => $departments,
             'authUser' => $authUser,
         ]);
+    }
+
+    private function restoreLog(User $user): array
+    {
+        $log = Log::log(Log::ACTION_REINSTATE_USER, [
+            'id' => $user->id,
+            'name' => $user->name,
+            'email' => $user->email,
+            'role_id' => $user->role_id,
+            'department_id' => $user->department_id,
+            'restored_at' => $user->restored_at,
+            'restored_by' => $user->restored_by,
+        ], auth()->id(), $user->id);
+
+        return $log ?? [];
     }
 }
