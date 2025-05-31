@@ -64,6 +64,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
         ->middleware('auth')
         ->scopeBindings();
 
+    Route::get('/users/archived', [UserController::class, 'archived'])->name('users.archived');
     Route::resource('users', UserController::class);
     Route::post(
         'users/{user}/restore',

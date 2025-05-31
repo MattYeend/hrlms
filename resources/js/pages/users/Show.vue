@@ -2,8 +2,10 @@
 import { Head, Link } from '@inertiajs/vue3'
 import AppLayout from '@/layouts/AppLayout.vue'
 import { type BreadcrumbItem } from '@/types'
+import { computed, ref, onMounted } from 'vue'
+import { usePage } from '@inertiajs/vue3'
 
-defineProps<{
+const props = defineProps<{
   user: {
     id: number
     name: string
@@ -11,7 +13,8 @@ defineProps<{
     role: { name: string } | null
     department: { name: string } | null
     slug: string
-  }
+  }, 
+  from: 'index' | 'archived'
 }>()
 
 const breadcrumbs: BreadcrumbItem[] = [
@@ -19,6 +22,10 @@ const breadcrumbs: BreadcrumbItem[] = [
   { title: 'Users', href: route('users.index') },
   { title: 'Details', href: '#' },
 ]
+
+const page = usePage()
+const from = computed(() => page.props.from ?? 'index') 
+
 </script>
 
 <template>
@@ -37,7 +44,9 @@ const breadcrumbs: BreadcrumbItem[] = [
 
       <div class="flex space-x-4">
         <Link :href="route('users.edit', user.slug)" class="btn btn-primary">Edit</Link>
-        <Link :href="route('users.index')" class="btn btn-secondary">Back</Link>
+        <Link :href="props.from === 'archived' ? route('users.archived') : route('users.index')" class="btn btn-secondary">
+  Back
+</Link>
       </div>
     </div>
   </AppLayout>

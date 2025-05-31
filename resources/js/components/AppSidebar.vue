@@ -12,6 +12,7 @@ import { computed } from 'vue';
 const page = usePage();
 const isSuperAdmin = computed(() => page.props.auth?.user?.role_id === 1);
 const isAtleastAdmin = computed(() => page.props.auth?.user?.role_id === 1 || page.props.auth?.user?.role_id === 2);
+const hasArchivedUsers = computed(() => page.props.hasArchivedUsers);
 
 const mainNavItems = computed<NavItem[]>(() => {
   const items: NavItem[] = [
@@ -24,6 +25,7 @@ const mainNavItems = computed<NavItem[]>(() => {
       title: 'Users',
       href: '/users',
       icon: LayoutGrid,
+      children: [],
     },
   ];
   if (isAtleastAdmin.value) {
@@ -37,6 +39,16 @@ const mainNavItems = computed<NavItem[]>(() => {
       href: '/departments',
       icon: LayoutGrid,
     });
+    if (hasArchivedUsers.value) {
+      const usersItem = items.find(item => item.title === 'Users');
+      if (usersItem) {
+        usersItem.children?.push({
+          title: 'Archived Users',
+          href: '/users/archived',
+          icon: LayoutGrid,
+        });
+      }
+    }
   }
   if (isSuperAdmin.value) {
     // items.push({
@@ -78,7 +90,28 @@ const footerNavItems: NavItem[] = [
         </SidebarHeader>
 
         <SidebarContent>
-            <NavMain :items="mainNavItems" />
+          <nav>
+            <ul>
+              <li v-for="item in mainNavItems" :key="item.title" class="mb-1">
+                <Link :href="item.href" class="flex items-center gap-2 px-3 py-2 rounded hover:bg-gray-200 dark:hover:bg-gray-700">
+                  <component v-if="item.icon" :is="item.icon" class="h-5 w-5" />
+                  <span>{{ item.title }}</span>
+                </Link>
+                
+                <ul v-if="item.children?.length" class="ml-6 mt-1 space-y-1 border-l border-gray-300 dark:border-gray-700 pl-3">
+                  <li v-for="child in item.children" :key="child.title">
+                    <Link
+                      :href="child.href"
+                      class="flex items-center gap-2 px-3 py-1 rounded text-sm hover:bg-gray-200 dark:hover:bg-gray-700"
+                    >
+                      <component v-if="child.icon" :is="child.icon" class="h-4 w-4" />
+                      <span>{{ child.title }}</span>
+                    </Link>
+                  </li>
+                </ul>
+              </li>
+            </ul>
+          </nav>
         </SidebarContent>
 
         <SidebarFooter>

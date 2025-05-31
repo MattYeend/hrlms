@@ -48,6 +48,11 @@ class UserPolicy
         return $this->isAdminOrSuperAdmin($user);
     }
 
+    public function viewArchived(User $user): bool
+    {
+        return $this->isAdminOrSuperAdmin($user);
+    }
+
     private function isAdminOrSuperAdmin(User $user): bool
     {
         return $user->isAdmin() || $user->isSuperAdmin();

@@ -33,6 +33,7 @@ const page = usePage();
 const auth = computed(() => page.props.auth);
 const isSuperAdmin = computed(() => page.props.auth?.user?.role_id === 1);
 const isAtleastAdmin = computed(() => page.props.auth?.user?.role_id === 1 || page.props.auth?.user?.role_id === 2);
+const hasArchivedUsers = computed(() => page.props.hasArchivedUsers);
 
 const isCurrentRoute = computed(() => (url: string) => page.url === url);
 
@@ -51,6 +52,7 @@ const mainNavItems = computed<NavItem[]>(() => {
       title: 'Users',
       href: '/users',
       icon: LayoutGrid,
+      children: [],
     },
   ];
   if (isAtleastAdmin.value) {
@@ -64,6 +66,16 @@ const mainNavItems = computed<NavItem[]>(() => {
       href: '/departments',
       icon: LayoutGrid,
     });
+    if (hasArchivedUsers.value) {
+      const usersItem = items.find(item => item.title === 'Users');
+      if (usersItem) {
+        usersItem.children?.push({
+          title: 'Archived Users',
+          href: '/users/archived',
+          icon: LayoutGrid,
+        });
+      }
+    }
   }
   if (isSuperAdmin.value) {
     // items.push({
@@ -154,6 +166,20 @@ const rightNavItems: NavItem[] = [
                                         <component v-if="item.icon" :is="item.icon" class="mr-2 h-4 w-4" />
                                         {{ item.title }}
                                     </NavigationMenuLink>
+                                    <div class="absolute top-full left-0 mt-1 w-max rounded bg-white shadow-lg dark:bg-neutral-800">
+                                        <nav class="flex flex-col">
+                                            <Link
+                                            v-for="subItem in item.children"
+                                            :key="subItem.title"
+                                            :href="subItem.href"
+                                            class="flex items-center gap-x-2 px-4 py-2 hover:bg-accent dark:hover:bg-neutral-700"
+                                            :class="activeItemStyles(subItem.href)"
+                                            >
+                                            <component v-if="subItem.icon" :is="subItem.icon" class="h-4 w-4" />
+                                            {{ subItem.title }}
+                                            </Link>
+                                        </nav>
+                                    </div>
                                 </Link>
                                 <div
                                     v-if="isCurrentRoute(item.href)"

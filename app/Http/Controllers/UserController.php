@@ -9,6 +9,7 @@ use App\Models\Log;
 use App\Models\Role;
 use App\Models\User;
 use Inertia\Inertia;
+use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
@@ -26,8 +27,10 @@ class UserController extends Controller
 
         Log::log(Log::ACTION_VIEW_USERS, ['Viewed all users'], auth()->id());
 
+        $archivedCount = User::onlyTrashed()->count();
+
         return Inertia::render('users/Index', [
-            'users' => User::withTrashed()->with([
+            'users' => User::with([
                 'role:id,name',
                 'department:id,name',
             ])->get(),
@@ -37,6 +40,7 @@ class UserController extends Controller
                 'id',
                 auth()->id()
             )->with('role:id,name')->first(),
+            'hasArchivedUsers' => $archivedCount > 0,
         ]);
     }
 
@@ -81,7 +85,7 @@ class UserController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(User $user)
+    public function show(User $user, Request $request)
     {
         $this->authorize('view', $user);
 
@@ -99,6 +103,7 @@ class UserController extends Controller
             'user' => $user,
             'roles' => Role::select('id', 'name')->get(),
             'departments' => Department::select('id', 'name')->get(),
+            'from' => $request->query('from', 'index'),
         ]);
     }
 
@@ -199,5 +204,27 @@ class UserController extends Controller
         ], auth()->id(), $user->id);
 
         return $log ?? [];
+    }
+
+    public function archived()
+    {
+        $this->authorize('viewArchived', User::class);
+        $archivedUsers = User::onlyTrashed()
+            ->with(['role:id,name', 'department:id,name'])
+            ->get();
+
+        $roles = Role::select('id', 'name')->get();
+        $departments = Department::select('id', 'name')->get();
+
+        $authUser = User::where('id', auth()->id())
+            ->with('role:id,name')
+            ->first();
+
+        return Inertia::render('users/Archived', [
+            'users' => $archivedUsers,
+            'roles' => $roles,
+            'departments' => $departments,
+            'authUser' => $authUser,
+        ]);
     }
 }

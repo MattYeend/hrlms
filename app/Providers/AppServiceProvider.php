@@ -5,6 +5,7 @@ namespace App\Providers;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\ServiceProvider;
 use Inertia\Inertia;
+use App\Models\User;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -30,6 +31,10 @@ class AppServiceProvider extends ServiceProvider
                         'name' => Auth::user()->name,
                     ] : null,
                 ];
+            },
+            'hasArchivedUsers' => function () {
+                // Check if there's at least one archived user
+                return User::onlyTrashed()->exists();
             },
         ]);
     }
