@@ -1,8 +1,11 @@
 <script setup lang="ts">
-import { Head, Link } from '@inertiajs/vue3'
+import { 
+	Head, 
+	Link 
+} from '@inertiajs/vue3'
 import AppLayout from '@/layouts/AppLayout.vue'
 import { type BreadcrumbItem } from '@/types'
-import { computed, ref, onMounted } from 'vue'
+import { computed } from 'vue'
 import { usePage } from '@inertiajs/vue3'
 
 const props = defineProps<{
