@@ -18,7 +18,7 @@ import UserMenuContent from '@/components/UserMenuContent.vue';
 import { getInitials } from '@/composables/useInitials';
 import type { BreadcrumbItem, NavItem } from '@/types';
 import { Link, usePage } from '@inertiajs/vue3';
-import { BookOpen, Folder, LayoutGrid, Menu, Search } from 'lucide-vue-next';
+import { ArchiveIcon, BookOpen, Building2, Folder, Layers2, LayoutGrid, Menu, Search, ShieldCheck, User2Icon } from 'lucide-vue-next';
 import { computed } from 'vue';
 
 interface Props {
@@ -56,30 +56,30 @@ const mainNavItems = computed<NavItem[]>(() => {
 	const usersItem: NavItem = {
 		title: 'Users',
 		href: '/users',
-		icon: LayoutGrid,
+		icon: User2Icon,
 		children: [],
 	};
 	if (isAtleastAdmin.value && hasArchivedUsers.value) {
 		usersItem.children!.push({
 			title: 'Archived Users',
 			href: '/users/archived',
-		icon: LayoutGrid,
+		icon: ArchiveIcon,
 		});
 	}
 	items.push(usersItem);
 
 	if (isAtleastAdmin.value) {
 		const departmentsItem: NavItem = {
-		title: 'Departments',
-		href: '/departments',
-		icon: LayoutGrid,
-		children: [],
+			title: 'Departments',
+			href: '/departments',
+			icon: Layers2,
+			children: [],
 		};
 		if (hasArchivedDepartments.value) {
 		departmentsItem.children!.push({
 			title: 'Archived Departments',
 			href: '/departments/archived',
-			icon: LayoutGrid,
+			icon: ArchiveIcon,
 		});
 		}
 		items.push(departmentsItem);
@@ -88,16 +88,16 @@ const mainNavItems = computed<NavItem[]>(() => {
 	// COMPANIES
 	if (isSuperAdmin.value) {
 		const companiesItem: NavItem = {
-		title: 'Companies',
-		href: '/companies',
-		icon: LayoutGrid,
-		children: [],
+			title: 'Companies',
+			href: '/companies',
+			icon: Building2,
+			children: [],
 		};
 		if (hasArchivedCompanies.value) {
 		companiesItem.children!.push({
 			title: 'Archived Companies',
 			href: '/companies/archived',
-			icon: LayoutGrid,
+			icon: ArchiveIcon,
 		});
 		}
 		items.push(companiesItem);
@@ -106,9 +106,9 @@ const mainNavItems = computed<NavItem[]>(() => {
 	// ROLES
 	if (isAtleastAdmin.value) {
 		items.push({
-		title: 'Roles',
-		href: '/roles',
-		icon: LayoutGrid,
+			title: 'Roles',
+			href: '/roles',
+			icon: ShieldCheck,
 		});
 	}
 

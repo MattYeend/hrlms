@@ -5,7 +5,7 @@ import NavUser from '@/components/NavUser.vue';
 import { Sidebar, SidebarContent, SidebarFooter, SidebarHeader, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from '@/components/ui/sidebar';
 import { type NavItem } from '@/types';
 import { Link, usePage } from '@inertiajs/vue3';
-import { BookOpen, Folder, LayoutGrid } from 'lucide-vue-next';
+import { BookOpen, Folder, LayoutGrid, ShieldCheck, User2Icon, ArchiveIcon, Building2, Layers2 } from 'lucide-vue-next';
 import AppLogo from './AppLogo.vue';
 import { computed } from 'vue';
 
@@ -29,14 +29,14 @@ const mainNavItems = computed<NavItem[]>(() => {
 	const usersItem: NavItem = {
 		title: 'Users',
 		href: '/users',
-		icon: LayoutGrid,
+		icon: User2Icon,
 		children: [],
 	};
 	if (isAtleastAdmin.value && hasArchivedUsers.value) {
 		usersItem.children!.push({
 			title: 'Archived Users',
 			href: '/users/archived',
-			icon: LayoutGrid,
+			icon: ArchiveIcon,
 		});
 	}
 	items.push(usersItem);
@@ -45,14 +45,14 @@ const mainNavItems = computed<NavItem[]>(() => {
 		const departmentsItem: NavItem = {
 			title: 'Departments',
 			href: '/departments',
-			icon: LayoutGrid,
+			icon: Layers2,
 			children: [],
 		};
 		if (hasArchivedDepartments.value) {
 			departmentsItem.children!.push({
 				title: 'Archived Departments',
 				href: '/departments/archived',
-				icon: LayoutGrid,
+				icon: ArchiveIcon,
 			});
 		}
 		items.push(departmentsItem);
@@ -63,14 +63,14 @@ const mainNavItems = computed<NavItem[]>(() => {
 		const companiesItem: NavItem = {
 			title: 'Companies',
 			href: '/companies',
-			icon: LayoutGrid,
+			icon: Building2,
 			children: [],
 		};
 		if (hasArchivedCompanies.value) {
 			companiesItem.children!.push({
 				title: 'Archived Companies',
 				href: '/companies/archived',
-				icon: LayoutGrid,
+				icon: ArchiveIcon,
 			});
 		}
 		items.push(companiesItem);
@@ -81,7 +81,7 @@ const mainNavItems = computed<NavItem[]>(() => {
 		items.push({
 			title: 'Roles',
 			href: '/roles',
-			icon: LayoutGrid,
+			icon: ShieldCheck,
 		});
 	}
 
