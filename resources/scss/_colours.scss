@@ -1,563 +1,661 @@
+@use 'sass:color';
+
+// Variables for colours to be used throughout the application
+$primary-colour: #007bff;
+$secondary-colour: #6c757d;
+$success-colour: #28a745;
+$danger-colour: #dc3545;
+$warning-colour: #ffc107;
+$info-colour: #17a2b8;
+$light-colour: #f8f9fa;
+$dark-colour: #343a40;
+$body-bg-colour: #f8f9fa;
+$white-colour: #ffffff;
+$black-colour: #000000;
+$muted-colour: #6c757d;
+$dark-body-colour: #1d2124;
+
+// Different shades of colours for various UI elements
+// Primary Colours
+$primary-colour-light: color.adjust($primary-colour, $lightness: 10%);
+$primary-colour-lighter: color.adjust($primary-colour, $lightness: 20%);
+$primary-colour-lightest: color.adjust($primary-colour, $lightness: 30%);
+$primary-colour-dark: color.adjust($primary-colour, $lightness: -10%);
+$primary-colour-darker: color.adjust($primary-colour, $lightness: -20%);
+$primary-colour-darkest: color.adjust($primary-colour, $lightness: -30%);
+
+// Secondary Colours
+$secondary-colour-light: color.adjust($secondary-colour, $lightness: 10%);
+$secondary-colour-lighter: color.adjust($secondary-colour, $lightness: 20%);
+$secondary-colour-lightest: color.adjust($secondary-colour, $lightness: 30%);
+$secondary-colour-dark: color.adjust($secondary-colour, $lightness: -10%);
+$secondary-colour-darker: color.adjust($secondary-colour, $lightness: -20%);
+$secondary-colour-darkest: color.adjust($secondary-colour, $lightness: -30%);
+
+// Success Colours
+$success-colour-light: color.adjust($success-colour, $lightness: 10%);
+$success-colour-lighter: color.adjust($success-colour, $lightness: 20%);
+$success-colour-lightest: color.adjust($success-colour, $lightness: 30%);
+$success-colour-dark: color.adjust($success-colour, $lightness: -10%);
+$success-colour-darker: color.adjust($success-colour, $lightness: -20%);
+$success-colour-darkest: color.adjust($success-colour, $lightness: -30%);
+
+// Danger Colours
+$danger-colour-light: color.adjust($danger-colour, $lightness: 10%);
+$danger-colour-lighter: color.adjust($danger-colour, $lightness: 20%);
+$danger-colour-lightest: color.adjust($danger-colour, $lightness: 30%);
+$danger-colour-dark: color.adjust($danger-colour, $lightness: -10%);
+$danger-colour-darker: color.adjust($danger-colour, $lightness: -20%);
+$danger-colour-darkest: color.adjust($danger-colour, $lightness: -30%);
+
+// Warning Colours
+$warning-colour-light: color.adjust($warning-colour, $lightness: 10%);
+$warning-colour-lighter: color.adjust($warning-colour, $lightness: 20%);
+$warning-colour-lightest: color.adjust($warning-colour, $lightness: 30%);
+$warning-colour-dark: color.adjust($warning-colour, $lightness: -10%);
+$warning-colour-darker: color.adjust($warning-colour, $lightness: -20%);
+$warning-colour-darkest: color.adjust($warning-colour, $lightness: -30%);
+
+// Info Colours
+$info-colour-light: color.adjust($info-colour, $lightness: 10%);
+$info-colour-lighter: color.adjust($info-colour, $lightness: 20%);
+$info-colour-lightest: color.adjust($info-colour, $lightness: 30%);
+$info-colour-dark: color.adjust($info-colour, $lightness: -10%);
+$info-colour-darker: color.adjust($info-colour, $lightness: -20%);
+$info-colour-darkest: color.adjust($info-colour, $lightness: -30%);
+
+// Light Colours
+$light-colour-light: color.adjust($light-colour, $lightness: 10%);
+$light-colour-lighter: color.adjust($light-colour, $lightness: 20%);
+$light-colour-lightest: color.adjust($light-colour, $lightness: 30%);
+$light-colour-dark: color.adjust($light-colour, $lightness: -10%);
+$light-colour-darker: color.adjust($light-colour, $lightness: -20%);
+$light-colour-darkest: color.adjust($light-colour, $lightness: -30%);
+
+// Dark Colours
+$dark-colour-light: color.adjust($dark-colour, $lightness: 10%);
+$dark-colour-lighter: color.adjust($dark-colour, $lightness: 20%);
+$dark-colour-lightest: color.adjust($dark-colour, $lightness: 30%);
+$dark-colour-dark: color.adjust($dark-colour, $lightness: -10%);
+$dark-colour-darker: color.adjust($dark-colour, $lightness: -20%);
+$dark-colour-darkest: color.adjust($dark-colour, $lightness: -30%);
+
+// Body Background Colour
+$body-bg-colour-light: color.adjust($body-bg-colour, $lightness: 10%);
+$body-bg-colour-lighter: color.adjust($body-bg-colour, $lightness: 20%);
+$body-bg-colour-lightest: color.adjust($body-bg-colour, $lightness: 30%);
+$body-bg-colour-dark: color.adjust($body-bg-colour, $lightness: -10%);
+$body-bg-colour-darker: color.adjust($body-bg-colour, $lightness: -20%);
+$body-bg-colour-darkest: color.adjust($body-bg-colour, $lightness: -30%);
+
+// Dark Body Colour
+$dark-body-colour-light: color.adjust($dark-body-colour, $lightness: 10%);
+$dark-body-colour-lighter: color.adjust($dark-body-colour, $lightness: 20%);
+$dark-body-colour-lightest: color.adjust($dark-body-colour, $lightness: 30%);
+$dark-body-colour-dark: color.adjust($dark-body-colour, $lightness: -10%);
+$dark-body-colour-darker: color.adjust($dark-body-colour, $lightness: -20%);
+$dark-body-colour-darkest: color.adjust($dark-body-colour, $lightness: -30%);
+
 .primary{
-	color: #007bff;
+	color: $primary-colour;
 }
 .secondary{
-	color: #6c757d;
+	color: $secondary-colour;
 }
 .success{
-	color: #28a745;
+	color: $success-colour;
 }
 .danger{
-	color: #dc3545;
+	color: $danger-colour;
 }
 .warning{
-	color: #ffc107;
+	color: $warning-colour;
 }
 .info{
-	color: #17a2b8;
+	color: $info-colour;
 }
 .light{
-	color: #f8f9fa;
+	color: $light-colour;
 }
 .dark{
-	color: #343a40;
+	color: $dark-colour;
 }
 .body-bg{
-	background-color: #f8f9fa;
+	background-color: $body-bg-colour;
 }
 .white-text{
-	color: #ffffff;
+	color: $white-colour;
 }
 .black-text{
-	color: #000000;
+	color: $black-colour;
 }
-.text-muted{
-	color: #6c757d;
+.muted-text{
+	color: $muted-colour;
 }
-.text-primary{
-	color: #007bff;
+.primary-text{
+	color: $primary-colour;
 }
-.text-secondary{
-	color: #6c757d;
+.secondary-text{
+	color: $secondary-colour;
 }
-.text-success{
-	color: #28a745;
+.success-text{
+	color: $success-colour;
 }
-.text-danger{
-	color: #dc3545;
+.danger-text{
+	color: $danger-colour;
 }
-.text-warning{
-	color: #ffc107;
+.warning-text{
+	color: $warning-colour;
 }
-.text-info{
-	color: #17a2b8;
+.info-text{
+	color: $info-colour;
 }
-.text-light{
-	color: #f8f9fa;
+.light-text{
+	color: $light-colour;
 }
-.text-dark{
-	color: #343a40;
+.dark-text{
+	color: $dark-colour;
 }
-.text-body{
-	color: #212529;
+.body-text{
+	color: $dark-body-colour;
 }
-.text-decoration-none{
+.decoration-none-text{
 	text-decoration: none;
 }
-.text-decoration-underline{
+.decoration-underline-text{
 	text-decoration: underline;
 }
-.text-decoration-line-through{
+.decoration-line-through-text{
 	text-decoration: line-through;
 }
-.text-decoration-overline{
+.decoration-overline-text{
 	text-decoration: overline;
 }
-.text-uppercase{
+.uppercase-text{
 	text-transform: uppercase;
 }
-.text-lowercase{
+.lowercase-text{
 	text-transform: lowercase;
 }
-.text-capitalize{
+.capitalize-text{
 	text-transform: capitalize;
 }
-.text-truncate{
+.truncate-text{
 	overflow: hidden;
 	text-overflow: ellipsis;
 	white-space: nowrap;
 }
-.text-wrap{
+.wrap-text{
 	white-space: normal;
 }
-.text-break{
+.break-text{
 	word-break: break-all;
 }
-.text-nowrap{
+.nowrap-text{
 	white-space: nowrap;
 }
-.text-left{
+.left-text{
 	text-align: left;
 }
-.text-right{
+.right-text{
 	text-align: right;
 }
-.text-center{
+.center-text{
 	text-align: center;
 }
-.text-justify{
+.justify-text{
 	text-align: justify;
 }
-.text-start{
+.start-text{
 	text-align: start;
 }
-.text-end{
+.end-text{
 	text-align: end;
 }
-.text-shadow{
+.shadow-text{
 	text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
 }
-.text-primary-bg{
-	background-color: #007bff;
+.primary-text-bg{
+	background-color: $primary-colour;
 }
-.text-secondary-bg{
-	background-color: #6c757d;
+.secondary-text-bg{
+	background-color: $secondary-colour;
 }
-.text-success-bg{
-	background-color: #28a745;
+.success-text-bg{
+	background-color: $success-colour;
 }
-.text-danger-bg{
-	background-color: #dc3545;
+.danger-text-bg{
+	background-color: $danger-colour;
 }
-.text-warning-bg{
-	background-color: #ffc107;
+.warning-text-bg{
+	background-color: $warning-colour;
 }
-.text-info-bg{
-	background-color: #17a2b8;
+.info-text-bg{
+	background-color: $info-colour;
 }
-.text-light-bg{
-	background-color: #f8f9fa;
+.light-text-bg{
+	background-color: $light-colour;
 }
-.text-dark-bg{
-	background-color: #343a40;
+.dark-text-bg{
+	background-color: $dark-colour;
 }
-.text-body-bg{
-	background-color: #212529;
+.body-text-bg{
+	background-color: $dark-body-colour;
 }
 .white-text-bg{
-	background-color: #ffffff;
+	background-color: $white-colour;
 }
 .black-text-bg{
-	background-color: #000000;
+	background-color: $black-colour;
 }
-.text-muted-bg{
-	background-color: #6c757d;
+.muted-text-bg{
+	background-color: $muted-colour;
 }
-.text-primary-border{
-	border-color: #007bff;
+.primary-text-border{
+	border-color: $primary-colour;
 }
-.text-secondary-border{
-	border-color: #6c757d;
+.secondary-text-border{
+	border-color: $secondary-colour;
 }
-.text-success-border{
-	border-color: #28a745;
+.success-text-border{
+	border-color: $success-colour;
 }
-.text-danger-border{
-	border-color: #dc3545;
+.danger-text-border{
+	border-color: $danger-colour;
 }
-.text-warning-border{
-	border-color: #ffc107;
+.warning-text-border{
+	border-color: $warning-colour;
 }
-.text-info-border{
-	border-color: #17a2b8;
+.info-text-border{
+	border-color: $info-colour;
 }
-.text-light-border{
-	border-color: #f8f9fa;
+.light-text-border{
+	border-color: $light-colour;
 }
-.text-dark-border{
-	border-color: #343a40;
+.dark-text-border{
+	border-color: $dark-colour;
 }
-.text-body-border{
-	border-color: #212529;
+.body-text-border{
+	border-color: $dark-body-colour;
 }
 .white-text-border{
-	border-color: #ffffff;
+	border-color: $white-colour;
 }
 .black-text-border{
-	border-color: #000000;
+	border-color: $black-colour;
 }
-.text-muted-border{
-	border-color: #6c757d;
+.muted-text-border{
+	border-color: $muted-colour;
 }
-.text-primary-hover:hover{
-	color: #0056b3;
+.primary-text-hover:hover{
+	color: $primary-colour;
 }
-.text-secondary-hover:hover{
-	color: #5a6268;
+.secondary-text-hover:hover{
+	color: $secondary-colour;
 }
-.text-success-hover:hover{
-	color: #218838;
+.success-text-hover:hover{
+	color: $success-colour;
 }
-.text-danger-hover:hover{
-	color: #c82333;
+.danger-text-hover:hover{
+	color: $danger-colour;
 }
-.text-warning-hover:hover{
-	color: #e0a800;
+.warning-text-hover:hover{
+	color: $warning-colour;
 }
-.text-info-hover:hover{
-	color: #138496;
+.info-text-hover:hover{
+	color: $info-colour;
 }
-.text-light-hover:hover{
-	color: #e9ecef;
+.light-text-hover:hover{
+	color: $light-colour;
 }
-.text-dark-hover:hover{
-	color: #23272b;
+.dark-text-hover:hover{
+	color: $dark-colour;
 }
-.text-body-hover:hover{
-	color: #1d2124;
+.body-text-hover:hover{
+	color: $dark-body-colour;
 }
 .white-text-hover:hover{
-	color: #ffffff;
+	color: $white-colour;
 }
 .black-text-hover:hover{
-	color: #000000;
+	color: $black-colour;
 }
-.text-muted-hover:hover{
-	color: #5c636a;
+.muted-text-hover:hover{
+	color: $muted-colour;
 }
-.text-primary-focus:focus{
-	color: #004085;
+.primary-text-focus:focus{
+	color: $primary-colour;
 }
-.text-secondary-focus:focus{
-	color: #545b62;
+.secondary-text-focus:focus{
+	color: $secondary-colour;
 }
-.text-success-focus:focus{
-	color: #1e7e34;
+.success-text-focus:focus{
+	color: $success-colour;
 }
-.text-danger-focus:focus{
-	color: #bd2130;
+.danger-text-focus:focus{
+	color: $danger-colour;
 }
-.text-warning-focus:focus{
-	color: #d39e00;
+.warning-text-focus:focus{
+	color: $warning-colour;
 }
-.text-info-focus:focus{
-	color: #117a8b;
+.info-text-focus:focus{
+	color: $info-colour;
 }
-.text-light-focus:focus{
-	color: #cfd8dc;
+.light-text-focus:focus{
+	color: $light-colour;
 }
-.text-dark-focus:focus{
-	color: #1c1e21;
+.dark-text-focus:focus{
+	color: $dark-colour;
 }
-.text-body-focus:focus{
-	color: #171a1d;
+.body-text-focus:focus{
+	color: $dark-body-colour;
 }
 .white-text-focus:focus{
-	color: #ffffff;
+	color: $white-colour;
 }
 .black-text-focus:focus{
-	color: #000000;
+	color: $black-colour;
 }
-.text-muted-focus:focus{
-	color: #5a6268;
+.muted-text-focus:focus{
+	color: $muted-colour;
 }
-.text-primary-active:active{
-	color: #003366;
+.primary-text-active:active{
+	color: $primary-colour;
 }
-.text-secondary-active:active{
-	color: #4e555b;
+.secondary-text-active:active{
+	color: $secondary-colour;
 }
-.text-success-active:active{
-	color: #1c7430;
+.success-text-active:active{
+	color: $success-colour;
 }
-.text-danger-active:active{
-	color: #a71d2a;
+.danger-text-active:active{
+	color: $danger-colour;
 }
-.text-warning-active:active{
-	color: #c69500;
+.warning-text-active:active{
+	color: $warning-colour;
 }
-.text-info-active:active{
-	color: #0f6c7d;
+.info-text-active:active{
+	color: $info-colour;
 }
-.text-light-active:active{
-	color: #b0bec5;
+.light-text-active:active{
+	color: $light-colour;
 }
-.text-dark-active:active{
-	color: #1a1c1f;
+.dark-text-active:active{
+	color: $dark-colour;
 }
-.text-body-active:active{
-	color: #141618;
+.body-text-active:active{
+	color: $dark-body-colour;
 }
 .white-text-active:active{
-	color: #ffffff;
+	color: $white-colour;
 }
 .black-text-active:active{
-	color: #000000;
+	color: $black-colour;
 }
-.text-muted-active:active{
-	color: #4e555b;
+.muted-text-active:active{
+	color: $muted-colour;
 }
-.text-primary-disabled{
-	color: #007bff;
+.primary-text-disabled{
+	color: $primary-colour;
 	opacity: 0.65;
 }
-.text-secondary-disabled{
-	color: #6c757d;
+.secondary-text-disabled{
+	color: $secondary-colour;
 	opacity: 0.65;
 }
-.text-success-disabled{
-	color: #28a745;
+.success-text-disabled{
+	color: $success-colour;
 	opacity: 0.65;
 }
-.text-danger-disabled{
-	color: #dc3545;
+.danger-text-disabled{
+	color: $danger-colour;
 	opacity: 0.65;
 }
-.text-warning-disabled{
-	color: #ffc107;
+.warning-text-disabled{
+	color: $warning-colour;
 	opacity: 0.65;
 }
-.text-info-disabled{
-	color: #17a2b8;
+.info-text-disabled{
+	color: $info-colour;
 	opacity: 0.65;
 }
-.text-light-disabled{
-	color: #f8f9fa;
+.light-text-disabled{
+	color: $light-colour;
 	opacity: 0.65;
 }
-.text-dark-disabled{
-	color: #343a40;
+.dark-text-disabled{
+	color: $dark-colour;
 	opacity: 0.65;
 }
-.text-body-disabled{
-	color: #212529;
+.body-text-disabled{
+	color: $dark-body-colour;
 	opacity: 0.65;
 }
 .white-text-disabled{
-	color: #ffffff;
+	color: $white-colour;
 	opacity: 0.65;
 }
 .black-text-disabled{
-	color: #000000;
+	color: $black-colour;
 	opacity: 0.65;
 }
-.text-muted-disabled{
-	color: #6c757d;
+.muted-text-disabled{
+	color: $muted-colour;
 	opacity: 0.65;
 }
-.text-primary-active:hover{
-	color: #0056b3;
+.primary-text-active:hover{
+	color: $primary-colour;
 }
-.text-secondary-active:hover{
-	color: #5a6268;
+.secondary-text-active:hover{
+	color: $secondary-colour;
 }
-.text-success-active:hover{
-	color: #218838;
+.success-text-active:hover{
+	color: $success-colour;
 }
-.text-danger-active:hover{
-	color: #c82333;
+.danger-text-active:hover{
+	color: $danger-colour;
 }
-.text-warning-active:hover{
-	color: #e0a800;
+.warning-text-active:hover{
+	color: $warning-colour;
 }
-.text-info-active:hover{
-	color: #138496;
+.info-text-active:hover{
+	color: $info-colour;
 }
-.text-light-active:hover{
-	color: #e9ecef;
+.light-text-active:hover{
+	color: $light-colour;
 }
-.text-dark-active:hover{
-	color: #23272b;
+.dark-text-active:hover{
+	color: $dark-colour;
 }
-.text-body-active:hover{
-	color: #1d2124;
+.body-text-active:hover{
+	color: $dark-body-colour;
 }
 .white-text-active:hover{
-	color: #ffffff;
+	color: $white-colour;
 }
 .black-text-active:hover{
-	color: #000000;
+	color: $black-colour;
 }
-.text-muted-active:hover{
-	color: #5c636a;
+.muted-text-active:hover{
+	color: $muted-colour;
 }
-.text-primary-focus:hover{
-	color: #004085;
+.primary-text-focus:hover{
+	color: $primary-colour;
 }
-.text-secondary-focus:hover{
-	color: #545b62;
+.secondary-text-focus:hover{
+	color: $secondary-colour;
 }
-.text-success-focus:hover{
-	color: #1e7e34;
+.success-text-focus:hover{
+	color: $success-colour;
 }
-.text-danger-focus:hover{
-	color: #bd2130;
+.danger-text-focus:hover{
+	color: $danger-colour;
 }
-.text-warning-focus:hover{
-	color: #d39e00;
+.warning-text-focus:hover{
+	color: $warning-colour;
 }
-.text-info-focus:hover{
-	color: #117a8b;
+.info-text-focus:hover{
+	color: $info-colour;
 }
-.text-light-focus:hover{
-	color: #cfd8dc;
+.light-text-focus:hover{
+	color: $light-colour;
 }
-.text-dark-focus:hover{
-	color: #1c1e21;
+.dark-text-focus:hover{
+	color: $dark-colour;
 }
-.text-body-focus:hover{
-	color: #171a1d;
+.body-text-focus:hover{
+	color: $dark-body-colour;
 }
 .white-text-focus:hover{
-	color: #ffffff;
+	color: $white-colour;
 }
 .black-text-focus:hover{
-	color: #000000;
+	color: $black-colour;
 }
-.text-muted-focus:hover{
-	color: #5a6268;
+.muted-text-focus:hover{
+	color: $muted-colour;
 }
-.text-primary-active:focus{
-	color: #003366;
+.primary-text-active:focus{
+	color: $primary-colour;
 }
-.text-secondary-active:focus{
-	color: #4e555b;
+.secondary-text-active:focus{
+	color: $secondary-colour;
 }
-.text-success-active:focus{
-	color: #1c7430;
+.success-text-active:focus{
+	color: $success-colour;
 }
-.text-danger-active:focus{
-	color: #a71d2a;
+.danger-text-active:focus{
+	color: $danger-colour;
 }
-.text-warning-active:focus{
-	color: #c69500;
+.warning-text-active:focus{
+	color: $warning-colour;
 }
-.text-info-active:focus{
-	color: #0f6c7d;
+.info-text-active:focus{
+	color: $info-colour;
 }
-.text-light-active:focus{
-	color: #b0bec5;
+.light-text-active:focus{
+	color: $light-colour;
 }
-.text-dark-active:focus{
-	color: #1a1c1f;
+.dark-text-active:focus{
+	color: $dark-colour;
 }
-.text-body-active:focus{
-	color: #141618;
+.body-text-active:focus{
+	color: $dark-body-colour;
 }
 .white-text-active:focus{
-	color: #ffffff;
+	color: $white-colour;
 }
 .black-text-active:focus{
-	color: #000000;
+	color: $black-colour;
 }
-.text-muted-active:focus{
-	color: #4e555b;
+.muted-text-active:focus{
+	color: $muted-colour;
 }
-.text-primary-disabled:hover{
-	color: #0056b3;
+.primary-text-disabled:hover{
+	color: $primary-colour;
 }
-.text-secondary-disabled:hover{
-	color: #5a6268;
+.secondary-text-disabled:hover{
+	color: $secondary-colour;
 }
-.text-success-disabled:hover{
-	color: #218838;
+.success-text-disabled:hover{
+	color: $success-colour;
 }
-.text-danger-disabled:hover{
-	color: #c82333;
+.danger-text-disabled:hover{
+	color: $danger-colour;
 }
-.text-warning-disabled:hover{
-	color: #e0a800;
+.warning-text-disabled:hover{
+	color: $warning-colour;
 }
-.text-info-disabled:hover{
-	color: #138496;
+.info-text-disabled:hover{
+	color: $info-colour;
 }
-.text-light-disabled:hover{
-	color: #e9ecef;
+.light-text-disabled:hover{
+	color: $light-colour;
 }
-.text-dark-disabled:hover{
-	color: #23272b;
+.dark-text-disabled:hover{
+	color: $dark-colour;
 }
-.text-body-disabled:hover{
-	color: #1d2124;
+.body-text-disabled:hover{
+	color: $dark-body-colour;
 }
 .white-text-disabled:hover{
-	color: #ffffff;
+	color: $white-colour;
 }
 .black-text-disabled:hover{
-	color: #000000;
+	color: $black-colour;
 }  
-.text-muted-disabled:hover{
-	color: #5c636a;
+.muted-text-disabled:hover{
+	color: $muted-colour;
 }
-.text-primary-disabled:active{
-	color: #0056b3;
+.primary-text-disabled:active{
+	color: $primary-colour;
 }
-.text-secondary-disabled:active{
-	color: #5a6268;
+.secondary-text-disabled:active{
+	color: $secondary-colour;
 }
-.text-success-disabled:active{
-	color: #218838;
+.success-text-disabled:active{
+	color: $success-colour;
 }
-.text-danger-disabled:active{
-	color: #c82333;
+.danger-text-disabled:active{
+	color: $danger-colour;
 }
-.text-warning-disabled:active{
-	color: #e0a800;
+.warning-text-disabled:active{
+	color: $warning-colour;
 }
-.text-info-disabled:active{
-	color: #138496;
+.info-text-disabled:active{
+	color: $info-colour;
 }
-.text-light-disabled:active{
-	color: #e9ecef;
+.light-text-disabled:active{
+	color: $light-colour;
 }
-.text-dark-disabled:active{
-	color: #23272b;
+.dark-text-disabled:active{
+	color: $dark-colour;
 }
-.text-body-disabled:active{
-	color: #1d2124;
+.body-text-disabled:active{
+	color: $dark-body-colour;
 }
 .white-text-disabled:active{
-	color: #ffffff;
+	color: $white-colour;
 }
 .black-text-disabled:active{
-	color: #000000;
+	color: $black-colour;
 }
-.text-muted-disabled:active{
-	color: #5c636a;
+.muted-text-disabled:active{
+	color: $muted-colour;
 }
-.text-primary-disabled:focus{
-	color: #004085;
+.primary-text-disabled:focus{
+	color: $primary-colour;
 }
-.text-secondary-disabled:focus{
-	color: #545b62;
+.secondary-text-disabled:focus{
+	color: $secondary-colour;
 }
-.text-success-disabled:focus{
-	color: #1e7e34;
+.success-text-disabled:focus{
+	color: $success-colour;
 }
-.text-danger-disabled:focus{
-	color: #bd2130;
+.danger-text-disabled:focus{
+	color: $danger-colour;
 }
-.text-warning-disabled:focus{
-	color: #d39e00;
+.warning-text-disabled:focus{
+	color: $warning-colour;
 }
-.text-info-disabled:focus{
-	color: #117a8b;
+.info-text-disabled:focus{
+	color: $info-colour;
 }
-.text-light-disabled:focus{
-	color: #cfd8dc;
+.light-text-disabled:focus{
+	color: $light-colour;
 }
-.text-dark-disabled:focus{
-	color: #1c1e21;
+.dark-text-disabled:focus{
+	color: $dark-colour;
 }
-.text-body-disabled:focus{
-	color: #171a1d;
+.body-text-disabled:focus{
+	color: $dark-body-colour;
 }
 .white-text-disabled:focus{
-	color: #ffffff;
+	color: $white-colour;
 }
 .black-text-disabled:focus{
-	color: #000000;
+	color: $black-colour;
 }
-.text-muted-disabled:focus{
-	color: #5a6268	
+.muted-text-disabled:focus{
+	color: $muted-colour;	
 }
