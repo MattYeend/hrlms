@@ -17,9 +17,9 @@ class DepartmentSeeder extends Seeder
     {
         DB::table('departments')->insert([
             [
-                'name' => 'All Departments',
-                'slug' => Str::slug('All Departments'),
-                'description' => 'This is a placeholder for all departments.',
+                'name' => 'C Suite',
+                'slug' => Str::slug('C Suite'),
+                'description' => 'Executive management team overseeing the entire organization.',
                 'is_default' => true,
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now(),
@@ -79,6 +79,42 @@ class DepartmentSeeder extends Seeder
                 'updated_at' => Carbon::now(),
                 'dept_lead' => null,
             ],
+            [
+                'name' => 'Research and Development',
+                'slug' => Str::slug('Research and Development'),
+                'description' => 'Focuses on innovation and product development.',
+                'is_default' => false,
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
+                'dept_lead' => null,
+            ],
+            [
+                'name' => 'Legal',
+                'slug' => Str::slug('Legal'),
+                'description' => 'Handles legal matters and compliance.',
+                'is_default' => false,
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
+                'dept_lead' => null,
+            ],
+            [
+                'name' => 'Operations',
+                'slug' => Str::slug('Operations'),
+                'description' => 'Manages day-to-day business activities and processes.',
+                'is_default' => false,
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
+                'dept_lead' => null,
+            ],
+            [
+                'name' => 'Administration',
+                'slug' => Str::slug('Administration'),
+                'description' => 'Oversees office management and administrative tasks.',
+                'is_default' => false,
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
+                'dept_lead' => null,
+            ]
         ]);
     }
 }

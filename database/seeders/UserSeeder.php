@@ -18,6 +18,9 @@ class UserSeeder extends Seeder
     {
         $now = Carbon::now();
 
+        $jobMap = DB::table('user_jobs')->pluck('id', 'job_title');
+        $deptMap = DB::table('departments')->pluck('id', 'name');
+
         $users = [
             [
                 'title' => 'Mr',
@@ -36,7 +39,8 @@ class UserSeeder extends Seeder
                 'full_time' => true,
                 'part_time' => false,
                 'role_id' => 1,
-                // 'department_id' => 1,
+                'department_id' => $deptMap['C Suite'],
+                'job_id' => $jobMap['Chief Executive Officer'],
                 'created_by' => 1,
                 'updated_by' => 1,
                 'created_at' => $now,
@@ -45,23 +49,23 @@ class UserSeeder extends Seeder
         ];
 
         $extraUsers = [
-            ['Miss', 'Emma', 'Wilson', 'emma.wilson@example.com', 2],
-            ['Mr', 'Liam', 'Johnson', 'liam.johnson@example.com', 3],
-            ['Mrs', 'Sophia', 'Turner', 'sophia.turner@example.com', 3],
-            ['Ms', 'Olivia', 'Green', 'olivia.green@example.com', 3],
-            ['Mr', 'Noah', 'Walker', 'noah.walker@example.com', 3],
-            ['Mrs', 'Ava', 'Martin', 'ava.martin@example.com', 3],
-            ['Mr', 'William', 'King', 'william.king@example.com', 3],
-            ['Miss', 'Isabella', 'Scott', 'isabella.scott@example.com', 2],
-            ['Mr', 'James', 'White', 'james.white@example.com', 3],
-            ['Miss', 'Mia', 'Baker', 'mia.baker@example.com', 3],
-            ['Mr', 'Lucas', 'Reed', 'lucas.reed@example.com', 2],
-            ['Mrs', 'Amelia', 'Wright', 'amelia.wright@example.com', 3],
+            ['Miss', 'Emma', 'Wilson', 'emma.wilson@example.com', 2, 'Human Resources', 'HR Administrator'],
+            ['Mr', 'Liam', 'Johnson', 'liam.johnson@example.com', 3, 'Finance', 'Accountant'],
+            ['Mrs', 'Sophia', 'Turner', 'sophia.turner@example.com', 3, 'Marketing', 'Digital Marketing Manager'],
+            ['Ms', 'Olivia', 'Green', 'olivia.green@example.com', 3, 'Sales', 'Sales Representative'],
+            ['Mr', 'Noah', 'Walker', 'noah.walker@example.com', 3, 'IT Department', 'Data Analyst'],
+            ['Mrs', 'Ava', 'Martin', 'ava.martin@example.com', 3, 'IT Department', 'Systems Administrator'],
+            ['Mr', 'William', 'King', 'william.king@example.com', 3, 'Human Resources', 'Employee Relations Manager'],
+            ['Miss', 'Isabella', 'Scott', 'isabella.scott@example.com', 2, 'Finance', 'Accountant'],
+            ['Mr', 'James', 'White', 'james.white@example.com', 3, 'Marketing', 'SEO Specialist'],
+            ['Miss', 'Mia', 'Baker', 'mia.baker@example.com', 3, 'Sales', 'Sales Director'],
+            ['Mr', 'Lucas', 'Reed', 'lucas.reed@example.com', 2, 'IT Department', 'Systems Administrator'],
+            ['Mrs', 'Amelia', 'Wright', 'amelia.wright@example.com', 3, 'Sales', 'Business Development Manager'],
         ];
 
-        foreach ($extraUsers as $index => [$title, $first, $last, $email, $roleId]) {
+        foreach ($extraUsers as $index => [$title, $first, $last, $email, $roleId, $deptName, $jobTitle]) {
             $users[] = [
-                'title' => "$title",
+                'title' => $title,
                 'name' => "$first $last",
                 'email' => $email,
                 'email_verified_at' => $now,
@@ -77,7 +81,8 @@ class UserSeeder extends Seeder
                 'full_time' => true,
                 'part_time' => false,
                 'role_id' => $roleId,
-                // 'department_id' => $deptId,
+                'department_id' => $deptMap[$deptName] ?? null,
+                'job_id' => $jobMap[$jobTitle] ?? null,
                 'created_by' => 1,
                 'updated_by' => 1,
                 'created_at' => $now,
@@ -87,31 +92,6 @@ class UserSeeder extends Seeder
 
         User::insert($users);
 
-        $updates = [
-            'superadmin@example.com' => 1,
-            'emma.wilson@example.com' => 2,
-            'liam.johnson@example.com' => 3,
-            'sophia.turner@example.com' => 4,
-            'olivia.green@example.com' => 5,
-            'noah.walker@example.com' => 6,
-            'ava.martin@example.com' => 7,
-            'william.king@example.com' => 2, 
-            'isabella.scott@example.com' => 3,
-            'james.white@example.com' => 4,
-            'mia.baker@example.com' => 5,
-            'lucas.reed@example.com' => 6,
-            'amelia.wright@example.com' => 7,
-        ];
-        foreach ($updates as $email => $deptId) {
-            User::where('email', $email)->update(['department_id' => $deptId]);
-        }
-
-        DB::table('departments')->where('id', 1)->update(['dept_lead' => 1]);
-        DB::table('departments')->where('id', 2)->update(['dept_lead' => 1]);
-        DB::table('departments')->where('id', 3)->update(['dept_lead' => 1]);
-        DB::table('departments')->where('id', 4)->update(['dept_lead' => 1]);
-        DB::table('departments')->where('id', 5)->update(['dept_lead' => 1]);
-        DB::table('departments')->where('id', 6)->update(['dept_lead' => 1]);
-        DB::table('departments')->where('id', 7)->update(['dept_lead' => 1]);
+        DB::table('departments')->update(['dept_lead' => 1]);
     }
 }

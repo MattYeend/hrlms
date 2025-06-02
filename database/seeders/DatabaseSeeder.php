@@ -24,6 +24,7 @@ class DatabaseSeeder extends Seeder
             RoleSeeder::class,
             CompanySeeder::class,
             DepartmentSeeder::class,
+            UserJobsSeeder::class,
             UserSeeder::class,
             // Add other seeders here
         ]);

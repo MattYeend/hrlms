@@ -7,6 +7,7 @@ use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use Illuminate\Support\Carbon;
+use Faker\Factory as Faker;
 
 class CompanySeeder extends Seeder
 {
@@ -15,11 +16,15 @@ class CompanySeeder extends Seeder
      */
     public function run(): void
     {
-        $faker = \Faker\Factory::create();
+        $faker = Faker::create();
+        $now = Carbon::now();
+        $companies = [];
 
-        DB::table('companies')->insert([
-            [
-                'name' => $name = $faker->company,
+        for ($i = 0; $i < 5; $i++) {
+            $name = $faker->company;
+
+            $companies[] = [
+                'name' => $name,
                 'slug' => Str::slug($name),
                 'first_line' => $faker->streetAddress,
                 'second_line' => $faker->secondaryAddress,
@@ -31,9 +36,11 @@ class CompanySeeder extends Seeder
                 'phone' => $faker->phoneNumber,
                 'email' => $faker->companyEmail,
                 'is_default' => false,
-                'created_at' => Carbon::now(),
-                'updated_at' => Carbon::now(),
-            ]
-        ]);
+                'created_at' => $now,
+                'updated_at' => $now,
+            ];
+        }
+
+        DB::table('companies')->insert($companies);
     }
 }
