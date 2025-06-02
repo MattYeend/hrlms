@@ -18,7 +18,7 @@ class UserJobFactory extends Factory
     public function definition(): array
     {
         return [
-            'title' => fake()->jobTitle(),
+            'job_title' => fake()->jobTitle(),
             'slug' => Str::slug(fake()->jobTitle()),
             'short_code' => Str::upper(fake()->unique()->lexify('????')),
             'description' => fake()->paragraph(),

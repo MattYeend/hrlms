@@ -77,7 +77,7 @@ class UserJobController extends Controller
             'created_at' => $job->created_at,
         ], auth()->id());
 
-        return redirect()->route('users.show', ['job' => $job->slug])
+        return redirect()->route('jobs.show', ['job' => $job->slug])
             ->with('success', 'Job created successfully.');
     }
 

@@ -11,6 +11,12 @@ class UserJob extends Model
     /** @use HasFactory<\Database\Factories\UserJobsFactory> */
     use HasFactory, SoftDeletes;
 
+
+    public function getRouteKeyName()
+    {
+        return 'slug';
+    }
+    
     /**
      * The attributes that are mass assignable.
      *
