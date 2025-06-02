@@ -72,6 +72,7 @@ class DepartmentController extends Controller
             'name' => $department->name,
             'slug' => $department->slug,
             'created_by' => $department->created_by,
+            'created_at' => $department->created_at,
         ], auth()->id());
         return redirect()->route('departments.show', $department)
             ->with('success', 'Department created successfully.');
@@ -127,6 +128,7 @@ class DepartmentController extends Controller
             'name' => $department->name,
             'slug' => $department->slug,
             'updated_by' => $department->updated_by,
+            'updated_at' => $department->updated_at,
         ], auth()->id());
 
         return redirect()->route('departments.show', $department)
@@ -148,6 +150,7 @@ class DepartmentController extends Controller
             'name' => $department->name,
             'slug' => $department->slug,
             'deleted_by' => $department->deleted_by,
+            'deleted_at' => $department->deleted_at,
         ], auth()->id());
 
         return redirect()->route('departments.index')

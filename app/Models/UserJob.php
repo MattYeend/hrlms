@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class UserJobs extends Model
+class UserJob extends Model
 {
     /** @use HasFactory<\Database\Factories\UserJobsFactory> */
     use HasFactory, SoftDeletes;

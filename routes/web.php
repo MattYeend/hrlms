@@ -9,7 +9,7 @@ use App\Http\Controllers\UserJobsController;
 use App\Models\Company;
 use App\Models\Department;
 use App\Models\User;
-use App\Models\UserJobs;
+use App\Models\UserJob;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -32,7 +32,7 @@ Route::bind('user', function ($value) {
 });
 
 Route::bind('userJob', function ($value) {
-    return UserJobs::withTrashed()
+    return UserJob::withTrashed()
         ->where('slug', $value)
         ->firstOrFail();
 });

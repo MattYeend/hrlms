@@ -68,6 +68,13 @@ class Log extends Model
     public const ACTION_VIEW_ARCHIVED_USERS = 59;
     public const ACTION_VIEW_ARCHIVED_DEPARTMENTS = 60;
     public const ACTION_VIEW_ARCHIVED_COMPANIES = 61;
+    public const ACTION_VIEW_JOBS = 62;
+    public const ACTION_SHOW_JOB = 63;
+    public const ACTION_CREATE_JOB = 64;
+    public const ACTION_UPDATE_JOB = 65;
+    public const ACTION_DELETE_JOB = 66;
+    public const ACTION_REINSTATE_JOB = 67;
+    public const ACTION_VIEW_ARCHIVED_JOBS = 68;
 
     protected $table = 'logs';
 

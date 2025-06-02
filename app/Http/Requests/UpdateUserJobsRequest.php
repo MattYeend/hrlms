@@ -11,7 +11,8 @@ class UpdateUserJobsRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return auth()->user()?->role_id === \App\Models\Role::SUPER_ADMIN ||
+               auth()->user()?->role_id === \App\Models\Role::ADMIN;
     }
 
     /**
@@ -21,8 +22,26 @@ class UpdateUserJobsRequest extends FormRequest
      */
     public function rules(): array
     {
+        $job = $this->route('job');
         return [
-            //
+            'job_title' => ['required', 'string', 'max:255'],
+            'slug' => [
+                'nullable',
+                'string',
+                'max:255',
+                'unique:jobs,slug,' . $job->id,
+            ],
+            'short_code' => [
+                'nullable',
+                'string',
+                'max:10',
+                'unique:jobs,short_code,' . $job->id,
+            ],
+            'description' => ['nullable', 'string'],
+            'is_default' => ['boolean'],
+            'department_id' => [
+                'exists:department,id',
+            ],
         ];
     }
 }

@@ -43,6 +43,11 @@ class Department extends Model
         return $this->hasMany(User::class);
     }
 
+    public function jobs()
+    {
+        return $this->hasMany(UserJob::class);
+    }
+
     public function getRouteKeyName()
     {
         return 'slug';

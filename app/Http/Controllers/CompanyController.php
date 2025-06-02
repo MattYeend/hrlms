@@ -72,6 +72,7 @@ class CompanyController extends Controller
             'name' => $company->name,
             'slug' => $company->slug,
             'created_by' => $company->created_by,
+            'created_at' => $company->created_at,
         ], auth()->id());
 
         return redirect()->route(
@@ -126,6 +127,7 @@ class CompanyController extends Controller
             'name' => $company->name,
             'slug' => $company->slug,
             'updated_by' => $company->updated_by,
+            'updated_at' => $company->updated_at,
         ], auth()->id());
 
         return redirect()->route(
@@ -149,6 +151,7 @@ class CompanyController extends Controller
             'name' => $company->name,
             'slug' => $company->slug,
             'deleted_by' => $company->deleted_by,
+            'deleted_at' => $company->deleted_at,
         ], auth()->id());
 
         return redirect()->route(
@@ -161,6 +164,9 @@ class CompanyController extends Controller
         $this->authorize('restore', $company);
 
         $company->update([
+            'id' => $company->id,
+            'name' => $company->name,
+            'slug' => $company->slug,
             'deleted_by' => null,
             'archived' => false,
             'restored_at' => now(),

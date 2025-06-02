@@ -8,7 +8,7 @@ use App\Models\Department;
 use App\Models\Log;
 use App\Models\Role;
 use App\Models\User;
-use App\Models\UserJobs;
+use App\Models\UserJob;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
@@ -56,7 +56,7 @@ class UserController extends Controller
         return Inertia::render('users/Create', [
             'roles' => Role::select('id', 'name')->get(),
             'departments' => Department::select('id', 'name')->get(),
-            'jobs' => UserJobs::select('id', 'job_title')->get(),
+            'jobs' => UserJob::select('id', 'job_title')->get(),
         ]);
     }
 
@@ -79,6 +79,7 @@ class UserController extends Controller
             'role_id' => $user->role_id,
             'department_id' => $user->department_id,
             'created_by' => $user->created_by,
+            'created_at' => $user->created_at,
         ], auth()->id(), $user->id);
 
         return redirect()->route('users.show', $user)
@@ -107,7 +108,7 @@ class UserController extends Controller
             'user' => $user,
             'roles' => Role::select('id', 'name')->get(),
             'departments' => Department::select('id', 'name')->get(),
-            'jobs' => UserJobs::select('id', 'job_title')->get(),
+            'jobs' => UserJob::select('id', 'job_title')->get(),
             'from' => $request->query('from', 'index'),
         ]);
     }
@@ -123,7 +124,7 @@ class UserController extends Controller
             'user' => $user,
             'roles' => Role::select('id', 'name')->get(),
             'departments' => Department::select('id', 'name')->get(),
-            'jobs' => UserJobs::select('id', 'job_title')->get(),
+            'jobs' => UserJob::select('id', 'job_title')->get(),
         ]);
     }
 
@@ -149,6 +150,7 @@ class UserController extends Controller
             'department_id' => $user->department_id,
             'job_id' => $user->job_id,
             'updated_by' => $user->updated_by,
+            'updated_at' => $user->updated_at,
         ], auth()->id(), $user->id);
 
         return redirect()->route('users.show', $user)
@@ -173,6 +175,7 @@ class UserController extends Controller
             'department_id' => $user->department_id,
             'job_id' => $user->job_id,
             'deleted_by' => $user->deleted_by,
+            'deleted_at' => $user->deleted_at,
         ], auth()->id(), $user->id);
 
         return redirect()->route('users.index')
@@ -208,7 +211,7 @@ class UserController extends Controller
 
         $roles = Role::select('id', 'name')->get();
         $departments = Department::select('id', 'name')->get();
-        $jobs = UserJobs::select('id', 'job_title')->get();
+        $jobs = UserJob::select('id', 'job_title')->get();
 
         $authUser = User::where('id', auth()->id())
             ->with('role:id,name')
