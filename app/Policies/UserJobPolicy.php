@@ -4,7 +4,6 @@ namespace App\Policies;
 
 use App\Models\User;
 use App\Models\UserJob;
-use Illuminate\Auth\Access\Response;
 
 class UserJobPolicy
 {
@@ -31,7 +30,7 @@ class UserJobPolicy
      */
     public function create(User $user): bool
     {
-        return $user->isAdmin() || $user->isSuperAdmin();
+        return $this->isAdminOrSuperAdmin($user);
     }
 
     /**
@@ -40,7 +39,7 @@ class UserJobPolicy
     public function update(User $user, UserJob $userJob): bool
     {
         unset($userJob);
-        return $user->isAdmin() || $user->isSuperAdmin();
+        return $this->isAdminOrSuperAdmin($user);
     }
 
     /**
@@ -49,7 +48,7 @@ class UserJobPolicy
     public function delete(User $user, UserJob $userJob): bool
     {
         unset($userJob);
-        return $user->isAdmin() || $user->isSuperAdmin();
+        return $this->isAdminOrSuperAdmin($user);
     }
 
     /**
@@ -58,7 +57,7 @@ class UserJobPolicy
     public function restore(User $user, UserJob $userJob): bool
     {
         unset($userJob);
-        return $user->isAdmin() || $user->isSuperAdmin();
+        return $this->isAdminOrSuperAdmin($user);
     }
 
     /**
@@ -67,7 +66,7 @@ class UserJobPolicy
     public function forceDelete(User $user, UserJob $userJob): bool
     {
         unset($userJob);
-        return $user->isAdmin() || $user->isSuperAdmin();
+        return $this->isAdminOrSuperAdmin($user);
     }
 
     /**
@@ -76,5 +75,10 @@ class UserJobPolicy
     public function viewArchived(User $user): bool
     {
         return in_array($user->role->slug, ['admin', 'super-admin']);
+    }
+
+    private function isAdminOrSuperAdmin(User $user): bool
+    {
+        return $user->isAdmin() || $user->isSuperAdmin();
     }
 }

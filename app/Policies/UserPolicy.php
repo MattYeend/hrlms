@@ -43,7 +43,7 @@ class UserPolicy
 
     public function forceDelete(User $user, User $target): bool
     {
-        unset($target); 
+        unset($target);
         return $this->isAdminOrSuperAdmin($user);
     }
 

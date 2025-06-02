@@ -67,10 +67,10 @@ const page = usePage();
 const auth = computed(() => page.props.auth);
 const isSuperAdmin = computed(() => page.props.auth?.user?.role_id === 1);
 const isAtleastAdmin = computed(() => page.props.auth?.user?.role_id === 1 || page.props.auth?.user?.role_id === 2);
-const hasArchivedUsers = computed(() => page.props.hasArchivedUsers);
-const hasArchivedDepartments = computed(() => page.props.hasArchivedDepartments);
-const hasArchivedCompanies = computed(() => page.props.hasArchivedCompanies);
-const hasArchivedJobs = computed(() => page.props.hasArchivedJobs);
+const archivedUsers = computed(() => page.props.archivedUsers);
+const archivedDepts = computed(() => page.props.archivedDepts);
+const archivedCompanies = computed(() => page.props.archivedCompanies);
+const archivedJobs = computed(() => page.props.archivedJobs);
 
 const isCurrentRoute = computed(() => (url: string) => page.url === url);
 
@@ -94,7 +94,7 @@ const mainNavItems = computed<NavItem[]>(() => {
 		icon: User2Icon,
 		children: [],
 	};
-	if (isAtleastAdmin.value && hasArchivedUsers.value) {
+	if (isAtleastAdmin.value && archivedUsers.value) {
 		usersItem.children!.push({
 			title: 'Archived Users',
 			href: '/users/archived',
@@ -109,7 +109,7 @@ const mainNavItems = computed<NavItem[]>(() => {
 		icon: Folder,
 		children: [],
 	};
-	if (isAtleastAdmin.value && hasArchivedJobs.value) {
+	if (isAtleastAdmin.value && archivedJobs.value) {
 		jobsItem.children!.push({
 			title: 'Archived Jobs',
 			href: '/jobs/archived',
@@ -125,7 +125,7 @@ const mainNavItems = computed<NavItem[]>(() => {
 			icon: Layers2,
 			children: [],
 		};
-		if (hasArchivedDepartments.value) {
+		if (archivedDepts.value) {
 		departmentsItem.children!.push({
 			title: 'Archived Departments',
 			href: '/departments/archived',
@@ -143,7 +143,7 @@ const mainNavItems = computed<NavItem[]>(() => {
 			icon: Building2,
 			children: [],
 		};
-		if (hasArchivedCompanies.value) {
+		if (archivedCompanies.value) {
 		companiesItem.children!.push({
 			title: 'Archived Companies',
 			href: '/companies/archived',

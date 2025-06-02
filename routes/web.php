@@ -95,7 +95,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
         [UserJobController::class, 'archived']
     )->name('jobs.archived');
     Route::resource('jobs', UserJobController::class)->parameters([
-        'jobs' => 'job'
+        'jobs' => 'job',
     ]);
     Route::post(
         'jobs/{job}/restore',

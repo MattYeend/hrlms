@@ -23,25 +23,19 @@ class UpdateUserJobRequest extends FormRequest
     public function rules(): array
     {
         $job = $this->route('job');
+
+        $uniqueSlugRule = 'unique:user_jobs,slug,' . $job->id;
+        $uniqueShortCodeRule = 'unique:user_jobs,short_code,' . $job->id;
+
         return [
             'job_title' => ['required', 'string', 'max:255'],
-            'slug' => [
-                'nullable',
-                'string',
-                'max:255',
-                'unique:user_jobs,slug,' . $job->id,
-            ],
+            'slug' => ['nullable', 'string', 'max:255', $uniqueSlugRule],
             'short_code' => [
-                'nullable',
-                'string',
-                'max:10',
-                'unique:user_jobs,short_code,' . $job->id,
+                'nullable', 'string', 'max:10', $uniqueShortCodeRule,
             ],
             'description' => ['nullable', 'string'],
             'is_default' => ['boolean'],
-            'department_id' => [
-                'exists:departments,id',
-            ],
+            'department_id' => ['exists:departments,id'],
         ];
     }
 }

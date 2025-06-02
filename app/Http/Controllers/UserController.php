@@ -206,7 +206,7 @@ class UserController extends Controller
     {
         $this->authorize('viewArchived', User::class);
         $archivedUsers = User::onlyTrashed()
-            ->with(['role:id,name', 'department:id,name', 'jobs:id,name'])
+            ->with(['role:id,name', 'department:id,name', 'job:id,job_title'])
             ->get();
 
         $roles = Role::select('id', 'name')->get();
@@ -217,11 +217,7 @@ class UserController extends Controller
             ->with('role:id,name')
             ->first();
 
-        Log::log(
-            Log::ACTION_VIEW_ARCHIVED_USERS,
-            ['Viewed archived users'],
-            auth()->id()
-        );
+        $this->archivedLog($authUser);
 
         return Inertia::render('users/Archived', [
             'users' => $archivedUsers,
@@ -230,6 +226,21 @@ class UserController extends Controller
             'jobs' => $jobs,
             'authUser' => $authUser,
         ]);
+    }
+
+    private function archivedLog(User $user): array
+    {
+        $log = Log::log(Log::ACTION_VIEW_ARCHIVED_USERS, [
+            'id' => $user->id,
+            'name' => $user->name,
+            'email' => $user->email,
+            'role_id' => $user->role_id,
+            'department_id' => $user->department_id,
+            'job_id' => $user->job_id,
+            'deleted_by' => $user->deleted_by,
+            'deleted_at' => $user->deleted_at,
+        ], auth()->id(), $user->id);
+        return is_array($log) ? $log : [];
     }
 
     private function restoreLog(User $user): array

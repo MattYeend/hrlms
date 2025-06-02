@@ -200,7 +200,7 @@ class UserJobController extends Controller
             ['Viewed archived jobs'],
             auth()->id()
         );
-        
+
         return Inertia::render('jobs/Archived', [
             'jobs' => UserJob::onlyTrashed()->with([
                 'department:id,name',

@@ -146,13 +146,7 @@ class CompanyController extends Controller
         $company->update(['deleted_by' => auth()->id()]);
         $company->delete();
 
-        Log::log(Log::ACTION_DELETE_COMPANY, [
-            'id' => $company->id,
-            'name' => $company->name,
-            'slug' => $company->slug,
-            'deleted_by' => $company->deleted_by,
-            'deleted_at' => $company->deleted_at,
-        ], auth()->id());
+        $this->destroyLog($company);
 
         return redirect()->route(
             'companies.index'
@@ -175,13 +169,7 @@ class CompanyController extends Controller
 
         $company->restore();
 
-        Log::log(Log::ACTION_REINSTATE_COMPANY, [
-            'id' => $company->id,
-            'name' => $company->name,
-            'slug' => $company->slug,
-            'restored_by' => $company->restored_by,
-            'restored_at' => $company->restored_at,
-        ], auth()->id());
+        $this->restoreLog($company);
 
         return redirect()->route(
             'companies.show',
@@ -208,5 +196,29 @@ class CompanyController extends Controller
                 ],
             ],
         ]);
+    }
+
+    private function destroyLog(Company $company): array
+    {
+        $log = Log::log(Log::ACTION_DELETE_COMPANY, [
+            'id' => $company->id,
+            'name' => $company->name,
+            'slug' => $company->slug,
+            'deleted_by' => $company->deleted_by,
+            'deleted_at' => $company->deleted_at,
+        ], auth()->id());
+        return is_array($log) ? $log : [];
+    }
+
+    private function restoreLog(Company $company): array
+    {
+        $log = Log::log(Log::ACTION_REINSTATE_COMPANY, [
+            'id' => $company->id,
+            'name' => $company->name,
+            'slug' => $company->slug,
+            'restored_by' => $company->restored_by,
+            'restored_at' => $company->restored_at,
+        ], auth()->id());
+        return is_array($log) ? $log : [];
     }
 }

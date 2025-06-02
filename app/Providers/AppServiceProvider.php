@@ -26,31 +26,48 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         Inertia::share([
-            'auth' => function () {
-                return [
-                    'user' => Auth::user() ? [
-                        'id' => Auth::id(),
-                        'role_id' => Auth::user()->role_id,
-                        'name' => Auth::user()->name,
-                    ] : null,
-                ];
-            },
-            'hasArchivedUsers' => function () {
-                // Check if there's at least one archived user
-                return User::onlyTrashed()->exists();
-            },
-            'hasArchivedDepartments' => function () {
-                // Check if there's at least one archived department
-                return Department::onlyTrashed()->exists();
-            },
-            'hasArchivedCompanies' => function () {
-                // Check if there's at least one archived company
-                return Company::onlyTrashed()->exists();
-            },
-            'hasArchivedJobs' => function () {
-                // Check if there's at least one archived job
-                return UserJob::onlyTrashed()->exists(); // Assuming jobs are managed through users
-            },
+            'auth' => fn () => $this->authData(),
+            'archivedUsers' => fn () => $this->hasArchivedUsers(),
+            'archivedDepts' => fn () => $this->hasArchivedDepartments(),
+            'archivedCompanies' => fn () => $this->hasArchivedCompanies(),
+            'archivedJobs' => fn () => $this->hasArchivedJobs(),
         ]);
+    }
+
+    protected function hasArchivedUsers(): bool
+    {
+        return User::onlyTrashed()->exists();
+    }
+
+    protected function hasArchivedDepartments(): bool
+    {
+        return Department::onlyTrashed()->exists();
+    }
+
+    protected function hasArchivedCompanies(): bool
+    {
+        return Company::onlyTrashed()->exists();
+    }
+
+    protected function hasArchivedJobs(): bool
+    {
+        return UserJob::onlyTrashed()->exists();
+    }
+
+    private function authData(): ?array
+    {
+        if (! Auth::check()) {
+            return null;
+        }
+
+        $user = Auth::user();
+
+        return [
+            'user' => [
+                'id' => $user->id,
+                'role_id' => $user->role_id,
+                'name' => $user->name,
+            ],
+        ];
     }
 }

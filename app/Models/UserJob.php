@@ -11,19 +11,13 @@ class UserJob extends Model
     /** @use HasFactory<\Database\Factories\UserJobsFactory> */
     use HasFactory, SoftDeletes;
 
-
-    public function getRouteKeyName()
-    {
-        return 'slug';
-    }
-    
     /**
      * The attributes that are mass assignable.
      *
      * @var list<string>
      */
     protected $fillable = [
-        'job_title', 
+        'job_title',
         'slug',
         'short_code',
         'description',
@@ -95,6 +89,11 @@ class UserJob extends Model
         'deleted_at',
         'restored_at',
     ];
+
+    public function getRouteKeyName()
+    {
+        return 'slug';
+    }
 
     /**
      * Get the job title.
