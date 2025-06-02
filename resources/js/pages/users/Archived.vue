@@ -10,6 +10,7 @@ defineProps<{
 		email: string
 		role: { name: string }
 		department: { name: string }
+		job: { name: string}
 		archived: boolean
 		slug: string
 	}>
@@ -42,6 +43,7 @@ const breadcrumbs: BreadcrumbItem[] = [
 							<th class="text-left p-3">Email</th>
 							<th class="text-left p-3">Role</th>
 							<th class="text-left p-3">Department</th>
+							<th class="text-left p-3">Job</th>
 							<th class="text-left p-3">Actions</th>
 						</tr>
 					</thead>
@@ -55,6 +57,7 @@ const breadcrumbs: BreadcrumbItem[] = [
 							<td class="p-3">{{ user.email }}</td>
 							<td class="p-3">{{ user.role?.name ?? '-' }}</td>
 							<td class="p-3">{{ user.department?.name ?? '-' }}</td>
+							<td class="p-3">{{ user.job?.name ?? '-' }}</td>
 							<td class="p-3">
 				  				<Link :href="route('users.show', { slug: user.slug })  + `?from=archived`" class="text-blue-600 dark:text-blue-400 hover:underline">View</Link>
 				  				<span v-if="['Admin', 'Super Admin'].includes(authUser.role.name) && authUser.id !== user.id">|

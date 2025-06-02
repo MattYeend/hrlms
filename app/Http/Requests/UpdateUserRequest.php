@@ -68,6 +68,7 @@ class UpdateUserRequest extends FormRequest
             'part_time' => ['sometimes', 'required', 'boolean'],
             'role_id' => ['nullable', 'exists:roles,id'],
             'department_id' => ['nullable', 'exists:departments,id'],
+            'job_id' => ['nullable', 'exists:user_jobs,id'],
         ];
     }
 }

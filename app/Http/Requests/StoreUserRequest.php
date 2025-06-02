@@ -39,6 +39,7 @@ class StoreUserRequest extends FormRequest
             'part_time' => ['required', 'boolean'],
             'role_id' => ['nullable', 'exists:roles,id'],
             'department_id' => ['nullable', 'exists:departments,id'],
+            'job_id' => ['nullable', 'exists:jobs,id'],
         ];
     }
 }

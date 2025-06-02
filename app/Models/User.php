@@ -36,6 +36,7 @@ class User extends Authenticatable
         'part_time',
         'role_id',
         'department_id',
+        'job_id',
         'archived',
         'created_by',
         'updated_by',
@@ -80,6 +81,11 @@ class User extends Authenticatable
     public function department()
     {
         return $this->belongsTo(Department::class, 'department_id');
+    }
+
+    public function job()
+    {
+        return $this->belongsTo(UserJobs::class, 'job_id');
     }
 
     public function getRouteKeyName()

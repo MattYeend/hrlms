@@ -12,6 +12,7 @@ const props = defineProps<{
 	user?: any
 	roles: Array<{ id: number; name: string }>
 	departments: Array<{ id: number; name: string }>
+	jobs: Array<{ id: number; name: string }>
 }>()
 
 const form = useForm({
@@ -31,6 +32,7 @@ const form = useForm({
 	part_time: false,
 	role_id: null as number | null,
 	department_id: null as number | null,
+	job_id: null as number | null,
 })
 
 watchEffect(() => {
@@ -50,6 +52,7 @@ watchEffect(() => {
 			part_time: Boolean(props.user.part_time),
 			role_id: props.user.role_id ?? null,
 			department_id: props.user.department_id ?? null,
+			job_id: props.user.job_id ?? null,
 		})
 	}
 })
@@ -182,6 +185,18 @@ const submit = () => {
 					</option>
 				</select>
 				<InputError :message="form.errors.department_id" />
+			</div>
+
+			<!-- Job -->
+			 <div class="grid gap-2">
+				<Label for="job_id">Job</Label>
+				<select v-model="form.job_id" id="job_id" class="input">
+					<option :value="null" disabled>Select a job</option>
+					<option v-for="job in jobs" :key="job.id" :value="job.id">
+						{{ job.name }}
+					</option>
+				</select>
+				<InputError :message="form.errors.job_id" />
 			</div>
 
 			<!-- Submit Buttons -->
