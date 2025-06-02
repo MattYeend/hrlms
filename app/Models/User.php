@@ -85,7 +85,7 @@ class User extends Authenticatable
 
     public function job()
     {
-        return $this->belongsTo(UserJobs::class, 'job_id');
+        return $this->belongsTo(UserJob::class, 'job_id');
     }
 
     public function getRouteKeyName()

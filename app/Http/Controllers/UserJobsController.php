@@ -37,7 +37,7 @@ class UserJobsController extends Controller
                 'id',
                 auth()->id()
             )->with('role:id,name')->first(),
-            'hasArchivedUsers' => $archivedCount > 0,
+            'hasArchivedJobs' => $archivedCount > 0,
         ]);
     }
 

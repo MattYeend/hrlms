@@ -1,0 +1,26 @@
+<script setup lang="ts">
+import { Head } from '@inertiajs/vue3'
+import AppLayout from '@/layouts/AppLayout.vue'
+import UserForm from '../jobs/JobForm.vue'
+import { type BreadcrumbItem } from '@/types'
+
+defineProps<{
+	departments: Array<{ id: number; name: string }>
+}>()
+
+const breadcrumbs: BreadcrumbItem[] = [
+	{ title: 'Dashboard', href: route('dashboard') },
+	{ title: 'Jobs', href: route('jobs.index') },
+	{ title: 'Create', href: route('job.create') },
+]
+</script>
+
+<template>
+  	<AppLayout title="Create Job" :breadcrumbs="breadcrumbs">
+		<Head title="Create Job" />
+		<div class="px-4 sm:px-6 lg:px-8 py-4 sm:py-6 lg:py-8">
+	  		<h1 class="text-3xl font-bold text-gray-900 dark:text-white mb-6">Create Job</h1>
+	  		<UserForm :is-edit="false" :departments="departments" />
+		</div>
+  	</AppLayout>
+</template>

@@ -70,6 +70,7 @@ const isAtleastAdmin = computed(() => page.props.auth?.user?.role_id === 1 || pa
 const hasArchivedUsers = computed(() => page.props.hasArchivedUsers);
 const hasArchivedDepartments = computed(() => page.props.hasArchivedDepartments);
 const hasArchivedCompanies = computed(() => page.props.hasArchivedCompanies);
+const hasArchivedJobs = computed(() => page.props.hasArchivedJobs);
 
 const isCurrentRoute = computed(() => (url: string) => page.url === url);
 
@@ -101,6 +102,21 @@ const mainNavItems = computed<NavItem[]>(() => {
 		});
 	}
 	items.push(usersItem);
+
+	const jobsItem: NavItem = {
+		title: 'Jobs',
+		href: '/jobs',
+		icon: Folder,
+		children: [],
+	};
+	if (isAtleastAdmin.value && hasArchivedJobs.value) {
+		jobsItem.children!.push({
+			title: 'Archived Jobs',
+			href: '/jobs/archived',
+			icon: ArchiveIcon,
+		});
+	}
+	items.push(jobsItem);
 
 	if (isAtleastAdmin.value) {
 		const departmentsItem: NavItem = {

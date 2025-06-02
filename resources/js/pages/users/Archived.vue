@@ -48,11 +48,7 @@ const breadcrumbs: BreadcrumbItem[] = [
 						</tr>
 					</thead>
 					<tbody>
-						<tr
-							v-for="user in users"
-							:key="user.id"
-							class="hover:bg-gray-50 dark:hover:bg-gray-700 transition"
-			  			>
+						<tr v-for="user in users" :key="user.id" class="hover:bg-gray-50 dark:hover:bg-gray-700 transition">
 							<td class="p-3">{{ user.name }}</td>
 							<td class="p-3">{{ user.email }}</td>
 							<td class="p-3">{{ user.role?.name ?? '-' }}</td>

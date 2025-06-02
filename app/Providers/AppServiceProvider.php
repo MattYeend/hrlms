@@ -5,6 +5,7 @@ namespace App\Providers;
 use App\Models\Company;
 use App\Models\Department;
 use App\Models\User;
+use App\Models\UserJob;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\ServiceProvider;
 use Inertia\Inertia;
@@ -45,6 +46,10 @@ class AppServiceProvider extends ServiceProvider
             'hasArchivedCompanies' => function () {
                 // Check if there's at least one archived company
                 return Company::onlyTrashed()->exists();
+            },
+            'hasArchivedJobs' => function () {
+                // Check if there's at least one archived job
+                return UserJob::onlyTrashed()->exists(); // Assuming jobs are managed through users
             },
         ]);
     }
