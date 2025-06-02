@@ -12,8 +12,7 @@ class DepartmentPolicy
      */
     public function viewAny(User $user): bool
     {
-        unset($user);
-        unset($department);
+        unset($user, $department);
         return true;
     }
 
@@ -22,8 +21,7 @@ class DepartmentPolicy
      */
     public function view(User $user, Department $department): bool
     {
-        unset($user);
-        unset($department);
+        unset($user, $department);
         return true;
     }
 
@@ -67,8 +65,7 @@ class DepartmentPolicy
      */
     public function forceDelete(User $user, Department $department): bool
     {
-        unset($user);
-        unset($department);
+        unset($user, $department);
         return false;
     }
 

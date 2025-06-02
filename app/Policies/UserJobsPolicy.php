@@ -13,7 +13,8 @@ class UserJobsPolicy
      */
     public function viewAny(User $user): bool
     {
-        return false;
+        unset($user);
+        return true;
     }
 
     /**
@@ -21,7 +22,8 @@ class UserJobsPolicy
      */
     public function view(User $user, UserJobs $userJobs): bool
     {
-        return false;
+        unset($user, $userJobs);
+        return true;
     }
 
     /**
@@ -29,7 +31,7 @@ class UserJobsPolicy
      */
     public function create(User $user): bool
     {
-        return false;
+        return $user->isAdmin() || $user->isSuperAdmin();
     }
 
     /**
@@ -37,7 +39,8 @@ class UserJobsPolicy
      */
     public function update(User $user, UserJobs $userJobs): bool
     {
-        return false;
+        unset($userJobs);
+        return $user->isAdmin() || $user->isSuperAdmin();
     }
 
     /**
@@ -45,7 +48,8 @@ class UserJobsPolicy
      */
     public function delete(User $user, UserJobs $userJobs): bool
     {
-        return false;
+        unset($userJobs);
+        return $user->isAdmin() || $user->isSuperAdmin();
     }
 
     /**
@@ -53,7 +57,8 @@ class UserJobsPolicy
      */
     public function restore(User $user, UserJobs $userJobs): bool
     {
-        return false;
+        unset($userJobs);
+        return $user->isAdmin() || $user->isSuperAdmin();
     }
 
     /**
@@ -61,6 +66,15 @@ class UserJobsPolicy
      */
     public function forceDelete(User $user, UserJobs $userJobs): bool
     {
-        return false;
+        unset($userJobs);
+        return $user->isAdmin() || $user->isSuperAdmin();
+    }
+
+    /**
+     * Determine whether the user can view archived departments.
+     */
+    public function viewArchived(User $user): bool
+    {
+        return in_array($user->role->slug, ['admin', 'super-admin']);
     }
 }

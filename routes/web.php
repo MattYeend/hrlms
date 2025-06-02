@@ -5,17 +5,13 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DepartmentController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\UserJobsController;
 use App\Models\Company;
 use App\Models\Department;
 use App\Models\User;
+use App\Models\UserJobs;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
-
-Route::bind('user', function ($value) {
-    return User::withTrashed()
-        ->where('slug', $value)
-        ->firstOrFail();
-});
 
 Route::bind('company', function ($value) {
     return Company::withTrashed()
@@ -25,6 +21,18 @@ Route::bind('company', function ($value) {
 
 Route::bind('department', function ($value) {
     return Department::withTrashed()
+        ->where('slug', $value)
+        ->firstOrFail();
+});
+
+Route::bind('user', function ($value) {
+    return User::withTrashed()
+        ->where('slug', $value)
+        ->firstOrFail();
+});
+
+Route::bind('userJob', function ($value) {
+    return UserJobs::withTrashed()
         ->where('slug', $value)
         ->firstOrFail();
 });
@@ -46,7 +54,6 @@ Route::get('/errors/503', fn () => Inertia::render('errors/503'));
 
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('dashboard', [DashboardController::class, 'index'])
-        ->middleware(['auth', 'verified'])
         ->name('dashboard');
 
     Route::resource('roles', RoleController::class)->only(['index', 'show']);
@@ -82,4 +89,14 @@ Route::middleware(['auth', 'verified'])->group(function () {
         'users/{user}/restore',
         [UserController::class, 'restore']
     )->name('users.restore');
+
+    Route::get(
+        '/jobs/archived',
+        [UserController::class, 'archivedJobs']
+    )->name('jobs.archived');
+    Route::resource('jobs', UserJobsController::class);
+    Route::post(
+        'jobs/{userJob}/restore',
+        [UserJobsController::class, 'restore']
+    )->name('jobs.restore');
 });

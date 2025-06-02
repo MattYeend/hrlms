@@ -8,14 +8,13 @@ class UserPolicy
 {
     public function viewAny(User $user): bool
     {
-        unset($user); // Unused parameter, can be removed if not needed
+        unset($user);
         return true;
     }
 
     public function view(User $user, User $target): bool
     {
-        unset($user); // Unused parameter, can be removed if not needed
-        unset($target); // Unused parameter, can be removed if not needed
+        unset($user, $target);
         return true;
     }
 
@@ -32,19 +31,19 @@ class UserPolicy
 
     public function delete(User $user, User $target): bool
     {
-        unset($target); // Unused parameter, can be removed if not needed
+        unset($target);
         return $this->isAdminOrSuperAdmin($user);
     }
 
     public function restore(User $user, User $target): bool
     {
-        unset($target); // Unused parameter, can be removed if not needed
+        unset($target);
         return $this->isAdminOrSuperAdmin($user);
     }
 
     public function forceDelete(User $user, User $target): bool
     {
-        unset($target); // Unused parameter, can be removed if not needed
+        unset($target); 
         return $this->isAdminOrSuperAdmin($user);
     }
 

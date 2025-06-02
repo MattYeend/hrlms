@@ -38,8 +38,7 @@ class RolePolicy
      */
     public function update(User $user, Role $role): bool
     {
-        unset($user);
-        unset($role);
+        unset($user, $role);
         return false;
     }
 
@@ -48,8 +47,7 @@ class RolePolicy
      */
     public function delete(User $user, Role $role): bool
     {
-        unset($user);
-        unset($role);
+        unset($user, $role);
         return false;
     }
 
@@ -58,8 +56,7 @@ class RolePolicy
      */
     public function restore(User $user, Role $role): bool
     {
-        unset($user);
-        unset($role);
+        unset($user, $role);
         return false;
     }
 
@@ -68,8 +65,7 @@ class RolePolicy
      */
     public function forceDelete(User $user, Role $role): bool
     {
-        unset($user);
-        unset($role);
+        unset($user, $role);
         return false;
     }
 }

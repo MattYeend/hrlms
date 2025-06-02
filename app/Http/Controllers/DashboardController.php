@@ -17,6 +17,7 @@ class DashboardController extends Controller
         $archivedCompanyCount = Company::onlyTrashed()->count();
         $archivedDepartmentCount = Department::onlyTrashed()->count();
         $archivedUserCount = User::onlyTrashed()->count();
+
         $data = [
             'companyCount' => $companyCount,
             'departmentCount' => $departmentCount,
