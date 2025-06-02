@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\CompanyController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DepartmentController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UserController;
@@ -33,10 +34,6 @@ Route::get('/', function () {
     return redirect()->route('login');
 })->name('home');
 
-Route::get('dashboard', function () {
-    return Inertia::render('Dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
-
 require __DIR__.'/settings.php';
 require __DIR__.'/auth.php';
 
@@ -48,6 +45,10 @@ Route::get('/errors/500', fn () => Inertia::render('errors/500'));
 Route::get('/errors/503', fn () => Inertia::render('errors/503'));
 
 Route::middleware(['auth', 'verified'])->group(function () {
+    Route::get('dashboard', [DashboardController::class, 'index'])
+        ->middleware(['auth', 'verified'])
+        ->name('dashboard');
+
     Route::resource('roles', RoleController::class)->only(['index', 'show']);
 
     Route::get(
