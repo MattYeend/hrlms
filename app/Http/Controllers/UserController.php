@@ -8,6 +8,7 @@ use App\Models\Department;
 use App\Models\Log;
 use App\Models\Role;
 use App\Models\User;
+use App\Models\UserJobs;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
@@ -33,6 +34,7 @@ class UserController extends Controller
             'users' => User::with([
                 'role:id,name',
                 'department:id,name',
+                'job:id,job_title',
             ])->get(),
             'roles' => Role::select('id', 'name')->get(),
             'departments' => Department::select('id', 'name')->get(),
@@ -54,6 +56,7 @@ class UserController extends Controller
         return Inertia::render('users/Create', [
             'roles' => Role::select('id', 'name')->get(),
             'departments' => Department::select('id', 'name')->get(),
+            'jobs' => UserJobs::select('id', 'job_title')->get(),
         ]);
     }
 
@@ -89,7 +92,7 @@ class UserController extends Controller
     {
         $this->authorize('view', $user);
 
-        $user->load(['role:id,name', 'department:id,name']);
+        $user->load(['role:id,name', 'department:id,name', 'job:id,job_title']);
 
         Log::log(Log::ACTION_SHOW_USER, [
             'id' => $user->id,
@@ -97,12 +100,14 @@ class UserController extends Controller
             'email' => $user->email,
             'role_id' => $user->role_id,
             'department_id' => $user->department_id,
+            'job_id' => $user->job_id,
         ], auth()->id(), $user->id);
 
         return Inertia::render('users/Show', [
             'user' => $user,
             'roles' => Role::select('id', 'name')->get(),
             'departments' => Department::select('id', 'name')->get(),
+            'jobs' => UserJobs::select('id', 'job_title')->get(),
             'from' => $request->query('from', 'index'),
         ]);
     }
@@ -118,6 +123,7 @@ class UserController extends Controller
             'user' => $user,
             'roles' => Role::select('id', 'name')->get(),
             'departments' => Department::select('id', 'name')->get(),
+            'jobs' => UserJobs::select('id', 'job_title')->get(),
         ]);
     }
 
@@ -141,6 +147,7 @@ class UserController extends Controller
             'email' => $user->email,
             'role_id' => $user->role_id,
             'department_id' => $user->department_id,
+            'job_id' => $user->job_id,
             'updated_by' => $user->updated_by,
         ], auth()->id(), $user->id);
 
@@ -164,6 +171,7 @@ class UserController extends Controller
             'email' => $user->email,
             'role_id' => $user->role_id,
             'department_id' => $user->department_id,
+            'job_id' => $user->job_id,
             'deleted_by' => $user->deleted_by,
         ], auth()->id(), $user->id);
 
@@ -195,11 +203,12 @@ class UserController extends Controller
     {
         $this->authorize('viewArchived', User::class);
         $archivedUsers = User::onlyTrashed()
-            ->with(['role:id,name', 'department:id,name'])
+            ->with(['role:id,name', 'department:id,name', 'jobs:id,name'])
             ->get();
 
         $roles = Role::select('id', 'name')->get();
         $departments = Department::select('id', 'name')->get();
+        $jobs = UserJobs::select('id', 'job_title')->get();
 
         $authUser = User::where('id', auth()->id())
             ->with('role:id,name')
@@ -215,6 +224,7 @@ class UserController extends Controller
             'users' => $archivedUsers,
             'roles' => $roles,
             'departments' => $departments,
+            'jobs' => $jobs,
             'authUser' => $authUser,
         ]);
     }
@@ -227,6 +237,7 @@ class UserController extends Controller
             'email' => $user->email,
             'role_id' => $user->role_id,
             'department_id' => $user->department_id,
+            'job_id' => $user->job_id,
             'restored_at' => $user->restored_at,
             'restored_by' => $user->restored_by,
         ], auth()->id(), $user->id);

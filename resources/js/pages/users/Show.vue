@@ -15,7 +15,7 @@ const props = defineProps<{
 		email: string
 		role: { name: string } | null
 		department: { name: string } | null
-		job: { name: string } | null
+		job: { job_title: string } | null
 		slug: string
 	}, 
 	from: 'index' | 'archived'
@@ -44,7 +44,7 @@ const pageFrom = computed(() => page.props.from ?? 'index')
 				<p><strong>Email:</strong> {{ user.email }}</p>
 				<p><strong>Role:</strong> {{ user.role?.name ?? '—' }}</p>
 				<p><strong>Department:</strong> {{ user.department?.name ?? '—' }}</p>
-				<p><strong>Job:</strong> {{ user.job?.name ?? '—' }}</p>
+				<p><strong>Job:</strong> {{ user.job?.job_title ?? '—' }}</p>
 			</div>
 
 			<div class="flex space-x-4">

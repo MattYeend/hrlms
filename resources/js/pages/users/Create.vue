@@ -7,6 +7,7 @@ import { type BreadcrumbItem } from '@/types'
 defineProps<{
 	roles: Array<{ id: number; name: string }>
 	departments: Array<{ id: number; name: string }>
+	jobs: Array<{ id: number; job_title: string }>
 }>()
 
 const breadcrumbs: BreadcrumbItem[] = [
@@ -21,7 +22,7 @@ const breadcrumbs: BreadcrumbItem[] = [
 		<Head title="Create User" />
 		<div class="px-4 sm:px-6 lg:px-8 py-4 sm:py-6 lg:py-8">
 	  		<h1 class="text-3xl font-bold text-gray-900 dark:text-white mb-6">Create User</h1>
-	  		<UserForm :is-edit="false" :roles="roles" :departments="departments" />
+	  		<UserForm :is-edit="false" :roles="roles" :departments="departments" :jobs="jobs" />
 		</div>
   	</AppLayout>
 </template>

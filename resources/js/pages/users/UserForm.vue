@@ -12,7 +12,7 @@ const props = defineProps<{
 	user?: any
 	roles: Array<{ id: number; name: string }>
 	departments: Array<{ id: number; name: string }>
-	jobs: Array<{ id: number; name: string }>
+	jobs: Array<{ id: number; job_title: string }>
 }>()
 
 const form = useForm({
@@ -193,7 +193,7 @@ const submit = () => {
 				<select v-model="form.job_id" id="job_id" class="input">
 					<option :value="null" disabled>Select a job</option>
 					<option v-for="job in jobs" :key="job.id" :value="job.id">
-						{{ job.name }}
+						{{ job.job_title }}
 					</option>
 				</select>
 				<InputError :message="form.errors.job_id" />

@@ -10,7 +10,7 @@ defineProps<{
 		email: string
 		role: { name: string }
 		department: { name: string }
-		job: { name: string }
+		job: { job_title: string }
 		archived: boolean
 		slug: string
 	}>
@@ -27,7 +27,7 @@ const breadcrumbs: BreadcrumbItem[] = [
 </script>
 
 <template>
-    <AppLayout title="Users" :breadcrumbs="breadcrumbs">
+	<AppLayout title="Users" :breadcrumbs="breadcrumbs">
 		<Head title="Users" />
 	
 		<div class="px-4 sm:px-6 lg:px-8 py-4 sm:py-6 lg:py-8">
@@ -56,7 +56,7 @@ const breadcrumbs: BreadcrumbItem[] = [
 							<td class="p-3">{{ user.email }}</td>
 							<td class="p-3">{{ user.role?.name ?? '-' }}</td>
 							<td class="p-3">{{ user.department?.name ?? '-' }}</td>
-							<td class="p-3">{{ user.job?.name ?? '-' }}</td>
+							<td class="p-3">{{ user.job?.job_title ?? '-' }}</td>
 							<td class="p-3">
 								<Link :href="route('users.show', { slug: user.slug }) + `?from=index`" class="text-blue-600 dark:text-blue-400 hover:underline">View</Link>
 								<span v-if="authUser.id === user.id || ['Admin', 'Super Admin'].includes(authUser.role.name)">| 
@@ -73,5 +73,5 @@ const breadcrumbs: BreadcrumbItem[] = [
 				</table>
 			</div>
 		</div>
-    </AppLayout>
-  </template>
+	</AppLayout>
+</template>
