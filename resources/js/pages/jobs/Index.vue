@@ -6,7 +6,7 @@ import { type BreadcrumbItem } from '@/types'
 defineProps<{
 	jobs: Array<{
 		id: number
-		title: string
+		job_title: string
 		short_code: string
 		description: string | null
 		department: { name: string }
@@ -50,17 +50,17 @@ const breadcrumbs: BreadcrumbItem[] = [
 					</thead>
 					<tbody>
 						<tr v-for="job in jobs" :key="job.id" class="hover:bg-gray-50 dark:hover:bg-gray-700 transition">
-							<td class="p-3">{{ job.title }}</td>
+							<td class="p-3">{{ job.job_title }}</td>
 							<td class="p-3">{{ job.short_code }}</td>
 							<td class="p-3">{{ job?.description ?? '-' }}</td>
 							<td class="p-3">{{ job.department?.name ?? '-' }}</td>
 							<td class="p-3">
-								<Link :href="route('users.show', { slug: job.slug }) + `?from=index`" class="text-blue-600 dark:text-blue-400 hover:underline">View</Link>
+								<Link :href="route('jobs.show', { job: job.slug }) + `?from=index`" class="text-blue-600 dark:text-blue-400 hover:underline">View</Link>
 								<span v-if="['Admin', 'Super Admin'].includes(authUser.role.name)">| 
-									<Link :href="route('users.edit', job.slug)" class="text-blue-600 dark:text-blue-400 hover:underline">Edit</Link>
+									<Link :href="route('jobs.edit', { job: job.slug })" class="text-blue-600 dark:text-blue-400 hover:underline">Edit</Link>
 								</span>
 								<span v-if="['Admin', 'Super Admin'].includes(authUser.role.name)">|
-									<Link :href="route('users.destroy', job.slug)" :method="'delete'" as="button" class="text-red-600 dark:text-red-400 hover:underline" >
+									<Link :href="route('jobs.destroy', { job: job.slug })" :method="'delete'" as="button" class="text-red-600 dark:text-red-400 hover:underline" >
 										{{ 'Archive' }}
 									</Link>
 								</span>

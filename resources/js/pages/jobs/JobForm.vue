@@ -14,7 +14,7 @@ const props = defineProps<{
 }>()
 
 const form = useForm({
-	title: '',
+	job_title: '',
 	short_code: '',
 	description: '',
 	department_id: null as number | null,
@@ -23,7 +23,7 @@ const form = useForm({
 watchEffect(() => {
 	if (props.isEdit && props.job) {
 		Object.assign(form, {
-			title: props.job.title ?? '',
+			job_title: props.job.job_title ?? '',
 			short_code: props.job.short_code ?? '',
 			description: props.job.description ?? '',
 			department_id: props.job.department_id ?? null,
@@ -33,7 +33,7 @@ watchEffect(() => {
 
 const submit = () => {
 	if (props.isEdit && props.job) {
-		form.put(route('jobs.update', props.job.id))
+		form.put(route('jobs.update', props.job.slug))
 	} else {
 		form.post(route('jobs.store'))
 	}
@@ -46,8 +46,8 @@ const submit = () => {
 			<!-- Title -->
 			<div class="grid gap-2">
 				<Label for="title">Title</Label>
-				<Input id="title" v-model="form.title" type="text" required placeholder="Enter the job title" />
-				<InputError :message="form.errors.title" />
+				<Input id="title" v-model="form.job_title" type="text" required placeholder="Enter the job title" />
+				<InputError :message="form.errors.job_title" />
 			</div>
 
 			<!-- Short code -->

@@ -6,9 +6,9 @@ import { type BreadcrumbItem } from '@/types'
 defineProps<{
 	jobs: Array<{
 		id: number
-		title: string
+		job_title: string
 		short_code: string
-		description: { name: string }
+		description: string 
 		department: { name: string }
 		archived: boolean
 		slug: string
@@ -47,14 +47,14 @@ const breadcrumbs: BreadcrumbItem[] = [
 					</thead>
 					<tbody>
 						<tr v-for="job in jobs" :key="job.id" class="hover:bg-gray-50 dark:hover:bg-gray-700 transition">
-							<td class="p-3">{{ job.title }}</td>
+							<td class="p-3">{{ job.job_title }}</td>
 							<td class="p-3">{{ job.short_code }}</td>
-							<td class="p-3">{{ job.description }}</td>
+							<td class="p-3">{{ job?.description ?? '-' }}</td>
 							<td class="p-3">{{ job.department?.name ?? '-' }}</td>
 							<td class="p-3">
-				  				<Link :href="route('jobs.show', { slug: job.slug })  + `?from=archived`" class="text-blue-600 dark:text-blue-400 hover:underline">View</Link>
+								<Link :href="route('jobs.show', { job: job.slug }) + `?from=index`" class="text-blue-600 dark:text-blue-400 hover:underline">View</Link>
 				  				<span v-if="['Admin', 'Super Admin'].includes(authUser.role.name)">|
-									<Link :href="route('jobs.restore', job.slug)" :method="'post'" as="button" class="text-red-600 dark:text-red-400 hover:underline">
+									<Link :href="route('jobs.restore', { job: job.slug })" :method="'post'" as="button" class="text-red-600 dark:text-red-400 hover:underline">
 					  					{{ 'Restore'}}
 									</Link>
 				  				</span>

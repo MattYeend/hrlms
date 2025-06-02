@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\StoreUserJobsRequest;
-use App\Http\Requests\UpdateUserJobsRequest;
+use App\Http\Requests\StoreUserJobRequest;
+use App\Http\Requests\UpdateUserJobRequest;
 use App\Models\Department;
 use App\Models\Log;
 use App\Models\User;
@@ -11,11 +11,11 @@ use App\Models\UserJob;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
-class UserJobsController extends Controller
+class UserJobController extends Controller
 {
     public function __construct()
     {
-        $this->authorizeResource(UserJob::class, 'userJob');
+        $this->authorizeResource(UserJob::class, 'job');
     }
     /**
      * Display a listing of the resource.
@@ -56,7 +56,7 @@ class UserJobsController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreUserJobsRequest $request)
+    public function store(StoreUserJobRequest $request)
     {
         $this->authorize('create', UserJob::class);
 
@@ -77,7 +77,7 @@ class UserJobsController extends Controller
             'created_at' => $job->created_at,
         ], auth()->id());
 
-        return redirect()->route('users.show', $job)
+        return redirect()->route('users.show', ['job' => $job->slug])
             ->with('success', 'Job created successfully.');
     }
 
@@ -114,7 +114,7 @@ class UserJobsController extends Controller
         $this->authorize('update', $userJob);
 
         return Inertia::render('jobs/Edit', [
-            'user' => $userJob,
+            'job' => $userJob,
             'departments' => Department::select('id', 'name')->get(),
         ]);
     }
@@ -122,7 +122,7 @@ class UserJobsController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateUserJobsRequest $request, UserJob $userJob)
+    public function update(UpdateUserJobRequest $request, UserJob $userJob)
     {
         $this->authorize('update', $userJob);
 
@@ -142,7 +142,7 @@ class UserJobsController extends Controller
             'updated_at' => $userJob->updated_at,
         ], auth()->id());
 
-        return redirect()->route('jobs.show', $userJob)
+        return redirect()->route('jobs.show', ['job' => $userJob->slug])
             ->with('success', 'Job updated successfully.');
     }
 
@@ -171,24 +171,46 @@ class UserJobsController extends Controller
             ->with('success', 'Job deleted successfully.');
     }
 
-    public function restore(UserJob $userJob)
+    public function restore(UserJob $job)
     {
-        $this->authorize('restore', $userJob);
+        $this->authorize('restore', $job);
 
-        $userJob->update([
+        $job->update([
             'deleted_by' => null,
             'archived' => false,
             'restored_at' => now(),
             'restored_by' => auth()->id(),
         ]);
-        $userJob->restore();
+        $job->restore();
 
-        $this->restoreLog($userJob);
+        $this->restoreLog($job);
 
         return redirect()->route(
             'jobs.show',
-            $userJob
+            ['job' => $job->slug]
         )->with('success', 'Job restored.');
+    }
+
+    public function archived()
+    {
+        $this->authorize('viewArchived', UserJob::class);
+
+        Log::log(
+            Log::ACTION_VIEW_ARCHIVED_JOBS,
+            ['Viewed archived jobs'],
+            auth()->id()
+        );
+        
+        return Inertia::render('jobs/Archived', [
+            'jobs' => UserJob::onlyTrashed()->with([
+                'department:id,name',
+            ])->get(),
+            'departments' => Department::select('id', 'name')->get(),
+            'authUser' => User::where(
+                'id',
+                auth()->id()
+            )->with('role:id,name')->first(),
+        ]);
     }
 
     private function restoreLog(UserJob $userJob): array

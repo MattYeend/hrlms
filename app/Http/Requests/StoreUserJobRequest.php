@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class UpdateUserJobsRequest extends FormRequest
+class StoreUserJobRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -22,25 +22,24 @@ class UpdateUserJobsRequest extends FormRequest
      */
     public function rules(): array
     {
-        $job = $this->route('job');
         return [
             'job_title' => ['required', 'string', 'max:255'],
             'slug' => [
                 'nullable',
                 'string',
                 'max:255',
-                'unique:jobs,slug,' . $job->id,
+                'unique:user_jobs,slug',
             ],
             'short_code' => [
                 'nullable',
                 'string',
                 'max:10',
-                'unique:jobs,short_code,' . $job->id,
+                'unique:user_jobs,short_code',
             ],
             'description' => ['nullable', 'string'],
             'is_default' => ['boolean'],
             'department_id' => [
-                'exists:department,id',
+                'exists:departments,id',
             ],
         ];
     }

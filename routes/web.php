@@ -5,7 +5,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DepartmentController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UserController;
-use App\Http\Controllers\UserJobsController;
+use App\Http\Controllers\UserJobController;
 use App\Models\Company;
 use App\Models\Department;
 use App\Models\User;
@@ -31,7 +31,7 @@ Route::bind('user', function ($value) {
         ->firstOrFail();
 });
 
-Route::bind('userJob', function ($value) {
+Route::bind('job', function ($value) {
     return UserJob::withTrashed()
         ->where('slug', $value)
         ->firstOrFail();
@@ -92,11 +92,13 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     Route::get(
         '/jobs/archived',
-        [UserController::class, 'archivedJobs']
+        [UserJobController::class, 'archived']
     )->name('jobs.archived');
-    Route::resource('jobs', UserJobsController::class);
+    Route::resource('jobs', UserJobController::class)->parameters([
+        'jobs' => 'job'
+    ]);
     Route::post(
-        'jobs/{userJob}/restore',
-        [UserJobsController::class, 'restore']
+        'jobs/{job}/restore',
+        [UserJobController::class, 'restore']
     )->name('jobs.restore');
 });

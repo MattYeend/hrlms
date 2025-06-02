@@ -7,7 +7,7 @@ import { type BreadcrumbItem } from '@/types'
 defineProps<{
 	job: {
 		id: number
-		title: string
+		job_title: string
 		short_code: string
         description: string | null
 		department: { id: number; name: string } | null
