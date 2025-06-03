@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreDepartmentRequest;
 use App\Http\Requests\UpdateDepartmentRequest;
 use App\Models\Department;
-use App\Models\Log;
 use App\Models\User;
 use App\Services\DepartmentLogger;
 use Illuminate\Http\Request;
