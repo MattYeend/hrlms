@@ -36,6 +36,7 @@ class CompanySeeder extends Seeder
                 'phone' => $faker->phoneNumber,
                 'email' => $faker->companyEmail,
                 'is_default' => false,
+                'is_archived' => false,
                 'created_at' => $now,
                 'updated_at' => $now,
             ];

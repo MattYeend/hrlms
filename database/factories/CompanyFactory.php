@@ -31,6 +31,7 @@ class CompanyFactory extends Factory
             'phone' => $this->faker->phoneNumber,
             'email' => $this->faker->companyEmail,
             'is_default' => false,
+            'is_archived' => false,
             'created_at' => now(),
             'updated_at' => now(),
         ];

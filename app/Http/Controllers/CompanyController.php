@@ -143,7 +143,11 @@ class CompanyController extends Controller
     {
         $this->authorize('delete', $company);
 
-        $company->update(['deleted_by' => auth()->id(),'delated_at' =>now(), 'is_archived' => true]);
+        $company->update([
+            'deleted_by' => auth()->id(),
+            'delated_at' => now(),
+            'is_archived' => true,
+        ]);
         $company->delete();
 
         $this->destroyLog($company);

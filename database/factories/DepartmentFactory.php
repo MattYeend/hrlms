@@ -24,6 +24,7 @@ class DepartmentFactory extends Factory
             'slug' => Str::slug(fake()->company()),
             'description' => fake()->sentence(),
             'is_default' => false,
+            'is_archived' => false,
             'created_at' => now(),
             'updated_at' => now(),
             'dept_lead' => 1, 

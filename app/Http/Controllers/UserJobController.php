@@ -153,7 +153,11 @@ class UserJobController extends Controller
     {
         $this->authorize('delete', $userJob);
 
-        $userJob->update(['deleted_by' => auth()->id(), 'delated_at' =>now(), 'is_archived' => true]);
+        $userJob->update([
+            'deleted_by' => auth()->id(),
+            'delated_at' => now(),
+            'is_archived' => true,
+        ]);
         $userJob->delete();
 
         Log::log(Log::ACTION_DELETE_USER, [
