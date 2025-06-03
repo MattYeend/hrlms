@@ -2,15 +2,21 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Log;
 use App\Models\Role;
+use App\Services\RoleLogger;
 use Inertia\Inertia;
 
 class RoleController extends Controller
 {
-    public function __construct()
+    protected RoleLogger $logger;
+    
+    /**
+     * Create a new controller instance.
+     */
+    public function __construct(RoleLogger $logger)
     {
         $this->authorizeResource(Role::class, 'role');
+        $this->logger = $logger;
     }
 
     /**
@@ -30,7 +36,7 @@ class RoleController extends Controller
             ];
         });
 
-        Log::log(Log::ACTION_VIEW_ROLES, ['Viewed all roles'], auth()->id());
+        $this->logger->index(auth()->id());
 
         return Inertia::render('roles/Index', [
             'roles' => $roles,
@@ -44,12 +50,7 @@ class RoleController extends Controller
     {
         $this->authorize('view', $role);
 
-        Log::log(Log::ACTION_SHOW_ROLE, [
-            'id' => $role->id,
-            'name' => $role->name,
-            'slug' => $role->slug,
-            'description' => $role->description,
-        ], auth()->id());
+        $this->logger->show($role, auth()->id());
 
         return Inertia::render('roles/Show', [
             'role' => [
