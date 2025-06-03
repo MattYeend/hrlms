@@ -10,7 +10,7 @@ defineProps<{
 		slug: string
 		email: string | null
 		is_default: boolean
-		archived: boolean
+		is_archived: boolean
   }>
 	authUser: {
 		id: number

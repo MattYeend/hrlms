@@ -132,7 +132,7 @@ class UserJobSeeder extends Seeder
                     'short_code' => $short_code,
                     'description' => $description,
                     'is_default' => false,
-                    'archived' => false,
+                    'is_archived' => false,
                     'department_id' => $department->id,
                     'created_by' => null,
                     'updated_by' => null,

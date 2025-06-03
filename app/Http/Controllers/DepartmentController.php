@@ -142,7 +142,7 @@ class DepartmentController extends Controller
     {
         $this->authorize('delete', $department);
 
-        $department->update(['deleted_by' => auth()->id(), 'archived' => true]);
+        $department->update(['deleted_by' => auth()->id(), 'deleted_at' => now(), 'is_archived' => true]);
         $department->delete();
 
         Log::log(Log::ACTION_DELETE_DEPARTMENT, [
@@ -162,8 +162,9 @@ class DepartmentController extends Controller
         $this->authorize('restore', $department);
 
         $department->update([
+            'deleted_at' => null,
             'deleted_by' => null,
-            'archived' => false,
+            'is_archived' => false,
             'restored_at' => now(),
             'restored_by' => auth()->id(),
         ]);

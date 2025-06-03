@@ -124,7 +124,7 @@ class UserJob extends Model
         'short_code',
         'description',
         'is_default',
-        'archived',
+        'is_archived',
         'department_id',
         'created_by',
         'updated_by',
@@ -143,7 +143,7 @@ class UserJob extends Model
      */
     protected $casts = [
         'is_default' => 'boolean',
-        'archived' => 'boolean',
+        'is_archived' => 'boolean',
         'created_at' => 'datetime',
         'updated_at' => 'datetime',
         'deleted_at' => 'datetime',
@@ -336,7 +336,7 @@ class UserJob extends Model
      */
     public function scopeActive($query)
     {
-        return $query->where('archived', false);
+        return $query->where('is_archived', false);
     }
 
     /**
@@ -348,7 +348,7 @@ class UserJob extends Model
      */
     public function scopeArchived($query)
     {
-        return $query->where('archived', true);
+        return $query->where('is_archived', true);
     }
 
     /**

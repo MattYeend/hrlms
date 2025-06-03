@@ -30,26 +30,70 @@ class Department extends Model
         'restored_by',
         'restored_at',
         'dept_lead',
-        'archived',
+        'is_archived',
     ];
 
+    /**
+     * Get the department lead user.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo<User>
+     */
     public function deptLead()
     {
         return $this->belongsTo(User::class, 'dept_lead');
     }
 
+    /**
+     * Get the department's users.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany<User>
+     */
     public function users()
     {
         return $this->hasMany(User::class);
     }
 
+    /**
+     * Get the jobs associated with the department.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany<UserJob>
+     */
     public function jobs()
     {
         return $this->hasMany(UserJob::class);
     }
 
+    /**
+     * Get the route key for the model.
+     *
+     * @return string
+     */
     public function getRouteKeyName()
     {
         return 'slug';
+    }
+
+    /**
+     * Scope a query to only include active jobs.
+     *
+     * @param \Illuminate\Database\Eloquent\Builder $query
+     *
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeActive($query)
+    {
+        return $query->where('is_archived', false);
+    }
+
+    /**
+     * Scope a query to only include archived jobs.
+     *
+     * @param \Illuminate\Database\Eloquent\Builder $query
+     *
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeArchived($query)
+    {
+        return $query->where('is_archived', true);
     }
 }

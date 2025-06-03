@@ -11,7 +11,7 @@ defineProps<{
 		role: { name: string }
 		department: { name: string }
 		job: { job_title: string}
-		archived: boolean
+		is_archived: boolean
 		slug: string
 	}>
 	authUser: {

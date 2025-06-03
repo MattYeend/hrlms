@@ -143,7 +143,7 @@ class CompanyController extends Controller
     {
         $this->authorize('delete', $company);
 
-        $company->update(['deleted_by' => auth()->id()]);
+        $company->update(['deleted_by' => auth()->id(),'delated_at' =>now(), 'is_archived' => true]);
         $company->delete();
 
         $this->destroyLog($company);
@@ -158,11 +158,9 @@ class CompanyController extends Controller
         $this->authorize('restore', $company);
 
         $company->update([
-            'id' => $company->id,
-            'name' => $company->name,
-            'slug' => $company->slug,
+            'deleted_at' => null,
             'deleted_by' => null,
-            'archived' => false,
+            'is_archived' => false,
             'restored_at' => now(),
             'restored_by' => auth()->id(),
         ]);
@@ -216,6 +214,7 @@ class CompanyController extends Controller
             'id' => $company->id,
             'name' => $company->name,
             'slug' => $company->slug,
+            'is_archived' => $company->is_archived,
             'restored_by' => $company->restored_by,
             'restored_at' => $company->restored_at,
         ], auth()->id());

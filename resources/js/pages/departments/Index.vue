@@ -9,7 +9,7 @@ defineProps<{
 		name: string
 		slug: string
 		dept_lead?: { id: number, name: string }
-		archived: boolean
+		is_archived: boolean
 		users_count: number
 	}>
 	authUser: {

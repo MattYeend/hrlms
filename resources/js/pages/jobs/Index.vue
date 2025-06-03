@@ -10,7 +10,7 @@ defineProps<{
 		short_code: string
 		description: string | null
 		department: { name: string }
-		archived: boolean
+		is_archived: boolean
 		slug: string
 	}>
 	authUser: {

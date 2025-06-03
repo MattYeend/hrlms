@@ -164,7 +164,7 @@ class UserController extends Controller
     {
         $this->authorize('delete', $user);
 
-        $user->update(['deleted_by' => auth()->id(), 'archived' => true]);
+        $user->update(['deleted_by' => auth()->id(), 'deleted_at' => now(), 'is_archived' => true]);
         $user->delete();
 
         Log::log(Log::ACTION_DELETE_USER, [
@@ -187,8 +187,9 @@ class UserController extends Controller
         $this->authorize('restore', $user);
 
         $user->update([
+            'deleted_at' => null,
             'deleted_by' => null,
-            'archived' => false,
+            'is_archived' => false,
             'restored_at' => now(),
             'restored_by' => auth()->id(),
         ]);

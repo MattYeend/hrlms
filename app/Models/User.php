@@ -37,7 +37,7 @@ class User extends Authenticatable
         'role_id',
         'department_id',
         'job_id',
-        'archived',
+        'is_archived',
         'created_by',
         'updated_by',
         'deleted_by',
@@ -310,6 +310,30 @@ class User extends Authenticatable
     public function isResearchAndDevelopmentStaff()
     {
         return $this->job?->isResearchAndDevelopment() ?? false;
+    }
+
+    /**
+     * Scope a query to only include active jobs.
+     *
+     * @param \Illuminate\Database\Eloquent\Builder $query
+     *
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeActive($query)
+    {
+        return $query->where('is_archived', false);
+    }
+
+    /**
+     * Scope a query to only include archived jobs.
+     *
+     * @param \Illuminate\Database\Eloquent\Builder $query
+     *
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeArchived($query)
+    {
+        return $query->where('is_archived', true);
     }
 
     /**

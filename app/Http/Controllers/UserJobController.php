@@ -153,7 +153,7 @@ class UserJobController extends Controller
     {
         $this->authorize('delete', $userJob);
 
-        $userJob->update(['deleted_by' => auth()->id(), 'archived' => true]);
+        $userJob->update(['deleted_by' => auth()->id(), 'delated_at' =>now(), 'is_archived' => true]);
         $userJob->delete();
 
         Log::log(Log::ACTION_DELETE_USER, [
@@ -176,8 +176,9 @@ class UserJobController extends Controller
         $this->authorize('restore', $job);
 
         $job->update([
+            'deleted_at' => null,
             'deleted_by' => null,
-            'archived' => false,
+            'is_archived' => false,
             'restored_at' => now(),
             'restored_by' => auth()->id(),
         ]);
