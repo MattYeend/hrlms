@@ -2,8 +2,8 @@
 
 namespace App\Services;
 
-use App\Models\Role;
 use App\Models\Log;
+use App\Models\Role;
 
 class RoleLogger
 {
@@ -29,7 +29,7 @@ class RoleLogger
         );
     }
 
-        /**
+    /**
      * Log showing a specific role.
      */
     public function show(Role $role, int $userId): array

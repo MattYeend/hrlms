@@ -15,7 +15,7 @@ class UserJobLogger
         // Empty
     }
 
-     /**
+    /**
      * Index method to log viewing all jobs.
      */
     public function index(int $userId): array
@@ -35,14 +35,16 @@ class UserJobLogger
     public function show(UserJob $userJob, int $userId): array
     {
         return $this->log(
-            Log::ACTION_SHOW_JOB, [
+            Log::ACTION_SHOW_JOB,
+            [
                 'id' => $userJob->id,
                 'job_title' => $userJob->job_title,
                 'email' => $userJob->email,
                 'role_id' => $userJob->role_id,
                 'department_id' => $userJob->department_id,
                 'job_id' => $userJob->job_id,
-            ], auth()->id(), $userId
+            ],
+            $userId
         );
     }
 

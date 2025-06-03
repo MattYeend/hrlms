@@ -9,7 +9,7 @@ use Inertia\Inertia;
 class RoleController extends Controller
 {
     protected RoleLogger $logger;
-    
+
     /**
      * Create a new controller instance.
      */

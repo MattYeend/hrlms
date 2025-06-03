@@ -12,11 +12,11 @@ class UserLogger
      */
     public function __construct()
     {
-        // Empty 
+        // Empty
     }
 
-     /**
-     * Index method to log viewing all departments.
+    /**
+     * Index method to log viewing all users.
      */
     public function index(int $userId): array
     {
