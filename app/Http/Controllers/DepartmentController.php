@@ -7,15 +7,19 @@ use App\Http\Requests\UpdateDepartmentRequest;
 use App\Models\Department;
 use App\Models\Log;
 use App\Models\User;
+use App\Services\DepartmentLogger;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Inertia\Inertia;
 
 class DepartmentController extends Controller
 {
-    public function __construct()
+    protected DepartmentLogger $logger;
+
+    public function __construct(DepartmentLogger $logger)
     {
         $this->authorizeResource(Department::class, 'department');
+        $this->logger = $logger;
     }
 
     /**
@@ -25,11 +29,7 @@ class DepartmentController extends Controller
     {
         $this->authorize('viewAny', Department::class);
 
-        Log::log(
-            Log::ACTION_VIEW_DEPARTMENTS,
-            ['Viewed all departments'],
-            auth()->id()
-        );
+        $this->logger->index(auth()->id());
 
         $archivedCount = Department::onlyTrashed()->count();
 
@@ -67,13 +67,8 @@ class DepartmentController extends Controller
 
         $department = Department::create($data);
 
-        Log::log(Log::ACTION_CREATE_DEPARTMENT, [
-            'id' => $department->id,
-            'name' => $department->name,
-            'slug' => $department->slug,
-            'created_by' => $department->created_by,
-            'created_at' => $department->created_at,
-        ], auth()->id());
+        $this->logger->create($department, auth()->id());
+
         return redirect()->route('departments.show', $department)
             ->with('success', 'Department created successfully.');
     }
@@ -85,11 +80,7 @@ class DepartmentController extends Controller
     {
         $this->authorize('view', $department);
 
-        Log::log(Log::ACTION_SHOW_DEPARTMENT, [
-            'id' => $department->id,
-            'name' => $department->name,
-            'slug' => $department->slug,
-        ], auth()->id());
+        $this->logger->show($department, auth()->id());
 
         return Inertia::render('departments/Show', [
             'department' => $department->load('deptLead'),
@@ -123,13 +114,7 @@ class DepartmentController extends Controller
 
         $department->update($data);
 
-        Log::log(Log::ACTION_UPDATE_DEPARTMENT, [
-            'id' => $department->id,
-            'name' => $department->name,
-            'slug' => $department->slug,
-            'updated_by' => $department->updated_by,
-            'updated_at' => $department->updated_at,
-        ], auth()->id());
+        $this->logger->update($department, auth()->id());
 
         return redirect()->route('departments.show', $department)
             ->with('success', 'Department updated successfully.');
@@ -149,13 +134,7 @@ class DepartmentController extends Controller
         ]);
         $department->delete();
 
-        Log::log(Log::ACTION_DELETE_DEPARTMENT, [
-            'id' => $department->id,
-            'name' => $department->name,
-            'slug' => $department->slug,
-            'deleted_by' => $department->deleted_by,
-            'deleted_at' => $department->deleted_at,
-        ], auth()->id());
+        $this->logger->delete($department, auth()->id());
 
         return redirect()->route('departments.index')
             ->with('success', 'Department deleted successfully.');
@@ -174,6 +153,7 @@ class DepartmentController extends Controller
         ]);
         $department->restore();
 
+        $this->logger->restore($department, auth()->id());
         $this->restoreLog($department);
 
         return redirect()->route(
@@ -186,11 +166,7 @@ class DepartmentController extends Controller
     {
         $this->authorize('viewArchived', Department::class);
 
-        Log::log(
-            Log::ACTION_VIEW_ARCHIVED_DEPARTMENTS,
-            ['Viewed archived departments'],
-            auth()->id()
-        );
+        $this->logger->archived(auth()->id());
 
         return Inertia::render('departments/Archived', [
             'departments' => Department::onlyTrashed()
@@ -199,16 +175,5 @@ class DepartmentController extends Controller
                 ->get(),
             'authUser' => auth()->user()->load('role')->only('id', 'role'),
         ]);
-    }
-
-    private function restoreLog($department)
-    {
-        return Log::log(Log::ACTION_REINSTATE_DEPARTMENT, [
-            'id' => $department->id,
-            'name' => $department->name,
-            'slug' => $department->slug,
-            'restored_at' => $department->restored_at,
-            'restored_by' => $department->restored_by,
-        ], auth()->id());
     }
 }
