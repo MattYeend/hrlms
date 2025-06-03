@@ -5,16 +5,19 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreCompanyRequest;
 use App\Http\Requests\UpdateCompanyRequest;
 use App\Models\Company;
-use App\Models\Log;
+use App\Services\CompanyLogger;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Inertia\Inertia;
 
 class CompanyController extends Controller
 {
-    public function __construct()
+    protected CompanyLogger $logger;
+
+    public function __construct(CompanyLogger $logger)
     {
         $this->authorizeResource(Company::class, 'company');
+        $this->logger = $logger;
     }
 
     /**
@@ -24,11 +27,7 @@ class CompanyController extends Controller
     {
         $this->authorize('viewAny', Company::class);
 
-        Log::log(
-            Log::ACTION_VIEW_COMPANIES,
-            ['Viewed all companies'],
-            auth()->id()
-        );
+        $this->logger->index(auth()->id());
 
         $archivedCount = Company::onlyTrashed()->count();
 
@@ -67,13 +66,7 @@ class CompanyController extends Controller
 
         $company = Company::create($data);
 
-        Log::log(Log::ACTION_CREATE_COMPANY, [
-            'id' => $company->id,
-            'name' => $company->name,
-            'slug' => $company->slug,
-            'created_by' => $company->created_by,
-            'created_at' => $company->created_at,
-        ], auth()->id());
+        $this->logger->create($company, auth()->id());
 
         return redirect()->route(
             'companies.show',
@@ -88,11 +81,7 @@ class CompanyController extends Controller
     {
         $this->authorize('view', $company);
 
-        Log::log(Log::ACTION_SHOW_COMPANY, [
-            'id' => $company->id,
-            'name' => $company->name,
-            'slug' => $company->slug,
-        ], auth()->id());
+        $this->logger->show($company, auth()->id());
 
         return Inertia::render('companies/Show', [
             'company' => $company,
@@ -122,13 +111,7 @@ class CompanyController extends Controller
 
         $company->update($data);
 
-        Log::log(Log::ACTION_UPDATE_COMPANY, [
-            'id' => $company->id,
-            'name' => $company->name,
-            'slug' => $company->slug,
-            'updated_by' => $company->updated_by,
-            'updated_at' => $company->updated_at,
-        ], auth()->id());
+        $this->logger->update($company, auth()->id());
 
         return redirect()->route(
             'companies.show',
@@ -150,13 +133,16 @@ class CompanyController extends Controller
         ]);
         $company->delete();
 
-        $this->destroyLog($company);
+        $this->logger->delete($company, auth()->id());
 
         return redirect()->route(
             'companies.index'
         )->with('success', 'Company deleted.');
     }
 
+    /**
+     * Restore the specified resource from storage.
+     */
     public function restore(Company $company)
     {
         $this->authorize('restore', $company);
@@ -171,7 +157,7 @@ class CompanyController extends Controller
 
         $company->restore();
 
-        $this->restoreLog($company);
+        $this->logger->restore($company, auth()->id());
 
         return redirect()->route(
             'companies.show',
@@ -179,15 +165,14 @@ class CompanyController extends Controller
         )->with('success', 'Company restored.');
     }
 
+    /**
+     * Display a listing of archived companies.
+     */
     public function archived()
     {
         $this->authorize('viewArchived', Company::class);
 
-        Log::log(
-            Log::ACTION_VIEW_ARCHIVED_COMPANIES,
-            ['Viewed archived companies'],
-            auth()->id()
-        );
+        $this->logger->archived(auth()->id());
 
         return Inertia::render('companies/Archived', [
             'companies' => Company::onlyTrashed()->get(),
@@ -198,30 +183,5 @@ class CompanyController extends Controller
                 ],
             ],
         ]);
-    }
-
-    private function destroyLog(Company $company): array
-    {
-        $log = Log::log(Log::ACTION_DELETE_COMPANY, [
-            'id' => $company->id,
-            'name' => $company->name,
-            'slug' => $company->slug,
-            'deleted_by' => $company->deleted_by,
-            'deleted_at' => $company->deleted_at,
-        ], auth()->id());
-        return is_array($log) ? $log : [];
-    }
-
-    private function restoreLog(Company $company): array
-    {
-        $log = Log::log(Log::ACTION_REINSTATE_COMPANY, [
-            'id' => $company->id,
-            'name' => $company->name,
-            'slug' => $company->slug,
-            'is_archived' => $company->is_archived,
-            'restored_by' => $company->restored_by,
-            'restored_at' => $company->restored_at,
-        ], auth()->id());
-        return is_array($log) ? $log : [];
     }
 }
