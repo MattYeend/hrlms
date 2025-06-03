@@ -153,7 +153,6 @@ class DepartmentController extends Controller
         $department->restore();
 
         $this->logger->restore($department, auth()->id());
-        $this->restoreLog($department);
 
         return redirect()->route(
             'departments.show',

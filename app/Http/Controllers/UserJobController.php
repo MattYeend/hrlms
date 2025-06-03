@@ -5,17 +5,20 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreUserJobRequest;
 use App\Http\Requests\UpdateUserJobRequest;
 use App\Models\Department;
-use App\Models\Log;
 use App\Models\User;
 use App\Models\UserJob;
+use App\Services\UserJobLogger;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
 class UserJobController extends Controller
 {
-    public function __construct()
+    protected UserJobLogger $logger;
+
+    public function __construct(UserJobLogger $logger)
     {
         $this->authorizeResource(UserJob::class, 'job');
+        $this->logger = $logger;
     }
     /**
      * Display a listing of the resource.
@@ -24,7 +27,7 @@ class UserJobController extends Controller
     {
         $this->authorize('viewAny', UserJob::class);
 
-        Log::log(Log::ACTION_VIEW_JOBS, ['Viewed all jobs'], auth()->id());
+        $this->logger->index(auth()->id());
 
         $archivedCount = UserJob::onlyTrashed()->count();
 
@@ -65,17 +68,7 @@ class UserJobController extends Controller
 
         $job = UserJob::create($data);
 
-        Log::log(Log::ACTION_CREATE_JOB, [
-            'id' => $job->id,
-            'job_title' => $job->name,
-            'slug' => $job->slug,
-            'short_code' => $job->short_code,
-            'description' => $job->description,
-            'is_default' => $job->is_default,
-            'department_id' => $job->department_id,
-            'created_by' => $job->created_by,
-            'created_at' => $job->created_at,
-        ], auth()->id());
+        $this->logger->create($job, auth()->id());
 
         return redirect()->route('jobs.show', ['job' => $job->slug])
             ->with('success', 'Job created successfully.');
@@ -90,14 +83,7 @@ class UserJobController extends Controller
 
         $userJob->load(['department:id,name']);
 
-        Log::log(Log::ACTION_SHOW_JOB, [
-            'id' => $userJob->id,
-            'job_title' => $userJob->job_title,
-            'email' => $userJob->email,
-            'role_id' => $userJob->role_id,
-            'department_id' => $userJob->department_id,
-            'job_id' => $userJob->job_id,
-        ], auth()->id(), $userJob->id);
+        $this->logger->show($userJob, auth()->id());
 
         return Inertia::render('jobs/Show', [
             'userJob' => $userJob,
@@ -131,16 +117,7 @@ class UserJobController extends Controller
 
         $userJob->update($data);
 
-        Log::log(Log::ACTION_UPDATE_JOB, [
-            'id' => $userJob->id,
-            'job_title' => $userJob->job_title,
-            'slug' => $userJob->slug,
-            'short_code' => $userJob->short_code,
-            'description' => $userJob->description,
-            'department_id' => $userJob->department_id,
-            'updated_by' => $userJob->updated_by,
-            'updated_at' => $userJob->updated_at,
-        ], auth()->id());
+        $this->logger->update($userJob, auth()->id());
 
         return redirect()->route('jobs.show', ['job' => $userJob->slug])
             ->with('success', 'Job updated successfully.');
@@ -160,16 +137,7 @@ class UserJobController extends Controller
         ]);
         $userJob->delete();
 
-        Log::log(Log::ACTION_DELETE_USER, [
-            'id' => $userJob->id,
-            'job_title' => $userJob->job_title,
-            'slug' => $userJob->slug,
-            'short_code' => $userJob->short_code,
-            'description' => $userJob->description,
-            'department_id' => $userJob->department_id,
-            'deleted_by' => $userJob->deleted_by,
-            'deleted_at' => $userJob->deleted_at,
-        ], auth()->id());
+        $this->logger->delete($userJob, auth()->id());
 
         return redirect()->route('jobs.index')
             ->with('success', 'Job deleted successfully.');
@@ -188,7 +156,7 @@ class UserJobController extends Controller
         ]);
         $job->restore();
 
-        $this->restoreLog($job);
+        $this->logger->restore($job, auth()->id());
 
         return redirect()->route(
             'jobs.show',
@@ -200,11 +168,7 @@ class UserJobController extends Controller
     {
         $this->authorize('viewArchived', UserJob::class);
 
-        Log::log(
-            Log::ACTION_VIEW_ARCHIVED_JOBS,
-            ['Viewed archived jobs'],
-            auth()->id()
-        );
+        $this->logger->archived(auth()->id());
 
         return Inertia::render('jobs/Archived', [
             'jobs' => UserJob::onlyTrashed()->with([
@@ -216,21 +180,5 @@ class UserJobController extends Controller
                 auth()->id()
             )->with('role:id,name')->first(),
         ]);
-    }
-
-    private function restoreLog(UserJob $userJob): array
-    {
-        $log = Log::log(Log::ACTION_REINSTATE_JOB, [
-            'id' => $userJob->id,
-            'job_title' => $userJob->job_title,
-            'slug' => $userJob->slug,
-            'short_code' => $userJob->short_code,
-            'description' => $userJob->description,
-            'department_id' => $userJob->department_id,
-            'restored_at' => $userJob->restored_at,
-            'restored_by' => $userJob->restored_by,
-        ], auth()->id());
-
-        return $log ?? [];
     }
 }

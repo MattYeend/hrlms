@@ -5,18 +5,21 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreUserRequest;
 use App\Http\Requests\UpdateUserRequest;
 use App\Models\Department;
-use App\Models\Log;
 use App\Models\Role;
 use App\Models\User;
 use App\Models\UserJob;
+use App\Services\UserLogger;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
 class UserController extends Controller
 {
-    public function __construct()
+    protected UserLogger $logger;
+
+    public function __construct(UserLogger $logger)
     {
         $this->authorizeResource(User::class, 'user');
+        $this->logger = $logger;
     }
 
     /**
@@ -26,7 +29,7 @@ class UserController extends Controller
     {
         $this->authorize('viewAny', User::class);
 
-        Log::log(Log::ACTION_VIEW_USERS, ['Viewed all users'], auth()->id());
+        $this->logger->index(auth()->id());
 
         $archivedCount = User::onlyTrashed()->count();
 
@@ -72,15 +75,7 @@ class UserController extends Controller
 
         $user = User::create($data);
 
-        Log::log(Log::ACTION_CREATE_USER, [
-            'id' => $user->id,
-            'name' => $user->name,
-            'email' => $user->email,
-            'role_id' => $user->role_id,
-            'department_id' => $user->department_id,
-            'created_by' => $user->created_by,
-            'created_at' => $user->created_at,
-        ], auth()->id(), $user->id);
+        $this->logger->create($user, auth()->id());
 
         return redirect()->route('users.show', $user)
             ->with('success', 'User created successfully.');
@@ -95,14 +90,7 @@ class UserController extends Controller
 
         $user->load(['role:id,name', 'department:id,name', 'job:id,job_title']);
 
-        Log::log(Log::ACTION_SHOW_USER, [
-            'id' => $user->id,
-            'name' => $user->name,
-            'email' => $user->email,
-            'role_id' => $user->role_id,
-            'department_id' => $user->department_id,
-            'job_id' => $user->job_id,
-        ], auth()->id(), $user->id);
+        $this->logger->show($user, auth()->id());
 
         return Inertia::render('users/Show', [
             'user' => $user,
@@ -142,16 +130,7 @@ class UserController extends Controller
 
         $user->update($data);
 
-        Log::log(Log::ACTION_UPDATE_USER, [
-            'id' => $user->id,
-            'name' => $user->name,
-            'email' => $user->email,
-            'role_id' => $user->role_id,
-            'department_id' => $user->department_id,
-            'job_id' => $user->job_id,
-            'updated_by' => $user->updated_by,
-            'updated_at' => $user->updated_at,
-        ], auth()->id(), $user->id);
+        $this->logger->update($user, auth()->id());
 
         return redirect()->route('users.show', $user)
             ->with('success', 'User updated successfully.');
@@ -171,16 +150,7 @@ class UserController extends Controller
         ]);
         $user->delete();
 
-        Log::log(Log::ACTION_DELETE_USER, [
-            'id' => $user->id,
-            'name' => $user->name,
-            'email' => $user->email,
-            'role_id' => $user->role_id,
-            'department_id' => $user->department_id,
-            'job_id' => $user->job_id,
-            'deleted_by' => $user->deleted_by,
-            'deleted_at' => $user->deleted_at,
-        ], auth()->id(), $user->id);
+        $this->logger->delete($user, auth()->id());
 
         return redirect()->route('users.index')
             ->with('success', 'User deleted successfully.');
@@ -199,7 +169,7 @@ class UserController extends Controller
         ]);
         $user->restore();
 
-        $this->restoreLog($user);
+        $this->logger->restore($user, auth()->id());
 
         return redirect()->route(
             'users.show',
@@ -222,7 +192,7 @@ class UserController extends Controller
             ->with('role:id,name')
             ->first();
 
-        $this->archivedLog($authUser);
+        $this->logger->archived(auth()->id());
 
         return Inertia::render('users/Archived', [
             'users' => $archivedUsers,
@@ -231,36 +201,5 @@ class UserController extends Controller
             'jobs' => $jobs,
             'authUser' => $authUser,
         ]);
-    }
-
-    private function archivedLog(User $user): array
-    {
-        $log = Log::log(Log::ACTION_VIEW_ARCHIVED_USERS, [
-            'id' => $user->id,
-            'name' => $user->name,
-            'email' => $user->email,
-            'role_id' => $user->role_id,
-            'department_id' => $user->department_id,
-            'job_id' => $user->job_id,
-            'deleted_by' => $user->deleted_by,
-            'deleted_at' => $user->deleted_at,
-        ], auth()->id(), $user->id);
-        return is_array($log) ? $log : [];
-    }
-
-    private function restoreLog(User $user): array
-    {
-        $log = Log::log(Log::ACTION_REINSTATE_USER, [
-            'id' => $user->id,
-            'name' => $user->name,
-            'email' => $user->email,
-            'role_id' => $user->role_id,
-            'department_id' => $user->department_id,
-            'job_id' => $user->job_id,
-            'restored_at' => $user->restored_at,
-            'restored_by' => $user->restored_by,
-        ], auth()->id(), $user->id);
-
-        return $log ?? [];
     }
 }

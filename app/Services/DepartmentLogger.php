@@ -64,7 +64,7 @@ class DepartmentLogger
     }
 
     /**
-     * Log updating an existing company.
+     * Log updating an existing department.
      */
     public function update(Department $department, int $userId): array
     {
