@@ -8,7 +8,6 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
-use App\Models\UserJob;
 
 class User extends Authenticatable
 {
@@ -62,8 +61,9 @@ class User extends Authenticatable
     /**
      * Check to see if the user is a super admin.
      * This method checks if the user's role ID matches the super admin role ID.
-     * 
+     *
      * @return bool
+     *
      * @see Role for the list of roles and their IDs
      * @see Role::SUPER_ADMIN for the super admin role ID
      */
@@ -75,8 +75,9 @@ class User extends Authenticatable
     /**
      * Check to see if the user is an admin.
      * This method checks if the user's role ID matches the admin role ID.
-     * 
+     *
      * @return bool
+     *
      * @see Role for the list of roles and their IDs
      * @see Role::ADMIN for the admin role ID
      */
@@ -88,8 +89,9 @@ class User extends Authenticatable
     /**
      * Check to see if the user is a user.
      * This method checks if the user's role ID matches the user role ID.
-     * 
+     *
      * @return bool
+     *
      * @see Role for the list of roles and their IDs
      * @see Role::USER for the user role ID
      */
@@ -98,10 +100,11 @@ class User extends Authenticatable
         return $this->role_id === Role::USER;
     }
 
-    /** 
+    /**
      * Get the role that the user belongs to.
-     * 
+     *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo<Role>
+     *
      * @see Role for the list of roles
      * @see Role::class for the Role model
      * @see User::role_id for the foreign key in the users table
@@ -114,8 +117,9 @@ class User extends Authenticatable
 
     /**
      * Get the department that the user belongs to.
-     * 
+     *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo<Department>
+     *
      * @see Department for the list of departments
      * @see Department::class for the Department model
      * @see User::department_id for the foreign key in the users table
@@ -128,8 +132,9 @@ class User extends Authenticatable
 
     /**
      * Get the job that the user belongs to.
-     * 
+     *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo<UserJob>
+     *
      * @see UserJob for the list of jobs
      * @see UserJob::class for the UserJob model
      * @see User::job_id for the foreign key in the users table
@@ -142,8 +147,9 @@ class User extends Authenticatable
 
     /**
      * Get the unique identifier for the user.
-     * This method is used by route model binding to retrieve the user by their slug.
-     * 
+     * This method is used by route model binding to
+     * retrieve the user by their slug.
+     *
      * @return string
      */
     public function getRouteKeyName()
@@ -154,10 +160,11 @@ class User extends Authenticatable
     /**
      * Check if the user is part of the C-Suite staff.
      * This includes roles such as CEO, COO, CFO, etc.
-     * 
+     *
      * @return bool
+     *
      * @see UserJob for the list of C-Suite roles
-     * @see UserJob::C_SUITES_SHORT_CODES for the list of C-Suite short codes
+     * @see UserJob::cSuiteShortCodes for C-Suite short codes
      */
     public function isCSuiteStaff()
     {
@@ -167,10 +174,11 @@ class User extends Authenticatable
     /**
      * Check if the user is part of the HR staff.
      * This includes roles such as HRD, DoP, HRM, etc.
-     * 
+     *
      * @return bool
+     *
      * @see UserJob for the list of HR roles
-     * @see UserJob::HR_DEPARTMENT_SHORT_CODES for the list of HR short codes
+     * @see UserJob::hRShortCodes for HR short codes
      */
     public function isHRStaff()
     {
@@ -180,10 +188,11 @@ class User extends Authenticatable
     /**
      * Check if the user is part of the Finance staff.
      * This includes roles such as FD, DoF, FM, etc.
-     * 
+     *
      * @return bool
+     *
      * @see UserJob for the list of Finance roles
-     * @see UserJob::FINANCE_DEPARTMENT_SHORT_CODES for the list of Finance short codes
+     * @see UserJob::financeShortCodes for Finance short codes
      */
     public function isFinanceStaff()
     {
@@ -193,84 +202,95 @@ class User extends Authenticatable
     /**
      * Check if the user is part of the IT staff.
      * This includes roles such as ITD, DoIT, ITM, etc.
-     * 
+     *
      * @return bool
+     *
      * @see UserJob for the list of IT roles
-     * @see UserJob::IT_DEPARTMENT_SHORT_CODES for the list of IT short codes
+     * @see UserJob::iTShortCodes for IT short codes
      */
     public function isITStaff()
     {
         return $this->job?->isITDepartment() ?? false;
-
     }
+
     /**
      * Check if the user is part of the Marketing staff.
      * This includes roles such as MD, DoM, MM, etc.
-     * 
+     *
      * @return bool
+     *
      * @see UserJob for the list of Marketing roles
-     * @see UserJob::MARKETING_DEPARTMENT_SHORT_CODES for the list of Marketing short codes
+     * @see UserJob::marketingShortCodes for Marketing short codes
      */
     public function isMarketingStaff()
     {
         return $this->job?->isMarketing() ?? false;
     }
+
     /**
      * Check if the user is part of the Sales staff.
      * This includes roles such as SD, DoS, SM, etc.
-     * 
+     *
      * @return bool
+     *
      * @see UserJob for the list of Sales roles
-     * @see UserJob::SALES_DEPARTMENT_SHORT_CODES for the list of Sales short codes
+     * @see UserJob::salesShortCodes for Sales short codes
      */
     public function isSalesStaff()
     {
         return $this->job?->isSales() ?? false;
     }
+
     /**
      * Check if the user is part of the Operations staff.
      * This includes roles such as OD, DoO, OM, etc.
-     * 
+     *
      * @return bool
+     *
      * @see UserJob for the list of Operations roles
-     * @see UserJob::OPERATIONS_DEPARTMENT_SHORT_CODES for the list of Operations short codes
+     * @see UserJob::operationsShortCodes for Operations short codes
      */
     public function isOperationsStaff()
     {
         return $this->job?->isOperations() ?? false;
-
     }
+
     /**
      * Check if the user is part of the Customer Service staff.
      * This includes roles such as CSD, DoCS, CM, etc.
-     * 
+     *
      * @return bool
+     *
      * @see UserJob for the list of Customer Service roles
-     * @see UserJob::CUSTOMER_SERVICE_DEPARTMENT_SHORT_CODES for the list of Customer Service short codes
+     * @see UserJob::customerServiceShortCodes for Customer Service short codes
      */
     public function isCustomerServiceStaff()
     {
         return $this->job?->isCustomerSupport() ?? false;
     }
+
     /**
      * Check if the user is part of the Legal staff.
      * This includes roles such as LD, DoL, LM, etc.
-     * 
+     *
      * @return bool
+     *
      * @see UserJob for the list of Legal roles
-     * @see UserJob::LEGAL_DEPARTMENT_SHORT_CODES for the list of Legal short codes
+     * @see UserJob::legalShortCodes Legal short codes
      */
     public function isLegalStaff()
     {
         return $this->job?->isLegal() ?? false;
     }
+
     /**
      * Check if the user is part of the Administration staff.
      * This includes roles such as AD, DoA, AM, etc.
-     * 
+     *
      * @return bool
+     *
      * @see UserJob for the list of Administration roles
-     * @see UserJob::ADMINISTRATION_DEPARTMENT_SHORT_CODES for the list of Administration short codes
+     * @see UserJob::administrationShortCodes for Administration short codes
      */
     public function isAdministrationStaff()
     {
@@ -280,10 +300,12 @@ class User extends Authenticatable
     /**
      * Check if the user is part of the Research and Development staff.
      * This includes roles such as RD, DoR, RM, etc.
-     * 
+     *
      * @return bool
+     *
      * @see UserJob for the list of Research and Development roles
-     * @see UserJob::RESEARCH_AND_DEVELOPMENT_DEPARTMENT_SHORT_CODES for the list of Research and Development short codes
+     * @see UserJob::researchAndDevelopmentShortCodes
+     * for Research and Development short codes
      */
     public function isResearchAndDevelopmentStaff()
     {
