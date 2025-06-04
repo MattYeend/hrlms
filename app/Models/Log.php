@@ -86,7 +86,7 @@ class Log extends Model
     ];
 
     protected $casts = [
-        'data' => 'array',
+        'data' => 'string',
     ];
 
     public function loggedInUser()
