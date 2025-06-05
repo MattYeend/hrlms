@@ -32,9 +32,9 @@ const breadcrumbs: BreadcrumbItem[] = [
 		<div class="px-4 sm:px-6 lg:px-8 py-4 sm:py-6 lg:py-8">
 			<div class="flex justify-between items-center mb-6">
 				<h1 class="text-3xl font-bold text-gray-900 dark:text-white">Jobs</h1>
-				<Link :href="route('jobs.create')" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md shadow-sm">
+				<!-- <Link :href="route('jobs.create')" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md shadow-sm">
 					+ New Job
-				</Link>
+				</Link> -->
 			</div>
 	
 			<div class="overflow-x-auto">
@@ -56,9 +56,9 @@ const breadcrumbs: BreadcrumbItem[] = [
 							<td class="p-3">{{ job.department?.name ?? '-' }}</td>
 							<td class="p-3">
 								<Link :href="route('jobs.show', { job: job.slug }) + `?from=index`" class="text-blue-600 dark:text-blue-400 hover:underline">View</Link>
-								<span v-if="['Admin', 'Super Admin'].includes(authUser.role.name)">| 
+								<!-- <span v-if="['Admin', 'Super Admin'].includes(authUser.role.name)">| 
 									<Link :href="route('jobs.edit', { job: job.slug })" class="text-blue-600 dark:text-blue-400 hover:underline">Edit</Link>
-								</span>
+								</span> -->
 								<span v-if="['Admin', 'Super Admin'].includes(authUser.role.name)">|
 									<Link :href="route('jobs.destroy', { job: job.slug })" :method="'delete'" as="button" class="text-red-600 dark:text-red-400 hover:underline" >
 										{{ 'Archive' }}
