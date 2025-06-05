@@ -209,7 +209,7 @@ class UserJobSeeder extends Seeder
             ['Regulatory Affairs Specialist', 'RAS', 'Ensures regulatory compliance.', 'Research and Development'],
 
             // Procurement
-            ['Procurement Manager', 'ProcM', 'Oversees procurement activities and vendor management.', 'Procurement'],
+            ['Procurement Manager', 'PROCM', 'Oversees procurement activities and vendor management.', 'Procurement'],
             ['Purchasing Officer', 'PO', 'Executes purchase orders and tracks procurement.', 'Procurement'],
             ['Vendor Manager', 'VM', 'Manages supplier relationships and contracts.', 'Procurement'],
             ['Supply Chain Analyst', 'SCA', 'Analyzes supply chain processes and performance.', 'Procurement'],
@@ -236,7 +236,7 @@ class UserJobSeeder extends Seeder
             ['Media Relations Specialist', 'MRS', 'Handles communication with media outlets.', 'Public Relations'],
             ['Communications Officer', 'COF', 'Creates and distributes press releases.', 'Public Relations'],
             ['Public Affairs Manager', 'PAM', 'Manages public policy and community relations.', 'Public Relations'],
-            ['Crisis Communications Manager', 'CComM', 'Handles communication during crises.', 'Public Relations'],
+            ['Crisis Communications Manager', 'CCOMM', 'Handles communication during crises.', 'Public Relations'],
             ['Event Coordinator', 'EC', 'Plans and executes public events.', 'Public Relations'],
 
             // Facilities
@@ -256,7 +256,7 @@ class UserJobSeeder extends Seeder
 
             // Security
             ['Security Manager', 'SECMM', 'Manages physical and cybersecurity policies.', 'Security'],
-            ['Cybersecurity Analyst', 'CSecA', 'Monitors and protects systems from cyber threats.', 'Security'],
+            ['Cybersecurity Analyst', 'CSECA', 'Monitors and protects systems from cyber threats.', 'Security'],
             ['Security Officer', 'SO', 'Ensures safety and security of premises.', 'Security'],
             ['Information Security Manager', 'ISM', 'Oversees information security strategy.', 'Security'],
             ['Physical Security Specialist', 'PSS', 'Implements physical security measures.', 'Security'],
