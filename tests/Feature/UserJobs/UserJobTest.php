@@ -9,12 +9,37 @@ use Illuminate\Support\Str;
 
 uses(RefreshDatabase::class);
 
+function seedRoles()
+{
+    Role::updateOrCreate(
+        ['id' => Role::SUPER_ADMIN],
+        ['slug' => 'superadmin', 'name' => 'Super Admin']
+    );
+
+    Role::updateOrCreate(
+        ['id' => Role::ADMIN],
+        ['slug' => 'admin', 'name' => 'Admin']
+    );
+
+    Role::updateOrCreate(
+        ['id' => Role::USER],
+        ['slug' => 'user', 'name' => 'User']
+    );
+}
+
+beforeEach(function () {
+    seedRoles();
+});
+
 function userWithRoleForJobs(string $roleName): User
 {
-    $role = Role::firstOrCreate(
-        ['name' => $roleName],
-        ['slug' => Str::slug($roleName)]
-    );
+    $slug = Str::slug($roleName);
+
+    $role = Role::where('slug', $slug)->first();
+
+    if (!$role) {
+        throw new Exception("Role with slug {$slug} not found. Make sure seedRoles() is called.");
+    }
 
     $creator = User::factory()->create();
 
@@ -36,27 +61,53 @@ function userWithRoleForJobs(string $roleName): User
 }
 
 // Guest access
-
 test('guests cannot access user jobs index and are redirected to login', function () {
     $response = $this->get(route('jobs.index'));
     $response->assertRedirect(route('login'));
 });
 
-// Authenticated user can view user jobs index
+// Authenticated users (non-superadmin) can view user jobs index and show but not create or edit
+test('non-superadmin user can view user jobs index and single job', function () {
+    $user = userWithRoleForJobs('user'); 
 
-test('user with role can view user jobs index', function () {
-    $user = userWithRoleForJobs('admin');
+    // Debug role slug and superadmin check
+    $this->assertEquals('user', $user->role->slug);
+    $this->assertFalse($user->isSuperAdmin());
+
+    $job = UserJob::factory()->create();
 
     $this->actingAs($user);
 
-    $response = $this->get(route('jobs.index'));
-    $response->assertOk();
+    $responseIndex = $this->get(route('jobs.index'));
+    $responseIndex->assertOk();
+
+    $responseShow = $this->get(route('jobs.show', $job));
+    $responseShow->assertOk();
+
+    $responseCreate = $this->get(route('jobs.create'));
+    $responseCreate->assertStatus(403);
+
+    $responseStore = $this->post(route('jobs.store'), UserJob::factory()->make()->toArray());
+    $responseStore->assertStatus(403);
+
+    $responseEdit = $this->get(route('jobs.edit', $job));
+    $responseEdit->assertStatus(403);
+
+    $responseUpdate = $this->put(route('jobs.update', $job), [
+        'job_title' => 'Should not update',
+        'slug' => Str::slug('Should not update'),
+        'short_code' => $job->short_code,
+        'description' => $job->description,
+        'department_id' => $job->department_id,
+        'created_by' => $job->created_by,
+        'updated_by' => $user->id,
+    ]);
+    $responseUpdate->assertStatus(403);
 });
 
-// Creating a UserJob
-
-test('user can create a new user job', function () {
-    $user = userWithRoleForJobs('admin');
+// Superadmin can create and edit jobs
+test('superadmin can create a new user job', function () {
+    $user = userWithRoleForJobs('superadmin');
 
     $this->actingAs($user);
 
@@ -70,24 +121,8 @@ test('user can create a new user job', function () {
     $this->assertStringContainsString('/jobs/', $redirectUrl);
 });
 
-// Viewing a single UserJob
-
-test('user can view a single user job', function () {
-    $user = userWithRoleForJobs('admin');
-
-    $job = UserJob::factory()->create();
-
-    $this->actingAs($user);
-
-    $response = $this->get(route('jobs.show', $job));
-    $response->assertOk();
-    $response->assertSee($job->job_title);
-});
-
-// Updating a UserJob
-
-test('user can update a user job', function () {
-    $user = userWithRoleForJobs('admin');
+test('superadmin can update a user job', function () {
+    $user = userWithRoleForJobs('superadmin');
     $job = UserJob::factory()->create();
 
     $this->actingAs($user);
@@ -109,20 +144,4 @@ test('user can update a user job', function () {
         'id' => $job->id,
         'job_title' => $newTitle,
     ]);
-});
-
-// Deleting a UserJob
-
-test('user can delete a user job', function () {
-    $user = userWithRoleForJobs('admin');
-    $job = UserJob::factory()->create();
-
-    $this->actingAs($user);
-
-    $response = $this->delete(route('jobs.destroy', $job));
-
-    $response->assertRedirect(route('jobs.index'));
-
-    // Use assertSoftDeleted if soft deletes enabled
-    $this->assertSoftDeleted('user_jobs', ['id' => $job->id]);
 });

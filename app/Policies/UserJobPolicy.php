@@ -30,7 +30,7 @@ class UserJobPolicy
      */
     public function create(User $user): bool
     {
-        return $this->isAdminOrSuperAdmin($user);
+        return $this->isSuperAdmin($user);
     }
 
     /**
@@ -39,7 +39,7 @@ class UserJobPolicy
     public function update(User $user, UserJob $userJob): bool
     {
         unset($userJob);
-        return $this->isAdminOrSuperAdmin($user);
+        return $this->isSuperAdmin($user);
     }
 
     /**
@@ -66,7 +66,7 @@ class UserJobPolicy
     public function forceDelete(User $user, UserJob $userJob): bool
     {
         unset($userJob);
-        return $this->isAdminOrSuperAdmin($user);
+        return $this->isSuperAdmin($user);
     }
 
     /**
@@ -80,5 +80,10 @@ class UserJobPolicy
     private function isAdminOrSuperAdmin(User $user): bool
     {
         return $user->isAdmin() || $user->isSuperAdmin();
+    }
+
+    private function isSuperAdmin(User $user): bool
+    {
+        return $user->isSuperAdmin();
     }
 }
