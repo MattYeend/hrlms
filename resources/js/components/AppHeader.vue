@@ -65,7 +65,7 @@ const props = withDefaults(defineProps<Props>(), {
 
 const page = usePage();
 const auth = computed(() => page.props.auth);
-const isSuperAdmin = computed(() => page.props.auth?.user?.role_id === 1);
+// const isSuperAdmin = computed(() => page.props.auth?.user?.role_id === 1);
 const isAtleastAdmin = computed(() => page.props.auth?.user?.role_id === 1 || page.props.auth?.user?.role_id === 2);
 const archivedUsers = computed(() => page.props.archivedUsers);
 const archivedDepts = computed(() => page.props.archivedDepts);
