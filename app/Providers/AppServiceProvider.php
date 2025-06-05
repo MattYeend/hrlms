@@ -50,6 +50,9 @@ class AppServiceProvider extends ServiceProvider
 
     protected function isCSuiteOrHrStaff(): bool
     {
+        /**
+         * @var \App\Models\User|null $user
+         */
         $user = Auth::user();
 
         if (!$user) {
