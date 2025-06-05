@@ -172,6 +172,21 @@ class User extends Authenticatable
     }
 
     /**
+     * Check if the user is part of the Directors staff.
+     * This includes roles such as Director of Operations, Director
+     * of Finance, etc.
+     *
+     * @return bool
+     *
+     * @see UserJob for the list of Director roles
+     * @see UserJob::directorShortCodes for Director short codes
+     */
+    public function isDirectorStaff()
+    {
+        return $this->job?->isDirector() ?? false;
+    }
+
+    /**
      * Check if the user is part of the HR staff.
      * This includes roles such as HRD, DoP, HRM, etc.
      *
@@ -310,6 +325,166 @@ class User extends Authenticatable
     public function isResearchAndDevelopmentStaff()
     {
         return $this->job?->isResearchAndDevelopment() ?? false;
+    }
+
+    /**
+     * Check to see if the user is part of the procurement staff.
+     * This includes roles such as PO, VM, SCA, etc.
+     *
+     * @return bool
+     *
+     * @see UserJob for the list of procurement roles
+     * @see UserJob::procurementShortCodes for procurement short codes
+     */
+    public function isProcurementStaff()
+    {
+        return $this->job?->isProcurement() ?? false;
+    }
+
+    /**
+     * Check if the user is part of the quality assurance staff.
+     * This includes roles such as QAE, QAC, QCI, etc.
+     *
+     * @return bool
+     *
+     * @see UserJob for the list of quality assurance roles
+     * @see UserJob::qualityAssuranceShortCodes for quality
+     * assurance short codes
+     */
+    public function isQualityAssuranceStaff()
+    {
+        return $this->job?->isQualityAssurance() ?? false;
+    }
+
+    /**
+     * Check if the user is part of the training and development staff.
+     * This includes roles such as TRM, LDS, CR, etc.
+     *
+     * @return bool
+     *
+     * @see UserJob for the list of training and development roles
+     * @see UserJob::trainingAndDevelopmentShortCodes for training and
+     * development short codes
+     */
+    public function isTrainingAndDevelopmentStaff()
+    {
+        return $this->job?->isTrainingAndDevelopment() ?? false;
+    }
+
+    /**
+     * Check if the user is part of the public relations staff.
+     * This includes roles such as PRM, MRS, COF, etc.
+     *
+     * @return bool
+     *
+     * @see UserJob for the list of public relations roles
+     * @see UserJob::publicRelationsShortCodes for public relations short codes
+     */
+    public function isPublicRelationsStaff()
+    {
+        return $this->job?->isPublicRelations() ?? false;
+    }
+
+    /**
+     * Check if the user is part of the facilities management staff.
+     * This includes roles such as FM, MS, CSC, etc.
+     *
+     * @return bool
+     *
+     * @see UserJob for the list of facilities management roles
+     * @see UserJob::facilitiesManagementShortCodes for facilities management
+     * short codes
+     */
+    public function isFacilitiesManagementStaff()
+    {
+        return $this->job?->isFacilitiesManagement() ?? false;
+    }
+
+    /**
+     * Check if the user is part of the compliance staff.
+     * This includes roles such as RCO, CPA, CPC, etc.
+     *
+     * @return bool
+     *
+     * @see UserJob for the list of compliance roles
+     * @see UserJob::complianceShortCodes for compliance short codes
+     */
+    public function isComplianceStaff()
+    {
+        return $this->job?->isCompliance() ?? false;
+    }
+
+    /**
+     * Check if the user is part of the security staff.
+     * This includes roles such as SECMM, CSECA, SO, etc.
+     *
+     * @return bool
+     *
+     * @see UserJob for the list of security roles
+     * @see UserJob::securityShortCodes for security short codes
+     */
+    public function isSecurityStaff()
+    {
+        return $this->job?->isSecurity() ?? false;
+    }
+
+    /**
+     * Check if the user is part of the product management staff.
+     * This includes roles such as PMGR, TPM, POW, etc.
+     *
+     * @return bool
+     *
+     * @see UserJob for the list of product management roles
+     * @see UserJob::productManagementShortCodes for product
+     * management short codes
+     */
+    public function isProductManagementStaff()
+    {
+        return $this->job?->isProductManagement() ?? false;
+    }
+
+    /**
+     * Check if the user is part of the data analysis staff.
+     * This includes roles such as DS, BID, DENG, etc.
+     *
+     * @return bool
+     *
+     * @see UserJob for the list of data analysis roles
+     * @see UserJob::dataAnalysisShortCodes for data analysis short codes
+     */
+    public function isDataAnalysisStaff()
+    {
+        return $this->job?->isDataAnalysis() ?? false;
+    }
+
+    /**
+     * Check if the user is part of the strategic planning staff.
+     * This includes roles such as STP, BS, MRA, etc.
+     *
+     * @return bool
+     *
+     * @see UserJob for the list of strategic planning roles
+     * @see UserJob::strategicPlanningShortCodes for strategic
+     * planning short codes
+     */
+    public function isStrategicPlanningStaff()
+    {
+        return $this->job?->isStrategicPlanning() ?? false;
+    }
+
+    /**
+     * Check if the user is part of the business development staff.
+     * This includes roles such as BIACT, BIM, DWM, etc.
+     *
+     * @return bool
+     *
+     * @see UserJob for the list of business development roles
+     * @see UserJob::businessDevelopmentShortCodes for business
+     * development short codes
+     */
+    public function isBusinessDevelopmentStaff()
+    {
+        return $this->job?->isBusinessDevelopment() ?? false;
     }
 
     /**
