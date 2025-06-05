@@ -11,7 +11,7 @@ class UserJob extends Model
     /** @use HasFactory<\Database\Factories\UserJobsFactory> */
     use HasFactory, SoftDeletes;
 
-   // Constants for C Suite short codes
+    // Constants for C Suite short codes
     public const string CEO_SHORT_CODE = 'CEO';
     public const string COO_SHORT_CODE = 'COO';
     public const string CFO_SHORT_CODE = 'CFO';
@@ -220,7 +220,7 @@ class UserJob extends Model
     // Constants for Training and Development short codes
     public const string TRM_SHORT_CODE = 'TRM';
     public const string LDS_SHORT_CODE = 'LDS';
-    public const string TRC_SHORT_CODE = "TRC";
+    public const string TRC_SHORT_CODE = 'TRC';
     public const string INSTDES_SHORT_CODE = 'INSTDES';
     public const string CT_SHORT_CODE = 'CT';
     public const string ELS_SHORT_CODE = 'ELS';
@@ -579,99 +579,25 @@ class UserJob extends Model
      */
     public function cSuiteShortCodes(): array
     {
-        return [
-            self::CEO_SHORT_CODE,
-            self::COO_SHORT_CODE,
-            self::CFO_SHORT_CODE,
-            self::CMO_SHORT_CODE,
-            self::CTO_SHORT_CODE,
-            self::CIO_SHORT_CODE,
-            self::CHRO_SHORT_CODE,
-            self::CPRODO_SHORT_CODE,
-            self::CRO_SHORT_CODE,
-            self::CLO_SHORT_CODE,
-            self::CCOMPO_SHORT_CODE,
-            self::CDATAO_SHORT_CODE,
-            self::CSEO_SHORT_CODE,
-            self::CXO_SHORT_CODE,
-            self::CSTO_SHORT_CODE,
-            self::CINO_SHORT_CODE,
-            self::CDIVO_SHORT_CODE,
-            self::CSO_SHORT_CODE,
-            self::CAO_SHORT_CODE,
-            self::CRISKO_SHORT_CODE,
-            self::CINVO_SHORT_CODE,
-            self::CLEARNO_SHORT_CODE,
-            self::CCOMMSO_SHORT_CODE,
-            self::CPO_SHORT_CODE,
-            self::CBDO_SHORT_CODE,
-            self::CFRAO_SHORT_CODE,
-            self::CIRO_SHORT_CODE,
-            self::CETHICSO_SHORT_CODE,
-            self::CDIGITO_SHORT_CODE,
-            self::CBO_SHORT_CODE,
-            self::CCUSTO_SHORT_CODE,
-            self::CGO_SHORT_CODE,
-            self::CFDO_SHORT_CODE,
-            self::CCDO_SHORT_CODE,
-            self::CTRANO_SHORT_CODE,
-            self::CPEOPLEO_SHORT_CODE,
-            self::CITO_SHORT_CODE,
-            self::CGMO_SHORT_CODE,
-            self::CDMO_SHORT_CODE,
-            self::CCAO_SHORT_CODE,
-        ];
+        return array_merge(
+            $this->chiefExecutiveShortCodes(),
+            $this->chiefOperationsShortCodes(),
+            $this->chiefGrowthShortCodes()
+        );
     }
 
     /**
      * Get the list of Directorship short codes.
-     * 
+     *
      * @return array<string>
      */
     public function directorshipShortCodes(): array
     {
-        return [
-            self::DIR_SHORT_CODE,
-            self::MD_SHORT_CODE,
-            self::ED_SHORT_CODE,
-            self::SDIR_SHORT_CODE,
-            self::ASSOCDIR_SHORT_CODE,
-            self::REGDIR_SHORT_CODE,
-            self::PDIR_SHORT_CODE,
-            self::PJDIR_SHORT_CODE,
-            self::ODIR_SHORT_CODE,
-            self::BDDIR_SHORT_CODE,
-            self::SALESDIR_SHORT_CODE,
-            self::MDIR_SHORT_CODE,
-            self::FINDIR_SHORT_CODE,
-            self::HRDIR_SHORT_CODE,
-            self::ITDIR_SHORT_CODE,
-            self::LDIR_SHORT_CODE,
-            self::CDIR_SHORT_CODE,
-            self::PRODDIR_SHORT_CODE,
-            self::CUSTEXDIR_SHORT_CODE,
-            self::IDIR_SHORT_CODE,
-            self::CADIR_SHORT_CODE,
-            self::SUSDIR_SHORT_CODE,
-            self::DADIR_SHORT_CODE,
-            self::RMDIR_SHORT_CODE,
-            self::IRDIR_SHORT_CODE,
-            self::TDDIR_SHORT_CODE,
-            self::FACDIR_SHORT_CODE,
-            self::SECDIR_SHORT_CODE,
-            self::PROCDIR_SHORT_CODE,
-            self::QADIR_SHORT_CODE,
-            self::PRDIR_SHORT_CODE,
-            self::COMMSENGDIR_SHORT_CODE,
-            self::CORPSTRDIR_SHORT_CODE,
-            self::DTDIR_SHORT_CODE,
-            self::GODIR_SHORT_CODE,
-            self::FRDIR_SHORT_CODE,
-            self::CDDIR_SHORT_CODE,
-            self::CUSTSUPPDIR_SHORT_CODE,
-            self::ADMINDIR_SHORT_CODE,
-            self::RDIR_SHORT_CODE
-        ];
+        return array_merge(
+            $this->generalDirectorShortCodes(),
+            $this->functionalDirectorShortCodes(),
+            $this->specializedDirectorShortCodes()
+        );
     }
 
     /**
@@ -699,43 +625,12 @@ class UserJob extends Model
      */
     public function iTShortCodes(): array
     {
-        return [
-            self::ITM_SHORT_CODE,
-            self::SA_SHORT_CODE,
-            self::NE_SHORT_CODE,
-            self::DBA_SHORT_CODE,
-            self::SDEV_SHORT_CODE,
-            self::DA_SHORT_CODE,
-            self::CS_SHORT_CODE,
-            self::HDT_SHORT_CODE,
-            self::CSA_SHORT_CODE,
-            self::ITS_SHORT_CODE,
-            self::DE_SHORT_CODE,
-            self::SECA_SHORT_CODE,
-            self::BIA_SHORT_CODE,
-            self::ITPM_SHORT_CODE,
-            self::ITCO_SHORT_CODE,
-            self::ITT_SHORT_CODE,
-            self::ITPS_SHORT_CODE,
-            self::ITOM_SHORT_CODE,
-            self::ITA_SHORT_CODE,
-            self::ITBA_SHORT_CODE,
-            self::WD_SHORT_CODE,
-            self::MAD_SHORT_CODE,
-            self::ISA_SHORT_CODE,
-            self::ITSM_SHORT_CODE,
-            self::ITVM_SHORT_CODE,
-            self::CHANGEM_SHORT_CODE,
-            self::ITAM_SHORT_CODE,
-            self::ITDRS_SHORT_CODE,
-            self::ITNA_SHORT_CODE,
-            self::ITSE_SHORT_CODE,
-            self::ITBCM_SHORT_CODE,
-            self::ITQAA_SHORT_CODE,
-            self::ITRM_SHORT_CODE,
-            self::CONFIGM_SHORT_CODE,
-            self::ITPA_SHORT_CODE
-        ];
+        return array_merge(
+            $this->itManagementShortCodes(),
+            $this->itDevelopmentShortCodes(),
+            $this->itOperationsShortCodes(),
+            $this->itSupportShortCodes()
+        );
     }
 
     /**
@@ -1382,7 +1277,7 @@ class UserJob extends Model
      *
      * @return bool
      */
-    public function isCompliance(): bool    
+    public function isCompliance(): bool
     {
         return in_array(
             $this->short_code,
@@ -1408,7 +1303,7 @@ class UserJob extends Model
      *
      * @return bool
      */
-    public function isProductManagement(): bool 
+    public function isProductManagement(): bool
     {
         return in_array(
             $this->short_code,
@@ -1531,5 +1426,252 @@ class UserJob extends Model
             $this->short_code,
             $this->communityEngagementShortCodes()
         );
+    }
+
+    /**
+     * Get executive short codes.
+     *
+     * @return array<string>
+     */
+    private function chiefExecutiveShortCodes(): array
+    {
+        return [
+            self::CEO_SHORT_CODE,
+            self::COO_SHORT_CODE,
+            self::CFO_SHORT_CODE,
+            self::CHRO_SHORT_CODE,
+            self::CLO_SHORT_CODE,
+            self::CIO_SHORT_CODE,
+            self::CTO_SHORT_CODE,
+            self::CAO_SHORT_CODE,
+            self::CBO_SHORT_CODE,
+            self::CCAO_SHORT_CODE,
+        ];
+    }
+
+    /**
+     * Get opperations short codes.
+     *
+     * @return array<string>
+     */
+    private function chiefOperationsShortCodes(): array
+    {
+        return [
+            self::CRO_SHORT_CODE,
+            self::CPRODO_SHORT_CODE,
+            self::CCOMPO_SHORT_CODE,
+            self::CPO_SHORT_CODE,
+            self::CSTO_SHORT_CODE,
+            self::CPEOPLEO_SHORT_CODE,
+            self::CITO_SHORT_CODE,
+            self::CLEARNO_SHORT_CODE,
+            self::CINVO_SHORT_CODE,
+            self::CTRANO_SHORT_CODE,
+        ];
+    }
+
+    /**
+     * Get growth short codes.
+     *
+     * @return array<string>
+     */
+    private function chiefGrowthShortCodes(): array
+    {
+        return [
+            self::CMO_SHORT_CODE,
+            self::CDATAO_SHORT_CODE,
+            self::CSEO_SHORT_CODE,
+            self::CXO_SHORT_CODE,
+            self::CINO_SHORT_CODE,
+            self::CDIVO_SHORT_CODE,
+            self::CRISKO_SHORT_CODE,
+            self::CCOMMSO_SHORT_CODE,
+            self::CBDO_SHORT_CODE,
+            self::CFRAO_SHORT_CODE,
+            self::CIRO_SHORT_CODE,
+            self::CETHICSO_SHORT_CODE,
+            self::CDIGITO_SHORT_CODE,
+            self::CGO_SHORT_CODE,
+            self::CFDO_SHORT_CODE,
+            self::CCDO_SHORT_CODE,
+            self::CGMO_SHORT_CODE,
+            self::CDMO_SHORT_CODE,
+        ];
+    }
+
+    /**
+     * Get general director short codes.
+     *
+     * @return array<string>
+     */
+    private function generalDirectorShortCodes(): array
+    {
+        return [
+            self::DIR_SHORT_CODE,
+            self::MD_SHORT_CODE,
+            self::ED_SHORT_CODE,
+            self::SDIR_SHORT_CODE,
+            self::ASSOCDIR_SHORT_CODE,
+            self::REGDIR_SHORT_CODE,
+            self::PDIR_SHORT_CODE,
+            self::PJDIR_SHORT_CODE,
+            self::ODIR_SHORT_CODE,
+            self::BDDIR_SHORT_CODE,
+        ];
+    }
+
+    /**
+     * Get functional director short codes.
+     *
+     * @return array<string>
+     */
+    private function functionalDirectorShortCodes(): array
+    {
+        return [
+            self::SALESDIR_SHORT_CODE,
+            self::MDIR_SHORT_CODE,
+            self::FINDIR_SHORT_CODE,
+            self::HRDIR_SHORT_CODE,
+            self::ITDIR_SHORT_CODE,
+            self::LDIR_SHORT_CODE,
+            self::CDIR_SHORT_CODE,
+            self::PRODDIR_SHORT_CODE,
+            self::CUSTEXDIR_SHORT_CODE,
+            self::IDIR_SHORT_CODE,
+            self::CADIR_SHORT_CODE,
+        ];
+    }
+
+    /**
+     * Get specialized director short codes.
+     *
+     * @return array<string>
+     */
+    private function specializedDirectorShortCodes(): array
+    {
+        return array_merge(
+            $this->specializedDirectorGroupOne(),
+            $this->specializedDirectorGroupTwo()
+        );
+    }
+
+    /**
+     * Get specialized director group one short codes.
+     *
+     * @return array<string>
+     */
+    private function specializedDirectorGroupOne(): array
+    {
+        return [
+            self::SUSDIR_SHORT_CODE,
+            self::DADIR_SHORT_CODE,
+            self::RMDIR_SHORT_CODE,
+            self::IRDIR_SHORT_CODE,
+            self::TDDIR_SHORT_CODE,
+            self::FACDIR_SHORT_CODE,
+            self::SECDIR_SHORT_CODE,
+            self::PROCDIR_SHORT_CODE,
+            self::QADIR_SHORT_CODE,
+            self::PRDIR_SHORT_CODE,
+        ];
+    }
+
+    /**
+     * Get specialized director group two short codes.
+     *
+     * @return array<string>
+     */
+    private function specializedDirectorGroupTwo(): array
+    {
+        return [
+            self::COMMSENGDIR_SHORT_CODE,
+            self::CORPSTRDIR_SHORT_CODE,
+            self::DTDIR_SHORT_CODE,
+            self::GODIR_SHORT_CODE,
+            self::FRDIR_SHORT_CODE,
+            self::CDDIR_SHORT_CODE,
+            self::CUSTSUPPDIR_SHORT_CODE,
+            self::ADMINDIR_SHORT_CODE,
+            self::RDIR_SHORT_CODE,
+        ];
+    }
+
+    /**
+     * Get IT Management short codes.
+     *
+     * @return array<string>
+     */
+    private function itManagementShortCodes(): array
+    {
+        return [
+            self::ITM_SHORT_CODE,
+            self::ITPM_SHORT_CODE,
+            self::ITCO_SHORT_CODE,
+            self::ITOM_SHORT_CODE,
+            self::CHANGEM_SHORT_CODE,
+            self::CONFIGM_SHORT_CODE,
+            self::ITRM_SHORT_CODE,
+        ];
+    }
+
+    /**
+     * Get IT Development short codes.
+     *
+     * @return array<string>
+     */
+    private function itDevelopmentShortCodes(): array
+    {
+        return [
+            self::SDEV_SHORT_CODE,
+            self::ITBA_SHORT_CODE,
+            self::WD_SHORT_CODE,
+            self::MAD_SHORT_CODE,
+            self::ITPA_SHORT_CODE,
+        ];
+    }
+
+    /**
+     * Get IT Operations short codes.
+     *
+     * @return array<string>
+     */
+    private function itOperationsShortCodes(): array
+    {
+        return [
+            self::SA_SHORT_CODE,
+            self::NE_SHORT_CODE,
+            self::DBA_SHORT_CODE,
+            self::DA_SHORT_CODE,
+            self::CSA_SHORT_CODE,
+            self::ITS_SHORT_CODE,
+            self::DE_SHORT_CODE,
+            self::SECA_SHORT_CODE,
+            self::ITSM_SHORT_CODE,
+            self::ITVM_SHORT_CODE,
+            self::ITAM_SHORT_CODE,
+            self::ITDRS_SHORT_CODE,
+            self::ITNA_SHORT_CODE,
+            self::ITSE_SHORT_CODE,
+            self::ITBCM_SHORT_CODE,
+            self::ITQAA_SHORT_CODE,
+            self::ISA_SHORT_CODE,
+        ];
+    }
+
+    /**
+     * Get IT Support short codes.
+     *
+     * @return array<string>
+     */
+    private function itSupportShortCodes(): array
+    {
+        return [
+            self::CS_SHORT_CODE,
+            self::HDT_SHORT_CODE,
+            self::BIA_SHORT_CODE,
+            self::ITT_SHORT_CODE,
+            self::ITPS_SHORT_CODE,
+            self::ITPA_SHORT_CODE,
+        ];
     }
 }
