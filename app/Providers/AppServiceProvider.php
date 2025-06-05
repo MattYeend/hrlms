@@ -2,7 +2,6 @@
 
 namespace App\Providers;
 
-use App\Models\Company;
 use App\Models\Department;
 use App\Models\User;
 use App\Models\UserJob;
@@ -29,7 +28,6 @@ class AppServiceProvider extends ServiceProvider
             'auth' => fn () => $this->authData(),
             'archivedUsers' => fn () => $this->hasArchivedUsers(),
             'archivedDepts' => fn () => $this->hasArchivedDepartments(),
-            'archivedCompanies' => fn () => $this->hasArchivedCompanies(),
             'archivedJobs' => fn () => $this->hasArchivedJobs(),
         ]);
     }
@@ -42,11 +40,6 @@ class AppServiceProvider extends ServiceProvider
     protected function hasArchivedDepartments(): bool
     {
         return Department::onlyTrashed()->exists();
-    }
-
-    protected function hasArchivedCompanies(): bool
-    {
-        return Company::onlyTrashed()->exists();
     }
 
     protected function hasArchivedJobs(): bool

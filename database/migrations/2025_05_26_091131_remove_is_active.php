@@ -15,10 +15,6 @@ return new class extends Migration
             $table->dropColumn('is_active');
         });
 
-        Schema::table('companies', function (Blueprint $table) {
-            $table->dropColumn('is_active');
-        });
-
         Schema::table('roles', function (Blueprint $table) {
             $table->dropColumn('is_active');
         });
@@ -30,10 +26,6 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('departments', function (Blueprint $table) {
-            $table->boolean('is_active')->default(true);
-        });
-
-        Schema::table('companies', function (Blueprint $table) {
             $table->boolean('is_active')->default(true);
         });
 

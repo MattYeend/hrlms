@@ -22,10 +22,6 @@ return new class extends Migration
         Schema::table('departments', function (Blueprint $table) {
             $table->renameColumn('archived', 'is_archived');
         });
-
-        Schema::table('companies', function (Blueprint $table) {
-            $table->boolean('is_archived')->default(false)->after('is_default');
-        });
     }
 
     /**
@@ -43,10 +39,6 @@ return new class extends Migration
 
         Schema::table('departments', function (Blueprint $table) {
             $table->renameColumn('is_archived', 'archived');
-        });
-
-        Schema::table('companies', function (Blueprint $table) {
-            $table->dropColumn('is_archived');
         });
     }
 };

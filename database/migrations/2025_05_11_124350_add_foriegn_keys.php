@@ -15,10 +15,6 @@ return new class extends Migration
             $table->foreignId('role_id')->nullable()->after('part_time')->constrained('roles')->onDelete('set null');
             $table->foreignId('department_id')->nullable()->after('role_id')->constrained('departments')->onDelete('set null');
         });
-
-        Schema::table('departments', function (Blueprint $table) {
-            $table->foreignId('company_id')->constrained('companies')->onDelete('cascade');
-        });
     }
 
     /**
@@ -32,11 +28,6 @@ return new class extends Migration
 
             $table->dropForeign(['department_id']);
             $table->dropColumn('department_id');
-        });
-
-        Schema::table('departments', function (Blueprint $table) {
-            $table->dropForeign(['company_id']);
-            $table->dropColumn('company_id');
         });
     }
 };

@@ -33,7 +33,6 @@ const isSuperAdmin = computed(() => page.props.auth?.user?.role_id === 1);
 const isAtleastAdmin = computed(() => page.props.auth?.user?.role_id === 1 || page.props.auth?.user?.role_id === 2);
 const archivedUsers = computed(() => page.props.archivedUsers);
 const archivedDepts = computed(() => page.props.archivedDepts);
-const archivedCompanies = computed(() => page.props.archivedCompanies);
 const archivedJobs = computed(() => page.props.archivedJobs);
 
 const mainNavItems = computed<NavItem[]>(() => {
@@ -91,24 +90,6 @@ const mainNavItems = computed<NavItem[]>(() => {
 			});
 		}
 		items.push(departmentsItem);
-	}
-
-	// COMPANIES
-	if (isSuperAdmin.value) {
-		const companiesItem: NavItem = {
-			title: 'Companies',
-			href: '/companies',
-			icon: Building2,
-			children: [],
-		};
-		if (archivedCompanies.value) {
-			companiesItem.children!.push({
-				title: 'Archived Companies',
-				href: '/companies/archived',
-				icon: ArchiveIcon,
-			});
-		}
-		items.push(companiesItem);
 	}
 
 	// ROLES

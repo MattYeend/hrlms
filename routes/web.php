@@ -1,23 +1,15 @@
 <?php
 
-use App\Http\Controllers\CompanyController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DepartmentController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\UserJobController;
-use App\Models\Company;
 use App\Models\Department;
 use App\Models\User;
 use App\Models\UserJob;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
-
-Route::bind('company', function ($value) {
-    return Company::withTrashed()
-        ->where('slug', $value)
-        ->firstOrFail();
-});
 
 Route::bind('department', function ($value) {
     return Department::withTrashed()
@@ -57,16 +49,6 @@ Route::middleware(['auth', 'verified'])->group(function () {
         ->name('dashboard');
 
     Route::resource('roles', RoleController::class)->only(['index', 'show']);
-
-    Route::get(
-        '/companies/archived',
-        [CompanyController::class, 'archived']
-    )->name('companies.archived');
-    Route::resource('companies', CompanyController::class);
-    Route::post(
-        'companies/{company}/restore',
-        [CompanyController::class, 'restore']
-    )->name('companies.restore');
 
     Route::get(
         '/departments/archived',

@@ -38,15 +38,6 @@ return new class extends Migration
                 ->on('users')
                 ->onDelete('set null');
         });
-        Schema::table('companies', function (Blueprint $table) {
-            $table->unsignedBigInteger('restored_by')->nullable()->after('deleted_at');
-            $table->timestamp('restored_at')->nullable()->after('restored_by');
-
-            $table->foreign('restored_by')
-                ->references('id')
-                ->on('users')
-                ->onDelete('set null');
-        });
     }
 
     /**
@@ -63,10 +54,6 @@ return new class extends Migration
             $table->dropColumn(['restored_by', 'restored_at']);
         });
         Schema::table('roles', function (Blueprint $table) {
-            $table->dropForeign(['restored_by']);
-            $table->dropColumn(['restored_by', 'restored_at']);
-        });
-        Schema::table('companies', function (Blueprint $table) {
             $table->dropForeign(['restored_by']);
             $table->dropColumn(['restored_by', 'restored_at']);
         });

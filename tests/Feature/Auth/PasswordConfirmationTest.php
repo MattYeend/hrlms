@@ -3,7 +3,6 @@
 use App\Models\User;
 use App\Models\Department;
 use App\Models\Role;
-use App\Models\Company;
 
 uses(\Illuminate\Foundation\Testing\RefreshDatabase::class);
 
