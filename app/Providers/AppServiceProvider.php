@@ -29,6 +29,7 @@ class AppServiceProvider extends ServiceProvider
             'archivedUsers' => fn () => $this->hasArchivedUsers(),
             'archivedDepts' => fn () => $this->hasArchivedDepartments(),
             'archivedJobs' => fn () => $this->hasArchivedJobs(),
+            'isCSuiteOrHrStaff' => fn () => $this->isCSuiteOrHrStaff(),
         ]);
     }
 
@@ -45,6 +46,17 @@ class AppServiceProvider extends ServiceProvider
     protected function hasArchivedJobs(): bool
     {
         return UserJob::onlyTrashed()->exists();
+    }
+
+    protected function isCSuiteOrHrStaff(): bool
+    {
+        $user = Auth::user();
+
+        if (!$user) {
+            return false;
+        }
+    
+        return $user->isCSuiteStaff() || $user->isHRStaff();
     }
 
     private function authData(): ?array

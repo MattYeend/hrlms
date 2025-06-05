@@ -31,6 +31,7 @@ import { computed } from 'vue';
 const page = usePage();
 // const isSuperAdmin = computed(() => page.props.auth?.user?.role_id === 1);
 const isAtleastAdmin = computed(() => page.props.auth?.user?.role_id === 1 || page.props.auth?.user?.role_id === 2);
+const isCSuiteOrHrStaff = computed(() => page.props.auth?.user?.isCSuiteOrHrStaff);
 const archivedUsers = computed(() => page.props.archivedUsers);
 const archivedDepts = computed(() => page.props.archivedDepts);
 const archivedJobs = computed(() => page.props.archivedJobs);
@@ -51,7 +52,7 @@ const mainNavItems = computed<NavItem[]>(() => {
 		icon: User2Icon,
 		children: [],
 	};
-	if (isAtleastAdmin.value && archivedUsers.value) {
+	if (isAtleastAdmin.value && archivedUsers.value && isCSuiteOrHrStaff) {
 		usersItem.children!.push({
 			title: 'Archived Users',
 			href: '/users/archived',
@@ -66,7 +67,7 @@ const mainNavItems = computed<NavItem[]>(() => {
 		icon: Folder,
 		children: [],
 	};
-	if (isAtleastAdmin.value && archivedJobs.value) {
+	if (isAtleastAdmin.value && archivedJobs.value && isCSuiteOrHrStaff) {
 		jobsItem.children!.push({
 			title: 'Archived Jobs',
 			href: '/jobs/archived',
