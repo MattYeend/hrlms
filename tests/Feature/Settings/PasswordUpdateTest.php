@@ -3,7 +3,6 @@
 use App\Models\Role;
 use App\Models\Department;
 use App\Models\User;
-use App\Models\Company;
 use Illuminate\Support\Facades\Hash;
 
 uses(\Illuminate\Foundation\Testing\RefreshDatabase::class);
