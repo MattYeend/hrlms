@@ -1,5 +1,5 @@
 # HRLMS
-A Human Resource and Leave Management System built with modern web technologies.
+A Human Resource and Learning Management System built with modern web technologies.
 
 ---
 
@@ -17,7 +17,7 @@ A Human Resource and Leave Management System built with modern web technologies.
 --- 
 
 ## General Information
-HRLMS is a web application designed to streamline human resource and leave management workflows. It provides features like employee management, leave request tracking, and administrative tools to improve operational efficiency.
+HRLMS is a web application designed to streamline human resource and learning management workflows. It provides features like employee management, leave request tracking, and administrative tools to improve operational efficiency.
 
 ---
 
