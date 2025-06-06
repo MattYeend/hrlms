@@ -1,15 +1,25 @@
 <?php
 
+use App\Http\Controllers\BlogCommentController;
+use App\Http\Controllers\BlogController;
+use App\Http\Controllers\BlogLikeController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DepartmentController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\UserJobController;
+use App\Models\Blog;
 use App\Models\Department;
 use App\Models\User;
 use App\Models\UserJob;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
+
+Route::bind('blog', function ($value) {
+    return Blog::withTrashed()
+        ->where('slug', $value)
+        ->firstOrFail();
+});
 
 Route::bind('department', function ($value) {
     return Department::withTrashed()
@@ -83,4 +93,17 @@ Route::middleware(['auth', 'verified'])->group(function () {
         'jobs/{job}/restore',
         [UserJobController::class, 'restore']
     )->name('jobs.restore');
+
+    Route::post('/blogs/{blog}/like', [BlogLikeController::class, 'store'])->name('blog-likes.store');
+    Route::delete('/blog-likes/{blogLike}', [BlogLikeController::class, 'destroy'])->name('blog-likes.destroy');
+
+    Route::get(
+        '/blogs/archived',
+        [BlogController::class, 'archived']
+    )->name('blogs.archived');
+    Route::resource('blogs', BlogController::class);
+    Route::post(
+        'blogs/{blog}/restore',
+        [BlogController::class, 'restore']
+    )->name('blogs.restore');
 });
