@@ -11,7 +11,7 @@ defineProps<{
 		title: string,
 		content: string,
 		approved: boolean,
-		approved_by: { id: number; name: string }
+		approved_by: { name: string} | null,
 		is_archived: boolean
 		slug: string
 		created_by: number

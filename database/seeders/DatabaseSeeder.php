@@ -25,6 +25,7 @@ class DatabaseSeeder extends Seeder
             DepartmentSeeder::class,
             UserJobSeeder::class,
             UserSeeder::class,
+            BlogSeeder::class,
             // Add other seeders here
         ]);
     }

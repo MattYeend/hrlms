@@ -58,21 +58,28 @@ class Blog extends Model
 
     public function createdBy()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class, 'created_by');
     }
-
+    
     public function updatedBy()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class, 'updated_by');
     }
-
+    
     public function deletedBy()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class, 'deleted_by');
     }
-
+    
     public function approvedBy()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class, 'approved_by');
     }
+
+    protected $casts = [
+        'approved_at' => 'datetime',
+        'created_at' => 'datetime',
+        'updated_at' => 'datetime',
+        'deleted_at' => 'datetime',
+    ];
 }

@@ -13,7 +13,7 @@ defineProps<{
 const breadcrumbs: BreadcrumbItem[] = [
 	{ title: 'Dashboard', href: route('dashboard') },
 	{ title: 'Blogs', href: route('blogs.index') },
-	{ title: 'Create', href: route('Blogs.create') },
+	{ title: 'Create', href: route('blogs.create') },
 ]
 </script>
 

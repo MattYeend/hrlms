@@ -28,12 +28,18 @@ class BlogController extends Controller
 
         $this->logger->index(auth()->id());
 
-        $blogs = Blog::latest()->paginate(10);
-
         $archivedCount = Blog::onlyTrashed()->count();
 
         return Inertia::render('blogs/Index', [
-            'blogs' => $blogs,
+            'blogs' => Blog::with([
+                'approvedBy:id,name',
+            ])->get(),
+            'authUser' => [
+                'id' => auth()->user()->id,
+                'role' => [
+                    'name' => auth()->user()->role->name
+                ]
+            ],
             'hasArchivedJobs' => $archivedCount > 0,
         ]);
     }
@@ -79,9 +85,23 @@ class BlogController extends Controller
         $this->authorize('view', $blog);
 
         $this->logger->show($blog, auth()->id());
+        
+        $blog->load(['comments.user', 'createdBy', 'approvedBy']);
+        $blog->loadCount('likes');
 
-        return Inertia::render('Blogs/Show', [
-            'blog' => $blog,
+        $blogData = $blog->toArray();
+        $blogData['approved_by'] = $blog->approvedBy ? ['name' => $blog->approvedBy->name] : null;
+        $blogData['created_by'] = ['name' => $blog->createdBy->name];
+        
+        return Inertia::render('blogs/Show', [
+            'blog' => $blogData,
+            'authUser' => [
+                'id' => auth()->user()->id,
+                'role' => [
+                    'name' => auth()->user()->role->name
+                ]
+            ],
+            'from' => request('from', 'index'),
         ]);
     }
 
@@ -129,7 +149,7 @@ class BlogController extends Controller
 
         $blog->update([
             'deleted_by' => auth()->id(),
-            'delated_at' => now(),
+            'deleted_at' => now(),
             'is_archived' => true,
         ]);
         $blog->delete();
@@ -156,7 +176,8 @@ class BlogController extends Controller
         $this->logger->restore($blog, auth()->id());
 
         return redirect()->route(
-            'blogs.show'
+            'blogs.show',
+            $blog,
         )->with('success', 'Blog restored.');
     }
 
@@ -166,10 +187,16 @@ class BlogController extends Controller
 
         $this->logger->archived(auth()->id());
 
-        $blogs = Blog::latest()->paginate(10);
-
         return Inertia::render('blogs/Index', [
-            'blogs' => $blogs,
+            'blogs' => Blog::onlyTrashed()->with([
+                'approvedBy:id,name',
+            ])->get(),
+            'authUser' => [
+                'id' => auth()->user()->id,
+                'role' => [
+                    'name' => auth()->user()->role->name
+                ]
+            ],
         ]);
     }
 

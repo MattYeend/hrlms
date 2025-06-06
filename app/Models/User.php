@@ -108,9 +108,9 @@ class User extends Authenticatable
      * @see Role for the list of roles and their IDs
      * @see User::isSuperAdmin and User::isAdmin
      */
-    public function isAtleastAdmin(): array
+    public function isAtleastAdmin(): bool
     {
-        return array_merge($this->isSuperAdmin() || $this->isAdmin());
+        return $this->isSuperAdmin() || $this->isAdmin();
     }
 
     /**

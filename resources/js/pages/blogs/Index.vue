@@ -5,24 +5,25 @@ import { type BreadcrumbItem } from '@/types'
 import { computed } from 'vue'
 import { usePage } from '@inertiajs/vue3'
 
+const page = usePage()
+
 defineProps<{
 	blogs: Array<{
 		id: number
 		title: string,
 		content: string,
 		approved: boolean,
-		approved_by: { id: number; name: string }
-		is_archived: boolean
-		slug: string
-		created_by: number
+		approved_by: { name: string} | null,
+		is_archived: boolean,
+		slug: string,
+		created_by: number,
 	}>
 	authUser: {
-		id: number
+		id: number,
 		role: { name: string }
 	}
 }>()
 
-const page = usePage()
 const isCSuiteOrHrStaff = computed(() => page.props.isCSuiteOrHrStaff)
 
 const breadcrumbs: BreadcrumbItem[] = [
@@ -56,33 +57,24 @@ const breadcrumbs: BreadcrumbItem[] = [
 							<th class="text-left p-3">Actions</th>
 						</tr>
 					</thead>
-					<tbody v-if="blogs.length > 0">
+					<tbody>
 						<tr v-for="blog in blogs" :key="blog.id" class="hover:bg-gray-50 dark:hover:bg-gray-700 transition">
 							<td class="p-3">{{ blog.title }}</td>
 							<td class="p-3 line-clamp-2 max-w-md">{{ blog.content }}</td>
 							<td class="p-3">{{ blog.approved ? 'Yes' : 'No' }}</td>
-							<td class="p-3">{{ blog.approved_by?.name ?? 'Not yet approved' }}</td>
+							<td class="p-3">{{ blog.approved_by?.name ? blog.approved_by.name : 'Not yet approved' }}</td>
 							<td class="p-3 space-x-2">
-								<Link :href="route('blogs.show', { blog: blog.slug }) + `?from=index`" class="text-blue-600 dark:text-blue-400 hover:underline">View</Link>| 
-								<span v-if="isCSuiteOrHrStaff && (authUser.id === blog.created_by || ['Admin', 'Super Admin'].includes(authUser.role.name))">| 
-									<Link :href="route('blogs.edit', blog.slug)" class="text-blue-600 dark:text-blue-400 hover:underline">Edit</Link>
+								<Link :href="route('blogs.show', blog.slug) + '?from=index'" class="text-blue-600 dark:text-blue-400 hover:underline">View</Link>
+								<span v-if="isCSuiteOrHrStaff && (authUser.id === blog.created_by || ['Admin', 'Super Admin'].includes(authUser.role.name))">
+									| <Link :href="route('blogs.edit', blog.slug)" class="text-blue-600 dark:text-blue-400 hover:underline">Edit</Link>
 								</span>
-								<span v-if="['Admin', 'Super Admin'].includes(authUser.role.name)">| 
-									<Link :href="route('blogs.approve', blog.slug)" class="text-blue-600 dark:text-blue-400 hover:underline">Approve</Link>| 
-									<Link :href="route('blogs.deny', blog.slug)" class="text-blue-600 dark:text-blue-400 hover:underline">Deny</Link>
+								<span v-if="['Admin', 'Super Admin'].includes(authUser.role.name)">
+									| <Link :href="route('blogs.approve', blog.slug)" class="text-blue-600 dark:text-blue-400 hover:underline">Approve</Link>
+									| <Link :href="route('blogs.deny', blog.slug)" class="text-blue-600 dark:text-blue-400 hover:underline">Deny</Link> 
 								</span>
-								<span v-if="isCSuiteOrHrStaff && ['Admin', 'Super Admin'].includes(authUser.role.name) && authUser.id !== blog.created_by">| 
-									<Link :href="route('blogs.destroy', blog.slug)" method="delete" as="button" class="text-red-600 dark:text-red-400 hover:underline">
-										Archive
-									</Link>
+								<span v-if="isCSuiteOrHrStaff && ['Admin', 'Super Admin'].includes(authUser.role.name) && authUser.id !== blog.created_by">
+									| <Link :href="route('blogs.destroy', blog.slug)" method="delete" as="button" class="text-red-600 dark:text-red-400 hover:underline">Archive</Link>
 								</span>
-							</td>
-						</tr>
-					</tbody>
-					<tbody v-else>
-						<tr>
-							<td colspan="5" class="text-center p-3 text-gray-500 dark:text-gray-400">
-							No blogs found.
 							</td>
 						</tr>
 					</tbody>
