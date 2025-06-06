@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Models\Blog;
 use App\Models\Department;
 use App\Models\User;
 use App\Models\UserJob;
@@ -29,6 +30,7 @@ class AppServiceProvider extends ServiceProvider
             'archivedUsers' => fn () => $this->hasArchivedUsers(),
             'archivedDepts' => fn () => $this->hasArchivedDepartments(),
             'archivedJobs' => fn () => $this->hasArchivedJobs(),
+            'archivedBlogs' => fn () => $this->hasArchivedBlogs(),
             'isCSuiteOrHrStaff' => fn () => $this->isCSuiteOrHrStaff(),
         ]);
     }
@@ -46,6 +48,11 @@ class AppServiceProvider extends ServiceProvider
     protected function hasArchivedJobs(): bool
     {
         return UserJob::onlyTrashed()->exists();
+    }
+
+    protected function hasArchivedBlogs(): bool
+    {
+        return Blog::onlyTrashed()->exists();
     }
 
     protected function isCSuiteOrHrStaff(): bool

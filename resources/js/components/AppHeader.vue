@@ -71,6 +71,7 @@ const isCSuiteOrHrStaff = computed(() => page.props.auth?.user?.isCSuiteOrHrStaf
 const archivedUsers = computed(() => page.props.archivedUsers);
 const archivedDepts = computed(() => page.props.archivedDepts);
 const archivedJobs = computed(() => page.props.archivedJobs);
+const archivedBlogs = computed(() => page.props.archivedBlogs);
 
 const isCurrentRoute = computed(() => (url: string) => page.url === url);
 
@@ -118,6 +119,21 @@ const mainNavItems = computed<NavItem[]>(() => {
 	}
 	items.push(jobsItem);
 
+	const blogItems: NavItem = {
+		title: 'Blogs',
+		href: '/blogs',
+		icon: BookOpen,
+		children: [],
+	};
+	if(isAtleastAdmin.value && archivedBlogs.value) {
+		blogItems.children!.push({
+			title: 'Archived Blogs',
+			href: '/blogs/Archived',
+			icon: ArchiveIcon,
+		})
+	}
+	items.push(blogItems);
+
 	if (isAtleastAdmin.value) {
 		const departmentsItem: NavItem = {
 			title: 'Departments',
@@ -135,7 +151,6 @@ const mainNavItems = computed<NavItem[]>(() => {
 		items.push(departmentsItem);
 	}
 
-	// ROLES
 	if (isAtleastAdmin.value) {
 		items.push({
 			title: 'Roles',
