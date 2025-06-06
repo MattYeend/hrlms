@@ -4,7 +4,6 @@ namespace App\Policies;
 
 use App\Models\Blog;
 use App\Models\User;
-use Illuminate\Auth\Access\Response;
 
 class BlogPolicy
 {
@@ -40,9 +39,12 @@ class BlogPolicy
      */
     public function update(User $user, Blog $blog): bool
     {
-        return ($blog->approved == 0 &&
-                $user->id === $blog->user_id) ||
-                $this->isAdminOrSuperAdmin($user);
+        if ($this->isPrivileged($user)) {
+            return true;
+        }
+
+        // Only allow update if blog is not approved and user owns it
+        return $blog->approved === 0 && $user->id === $blog->user_id;
     }
 
     /**
@@ -50,8 +52,7 @@ class BlogPolicy
      */
     public function delete(User $user, Blog $blog): bool
     {
-        return $user->id === $blog->user_id ||
-                $this->isAdminOrSuperAdmin($user);
+        return $this->canManage($user, $blog);
     }
 
     /**
@@ -59,8 +60,7 @@ class BlogPolicy
      */
     public function restore(User $user, Blog $blog): bool
     {
-        return $user->id === $blog->user_id ||
-                $this->isAdminOrSuperAdmin($user);
+        return $this->canManage($user, $blog);
     }
 
     /**
@@ -68,8 +68,7 @@ class BlogPolicy
      */
     public function forceDelete(User $user, Blog $blog): bool
     {
-        return $user->id === $blog->user_id ||
-                $this->isAdminOrSuperAdmin($user);
+        return $this->canManage($user, $blog);
     }
 
     /**
@@ -77,8 +76,7 @@ class BlogPolicy
      */
     public function viewArchived(User $user): bool
     {
-        return $this->isAdminOrSuperAdmin($user) ||
-                $this->isCSuiteOrHrStaff($user);
+        return $this->isPrivileged($user);
     }
 
     /**
@@ -86,17 +84,22 @@ class BlogPolicy
      */
     public function approve(User $user, Blog $blog)
     {
-        return $this->isAdminOrSuperAdmin($user) ||
-                $this->isCSuiteOrHrStaff($user);
+        unset($blog);
+        return $this->isPrivileged($user);
     }
 
-    private function isAdminOrSuperAdmin(User $user): bool
+    private function canManage(User $user, Blog $blog): bool
     {
-        return $user->isAdmin() || $user->isSuperAdmin();
+        if ($this->isPrivileged($user)) {
+            return true;
+        }
+
+        return $user->id === $blog->user_id;
     }
 
-    private function isCSuiteOrHrStaff(User $user): bool
+    private function isPrivileged(User $user): bool
     {
-        return $user->isCSuiteStaff() || $user->isHRStaff();
+        return $user->isAtleastAdmin() ||
+           $user->isHighLevelStaff();
     }
 }

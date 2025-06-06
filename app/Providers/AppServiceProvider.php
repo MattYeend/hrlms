@@ -62,10 +62,10 @@ class AppServiceProvider extends ServiceProvider
          */
         $user = Auth::user();
 
-        if (!$user) {
+        if (! $user) {
             return false;
         }
-    
+
         return $user->isCSuiteStaff() || $user->isHRStaff();
     }
 

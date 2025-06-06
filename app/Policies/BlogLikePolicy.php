@@ -4,17 +4,16 @@ namespace App\Policies;
 
 use App\Models\Blog;
 use App\Models\User;
-use Illuminate\Auth\Access\Response;
 
 class BlogLikePolicy
 {
-        /**
+    /**
      * Determine whether the user can like the blog.
      */
     public function like(User $user, Blog $blog): bool
     {
         // User can like only if they haven't already liked this blog
-        return !$blog->likes()->where('user_id', $user->id)->exists();
+        return ! $blog->likes()->where('user_id', $user->id)->exists();
     }
 
     /**
@@ -36,10 +35,11 @@ class BlogLikePolicy
     }
 
     /**
-     * Determine whether the user can moderate likes (e.g. delete others' likes).
+     * Determine whether the user can moderate likes
+     * (e.g. delete others' likes).
      */
     public function moderateLikes(User $user): bool
     {
-        return $user->isAdmin() || $user->isSuperAdmin();
+        return $user->isAtleastAdmin();
     }
 }

@@ -6,7 +6,6 @@ use App\Http\Requests\StoreBlogCommentRequest;
 use App\Http\Requests\UpdateBlogCommentRequest;
 use App\Models\Blog;
 use App\Models\BlogComment;
-use App\Models\User;
 use App\Services\BlogCommentLogger;
 use Illuminate\Support\Facades\Auth;
 
@@ -45,8 +44,10 @@ class BlogCommentController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateBlogCommentRequest $request, BlogComment $blogComment)
-    {
+    public function update(
+        UpdateBlogCommentRequest $request,
+        BlogComment $blogComment
+    ) {
         $user = $request->user();
 
         $blogComment->update([

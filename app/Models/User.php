@@ -95,9 +95,22 @@ class User extends Authenticatable
      * @see Role for the list of roles and their IDs
      * @see Role::USER for the user role ID
      */
-    public function isUser()
+    public function isUser(): bool
     {
         return $this->role_id === Role::USER;
+    }
+
+    /**
+     * Check to see if the user is Admin or higher.
+     *
+     * @return bool
+     *
+     * @see Role for the list of roles and their IDs
+     * @see User::isSuperAdmin and User::isAdmin
+     */
+    public function isAtleastAdmin(): array
+    {
+        return array_merge($this->isSuperAdmin() || $this->isAdmin());
     }
 
     /**
@@ -184,6 +197,20 @@ class User extends Authenticatable
     public function isDirectorStaff()
     {
         return $this->job?->isDirector() ?? false;
+    }
+
+    /**
+     * Check if the user is high level staff.
+     * This incluces CSuite and Dircetor staff.
+     *
+     * @return bool
+     *
+     * @see User for links to jobs
+     * @see User::isCSuiteStaff and User::isDirectorStaff
+     */
+    public function isHighLevelStaff()
+    {
+        return array_merge($this->isCSuiteStaff() && $this->isDirectorStaff());
     }
 
     /**

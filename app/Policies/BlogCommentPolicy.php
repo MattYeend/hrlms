@@ -4,7 +4,6 @@ namespace App\Policies;
 
 use App\Models\BlogComment;
 use App\Models\User;
-use Illuminate\Auth\Access\Response;
 
 class BlogCommentPolicy
 {
@@ -40,7 +39,6 @@ class BlogCommentPolicy
      */
     public function update(User $user, BlogComment $blogComment): bool
     {
-
         return $user->id === $blogComment->user_id;
     }
 
@@ -49,9 +47,7 @@ class BlogCommentPolicy
      */
     public function delete(User $user, BlogComment $blogComment): bool
     {
-        return $user->id === $blogComment->user_id ||
-                $this->isAdminOrSuperAdmin($user) ||
-                $this->isCSuiteOrHrStaff($user);
+        return $this->canManage($user, $blogComment);
     }
 
     /**
@@ -59,9 +55,7 @@ class BlogCommentPolicy
      */
     public function restore(User $user, BlogComment $blogComment): bool
     {
-        return $user->id === $blogComment->user_id ||
-                $this->isAdminOrSuperAdmin($user) ||
-                $this->isCSuiteOrHrStaff($user);
+        return $this->canManage($user, $blogComment);
     }
 
     /**
@@ -69,9 +63,7 @@ class BlogCommentPolicy
      */
     public function forceDelete(User $user, BlogComment $blogComment): bool
     {
-        return $user->id === $blogComment->user_id ||
-                $this->isAdminOrSuperAdmin($user) ||
-                $this->isCSuiteOrHrStaff($user);
+        return $this->canManage($user, $blogComment);
     }
 
     /**
@@ -79,17 +71,23 @@ class BlogCommentPolicy
      */
     public function viewArchived(User $user): bool
     {
-        return $this->isAdminOrSuperAdmin($user) ||
-                $this->isCSuiteOrHrStaff($user);
+        return $this->hasPrivilegedRole($user);
     }
 
-    private function isAdminOrSuperAdmin(User $user): bool
+    private function canManage(User $user, BlogComment $blogComment): bool
     {
-        return $user->isAdmin() || $user->isSuperAdmin();
+        return $user->id === $blogComment->user_id ||
+            $this->hasPrivilegedRole($user);
     }
 
-    private function isCSuiteOrHrStaff(User $user): bool
+    private function hasPrivilegedRole(User $user): bool
     {
-        return $user->isCSuiteStaff() || $user->isHRStaff();
+        return $this->isJob($user) ||
+            $user->isAtleastAdmin();
+    }
+
+    private function isJob(User $user): bool
+    {
+        return $user->isHighLevelStaff();
     }
 }

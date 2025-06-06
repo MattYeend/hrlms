@@ -48,7 +48,7 @@ class UserJobPolicy
     public function delete(User $user, UserJob $userJob): bool
     {
         unset($userJob);
-        return $this->isAdminOrSuperAdmin($user);
+        return $this->isPrivileged($user);
     }
 
     /**
@@ -57,7 +57,7 @@ class UserJobPolicy
     public function restore(User $user, UserJob $userJob): bool
     {
         unset($userJob);
-        return $this->isAdminOrSuperAdmin($user);
+        return $this->isPrivileged($user);
     }
 
     /**
@@ -77,13 +77,14 @@ class UserJobPolicy
         return in_array($user->role->slug, ['admin', 'super-admin']);
     }
 
-    private function isAdminOrSuperAdmin(User $user): bool
-    {
-        return $user->isAdmin() || $user->isSuperAdmin();
-    }
-
     private function isSuperAdmin(User $user): bool
     {
         return $user->isSuperAdmin();
+    }
+
+    private function isPrivileged(User $user): bool
+    {
+        return $user->isAtleastAdmin() ||
+           $user->isHighLevelStaff();
     }
 }

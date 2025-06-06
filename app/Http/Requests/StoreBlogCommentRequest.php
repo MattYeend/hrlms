@@ -11,7 +11,8 @@ class StoreBlogCommentRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return $this->user()?->can('create', \App\Models\BlogComment::class) ?? false;
+        return $this->user()
+            ?->can('create', \App\Models\BlogComment::class) ?? false;
     }
 
     /**

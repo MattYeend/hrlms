@@ -94,16 +94,28 @@ Route::middleware(['auth', 'verified'])->group(function () {
         [UserJobController::class, 'restore']
     )->name('jobs.restore');
 
-    Route::post('/blogs/{blog}/like', [BlogLikeController::class, 'store'])->name('blog-likes.store');
-    Route::delete('/blog-likes/{blogLike}', [BlogLikeController::class, 'destroy'])->name('blog-likes.destroy');
+    Route::post(
+        '/blogs/{blog}/like',
+        [BlogLikeController::class, 'store']
+    )->name('blog-likes.store');
+    Route::delete(
+        '/blog-likes/{blogLike}',
+        [BlogLikeController::class, 'destroy']
+    )->name('blog-likes.destroy');
 
     Route::get(
         '/blogs/archived',
         [BlogController::class, 'archived']
     )->name('blogs.archived');
     Route::resource('blogs', BlogController::class);
-    Route::post('/blogs/{blog}/approve', [BlogController::class, 'approve'])->name('blogs.approve');
-    Route::post('/blogs/{blog}/deny', [BlogController::class, 'deny'])->name('blogs.deny');
+    Route::post(
+        '/blogs/{blog}/approve',
+        [BlogController::class, 'approve']
+    )->name('blogs.approve');
+    Route::post(
+        '/blogs/{blog}/deny',
+        [BlogController::class, 'deny']
+    )->name('blogs.deny');
     Route::post(
         'blogs/{blog}/restore',
         [BlogController::class, 'restore']
