@@ -112,7 +112,7 @@ class BlogController extends Controller
     {
         $this->authorize('update', $blog);
 
-        return Inertia::render('Blogs/Edit', [
+        return Inertia::render('blogs/Edit', [
             'blog' => $blog,
         ]);
     }
