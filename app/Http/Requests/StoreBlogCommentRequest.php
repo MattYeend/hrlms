@@ -11,7 +11,7 @@ class StoreBlogCommentRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return $this->user()?->can('create', \App\Models\BlogComment::class) ?? false;
     }
 
     /**
@@ -22,7 +22,8 @@ class StoreBlogCommentRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'blog_id' => ['required', 'exists:blogs,id'],
+            'comment' => ['required', 'string', 'min:1', 'max:3000'],
         ];
     }
 }

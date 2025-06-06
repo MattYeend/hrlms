@@ -106,4 +106,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
         'blogs/{blog}/restore',
         [BlogController::class, 'restore']
     )->name('blogs.restore');
+
+    Route::resource('blog-comments', BlogCommentController::class)->only([
+        'store', 'update', 'destroy',
+    ]);
 });

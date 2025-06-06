@@ -11,7 +11,7 @@ class UpdateBlogCommentRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return $this->user()?->can('update', $this->route('blogComment')) ?? false;
     }
 
     /**
@@ -22,7 +22,7 @@ class UpdateBlogCommentRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'comment' => ['required', 'string', 'min:1', 'max:3000'],
         ];
     }
 }
