@@ -37,8 +37,18 @@ const pageFrom = computed(() => page.props.from ?? 'index')
 			</div>
 
 			<div class="flex space-x-4">
-				<Link :href="route('departments.edit', department.slug)" class="btn btn-primary">Edit</Link>
-				<Link :href="(props.from ?? pageFrom) === 'archived' ? route('departments.archived') : route('departments.index')" class="btn btn-secondary">Back</Link>
+				<Link 
+					:href="route('departments.edit', department.slug)"
+					class="btn btn-primary"
+				>
+					Edit
+				</Link>
+				<Link 
+					:href="(props.from ?? pageFrom) === 'archived' ? route('departments.archived') : route('departments.index')" 
+					class="btn btn-secondary"
+				>
+					Back
+				</Link>
 			</div>
 		</div>
 	</AppLayout>

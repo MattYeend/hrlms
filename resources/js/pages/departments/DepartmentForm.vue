@@ -87,7 +87,12 @@ const submit = () => {
 				<Button type="submit" :disabled="form.processing">
 					{{ isEdit ? 'Update Department' : 'Create Department' }}
 				</Button>
-				<Link :href="route('departments.index')" class="text-sm underline text-muted-foreground">Back</Link>
+				<Link 
+					:href="route('departments.index')"
+					class="text-sm underline text-muted-foreground"
+				>
+					Back
+				</Link>
 			</div>
 		</div>
 	</form>
