@@ -30,13 +30,19 @@ class DepartmentController extends Controller
 
         $this->logger->index(auth()->id());
 
+        $user = auth()->user()->load('role');
+
         $archivedCount = Department::onlyTrashed()->count();
 
         return Inertia::render('departments/Index', [
             'departments' => Department::with('deptLead')
                 ->withCount('users')
                 ->get(),
-            'authUser' => auth()->user()->load('role')->only('id', 'role'),
+            'authUser' => [
+                'id' => $user->id,
+                'role' => $user->role->only('name'),
+                'isHighLevelStaff' => $user->isHighLevelStaff(),
+            ],
             'hasArchivedDepartments' => $archivedCount > 0,
         ]);
     }
