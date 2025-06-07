@@ -72,6 +72,7 @@ const archivedUsers = computed(() => page.props.archivedUsers);
 const archivedDepts = computed(() => page.props.archivedDepts);
 const archivedJobs = computed(() => page.props.archivedJobs);
 const archivedBlogs = computed(() => page.props.archivedBlogs);
+const deniedBlogs = computed(() => page.props.deniedBlogs);
 
 const isCurrentRoute = computed(() => (url: string) => page.url === url);
 
@@ -128,7 +129,14 @@ const mainNavItems = computed<NavItem[]>(() => {
 	if(isAtleastAdmin.value && archivedBlogs.value) {
 		blogItems.children!.push({
 			title: 'Archived Blogs',
-			href: '/blogs/Archived',
+			href: '/blogs/archived',
+			icon: ArchiveIcon,
+		})
+	}
+	if(isAtleastAdmin && deniedBlogs.value) {
+		blogItems.children!.push({
+			title: 'Denied Blogs',
+			href: '/blogs/denied',
 			icon: ArchiveIcon,
 		})
 	}

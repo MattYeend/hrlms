@@ -107,6 +107,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
         '/blogs/archived',
         [BlogController::class, 'archived']
     )->name('blogs.archived');
+    Route::get(
+        '/blogs/denied',
+        [BlogController::class, 'denied']
+    )->name('blogs.denied');
     Route::resource('blogs', BlogController::class);
     Route::post(
         '/blogs/{blog}/approve',

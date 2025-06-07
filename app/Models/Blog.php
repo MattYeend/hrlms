@@ -23,6 +23,9 @@ class Blog extends Model
         'approved',
         'approved_by',
         'approved_at',
+        'denied',
+        'denied_by',
+        'denied_at',
         'is_archived',
         'created_by',
         'updated_by',
@@ -76,8 +79,14 @@ class Blog extends Model
         return $this->belongsTo(User::class, 'approved_by');
     }
 
+    public function deniedBy()
+    {
+        return $this->belongsTo(User::class, 'denied_by');
+    }
+
     protected $casts = [
         'approved_at' => 'datetime',
+        'denied_at' => 'datetime',
         'created_at' => 'datetime',
         'updated_at' => 'datetime',
         'deleted_at' => 'datetime',

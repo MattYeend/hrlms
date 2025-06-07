@@ -19,6 +19,9 @@ return new class extends Migration
             $table->boolean('approved')->default(false);
             $table->foreignId('approved_by')->nullable()->constrained('users')->onDelete('set null');
             $table->timestamp('approved_at')->nullable(); 
+            $table->boolean('denied')->default(false);
+            $table->foreignId('denied_by')->nullable()->constrained('users')->onDelete('set null');
+            $table->timestamp('denied_at')->nullable(); 
             $table->boolean('is_archived')->default(false);
             $table->foreignId('created_by')->nullable()->constrained('users')->onDelete('set null');
             $table->foreignId('updated_by')->nullable()->constrained('users')->onDelete('set null');

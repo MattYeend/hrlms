@@ -149,6 +149,9 @@ class BlogLogger
                 'approved' => $blog->approved,
                 'approved_by' => $blog->approved_by,
                 'approved_at' => $blog->approved_at,
+                'denied' => $blog->denied,
+                'denied_by' => $blog->denied_by,
+                'denied_at' => $blog->denied_at,
             ],
             $userId,
         );
@@ -168,6 +171,23 @@ class BlogLogger
                 'approved' => $blog->approved,
                 'approved_by' => $blog->approved_by,
                 'approved_at' => $blog->approved_at,
+                'denied' => $blog->denied,
+                'denied_by' => $blog->denied_by,
+                'denied_at' => $blog->denied_at,
+            ],
+            $userId,
+        );
+    }
+
+    /**
+     * Log for viewing denied blogs
+     */
+    public function viewDenied(int $userId): array
+    {
+        return $this->log(
+            Log::ACTION_VIEW_DENIED_BLOGS,
+            [
+                'View denied blogs'
             ],
             $userId,
         );

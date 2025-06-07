@@ -29,6 +29,10 @@ const breadcrumbs: BreadcrumbItem[] = [
 	{ title: 'Dashboard', href: route('dashboard') },
 	{ title: 'Blogs', href: route('blogs.index') },
 ]
+
+const truncate = (text: string, length = 100) => {
+	return text.length > length ? text.slice(0, length) + '…' : text
+}
 </script>
 
 <template>
@@ -59,7 +63,7 @@ const breadcrumbs: BreadcrumbItem[] = [
 					<tbody>
 						<tr v-for="blog in blogs" :key="blog.id" class="hover:bg-gray-50 dark:hover:bg-gray-700 transition">
 							<td class="p-3">{{ blog.title }}</td>
-							<td class="p-3 line-clamp-2 max-w-md">{{ blog.content }}</td>
+							<td class="p-3 line-clamp-2 max-w-md">{{ truncate(blog.content, 100) }}</td>
 							<td class="p-3">{{ blog.approved ? 'Yes' : 'No' }}</td>
 							<td class="p-3">{{ blog.approved_by?.name ?? 'Not yet approved' }}</td>
 							<td class="p-3 space-x-2">

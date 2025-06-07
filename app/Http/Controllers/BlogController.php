@@ -33,7 +33,9 @@ class BlogController extends Controller
         return Inertia::render('blogs/Index', [
             'blogs' => Blog::with([
                 'approvedBy:id,name',
-            ])->get(),
+            ])
+            ->where('denied', false)
+            ->get(),
             'authUser' => [
                 'id' => auth()->user()->id,
                 'role' => [
@@ -187,10 +189,32 @@ class BlogController extends Controller
 
         $this->logger->archived(auth()->id());
 
-        return Inertia::render('blogs/Index', [
+        return Inertia::render('blogs/Archived', [
             'blogs' => Blog::onlyTrashed()->with([
                 'approvedBy:id,name',
             ])->get(),
+            'authUser' => [
+                'id' => auth()->user()->id,
+                'role' => [
+                    'name' => auth()->user()->role->name
+                ]
+            ],
+        ]);
+    }
+
+    public function denied()
+    {
+        $this->authorize('viewDenied', Blog::class);
+
+        $this->logger->viewDenied(auth()->id());
+
+        return Inertia::render('blogs/Denied', [
+            'blogs' => Blog::with([
+                'deniedBy:id,name',
+            ])
+            ->where('denied', true)
+            ->where('approved', false)
+            ->get(),
             'authUser' => [
                 'id' => auth()->user()->id,
                 'role' => [
@@ -207,6 +231,9 @@ class BlogController extends Controller
         $blog->approved = true;
         $blog->approved_by = auth()->id();
         $blog->approved_at = now();
+        $blog->denied = false;
+        $blog->denied_by = null;
+        $blog->denied_at = null;
         $blog->save();
 
         $this->logger->approved($blog, auth()->id());
@@ -220,8 +247,11 @@ class BlogController extends Controller
         $this->authorize('approve', $blog);
 
         $blog->approved = false;
-        $blog->approved_by = auth()->id();
-        $blog->approved_at = now();
+        $blog->approved_by = null;
+        $blog->approved_at = null;
+        $blog->denied = true;
+        $blog->denied_by = auth()->id();
+        $blog->denied_at = now();
         $blog->save();
 
         $this->logger->denied($blog, auth()->id());

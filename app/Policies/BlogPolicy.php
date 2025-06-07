@@ -72,7 +72,7 @@ class BlogPolicy
     }
 
     /**
-     * Determine whether the user can view archived users.
+     * Determine whether the user can view the archived model.
      */
     public function viewArchived(User $user): bool
     {
@@ -80,7 +80,15 @@ class BlogPolicy
     }
 
     /**
-     * Determine whether the user can approve blogs.
+     * Determine whether the user can view the denied model
+     */
+    public function viewDenied(User $user): bool
+    {
+        return $this->isPrivileged($user);
+    }
+
+    /**
+     * Determine whether the user can approve model.
      */
     public function approve(User $user, Blog $blog)
     {

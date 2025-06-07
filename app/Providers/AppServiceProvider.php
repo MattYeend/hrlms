@@ -31,6 +31,7 @@ class AppServiceProvider extends ServiceProvider
             'archivedDepts' => fn () => $this->hasArchivedDepartments(),
             'archivedJobs' => fn () => $this->hasArchivedJobs(),
             'archivedBlogs' => fn () => $this->hasArchivedBlogs(),
+            'deniedBlogs' => fn () => $this->hasDeniedBlogs(),
             'isCSuiteOrHrStaff' => fn () => $this->isCSuiteOrHrStaff(),
         ]);
     }
@@ -53,6 +54,11 @@ class AppServiceProvider extends ServiceProvider
     protected function hasArchivedBlogs(): bool
     {
         return Blog::onlyTrashed()->exists();
+    }
+
+    protected function hasDeniedBlogs(): bool
+    {
+        return Blog::where('denied', true)->exists();
     }
 
     protected function isCSuiteOrHrStaff(): bool

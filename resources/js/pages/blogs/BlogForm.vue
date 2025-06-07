@@ -28,7 +28,7 @@ watchEffect(() => {
 
 const submit = () => {
 	if (props.isEdit && props.blog) {
-		form.put(route('blogs.update', props.blog.id))
+		form.put(route('blogs.update', props.blog.slug))
 	} else {
 		form.post(route('blogs.store'))
 	}
@@ -45,10 +45,16 @@ const submit = () => {
 				<InputError :message="form.errors.title" />
 			</div>
 
-			<!-- Content -->
 			<div class="grid gap-2">
 				<Label for="content">Content</Label>
-				<Input id="content" v-model="form.content" type="text" required placeholder="Enter the content" />
+				<textarea
+					id="content"
+					v-model="form.content"
+					required
+					rows="6"
+					placeholder="Enter the blog content"
+					class="border border-gray-300 dark:border-gray-700 rounded-md shadow-sm p-2 w-full focus:ring focus:ring-blue-200 dark:bg-gray-900 dark:text-white resize-y"
+				></textarea>
 				<InputError :message="form.errors.content" />
 			</div>
 

@@ -120,6 +120,7 @@ class Log extends Model
     public const ACTION_REINSTATE_COMMENT_ON_BLOG = 74;
     public const ACTION_APPROVE_BLOG = 75;
     public const ACTION_DENY_BLOG = 76;
+    public const ACTION_VIEW_DENIED_BLOGS = 77;
 
     protected $table = 'logs';
 

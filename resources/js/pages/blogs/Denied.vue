@@ -5,25 +5,24 @@ import { type BreadcrumbItem } from '@/types'
 import { computed } from 'vue'
 import { usePage } from '@inertiajs/vue3'
 
-const page = usePage()
-
 defineProps<{
 	blogs: Array<{
 		id: number
 		title: string,
 		content: string,
-		approved: boolean,
-		approved_by: { name: string} | null,
-		is_archived: boolean,
-		slug: string,
-		created_by: number,
+		denied: boolean,
+		denied_by: { name: string} | null,
+		is_archived: boolean
+		slug: string
+		created_by: number
 	}>
 	authUser: {
-		id: number,
+		id: number
 		role: { name: string }
 	}
 }>()
 
+const page = usePage()
 const isCSuiteOrHrStaff = computed(() => page.props.isCSuiteOrHrStaff)
 
 const breadcrumbs: BreadcrumbItem[] = [
@@ -43,11 +42,6 @@ const truncate = (text: string, length = 100) => {
 		<div class="px-4 sm:px-6 lg:px-8 py-4 sm:py-6 lg:py-8">
 			<div class="flex justify-between items-center mb-6">
 				<h1 class="text-3xl font-bold text-gray-900 dark:text-white">Blogs</h1>
-				<span v-if="isCSuiteOrHrStaff">
-					<Link :href="route('blogs.create')" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md shadow-sm">
-						+ New Blog
-					</Link>
-				</span>
 			</div>
 
 			<div class="overflow-x-auto">
@@ -56,8 +50,8 @@ const truncate = (text: string, length = 100) => {
 						<tr>
 							<th class="text-left p-3">Title</th>
 							<th class="text-left p-3">Content</th>
-							<th class="text-left p-3">Status</th>
-							<th class="text-left p-3">Reviewed By</th>
+							<th class="text-left p-3">Denied</th>
+							<th class="text-left p-3">Denied By</th>
 							<th class="text-left p-3">Actions</th>
 						</tr>
 					</thead>
@@ -65,20 +59,13 @@ const truncate = (text: string, length = 100) => {
 						<tr v-for="blog in blogs" :key="blog.id" class="hover:bg-gray-50 dark:hover:bg-gray-700 transition">
 							<td class="p-3">{{ blog.title }}</td>
 							<td class="p-3 line-clamp-2 max-w-md">{{ truncate(blog.content, 100) }}</td>
-							<td class="p-3">{{ blog.approved ? 'Yes' : 'Pending' }}</td>
-							<td class="p-3">{{ blog.approved_by?.name ? blog.approved_by.name : '-' }}</td>
+							<td class="p-3">{{ blog.denied ? 'Yes' : 'No' }}</td>
+							<td class="p-3">{{ blog.denied_by?.name ?? 'Not yet denied' }}</td>
 							<td class="p-3 space-x-2">
-								<Link :href="route('blogs.show', blog.slug) + '?from=index'" class="text-blue-600 dark:text-blue-400 hover:underline">View</Link>
-								<span v-if="isCSuiteOrHrStaff && (authUser.id === blog.created_by || ['Admin', 'Super Admin'].includes(authUser.role.name))">
-									| <Link :href="route('blogs.edit', blog.slug)" class="text-blue-600 dark:text-blue-400 hover:underline">Edit</Link>
-								</span>
-								<span v-if="['Admin', 'Super Admin'].includes(authUser.role.name) && !blog.approved">
+								<Link :href="route('blogs.show', { slug: blog.slug }) + `?from=index`" class="text-blue-600 dark:text-blue-400 hover:underline">View</Link>
+                                <span v-if="['Admin', 'Super Admin'].includes(authUser.role.name)">
 									| <Link :href="route('blogs.approve', blog.slug)" method="post" class="text-blue-600 dark:text-blue-400 hover:underline">Approve</Link>
-									| <Link :href="route('blogs.deny', blog.slug)" method="post" class="text-blue-600 dark:text-blue-400 hover:underline">Deny</Link> 
-								</span>
-								<span v-if="isCSuiteOrHrStaff && ['Admin', 'Super Admin'].includes(authUser.role.name) && authUser.id !== blog.created_by">
-									| <Link :href="route('blogs.destroy', blog.slug)" method="delete" as="button" class="text-red-600 dark:text-red-400 hover:underline">Archive</Link>
-								</span>
+                                </span>
 							</td>
 						</tr>
 					</tbody>
