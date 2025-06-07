@@ -2,8 +2,6 @@
 import { Head, Link } from '@inertiajs/vue3'
 import AppLayout from '@/layouts/AppLayout.vue'
 import { type BreadcrumbItem } from '@/types'
-import { computed } from 'vue'
-import { usePage } from '@inertiajs/vue3'
 
 defineProps<{
 	blogs: Array<{
@@ -21,8 +19,6 @@ defineProps<{
 		role: { name: string }
 	}
 }>()
-
-const page = usePage()
 
 const breadcrumbs: BreadcrumbItem[] = [
 	{ title: 'Dashboard', href: route('dashboard') },

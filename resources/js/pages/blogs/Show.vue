@@ -31,7 +31,7 @@ const breadcrumbs: BreadcrumbItem[] = [
 ]
 
 const commentText = ref('')
-const isLiking = ref(false)
+// const isLiking = ref(false)
 
 function submitComment() {
 	if (!commentText.value.trim()) return
