@@ -210,7 +210,7 @@ class User extends Authenticatable
      */
     public function isHighLevelStaff()
     {
-        return array_merge($this->isCSuiteStaff() && $this->isDirectorStaff());
+        return $this->isCSuiteStaff() || $this->isDirectorStaff();
     }
 
     /**
