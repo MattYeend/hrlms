@@ -34,13 +34,13 @@ class BlogController extends Controller
             'blogs' => Blog::with([
                 'approvedBy:id,name',
             ])
-            ->where('denied', false)
-            ->get(),
+                ->where('denied', false)
+                ->get(),
             'authUser' => [
                 'id' => auth()->user()->id,
                 'role' => [
-                    'name' => auth()->user()->role->name
-                ]
+                    'name' => auth()->user()->role->name,
+                ],
             ],
             'hasArchivedJobs' => $archivedCount > 0,
         ]);
@@ -87,21 +87,24 @@ class BlogController extends Controller
         $this->authorize('view', $blog);
 
         $this->logger->show($blog, auth()->id());
-        
+
         $blog->load(['comments.user', 'createdBy', 'approvedBy']);
         $blog->loadCount('likes');
 
         $blogData = $blog->toArray();
-        $blogData['approved_by'] = $blog->approvedBy ? ['name' => $blog->approvedBy->name] : null;
+
+        $blogData['approved_by'] =
+            $blog->approvedBy ? ['name' => $blog->approvedBy->name] : null;
+
         $blogData['created_by'] = ['name' => $blog->createdBy->name];
-        
+
         return Inertia::render('blogs/Show', [
             'blog' => $blogData,
             'authUser' => [
                 'id' => auth()->user()->id,
                 'role' => [
-                    'name' => auth()->user()->role->name
-                ]
+                    'name' => auth()->user()->role->name,
+                ],
             ],
             'from' => request('from', 'index'),
         ]);
@@ -196,8 +199,8 @@ class BlogController extends Controller
             'authUser' => [
                 'id' => auth()->user()->id,
                 'role' => [
-                    'name' => auth()->user()->role->name
-                ]
+                    'name' => auth()->user()->role->name,
+                ],
             ],
         ]);
     }
@@ -212,14 +215,14 @@ class BlogController extends Controller
             'blogs' => Blog::with([
                 'deniedBy:id,name',
             ])
-            ->where('denied', true)
-            ->where('approved', false)
-            ->get(),
+                ->where('denied', true)
+                ->where('approved', false)
+                ->get(),
             'authUser' => [
                 'id' => auth()->user()->id,
                 'role' => [
-                    'name' => auth()->user()->role->name
-                ]
+                    'name' => auth()->user()->role->name,
+                ],
             ],
         ]);
     }

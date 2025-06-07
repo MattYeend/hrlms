@@ -42,10 +42,7 @@ class BlogPolicy
         if ($this->isPrivileged($user)) {
             return true;
         }
-        if ($blog->approved) {
-            return false;
-        }
-    
+
         // Only allow update if blog is not approved and user owns it
         return $blog->approved === false && $user->id === $blog->created_by;
     }

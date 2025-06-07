@@ -27,6 +27,13 @@ class BlogLike extends Model
         'deleted_at',
     ];
 
+    protected $casts = [
+        'approved_at' => 'datetime',
+        'created_at' => 'datetime',
+        'updated_at' => 'datetime',
+        'deleted_at' => 'datetime',
+    ];
+
     public function blog()
     {
         return $this->belongsTo(Blog::class);
@@ -39,28 +46,21 @@ class BlogLike extends Model
 
     public function createdBy()
     {
-        return $this->belongsTo(User::class, 'created_at');
+        return $this->belongsTo(User::class, 'created_by');
     }
 
     public function updatedBy()
     {
-        return $this->belongsTo(User::class, 'updated_at');
+        return $this->belongsTo(User::class, 'updated_by');
     }
 
     public function deletedBy()
     {
-        return $this->belongsTo(User::class, 'deleted_at');
+        return $this->belongsTo(User::class, 'deleted_by');
     }
 
     public function approvedBy()
     {
         return $this->belongsTo(User::class, 'approved_by');
     }
-
-    protected $casts = [
-        'approved_at' => 'datetime',
-        'created_at' => 'datetime',
-        'updated_at' => 'datetime',
-        'deleted_at' => 'datetime',
-    ];
 }

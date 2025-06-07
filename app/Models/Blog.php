@@ -37,6 +37,14 @@ class Blog extends Model
         'restored_at',
     ];
 
+    protected $casts = [
+        'approved_at' => 'datetime',
+        'denied_at' => 'datetime',
+        'created_at' => 'datetime',
+        'updated_at' => 'datetime',
+        'deleted_at' => 'datetime',
+    ];
+
     /**
      * Get the unique identifier for the blog.
      * This method is used by route model binding to
@@ -63,17 +71,17 @@ class Blog extends Model
     {
         return $this->belongsTo(User::class, 'created_by');
     }
-    
+
     public function updatedBy()
     {
         return $this->belongsTo(User::class, 'updated_by');
     }
-    
+
     public function deletedBy()
     {
         return $this->belongsTo(User::class, 'deleted_by');
     }
-    
+
     public function approvedBy()
     {
         return $this->belongsTo(User::class, 'approved_by');
@@ -83,12 +91,4 @@ class Blog extends Model
     {
         return $this->belongsTo(User::class, 'denied_by');
     }
-
-    protected $casts = [
-        'approved_at' => 'datetime',
-        'denied_at' => 'datetime',
-        'created_at' => 'datetime',
-        'updated_at' => 'datetime',
-        'deleted_at' => 'datetime',
-    ];
 }

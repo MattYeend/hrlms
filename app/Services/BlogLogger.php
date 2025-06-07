@@ -187,7 +187,7 @@ class BlogLogger
         return $this->log(
             Log::ACTION_VIEW_DENIED_BLOGS,
             [
-                'View denied blogs'
+                'View denied blogs',
             ],
             $userId,
         );
