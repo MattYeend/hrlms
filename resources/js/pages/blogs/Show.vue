@@ -41,14 +41,6 @@ function submitComment() {
 	})
 	commentText.value = ''
 }
-
-function toggleLike() {
-	isLiking.value = true
-	router.post(route('blog-likes.store', props.blog.slug), {}, {
-		preserveScroll: true,
-		onFinish: () => (isLiking.value = false),
-	})
-}
 </script>
 
 <template>

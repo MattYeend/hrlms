@@ -23,7 +23,6 @@ defineProps<{
 }>()
 
 const page = usePage()
-const isCSuiteOrHrStaff = computed(() => page.props.isCSuiteOrHrStaff)
 
 const breadcrumbs: BreadcrumbItem[] = [
 	{ title: 'Dashboard', href: route('dashboard') },

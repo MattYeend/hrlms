@@ -4,12 +4,6 @@ import AppLayout from '@/layouts/AppLayout.vue'
 import BlogForm from '../blogs/BlogForm.vue'
 import { type BreadcrumbItem } from '@/types'
 
-defineProps<{
-	// roles: Array<{ id: number; name: string }>
-	// departments: Array<{ id: number; name: string }>
-	// jobs: Array<{ id: number; job_title: string }>
-}>()
-
 const breadcrumbs: BreadcrumbItem[] = [
 	{ title: 'Dashboard', href: route('dashboard') },
 	{ title: 'Blogs', href: route('blogs.index') },
