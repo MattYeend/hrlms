@@ -39,7 +39,10 @@ const breadcrumbs: BreadcrumbItem[] = [
 			<div class="flex justify-between items-center mb-6">
 				<h1 class="text-3xl font-bold text-gray-900 dark:text-white">Users</h1>
 				<span v-if="isCSuiteOrHrStaff">
-					<Link :href="route('users.create')" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md shadow-sm">
+					<Link 
+						:href="route('users.create')" 
+						class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md shadow-sm"
+					>
 						+ New User
 					</Link>
 				</span>
@@ -65,15 +68,28 @@ const breadcrumbs: BreadcrumbItem[] = [
 							<td class="p-3">{{ user.department?.name ?? '-' }}</td>
 							<td class="p-3">{{ user.job?.job_title ?? '-' }}</td>
 							<td class="p-3">
-								<Link :href="route('users.show', { slug: user.slug }) + `?from=index`" class="text-blue-600 dark:text-blue-400 hover:underline">View</Link>
-								<span v-if="isCSuiteOrHrStaff && (authUser.id === user.id || ['Admin', 'Super Admin'].includes(authUser.role.name))">| 
-									<Link :href="route('users.edit', user.slug)" class="text-blue-600 dark:text-blue-400 hover:underline">Edit</Link>
-								</span>
-								<span v-if="isCSuiteOrHrStaff && ['Admin', 'Super Admin'].includes(authUser.role.name) && authUser.id !== user.id">| 
-									<Link :href="route('users.destroy', user.slug)" :method="'delete'" as="button" class="text-red-600 dark:text-red-400 hover:underline" >
-										{{ 'Archive' }}
-									</Link>
-								</span>
+								<Link 
+									:href="route('users.show', { slug: user.slug }) + `?from=index`" 
+									class="text-blue-600 dark:text-blue-400 hover:underline"
+								>
+									View
+								</Link>
+								<Link
+									v-if="isCSuiteOrHrStaff && (authUser.id === user.id || ['Admin', 'Super Admin'].includes(authUser.role.name))" 
+									:href="route('users.edit', user.slug)" 
+									class="text-blue-600 dark:text-blue-400 hover:underline"
+								>
+									Edit
+								</Link>
+								<Link 
+									v-if="isCSuiteOrHrStaff && ['Admin', 'Super Admin'].includes(authUser.role.name) && authUser.id !== user.id"
+									:href="route('users.destroy', user.slug)" 
+									:method="'delete'" 
+									as="button" 
+									class="text-red-600 dark:text-red-400 hover:underline"
+								>
+									{{ 'Archive' }}
+								</Link>
 							</td>
 						</tr>
 					</tbody>

@@ -204,7 +204,9 @@ const submit = () => {
 				<Button type="submit" :disabled="form.processing">
 					{{ isEdit ? 'Update User' : 'Create User' }}
 				</Button>
-				<Link :href="route('users.index')" class="text-sm underline text-muted-foreground">
+				<Link 
+					:href="route('users.index')" class="text-sm underline text-muted-foreground"
+				>
 					Back
 				</Link>
 			</div>

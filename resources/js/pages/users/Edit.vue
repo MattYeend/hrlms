@@ -30,7 +30,13 @@ const breadcrumbs: BreadcrumbItem[] = [
 		<Head title="Edit User" />
 		<div class="px-4 sm:px-6 lg:px-8 py-4 sm:py-6 lg:py-8">
 			<h1 class="text-3xl font-bold text-gray-900 dark:text-white mb-6">Edit User</h1>
-			<UserForm :is-edit="true" :user="user" :roles="roles" :departments="departments" :jobs="jobs" />
+			<UserForm 
+				:is-edit="true" 
+				:user="user" 
+				:roles="roles" 
+				:departments="departments" 
+				:jobs="jobs" 
+			/>
 		</div>
 	</AppLayout>
 </template>
