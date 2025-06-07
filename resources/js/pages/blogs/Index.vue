@@ -44,7 +44,10 @@ const truncate = (text: string, length = 100) => {
 			<div class="flex justify-between items-center mb-6">
 				<h1 class="text-3xl font-bold text-gray-900 dark:text-white">Blogs</h1>
 				<span v-if="isCSuiteOrHrStaff">
-					<Link :href="route('blogs.create')" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md shadow-sm">
+					<Link 
+						:href="route('blogs.create')" 
+						class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md shadow-sm"
+					>
 						+ New Blog
 					</Link>
 				</span>
@@ -68,17 +71,44 @@ const truncate = (text: string, length = 100) => {
 							<td class="p-3">{{ blog.approved ? 'Yes' : 'Pending' }}</td>
 							<td class="p-3">{{ blog.approved_by?.name ? blog.approved_by.name : '-' }}</td>
 							<td class="p-3 space-x-2">
-								<Link :href="route('blogs.show', blog.slug) + '?from=index'" class="text-blue-600 dark:text-blue-400 hover:underline">View</Link>
-								<span v-if="isCSuiteOrHrStaff && (authUser.id === blog.created_by || ['Admin', 'Super Admin'].includes(authUser.role.name))">
-									| <Link :href="route('blogs.edit', blog.slug)" class="text-blue-600 dark:text-blue-400 hover:underline">Edit</Link>
-								</span>
-								<span v-if="['Admin', 'Super Admin'].includes(authUser.role.name) && !blog.approved">
-									| <Link :href="route('blogs.approve', blog.slug)" method="post" class="text-blue-600 dark:text-blue-400 hover:underline">Approve</Link>
-									| <Link :href="route('blogs.deny', blog.slug)" method="post" class="text-blue-600 dark:text-blue-400 hover:underline">Deny</Link> 
-								</span>
-								<span v-if="isCSuiteOrHrStaff && ['Admin', 'Super Admin'].includes(authUser.role.name) && authUser.id !== blog.created_by">
-									| <Link :href="route('blogs.destroy', blog.slug)" method="delete" as="button" class="text-red-600 dark:text-red-400 hover:underline">Archive</Link>
-								</span>
+								<Link 
+									:href="route('blogs.show', blog.slug) + '?from=index'" 
+									class="text-blue-600 dark:text-blue-400 hover:underline"
+								>
+									View
+								</Link>
+								<Link 
+									v-if="isCSuiteOrHrStaff && (authUser.id === blog.created_by || ['Admin', 'Super Admin'].includes(authUser.role.name))"
+									:href="route('blogs.edit', blog.slug)" 
+									class="text-blue-600 dark:text-blue-400 hover:underline"
+								>
+									Edit
+								</Link>
+								<Link 
+									v-if="['Admin', 'Super Admin'].includes(authUser.role.name) && !blog.approved"
+									:href="route('blogs.approve', blog.slug)" 
+									method="post" 
+									class="text-blue-600 dark:text-blue-400 hover:underline"
+								>
+									Approve
+								</Link>
+								<Link 
+									v-if="['Admin', 'Super Admin'].includes(authUser.role.name) && !blog.approved"
+									:href="route('blogs.deny', blog.slug)" 
+									method="post" 
+									class="text-blue-600 dark:text-blue-400 hover:underline"
+								>
+									Deny
+								</Link>
+								<Link 
+									v-if="isCSuiteOrHrStaff && ['Admin', 'Super Admin'].includes(authUser.role.name) && authUser.id !== blog.created_by"
+									:href="route('blogs.destroy', blog.slug)" 
+									method="delete" 
+									as="button"
+									class="text-red-600 dark:text-red-400 hover:underline"
+								>
+									Archive
+								</Link>
 							</td>
 						</tr>
 					</tbody>

@@ -43,7 +43,10 @@ const truncate = (text: string, length = 100) => {
 			<div class="flex justify-between items-center mb-6">
 				<h1 class="text-3xl font-bold text-gray-900 dark:text-white">Blogs</h1>
 				<span v-if="isCSuiteOrHrStaff">
-					<Link :href="route('blogs.create')" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md shadow-sm">
+					<Link 
+						:href="route('blogs.create')"
+						class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md shadow-sm"
+					>
 						+ New Blog
 					</Link>
 				</span>
@@ -67,12 +70,21 @@ const truncate = (text: string, length = 100) => {
 							<td class="p-3">{{ blog.approved ? 'Yes' : 'No' }}</td>
 							<td class="p-3">{{ blog.approved_by?.name ?? 'Not yet approved' }}</td>
 							<td class="p-3 space-x-2">
-								<Link :href="route('blogs.show', { slug: blog.slug }) + `?from=index`" class="text-blue-600 dark:text-blue-400 hover:underline">View</Link>
-								<span v-if="isCSuiteOrHrStaff && ['Admin', 'Super Admin'].includes(authUser.role.name) && authUser.id !== blog.created_by">| 
-									<Link :href="route('blogs.restore', blog.slug)" :method="'post'" as="button" class="text-red-600 dark:text-red-400 hover:underline">
-					  					{{ 'Restore'}}
-									</Link>
-								</span>
+								<Link 
+									:href="route('blogs.show', { slug: blog.slug }) + `?from=archived`"
+									class="text-blue-600 dark:text-blue-400 hover:underline"
+								>
+									View
+								</Link>
+								<Link 
+									v-if="isCSuiteOrHrStaff && ['Admin', 'Super Admin'].includes(authUser.role.name) && authUser.id !== blog.created_by"
+									:href="route('blogs.restore', blog.slug)"
+									:method="'post'" 
+									as="button"
+									class="text-red-600 dark:text-red-400 hover:underline"
+								>
+					  				{{ 'Restore'}}
+								</Link>
 							</td>
 						</tr>
 					</tbody>

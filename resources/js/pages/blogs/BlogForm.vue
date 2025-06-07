@@ -63,7 +63,10 @@ const submit = () => {
 				<Button type="submit" :disabled="form.processing">
 					{{ isEdit ? 'Update Blog' : 'Create Blog' }}
 				</Button>
-				<Link :href="route('blogs.index')" class="text-sm underline text-muted-foreground">
+				<Link 
+					:href="route('blogs.index')"
+					class="text-sm underline text-muted-foreground"
+				>
 					Back
 				</Link>
 			</div>

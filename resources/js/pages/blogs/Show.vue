@@ -88,8 +88,16 @@ function submitComment() {
 			</div>
 
 			<div class="flex space-x-4">
-				<Link :href="route('blogs.edit', blog.slug)" class="btn btn-primary">Edit</Link>
-				<Link :href="from === 'archived' ? route('blogs.archived') : route('blogs.index')" class="btn btn-secondary">
+				<Link 
+					:href="route('blogs.edit', blog.slug)" 
+					class="btn btn-primary"
+				>
+					Edit
+				</Link>
+				<Link 
+					:href="from === 'archived' ? route('blogs.archived') : route('blogs.index')" 
+					class="btn btn-secondary"
+				>
 					Back
 				</Link>
 			</div>

@@ -24,7 +24,10 @@ const breadcrumbs: BreadcrumbItem[] = [
 		<Head title="Edit Blog" />
 		<div class="px-4 sm:px-6 lg:px-8 py-4 sm:py-6 lg:py-8">
 			<h1 class="text-3xl font-bold text-gray-900 dark:text-white mb-6">Edit Blog</h1>
-			<BlogForm :is-edit="true" :blog="blog" />
+			<BlogForm
+				:is-edit="true"
+				:blog="blog"
+			/>
 		</div>
 	</AppLayout>
 </template>

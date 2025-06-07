@@ -57,10 +57,19 @@ const truncate = (text: string, length = 100) => {
 							<td class="p-3">{{ blog.denied ? 'Yes' : 'No' }}</td>
 							<td class="p-3">{{ blog.denied_by?.name ?? 'Not yet denied' }}</td>
 							<td class="p-3 space-x-2">
-								<Link :href="route('blogs.show', { slug: blog.slug }) + `?from=index`" class="text-blue-600 dark:text-blue-400 hover:underline">View</Link>
-                                <span v-if="['Admin', 'Super Admin'].includes(authUser.role.name)">
-									| <Link :href="route('blogs.approve', blog.slug)" method="post" class="text-blue-600 dark:text-blue-400 hover:underline">Approve</Link>
-                                </span>
+								<Link 
+									:href="route('blogs.show', { slug: blog.slug }) + `?from=index`" 
+									class="text-blue-600 dark:text-blue-400 hover:underline"
+								>
+									View
+								</Link>
+                                <Link 
+									v-if="['Admin', 'Super Admin'].includes(authUser.role.name)" :href="route('blogs.approve', blog.slug)" 
+									method="post" 
+									class="text-blue-600 dark:text-blue-400 hover:underline"
+								>
+									Approve
+								</Link>
 							</td>
 						</tr>
 					</tbody>
