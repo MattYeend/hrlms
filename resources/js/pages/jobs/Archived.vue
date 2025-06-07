@@ -52,12 +52,21 @@ const breadcrumbs: BreadcrumbItem[] = [
 							<td class="p-3">{{ job?.description ?? '-' }}</td>
 							<td class="p-3">{{ job.department?.name ?? '-' }}</td>
 							<td class="p-3">
-								<Link :href="route('jobs.show', { job: job.slug }) + `?from=index`" class="text-blue-600 dark:text-blue-400 hover:underline">View</Link>
-				  				<span v-if="['Admin', 'Super Admin'].includes(authUser.role.name)">|
-									<Link :href="route('jobs.restore', { job: job.slug })" :method="'post'" as="button" class="text-red-600 dark:text-red-400 hover:underline">
-					  					{{ 'Restore'}}
-									</Link>
-				  				</span>
+								<Link 
+									:href="route('jobs.show', { job: job.slug }) + `?from=index`" 
+									class="text-blue-600 dark:text-blue-400 hover:underline"
+								>
+									View
+								</Link>
+								<Link 
+									v-if="['Admin', 'Super Admin'].includes(authUser.role.name)"
+									:href="route('jobs.restore', { job: job.slug })" 
+									:method="'post'" 
+									as="button" 
+									class="text-red-600 dark:text-red-400 hover:underline"
+								>
+					  				{{ 'Restore'}}
+								</Link>
 							</td>
 			  			</tr>
 					</tbody>

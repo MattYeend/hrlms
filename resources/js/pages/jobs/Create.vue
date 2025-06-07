@@ -20,7 +20,10 @@ const breadcrumbs: BreadcrumbItem[] = [
 		<Head title="Create Job" />
 		<div class="px-4 sm:px-6 lg:px-8 py-4 sm:py-6 lg:py-8">
 	  		<h1 class="text-3xl font-bold text-gray-900 dark:text-white mb-6">Create Job</h1>
-	  		<UserForm :is-edit="false" :departments="departments" />
+	  		<UserForm 
+				:is-edit="false" 
+				:departments="departments"
+			/>
 		</div>
   	</AppLayout>
 </template>

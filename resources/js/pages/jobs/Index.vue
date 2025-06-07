@@ -55,15 +55,24 @@ const breadcrumbs: BreadcrumbItem[] = [
 							<td class="p-3">{{ job?.description ?? '-' }}</td>
 							<td class="p-3">{{ job.department?.name ?? '-' }}</td>
 							<td class="p-3">
-								<Link :href="route('jobs.show', { job: job.slug }) + `?from=index`" class="text-blue-600 dark:text-blue-400 hover:underline">View</Link>
+								<Link 
+									:href="route('jobs.show', { job: job.slug }) + `?from=index`" 
+									class="text-blue-600 dark:text-blue-400 hover:underline"
+								>
+									View
+								</Link>
 								<!-- <span v-if="['Admin', 'Super Admin'].includes(authUser.role.name)">| 
 									<Link :href="route('jobs.edit', { job: job.slug })" class="text-blue-600 dark:text-blue-400 hover:underline">Edit</Link>
 								</span> -->
-								<span v-if="['Admin', 'Super Admin'].includes(authUser.role.name)">|
-									<Link :href="route('jobs.destroy', { job: job.slug })" :method="'delete'" as="button" class="text-red-600 dark:text-red-400 hover:underline" >
-										{{ 'Archive' }}
-									</Link>
-								</span>
+								<Link 
+									v-if="['Admin', 'Super Admin'].includes(authUser.role.name)"
+									:href="route('jobs.destroy', { job: job.slug })"
+									 :method="'delete'" 
+									 as="button" 
+									 class="text-red-600 dark:text-red-400 hover:underline"
+									>
+									{{ 'Archive' }}
+								</Link>
 							</td>
 						</tr>
 					</tbody>

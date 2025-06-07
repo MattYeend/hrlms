@@ -33,7 +33,12 @@ const breadcrumbs: BreadcrumbItem[] = [
 	  		</div>
 
 			<div class="flex space-x-4">
-				<Link :href="route('roles.index')" class="btn btn-secondary">Back</Link>
+				<Link 
+					:href="route('roles.index')"
+					class="btn btn-secondary"
+				>
+					Back
+				</Link>
 	  		</div>
 		</div>
   </AppLayout>

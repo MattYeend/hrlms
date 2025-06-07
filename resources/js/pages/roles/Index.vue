@@ -42,7 +42,12 @@ const breadcrumbs: BreadcrumbItem[] = [
 							<td class="p-3">{{ role.name }}</td>
 							<td class="p-3">{{ role.is_default ? 'Yes' : 'No' }}</td>
 							<td class="p-3 space-x-2">
-								<Link :href="route('roles.show', role.slug)" class="text-blue-600 dark:text-blue-400 hover:underline">View</Link>
+								<Link 
+									:href="route('roles.show', role.slug)" 
+									class="text-blue-600 dark:text-blue-400 hover:underline"
+								>
+									View
+								</Link>
 							</td>
 						</tr>
 					</tbody>
