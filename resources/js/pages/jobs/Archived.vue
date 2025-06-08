@@ -46,7 +46,11 @@ const breadcrumbs: BreadcrumbItem[] = [
 						</tr>
 					</thead>
 					<tbody>
-						<tr v-for="job in jobs" :key="job.id" class="hover:bg-gray-50 dark:hover:bg-gray-700 transition">
+						<tr 
+							v-for="job in jobs" 
+							:key="job.id" 
+							class="hover:bg-gray-50 dark:hover:bg-gray-700 transition"
+						>
 							<td class="p-3">{{ job.job_title }}</td>
 							<td class="p-3">{{ job.short_code }}</td>
 							<td class="p-3">{{ job?.description ?? '-' }}</td>
@@ -54,7 +58,7 @@ const breadcrumbs: BreadcrumbItem[] = [
 							<td class="p-3">
 								<Link 
 									:href="route('jobs.show', { job: job.slug }) + `?from=index`" 
-									class="text-blue-600 dark:text-blue-400 hover:underline"
+									class="text-sm text-blue-600 dark:text-blue-400 hover:underline"
 								>
 									View
 								</Link>
@@ -63,7 +67,7 @@ const breadcrumbs: BreadcrumbItem[] = [
 									:href="route('jobs.restore', { job: job.slug })" 
 									:method="'post'" 
 									as="button" 
-									class="text-red-600 dark:text-red-400 hover:underline"
+									class="text-sm text-red-600 dark:text-red-400 hover:underline"
 								>
 					  				{{ 'Restore'}}
 								</Link>

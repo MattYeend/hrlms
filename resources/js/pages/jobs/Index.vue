@@ -49,7 +49,11 @@ const breadcrumbs: BreadcrumbItem[] = [
 						</tr>
 					</thead>
 					<tbody>
-						<tr v-for="job in jobs" :key="job.id" class="hover:bg-gray-50 dark:hover:bg-gray-700 transition">
+						<tr 
+							v-for="job in jobs" 
+							:key="job.id" 
+							class="hover:bg-gray-50 dark:hover:bg-gray-700 transition"
+						>
 							<td class="p-3">{{ job.job_title }}</td>
 							<td class="p-3">{{ job.short_code }}</td>
 							<td class="p-3">{{ job?.description ?? '-' }}</td>
@@ -57,19 +61,23 @@ const breadcrumbs: BreadcrumbItem[] = [
 							<td class="p-3">
 								<Link 
 									:href="route('jobs.show', { job: job.slug }) + `?from=index`" 
-									class="text-blue-600 dark:text-blue-400 hover:underline"
+									class="text-sm text-blue-600 dark:text-blue-400 hover:underline"
 								>
 									View
 								</Link>
-								<!-- <span v-if="['Admin', 'Super Admin'].includes(authUser.role.name)">| 
-									<Link :href="route('jobs.edit', { job: job.slug })" class="text-blue-600 dark:text-blue-400 hover:underline">Edit</Link>
-								</span> -->
+								<!-- <Link 
+									v-if="['Admin', 'Super Admin'].includes(authUser.role.name)"
+									:href="route('jobs.edit', { job: job.slug })" 
+									class="text-sm text-blue-600 dark:text-blue-400 hover:underline"
+								>
+									Edit
+								</Link> -->
 								<Link 
 									v-if="['Admin', 'Super Admin'].includes(authUser.role.name)"
 									:href="route('jobs.destroy', { job: job.slug })"
 									 :method="'delete'" 
 									 as="button" 
-									 class="text-red-600 dark:text-red-400 hover:underline"
+									 class="text-sm text-red-600 dark:text-red-400 hover:underline"
 									>
 									{{ 'Archive' }}
 								</Link>

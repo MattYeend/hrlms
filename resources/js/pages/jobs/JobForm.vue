@@ -78,9 +78,15 @@ const submit = () => {
 
 			<!-- Submit Buttons -->
 			<div class="flex gap-4">
-				<Button type="submit" :disabled="form.processing">
+				<Link
+					:href="isEdit ? route('jobs.update', job?.slug) : route('jobs.store')"
+					:method="isEdit ? 'put' : 'post'"
+					as="button"
+					class="text-sm btn btn-secondary cursor-pointer"
+					:disabled="form.processing"
+				>
 					{{ isEdit ? 'Update Job' : 'Create Job' }}
-				</Button>
+				</Link>
 				<Link 
 					:href="route('jobs.index')"
 					class="text-sm underline text-muted-foreground"
