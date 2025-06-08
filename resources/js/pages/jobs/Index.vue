@@ -61,14 +61,14 @@ const breadcrumbs: BreadcrumbItem[] = [
 							<td class="p-3">
 								<Link 
 									:href="route('jobs.show', { job: job.slug }) + `?from=index`" 
-									class="text-sm text-blue-600 dark:text-blue-400 hover:underline"
+									class="text-sm text-blue-600 dark:text-blue-400"
 								>
 									View
 								</Link>
 								<!-- <Link 
 									v-if="['Admin', 'Super Admin'].includes(authUser.role.name)"
 									:href="route('jobs.edit', { job: job.slug })" 
-									class="text-sm text-blue-600 dark:text-blue-400 hover:underline"
+									class="text-sm text-blue-600 dark:text-blue-400"
 								>
 									Edit
 								</Link> -->
@@ -77,7 +77,7 @@ const breadcrumbs: BreadcrumbItem[] = [
 									:href="route('jobs.destroy', { job: job.slug })"
 									 :method="'delete'" 
 									 as="button" 
-									 class="text-sm text-red-600 dark:text-red-400 hover:underline"
+									 class="text-sm text-red-600 dark:text-red-400"
 									>
 									{{ 'Archive' }}
 								</Link>

@@ -100,7 +100,15 @@ class DepartmentController extends Controller
     {
         $this->authorize('update', $department);
         return Inertia::render('departments/Edit', [
-            'department' => $department->load('deptLead'),
+            'department' => $department->load('deptLead')->only([
+            'id',
+            'name',
+            'slug',
+            'description',
+            'is_default',
+            'dept_lead',
+            'is_archived',
+        ]),
             'users' => User::select('id', 'name')->get(),
         ]);
     }

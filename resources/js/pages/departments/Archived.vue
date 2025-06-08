@@ -44,16 +44,16 @@ const breadcrumbs: BreadcrumbItem[] = [
 					</thead>
 					<tbody>
 						<tr
-						v-for="department in departments"
-						:key="department.id"
-						class="hover:bg-gray-50 dark:hover:bg-gray-700 transition"
+							v-for="department in departments"
+							:key="department.id"
+							class="hover:bg-gray-50 dark:hover:bg-gray-700 transition"
 						>
 							<td class="p-3">{{ department.name }}</td>
 							<td class="p-3">{{ department.dept_lead?.name || '—' }}</td>
 							<td class="p-3">
 								<Link
 									:href="route('departments.show', {slug: department.slug}) + `?from=archived`"
-									class="text-blue-600 dark:text-blue-400 hover:underline"
+									class="text-sm text-blue-600 dark:text-blue-400"
 								>
 									View
 								</Link>
@@ -62,7 +62,7 @@ const breadcrumbs: BreadcrumbItem[] = [
 									:href="route('departments.restore', department.slug)"
 									:method="'post'" 
 									as="button" 
-									class="text-red-600 dark:text-red-400 hover:underline"
+									class="text-sm text-red-600 dark:text-red-400"
 								>
 									{{ 'Restore' }}
 								</Link>

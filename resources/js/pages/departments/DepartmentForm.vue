@@ -20,7 +20,7 @@ const props = defineProps({
 		default: false,
 	},
 	users: {
-		type: Array,
+		type: Array as () => { id: number; name: string }[],
 		default: () => [],
 	},
 })
@@ -29,7 +29,7 @@ const form = useForm({
 	name: props.department.name || '',
 	description: props.department.description || '',
 	is_default: Boolean(props.department.is_default),
-	dept_lead: props.department.dept_lead || '',
+	dept_lead: props.department.dept_lead ?? '',
 })
 
 const submit = () => {
@@ -73,7 +73,7 @@ const submit = () => {
 			<!-- Department Lead -->
 			<div class="grid gap-2">
 				<Label for="dept_lead">Department Lead</Label>
-				<select id="dept_lead" v-model="form.dept_lead" required class="input">
+				<select id="dept_lead" v-model.number="form.dept_lead" required class="input">
 					<option disabled value="">Select a user</option>
 					<option v-for="user in users" :key="user.id" :value="user.id">
 						{{ user.name }}
@@ -84,9 +84,13 @@ const submit = () => {
 
 			<!-- Submit Buttons -->
 			<div class="flex gap-4">
-				<Button type="submit" :disabled="form.processing">
+				<button
+					type="submit"
+					class="text-sm btn btn-secondary cursor-pointer"
+					:disabled="form.processing"
+				>
 					{{ isEdit ? 'Update Department' : 'Create Department' }}
-				</Button>
+				</button>
 				<Link 
 					:href="route('departments.index')"
 					class="text-sm underline text-muted-foreground"

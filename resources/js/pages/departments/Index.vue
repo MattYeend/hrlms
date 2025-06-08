@@ -51,17 +51,24 @@ const breadcrumbs: BreadcrumbItem[] = [
 						</tr>
 					</thead>
 					<tbody>
-						<tr v-for="department in departments" :key="department.id" class="hover:bg-gray-50 dark:hover:bg-gray-700 transition" >
+						<tr 
+							v-for="department in departments" 
+							:key="department.id" 
+							class="hover:bg-gray-50 dark:hover:bg-gray-700 transition" 
+						>
 							<td class="p-3">{{ department.name }}</td>
 							<td class="p-3">{{ department.dept_lead?.name || '—' }}</td>
 							<td class="p-3">
-								<Link :href="route('departments.show', { slug: department.slug }) + `?from=index`" class="text-blue-600 dark:text-blue-400 hover:underline">
+								<Link 
+									:href="route('departments.show', { slug: department.slug }) + `?from=index`" 
+									class="text-sm text-blue-600 dark:text-blue-400"
+								>
 									View
 								</Link>
 								<Link 
 									v-if="authUser.isHighLevelStaff && ['Admin', 'Super Admin'].includes(authUser.role.name)"
 									:href="route('departments.edit', department.slug)" 
-									class="text-blue-600 dark:text-blue-400 hover:underline"
+									class="text-sm text-blue-600 dark:text-blue-400"
 								>
 									Edit
 								</Link>
@@ -70,7 +77,7 @@ const breadcrumbs: BreadcrumbItem[] = [
 									:href="route('departments.destroy', department.slug)" 
 									:method="'delete'" 
 									as="button" 
-									class="text-red-600 dark:text-red-400 hover:underline"
+									class="text-sm text-red-600 dark:text-red-400"
 								>
 									{{ 'Archive' }}
 								</Link>

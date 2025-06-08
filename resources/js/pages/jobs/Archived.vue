@@ -58,7 +58,7 @@ const breadcrumbs: BreadcrumbItem[] = [
 							<td class="p-3">
 								<Link 
 									:href="route('jobs.show', { job: job.slug }) + `?from=index`" 
-									class="text-sm text-blue-600 dark:text-blue-400 hover:underline"
+									class="text-sm text-blue-600 dark:text-blue-400"
 								>
 									View
 								</Link>
@@ -67,7 +67,7 @@ const breadcrumbs: BreadcrumbItem[] = [
 									:href="route('jobs.restore', { job: job.slug })" 
 									:method="'post'" 
 									as="button" 
-									class="text-sm text-red-600 dark:text-red-400 hover:underline"
+									class="text-sm text-red-600 dark:text-red-400"
 								>
 					  				{{ 'Restore'}}
 								</Link>
