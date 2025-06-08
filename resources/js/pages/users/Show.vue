@@ -50,13 +50,13 @@ const pageFrom = computed(() => page.props.from ?? 'index')
 			<div class="flex space-x-4">
 				<Link 
 					:href="route('users.edit', user.slug)" 
-					class="btn btn-primary"
+					class="text-sm btn btn-primary"
 				>
 					Edit
 				</Link>
 				<Link 
 					:href="(props.from ?? pageFrom) === 'archived' ? route('users.archived') : route('users.index')" 
-					class="btn btn-secondary"
+					class="text-sm btn btn-secondary"
 				>
 					Back
 				</Link>

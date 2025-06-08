@@ -38,14 +38,12 @@ const breadcrumbs: BreadcrumbItem[] = [
 		<div class="px-4 sm:px-6 lg:px-8 py-4 sm:py-6 lg:py-8">
 			<div class="flex justify-between items-center mb-6">
 				<h1 class="text-3xl font-bold text-gray-900 dark:text-white">Users</h1>
-				<span v-if="isCSuiteOrHrStaff">
-					<Link 
+					<Link v-if="isCSuiteOrHrStaff"
 						:href="route('users.create')" 
-						class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md shadow-sm"
+						class="text-sm text-blue-600 dark:text-blue-400"
 					>
 						+ New User
 					</Link>
-				</span>
 			</div>
 	
 			<div class="overflow-x-auto">
@@ -70,14 +68,14 @@ const breadcrumbs: BreadcrumbItem[] = [
 							<td class="p-3">
 								<Link 
 									:href="route('users.show', { slug: user.slug }) + `?from=index`" 
-									class="text-blue-600 dark:text-blue-400 hover:underline"
+									class="text-sm text-blue-600 dark:text-blue-400"
 								>
 									View
 								</Link>
 								<Link
 									v-if="isCSuiteOrHrStaff && (authUser.id === user.id || ['Admin', 'Super Admin'].includes(authUser.role.name))" 
 									:href="route('users.edit', user.slug)" 
-									class="text-blue-600 dark:text-blue-400 hover:underline"
+									class="text-sm text-blue-600 dark:text-blue-400"
 								>
 									Edit
 								</Link>
@@ -86,7 +84,7 @@ const breadcrumbs: BreadcrumbItem[] = [
 									:href="route('users.destroy', user.slug)" 
 									:method="'delete'" 
 									as="button" 
-									class="text-red-600 dark:text-red-400 hover:underline"
+									class="text-sm text-red-600 dark:text-red-400"
 								>
 									{{ 'Archive' }}
 								</Link>

@@ -57,7 +57,7 @@ const breadcrumbs: BreadcrumbItem[] = [
 							<td class="p-3">
 				  				<Link 
 									:href="route('users.show', { slug: user.slug })  + `?from=archived`" 
-									class="text-blue-600 dark:text-blue-400 hover:underline"
+									class="text-sm text-blue-600 dark:text-blue-400 hover:underline"
 								>
 									View
 								</Link>
@@ -66,7 +66,7 @@ const breadcrumbs: BreadcrumbItem[] = [
 									:href="route('users.restore', user.slug)"
 									:method="'post'" 
 									as="button" 
-									class="text-red-600 dark:text-red-400 hover:underline"
+									class="text-sm text-red-600 dark:text-red-400 hover:underline"
 								>
 					  				{{ 'Restore'}}
 								</Link>
