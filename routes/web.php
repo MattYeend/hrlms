@@ -5,11 +5,14 @@ use App\Http\Controllers\BlogController;
 use App\Http\Controllers\BlogLikeController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DepartmentController;
+use App\Http\Controllers\LearningProviderController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\UserJobController;
 use App\Models\Blog;
+use App\Models\BusinessType;
 use App\Models\Department;
+use App\Models\LearningProvider;
 use App\Models\User;
 use App\Models\UserJob;
 use Illuminate\Support\Facades\Route;
@@ -21,20 +24,32 @@ Route::bind('blog', function ($value) {
         ->firstOrFail();
 });
 
+Route::bind('businessType', function ($value) {
+    return BusinessType::withTrashed()
+        ->where('slug', $value)
+        ->firstOrFail();
+});
+
 Route::bind('department', function ($value) {
     return Department::withTrashed()
         ->where('slug', $value)
         ->firstOrFail();
 });
 
-Route::bind('user', function ($value) {
-    return User::withTrashed()
+Route::bind('learningProvider', function ($value){
+    return LearningProvider::withTrashed()
         ->where('slug', $value)
         ->firstOrFail();
 });
 
 Route::bind('job', function ($value) {
     return UserJob::withTrashed()
+        ->where('slug', $value)
+        ->firstOrFail();
+});
+
+Route::bind('user', function ($value) {
+    return User::withTrashed()
         ->where('slug', $value)
         ->firstOrFail();
 });
@@ -58,8 +73,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('dashboard', [DashboardController::class, 'index'])
         ->name('dashboard');
 
+    // Role routes
     Route::resource('roles', RoleController::class)->only(['index', 'show']);
 
+    // Department routes
     Route::get(
         '/departments/archived',
         [DepartmentController::class, 'archived']
@@ -72,6 +89,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
         ->middleware('auth')
         ->scopeBindings();
 
+    // User routes
     Route::get(
         '/users/archived',
         [UserController::class, 'archived']
@@ -82,6 +100,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
         [UserController::class, 'restore']
     )->name('users.restore');
 
+    // Job routes
     Route::get(
         '/jobs/archived',
         [UserJobController::class, 'archived']
@@ -94,6 +113,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
         [UserJobController::class, 'restore']
     )->name('jobs.restore');
 
+    // Blog routes
     Route::post(
         '/blogs/{blog}/like',
         [BlogLikeController::class, 'store']
@@ -128,4 +148,15 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::resource('blog-comments', BlogCommentController::class)->only([
         'store', 'update', 'destroy',
     ]);
+
+    // Learning Provider routes
+    Route::get(
+        '/learningProviders/archived',
+        [LearningProvider::class, 'archived']
+    )->name('learningProviders.archived');
+    Route::resource('learningProviders', LearningProvider::class);
+    Route::post(
+        'learningProviders/{learningProvider}/restore',
+        [LearningProvider::class, 'restore']
+    )->name('learningProviders.restore');
 });

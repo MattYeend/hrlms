@@ -67,12 +67,13 @@ const page = usePage();
 const auth = computed(() => page.props.auth);
 // const isSuperAdmin = computed(() => page.props.auth?.user?.role_id === 1);
 const isAtleastAdmin = computed(() => page.props.auth?.user?.role_id === 1 || page.props.auth?.user?.role_id === 2);
-const isCSuiteOrHrStaff = computed(() => page.props.auth?.user?.isCSuiteOrHrStaff);
+const isHighLevelOrHrStaff = computed(() => page.props.auth?.user?.isHighLevelOrHrStaff);
 const archivedUsers = computed(() => page.props.archivedUsers);
 const archivedDepts = computed(() => page.props.archivedDepts);
 const archivedJobs = computed(() => page.props.archivedJobs);
 const archivedBlogs = computed(() => page.props.archivedBlogs);
 const deniedBlogs = computed(() => page.props.deniedBlogs);
+const archivedLearningProviders = computed(() => page.props.deniedLearningProviders);
 
 const isCurrentRoute = computed(() => (url: string) => page.url === url);
 
@@ -135,7 +136,7 @@ const mainNavItems = computed<NavItem[]>(() => {
 		icon: Folder,
 		children: [],
 	};
-	if (isAtleastAdmin.value && archivedJobs.value && isCSuiteOrHrStaff) {
+	if (isAtleastAdmin.value && archivedJobs.value && isHighLevelOrHrStaff) {
 		jobsItem.children!.push({
 			title: 'Archived Jobs',
 			href: '/jobs/archived',
@@ -143,6 +144,21 @@ const mainNavItems = computed<NavItem[]>(() => {
 		});
 	}
 	items.push(jobsItem);
+
+	const learningProviderItem: NavItem = {
+		title: 'Learning Providers',
+		href: '/learningProviders',
+		icon: Folder,
+		children: [],
+	};
+	if (isAtleastAdmin.value && archivedLearningProviders.value){
+		learningProviderItem.children!.push({
+			title: 'Archived Learning Providers',
+			href: '/learningProviders/archived',
+			icon: ArchiveIcon,
+		});
+	}
+	items.push(learningProviderItem);
 
 	if (isAtleastAdmin.value) {
 		items.push({
@@ -158,7 +174,7 @@ const mainNavItems = computed<NavItem[]>(() => {
 		icon: User2Icon,
 		children: [],
 	};
-	if (isAtleastAdmin.value && archivedUsers.value && isCSuiteOrHrStaff) {
+	if (isAtleastAdmin.value && archivedUsers.value && isHighLevelOrHrStaff) {
 		usersItem.children!.push({
 			title: 'Archived Users',
 			href: '/users/archived',

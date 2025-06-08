@@ -122,6 +122,24 @@ class Log extends Model
     public const ACTION_DENY_BLOG = 76;
     public const ACTION_VIEW_DENIED_BLOGS = 77;
 
+    // Learning Provider logs
+    public const ACTION_VIEW_LEARNING_PROVIDERS = 78;
+    public const ACTION_SHOW_LEARNING_PROVIDER = 79;
+    public const ACTION_CREATE_LEARNING_PROVIDER = 80;
+    public const ACTION_UPDATE_LEARNING_PROVIDER = 81;
+    public const ACTION_DELETE_LEARNING_PROVIDER = 82;
+    public const ACTION_REINSTATE_LEARNING_PROVIDER = 83;
+    public const ACTION_VIEW_ARCHIVED_LEARNING_PROVIDERS = 84;
+
+    // Business Type logs
+    public const ACTION_VIEW_BUSINESS_TYPES = 85;
+    public const ACTION_SHOW_BUSINESS_TYPE = 86;
+    public const ACTION_CREATE_BUSINESS_TYPE = 87;
+    public const ACTION_UPDATE_BUSINESS_TYPE = 88;
+    public const ACTION_DELETE_BUSINESS_TYPE = 89;
+    public const ACTION_REINSTATE_BUSINESS_TYPE = 90;
+    public const ACTION_VIEW_ARCHIVED_BUSINESS_TYPES = 91;
+
     protected $table = 'logs';
 
     protected $fillable = [

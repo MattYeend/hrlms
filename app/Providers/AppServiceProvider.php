@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use App\Models\Blog;
 use App\Models\Department;
+use App\Models\LearningProvider;
 use App\Models\User;
 use App\Models\UserJob;
 use Illuminate\Support\Facades\Auth;
@@ -32,7 +33,8 @@ class AppServiceProvider extends ServiceProvider
             'archivedJobs' => fn () => $this->hasArchivedJobs(),
             'archivedBlogs' => fn () => $this->hasArchivedBlogs(),
             'deniedBlogs' => fn () => $this->hasDeniedBlogs(),
-            'isCSuiteOrHrStaff' => fn () => $this->isCSuiteOrHrStaff(),
+            'archivedLearningProviders' => fn () => $this->hasArchivedLearningProviders(),
+            'isCSuiteOrHrStaff' => fn () => $this->isHighLevelOrHrStaff(),
         ]);
     }
 
@@ -61,7 +63,12 @@ class AppServiceProvider extends ServiceProvider
         return Blog::where('denied', true)->exists();
     }
 
-    protected function isCSuiteOrHrStaff(): bool
+    protected function hasArchivedLearningProviders(): bool
+    {
+        return LearningProvider::onlyTrashed()->exists();
+    }
+
+    protected function isHighLevelOrHrStaff(): bool
     {
         /**
          * @var \App\Models\User|null $user
@@ -72,7 +79,7 @@ class AppServiceProvider extends ServiceProvider
             return false;
         }
 
-        return $user->isCSuiteStaff() || $user->isHRStaff();
+        return $user->isHighLevelStaff() || $user->isHRStaff();
     }
 
     private function authData(): ?array
