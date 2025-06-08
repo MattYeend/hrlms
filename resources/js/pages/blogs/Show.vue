@@ -90,13 +90,13 @@ function submitComment() {
 			<div class="flex space-x-4">
 				<Link 
 					:href="route('blogs.edit', blog.slug)" 
-					class="btn btn-primary"
+					class="text-sm btn btn-primary"
 				>
 					Edit
 				</Link>
 				<Link 
 					:href="from === 'archived' ? route('blogs.archived') : route('blogs.index')" 
-					class="btn btn-secondary"
+					class="text-sm btn btn-secondary"
 				>
 					Back
 				</Link>

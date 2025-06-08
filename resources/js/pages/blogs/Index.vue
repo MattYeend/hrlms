@@ -46,7 +46,7 @@ const truncate = (text: string, length = 100) => {
 				<span v-if="isCSuiteOrHrStaff">
 					<Link 
 						:href="route('blogs.create')" 
-						class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md shadow-sm"
+						class="text-sm text-blue-600 dark:text-blue-400"
 					>
 						+ New Blog
 					</Link>
@@ -65,7 +65,11 @@ const truncate = (text: string, length = 100) => {
 						</tr>
 					</thead>
 					<tbody>
-						<tr v-for="blog in blogs" :key="blog.id" class="hover:bg-gray-50 dark:hover:bg-gray-700 transition">
+						<tr 
+							v-for="blog in blogs" 
+							:key="blog.id" 
+							class="hover:bg-gray-50 dark:hover:bg-gray-700 transition"
+						>
 							<td class="p-3">{{ blog.title }}</td>
 							<td class="p-3 line-clamp-2 max-w-md">{{ truncate(blog.content, 100) }}</td>
 							<td class="p-3">{{ blog.approved ? 'Yes' : 'Pending' }}</td>
@@ -73,14 +77,14 @@ const truncate = (text: string, length = 100) => {
 							<td class="p-3 space-x-2">
 								<Link 
 									:href="route('blogs.show', blog.slug) + '?from=index'" 
-									class="text-blue-600 dark:text-blue-400 hover:underline"
+									class="text-sm text-blue-600 dark:text-blue-400"
 								>
 									View
 								</Link>
 								<Link 
 									v-if="isCSuiteOrHrStaff && (authUser.id === blog.created_by || ['Admin', 'Super Admin'].includes(authUser.role.name))"
 									:href="route('blogs.edit', blog.slug)" 
-									class="text-blue-600 dark:text-blue-400 hover:underline"
+									class="text-sm text-blue-600 dark:text-blue-400"
 								>
 									Edit
 								</Link>
@@ -88,7 +92,7 @@ const truncate = (text: string, length = 100) => {
 									v-if="['Admin', 'Super Admin'].includes(authUser.role.name) && !blog.approved"
 									:href="route('blogs.approve', blog.slug)" 
 									method="post" 
-									class="text-blue-600 dark:text-blue-400 hover:underline"
+									class="text-sm text-blue-600 dark:text-blue-400"
 								>
 									Approve
 								</Link>
@@ -96,7 +100,7 @@ const truncate = (text: string, length = 100) => {
 									v-if="['Admin', 'Super Admin'].includes(authUser.role.name) && !blog.approved"
 									:href="route('blogs.deny', blog.slug)" 
 									method="post" 
-									class="text-blue-600 dark:text-blue-400 hover:underline"
+									class="text-sm text-blue-600 dark:text-blue-400"
 								>
 									Deny
 								</Link>
@@ -105,7 +109,7 @@ const truncate = (text: string, length = 100) => {
 									:href="route('blogs.destroy', blog.slug)" 
 									method="delete" 
 									as="button"
-									class="text-red-600 dark:text-red-400 hover:underline"
+									class="text-sm text-red-600 dark:text-red-400"
 								>
 									Archive
 								</Link>

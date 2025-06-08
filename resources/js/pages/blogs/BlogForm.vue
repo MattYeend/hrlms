@@ -60,9 +60,13 @@ const submit = () => {
 
 			<!-- Submit Buttons -->
 			<div class="flex gap-4">
-				<Button type="submit" :disabled="form.processing">
+				<button 
+					type="submit" 
+					class="text-sm btn btn-secondary cursor-pointer"
+					:disabled="form.processing"
+				>
 					{{ isEdit ? 'Update Blog' : 'Create Blog' }}
-				</Button>
+				</button>
 				<Link 
 					:href="route('blogs.index')"
 					class="text-sm underline text-muted-foreground"

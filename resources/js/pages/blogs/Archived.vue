@@ -41,15 +41,7 @@ const truncate = (text: string, length = 100) => {
 
 		<div class="px-4 sm:px-6 lg:px-8 py-4 sm:py-6 lg:py-8">
 			<div class="flex justify-between items-center mb-6">
-				<h1 class="text-3xl font-bold text-gray-900 dark:text-white">Blogs</h1>
-				<span v-if="isCSuiteOrHrStaff">
-					<Link 
-						:href="route('blogs.create')"
-						class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md shadow-sm"
-					>
-						+ New Blog
-					</Link>
-				</span>
+				<h1 class="text-3xl font-bold text-gray-900 dark:text-white">Archived Blogs</h1>
 			</div>
 
 			<div class="overflow-x-auto">
@@ -72,7 +64,7 @@ const truncate = (text: string, length = 100) => {
 							<td class="p-3 space-x-2">
 								<Link 
 									:href="route('blogs.show', { slug: blog.slug }) + `?from=archived`"
-									class="text-blue-600 dark:text-blue-400 hover:underline"
+									class="text-sm text-blue-600 dark:text-blue-400"
 								>
 									View
 								</Link>
@@ -81,7 +73,7 @@ const truncate = (text: string, length = 100) => {
 									:href="route('blogs.restore', blog.slug)"
 									:method="'post'" 
 									as="button"
-									class="text-red-600 dark:text-red-400 hover:underline"
+									class="text-sm text-red-600 dark:text-red-400"
 								>
 					  				{{ 'Restore'}}
 								</Link>

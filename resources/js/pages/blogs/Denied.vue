@@ -59,14 +59,14 @@ const truncate = (text: string, length = 100) => {
 							<td class="p-3 space-x-2">
 								<Link 
 									:href="route('blogs.show', { slug: blog.slug }) + `?from=index`" 
-									class="text-blue-600 dark:text-blue-400 hover:underline"
+									class="text-sm text-blue-600 dark:text-blue-400"
 								>
 									View
 								</Link>
                                 <Link 
 									v-if="['Admin', 'Super Admin'].includes(authUser.role.name)" :href="route('blogs.approve', blog.slug)" 
 									method="post" 
-									class="text-blue-600 dark:text-blue-400 hover:underline"
+									class="text-sm text-blue-600 dark:text-blue-400"
 								>
 									Approve
 								</Link>

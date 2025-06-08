@@ -35,7 +35,7 @@ const breadcrumbs: BreadcrumbItem[] = [
 				<Link 
 					v-if="authUser.isHighLevelStaff"
 					:href="route('departments.create')" 
-					class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md shadow-sm"
+					class="text-sm text-blue-600 dark:text-blue-400"
 				>
 					+ New Department
 				</Link>
