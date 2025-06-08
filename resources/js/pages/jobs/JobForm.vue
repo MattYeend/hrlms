@@ -87,7 +87,7 @@ const submit = () => {
 				</button>
 				<Link 
 					:href="route('jobs.index')"
-					class="text-sm underline text-muted-foreground"
+					class="text-sm text-muted-foreground"
 				>
 					Back
 				</Link>

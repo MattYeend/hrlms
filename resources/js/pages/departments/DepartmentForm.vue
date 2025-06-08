@@ -93,7 +93,7 @@ const submit = () => {
 				</button>
 				<Link 
 					:href="route('departments.index')"
-					class="text-sm underline text-muted-foreground"
+					class="text-sm text-muted-foreground"
 				>
 					Back
 				</Link>

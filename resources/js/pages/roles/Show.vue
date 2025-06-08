@@ -35,7 +35,7 @@ const breadcrumbs: BreadcrumbItem[] = [
 			<div class="flex space-x-4">
 				<Link 
 					:href="route('roles.index')"
-					class="text-sm btn btn-secondary"
+					class="text-sm text-muted-foreground"
 				>
 					Back
 				</Link>

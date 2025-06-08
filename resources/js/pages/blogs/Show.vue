@@ -96,7 +96,7 @@ function submitComment() {
 				</Link>
 				<Link 
 					:href="from === 'archived' ? route('blogs.archived') : route('blogs.index')" 
-					class="text-sm btn btn-secondary"
+					class="text-sm text-muted-foreground"
 				>
 					Back
 				</Link>
