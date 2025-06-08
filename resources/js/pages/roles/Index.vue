@@ -38,13 +38,17 @@ const breadcrumbs: BreadcrumbItem[] = [
 						</tr>
 					</thead>
 					<tbody>
-						<tr v-for="role in props.roles" :key="role.id" class="hover:bg-gray-50 dark:hover:bg-gray-700 transition">
+						<tr 
+							v-for="role in props.roles" 
+							:key="role.id" 
+							class="hover:bg-gray-50 dark:hover:bg-gray-700 transition"
+						>
 							<td class="p-3">{{ role.name }}</td>
 							<td class="p-3">{{ role.is_default ? 'Yes' : 'No' }}</td>
 							<td class="p-3 space-x-2">
 								<Link 
 									:href="route('roles.show', role.slug)" 
-									class="text-blue-600 dark:text-blue-400 hover:underline"
+									class="text-sm text-blue-600 dark:text-blue-400"
 								>
 									View
 								</Link>
