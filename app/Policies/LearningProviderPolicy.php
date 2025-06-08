@@ -13,7 +13,8 @@ class LearningProviderPolicy
      */
     public function viewAny(User $user): bool
     {
-        return false;
+        unset($user);
+        return true;
     }
 
     /**
@@ -21,7 +22,8 @@ class LearningProviderPolicy
      */
     public function view(User $user, LearningProvider $learningProvider): bool
     {
-        return false;
+        unset($user, $learningProvider);
+        return true;
     }
 
     /**
@@ -29,7 +31,7 @@ class LearningProviderPolicy
      */
     public function create(User $user): bool
     {
-        return false;
+        return in_array($user->role->slug, ['admin', 'super-admin']);
     }
 
     /**
@@ -37,7 +39,8 @@ class LearningProviderPolicy
      */
     public function update(User $user, LearningProvider $learningProvider): bool
     {
-        return false;
+        unset($learningProvider);
+        return in_array($user->role->slug, ['admin', 'super-admin']);
     }
 
     /**
@@ -45,7 +48,8 @@ class LearningProviderPolicy
      */
     public function delete(User $user, LearningProvider $learningProvider): bool
     {
-        return false;
+        unset($learningProvider);
+        return in_array($user->role->slug, ['admin', 'super-admin']);
     }
 
     /**
@@ -53,7 +57,8 @@ class LearningProviderPolicy
      */
     public function restore(User $user, LearningProvider $learningProvider): bool
     {
-        return false;
+        unset($learningProvider);
+        return in_array($user->role->slug, ['admin', 'super-admin']);
     }
 
     /**
@@ -61,6 +66,15 @@ class LearningProviderPolicy
      */
     public function forceDelete(User $user, LearningProvider $learningProvider): bool
     {
+        unset($user, $learningProvider);
         return false;
+    }
+
+    /**
+     * Determine whether the user can view archived departments.
+     */
+    public function viewArchived(User $user): bool
+    {
+        return in_array($user->role->slug, ['admin', 'super-admin']);
     }
 }

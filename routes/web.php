@@ -152,11 +152,11 @@ Route::middleware(['auth', 'verified'])->group(function () {
     // Learning Provider routes
     Route::get(
         '/learningProviders/archived',
-        [LearningProvider::class, 'archived']
+        [LearningProviderController::class, 'archived']
     )->name('learningProviders.archived');
-    Route::resource('learningProviders', LearningProvider::class);
+    Route::resource('learningProviders', LearningProviderController::class);
     Route::post(
         'learningProviders/{learningProvider}/restore',
-        [LearningProvider::class, 'restore']
+        [LearningProviderController::class, 'restore']
     )->name('learningProviders.restore');
 });

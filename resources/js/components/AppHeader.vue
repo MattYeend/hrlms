@@ -48,6 +48,7 @@ import {
 	Folder, 
 	Layers2, 
 	LayoutGrid, 
+	Library, 
 	Menu, 
 	Search, 
 	ShieldCheck, 
@@ -73,7 +74,7 @@ const archivedDepts = computed(() => page.props.archivedDepts);
 const archivedJobs = computed(() => page.props.archivedJobs);
 const archivedBlogs = computed(() => page.props.archivedBlogs);
 const deniedBlogs = computed(() => page.props.deniedBlogs);
-const archivedLearningProviders = computed(() => page.props.deniedLearningProviders);
+const archivedLearningProviders = computed(() => page.props.archivedLearningProviders);
 
 const isCurrentRoute = computed(() => (url: string) => page.url === url);
 
@@ -148,7 +149,7 @@ const mainNavItems = computed<NavItem[]>(() => {
 	const learningProviderItem: NavItem = {
 		title: 'Learning Providers',
 		href: '/learningProviders',
-		icon: Folder,
+		icon: Library,
 		children: [],
 	};
 	if (isAtleastAdmin.value && archivedLearningProviders.value){

@@ -4,16 +4,42 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreLearningProviderRequest;
 use App\Http\Requests\UpdateLearningProviderRequest;
+use App\Models\BusinessType;
 use App\Models\LearningProvider;
+use App\Models\User;
+use App\Services\LearningProviderLogger;
+use Illuminate\Http\Request;
+use Illuminate\Support\Str;
+use Inertia\Inertia;
 
 class LearningProviderController extends Controller
 {
+    protected LearningProviderLogger $logger;
+
+    public function __construct(LearningProviderLogger $logger)
+    {
+        $this->authorizeResource(LearningProvider::class, 'learningProvider');
+        $this->logger = $logger;
+    }
+
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        //
+        $this->authorize('viewAny', LearningProvider::class);
+
+        $this->logger->index(auth()->id());
+
+        $archivedCount = LearningProvider::onlyTrashed()->count();
+
+        return Inertia::render('learningProvider/Index', [
+            'learningProviders' => LearningProvider::with('businessType')->get(),
+            'authUser' => User::where('id', auth()->id())
+                ->with('role:id,name')
+                ->first(),
+            'hasArchivedLearningProviders' => $archivedCount > 0,
+        ]);
     }
 
     /**
@@ -21,7 +47,12 @@ class LearningProviderController extends Controller
      */
     public function create()
     {
-        //
+        $this->authorize('create', LearningProvider::class);
+
+        return Inertia::render('learningProvider/Create', [
+            'learningProviders' => LearningProvider::with('businessType')->get(),
+            'businessTypes' => BusinessType::select('id', 'name')->get(),
+        ]);
     }
 
     /**
@@ -29,15 +60,33 @@ class LearningProviderController extends Controller
      */
     public function store(StoreLearningProviderRequest $request)
     {
-        //
+        $this->authorize('create', LearningProvider::class);
+
+        $data = $request->validated();
+        $data['slug'] = Str::slug($data['name']);
+        $data['created_by'] = auth()->id();
+
+        $learningProvider = LearningProvider::create($data);
+
+        $this->logger->create($learningProvider, auth()->id());
+
+        return redirect()->route('learningProviders.show', $learningProvider)
+            ->with('success', 'Learning Provider created successfully.');
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(LearningProvider $learningProvider)
+    public function show(LearningProvider $learningProvider, Request $request)
     {
-        //
+        $this->authorize('view', $learningProvider);
+
+        $this->logger->show($learningProvider, auth()->id());
+
+        return Inertia::render('learningProvider/Show', [
+            'learningProvider' => $learningProvider->load('businessType'),
+            'from' => $request->query('from', 'index'),
+        ]);
     }
 
     /**
@@ -45,15 +94,37 @@ class LearningProviderController extends Controller
      */
     public function edit(LearningProvider $learningProvider)
     {
-        //
+        $this->authorize('update', $learningProvider);
+
+        return Inertia::render('learningProvider/Edit', [
+            'learningProvider' => $learningProvider,
+            'businessTypes' => BusinessType::select('id', 'name')->get(),
+        ]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateLearningProviderRequest $request, LearningProvider $learningProvider)
-    {
-        //
+    public function update(
+        UpdateLearningProviderRequest $request,
+        LearningProvider $learningProvider
+    ) {
+        $this->authorize('update', $learningProvider);
+
+        $data = $request->validated();
+
+        $learningProvider->update(array_merge(
+            $data,
+            [
+                'updated_by' => auth()->id(),
+                'updated_at' => now(),
+            ]
+        ));
+
+        $this->logger->update($learningProvider, auth()->id());
+
+        return redirect()->route('learningProviders.show', $learningProvider)
+            ->with('success', 'Learning Provider updated successfully.');
     }
 
     /**
@@ -61,6 +132,53 @@ class LearningProviderController extends Controller
      */
     public function destroy(LearningProvider $learningProvider)
     {
-        //
+        $this->authorize('delete', $learningProvider);
+
+        $learningProvider->update([
+            'deleted_by' => auth()->id(),
+            'deleted_at' => now(),
+            'is_archived' => true,
+        ]);
+        $learningProvider->delete();
+
+        $this->logger->delete($learningProvider, auth()->id());
+
+        return redirect()->route('learningProviders.index')
+            ->with('success', 'Learning Provider deleted successfully.');
+    }
+
+    public function restore(LearningProvider $learningProvider)
+    {
+        $this->authorize('restore', $learningProvider);
+
+        $learningProvider->update([
+            'deleted_at' => null,
+            'deleted_by' => null,
+            'is_archived' => false,
+            'restored_at' => now(),
+            'restored_by' => auth()->id(),
+        ]);
+        $learningProvider->restore();
+
+        $this->logger->restore($learningProvider, auth()->id());
+
+        return redirect()->route(
+            'learningProviders.show',
+            $learningProvider,
+        )->with('success', 'Learning Provider restored.');
+    }
+
+    public function archived()
+    {
+        $this->authorize('viewArchived', LearningProvider::class);
+
+        $this->logger->archived(auth()->id());
+
+        return Inertia::render('learningProvider/Archived', [
+            'learningProviders' => LearningProvider::onlyTrashed()->with('businessType')->get(),
+            'authUser' => User::where('id', auth()->id())
+                ->with('role:id,name')
+                ->first(),
+        ]);
     }
 }

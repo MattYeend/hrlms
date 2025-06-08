@@ -13,7 +13,16 @@ return new class extends Migration
     {
         Schema::create('business_types', function (Blueprint $table) {
             $table->id();
+            $table->string('name');
+            $table->string('slug')->unique();
+            $table->string('short_code')->unique();
+            $table->foreignId('created_by')->nullable()->constrained('users')->onDelete('set null');
+            $table->foreignId('updated_by')->nullable()->constrained('users')->onDelete('set null');
+            $table->foreignId('deleted_by')->nullable()->constrained('users')->onDelete('set null');
             $table->timestamps();
+            $table->softDeletes();
+            $table->foreignId('restored_by')->nullable()->constrained('users')->onDelete('set null');
+            $table->timestamp('restored_at')->nullable();
         });
     }
 
