@@ -90,36 +90,6 @@ const mainNavItems = computed<NavItem[]>(() => {
 	};
 	items.push(dashboadItem);
 
-	const usersItem: NavItem = {
-		title: 'Users',
-		href: '/users',
-		icon: User2Icon,
-		children: [],
-	};
-	if (isAtleastAdmin.value && archivedUsers.value && isCSuiteOrHrStaff) {
-		usersItem.children!.push({
-			title: 'Archived Users',
-			href: '/users/archived',
-		icon: ArchiveIcon,
-		});
-	}
-	items.push(usersItem);
-
-	const jobsItem: NavItem = {
-		title: 'Jobs',
-		href: '/jobs',
-		icon: Folder,
-		children: [],
-	};
-	if (isAtleastAdmin.value && archivedJobs.value && isCSuiteOrHrStaff) {
-		jobsItem.children!.push({
-			title: 'Archived Jobs',
-			href: '/jobs/archived',
-			icon: ArchiveIcon,
-		});
-	}
-	items.push(jobsItem);
-
 	const blogItems: NavItem = {
 		title: 'Blogs',
 		href: '/blogs',
@@ -159,6 +129,21 @@ const mainNavItems = computed<NavItem[]>(() => {
 		items.push(departmentsItem);
 	}
 
+	const jobsItem: NavItem = {
+		title: 'Jobs',
+		href: '/jobs',
+		icon: Folder,
+		children: [],
+	};
+	if (isAtleastAdmin.value && archivedJobs.value && isCSuiteOrHrStaff) {
+		jobsItem.children!.push({
+			title: 'Archived Jobs',
+			href: '/jobs/archived',
+			icon: ArchiveIcon,
+		});
+	}
+	items.push(jobsItem);
+
 	if (isAtleastAdmin.value) {
 		items.push({
 			title: 'Roles',
@@ -166,6 +151,21 @@ const mainNavItems = computed<NavItem[]>(() => {
 			icon: ShieldCheck,
 		});
 	}
+
+	const usersItem: NavItem = {
+		title: 'Users',
+		href: '/users',
+		icon: User2Icon,
+		children: [],
+	};
+	if (isAtleastAdmin.value && archivedUsers.value && isCSuiteOrHrStaff) {
+		usersItem.children!.push({
+			title: 'Archived Users',
+			href: '/users/archived',
+		icon: ArchiveIcon,
+		});
+	}
+	items.push(usersItem);
 
 	return items;
 });
