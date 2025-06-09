@@ -4,14 +4,19 @@ import AppLayout from '@/layouts/AppLayout.vue'
 import { type BreadcrumbItem } from '@/types'
 
 defineProps<{
-	departments: Array<{
-		id: number
-		name: string
-		slug: string
-		dept_lead?: { id: number, name: string }
-		is_archived: boolean
-		users_count: number
-	}>
+	departments: {
+		data: Array<{
+			id: number
+			name: string
+			slug: string
+			dept_lead?: { id: number, name: string }
+			is_archived: boolean
+			users_count: number
+		}>
+		current_page: number
+		last_page: number
+		links: Array<any>
+	}
 	authUser: {
 		id: number
 		role: { name: string }
@@ -44,7 +49,7 @@ const breadcrumbs: BreadcrumbItem[] = [
 					</thead>
 					<tbody>
 						<tr
-							v-for="department in departments"
+							v-for="department in departments.data"
 							:key="department.id"
 							class="hover:bg-gray-50 dark:hover:bg-gray-700 transition"
 						>
@@ -70,6 +75,20 @@ const breadcrumbs: BreadcrumbItem[] = [
 						</tr>
 					</tbody>
 				</table>
+				<div class="mt-4 flex justify-center gap-2">
+					<Link
+						v-for="link in departments.links"
+						:key="link.label"
+						:href="link.url || '#'"
+						v-html="link.label"
+						class="px-3 py-1 rounded text-sm"
+						:class="{
+							'bg-blue-500 text-white': link.active,
+							'text-gray-600 dark:text-gray-300': !link.active,
+							'pointer-events-none opacity-50': !link.url
+						}"
+					/>
+				</div>
 			</div>
 		</div>
 	</AppLayout>

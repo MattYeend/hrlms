@@ -35,7 +35,7 @@ class DepartmentController extends Controller
         return Inertia::render('departments/Index', [
             'departments' => Department::with('deptLead')
                 ->withCount('users')
-                ->get(),
+                ->paginate(10),
             'authUser' => User::where('id', auth()->id())
                 ->with('role:id,name')
                 ->first(),
@@ -182,7 +182,7 @@ class DepartmentController extends Controller
             'departments' => Department::onlyTrashed()
                 ->with('deptLead')
                 ->withCount('users')
-                ->get(),
+                ->paginate(10),
             'authUser' => User::where('id', auth()->id())
                 ->with('role:id,name')
                 ->first(),
