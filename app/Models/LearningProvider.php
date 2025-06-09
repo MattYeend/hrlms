@@ -8,7 +8,10 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class LearningProvider extends Model
 {
-    /** @use HasFactory<\Database\Factories\LearningProviderFactory>  */
+    /** 
+     * @use HasFactory<\Database\Factories\LearningProviderFactory>  
+     * @use SoftDeletes
+     */
     use HasFactory, SoftDeletes;
 
     /**

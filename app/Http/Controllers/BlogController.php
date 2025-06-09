@@ -35,7 +35,7 @@ class BlogController extends Controller
                 'approvedBy:id,name',
             ])
                 ->where('denied', false)
-                ->get(),
+                ->paginate(10),
             'authUser' => [
                 'id' => auth()->user()->id,
                 'role' => [
@@ -195,7 +195,7 @@ class BlogController extends Controller
         return Inertia::render('blogs/Archived', [
             'blogs' => Blog::onlyTrashed()->with([
                 'approvedBy:id,name',
-            ])->get(),
+            ])->paginate(10),
             'authUser' => [
                 'id' => auth()->user()->id,
                 'role' => [

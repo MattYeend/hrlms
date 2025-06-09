@@ -49,7 +49,7 @@ watchEffect(() => {
 	}
 })
 
-const submit = () => {console.log('Submitting:', form.data())
+const submit = () => {
 	if (props.isEdit && props.learningProvider) {
 		form.put(route('learningProviders.update', props.learningProvider.slug))
 	} else {

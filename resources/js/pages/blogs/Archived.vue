@@ -6,16 +6,21 @@ import { computed } from 'vue'
 import { usePage } from '@inertiajs/vue3'
 
 defineProps<{
-	blogs: Array<{
-		id: number
-		title: string,
-		content: string,
-		approved: boolean,
-		approved_by: { name: string} | null,
-		is_archived: boolean
-		slug: string
-		created_by: number
-	}>
+	blogs: {
+		data: Array<{
+			id: number
+			title: string
+			content: string
+			approved: boolean
+			approved_by: { name: string } | null
+			is_archived: boolean
+			slug: string
+			created_by: number
+		}>
+		current_page: number
+		last_page: number
+		links: Array<any>
+	}
 	authUser: {
 		id: number
 		role: { name: string }
@@ -56,7 +61,11 @@ const truncate = (text: string, length = 100) => {
 						</tr>
 					</thead>
 					<tbody>
-						<tr v-for="blog in blogs" :key="blog.id" class="hover:bg-gray-50 dark:hover:bg-gray-700 transition">
+						<tr 
+							v-for="blog in blogs.data" 
+							:key="blog.id" 
+							class="hover:bg-gray-50 dark:hover:bg-gray-700 transition"
+						>
 							<td class="p-3">{{ blog.title }}</td>
 							<td class="p-3 line-clamp-2 max-w-md">{{ truncate(blog.content, 100) }}</td>
 							<td class="p-3">{{ blog.approved ? 'Yes' : 'No' }}</td>
@@ -81,6 +90,20 @@ const truncate = (text: string, length = 100) => {
 						</tr>
 					</tbody>
 				</table>
+				<div class="mt-4 flex justify-center gap-2">
+					<Link
+						v-for="link in blogs.links"
+						:key="link.label"
+						:href="link.url || '#'"
+						v-html="link.label"
+						class="px-3 py-1 rounded text-sm"
+						:class="{
+							'bg-blue-500 text-white': link.active,
+							'text-gray-600 dark:text-gray-300': !link.active,
+							'pointer-events-none opacity-50': !link.url
+						}"
+					/>
+				</div>
 			</div>
 		</div>
 	</AppLayout>

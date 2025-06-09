@@ -30,6 +30,11 @@ class UpdateLearningProviderRequest extends FormRequest
         );
     }
 
+    /**
+     * Basic Rules array
+     *
+     * @return array
+     */
     private function basicRules(): array
     {
         $learningProvider = $this->route('learningProvider');
@@ -46,6 +51,11 @@ class UpdateLearningProviderRequest extends FormRequest
         ];
     }
 
+    /**
+     * Address Rules array
+     *
+     * @return array
+     */
     private function addressRules(): array
     {
         return [
@@ -59,6 +69,11 @@ class UpdateLearningProviderRequest extends FormRequest
         ];
     }
 
+    /**
+     * Extra Rules array
+     *
+     * @return array
+     */
     private function extraRules(): array
     {
         return [
