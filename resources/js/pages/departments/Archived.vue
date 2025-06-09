@@ -80,14 +80,15 @@ const breadcrumbs: BreadcrumbItem[] = [
 						v-for="link in departments.links"
 						:key="link.label"
 						:href="link.url || '#'"
-						v-html="link.label"
 						class="px-3 py-1 rounded text-sm"
 						:class="{
 							'bg-blue-500 text-white': link.active,
 							'text-gray-600 dark:text-gray-300': !link.active,
 							'pointer-events-none opacity-50': !link.url
 						}"
-					/>
+					>
+						<span v-html="link.label" />
+					</Link>
 				</div>
 			</div>
 		</div>
