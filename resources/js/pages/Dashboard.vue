@@ -20,12 +20,16 @@ type DashboardData = {
 	archivedUserCount: number;
 };
 
+const page = usePage();
+
 const {
 	departmentCount,
 	userCount,
 	archivedDepartmentCount,
 	archivedUserCount,
-} = ((usePage().props as unknown) as { data: DashboardData }).data;
+} = ((page.props as unknown) as { data: DashboardData }).data;
+
+const authUser = (page.props as any).authUser;
 </script>
 
 <template>
@@ -38,10 +42,18 @@ const {
 					<PlaceholderPattern />
 				</div>
 				<div class="relative aspect-video overflow-hidden rounded-xl border border-sidebar-border/70 dark:border-sidebar-border">
-					<DepartmentStats :departmentCount="departmentCount" :archivedDepartmentCount="archivedDepartmentCount" />
+					<DepartmentStats
+						:departmentCount="departmentCount"
+						:archivedDepartmentCount="archivedDepartmentCount"
+						:authUser="authUser"
+					/>
 				</div>
 				<div class="relative aspect-video overflow-hidden rounded-xl border border-sidebar-border/70 dark:border-sidebar-border">
-					<UserStats :userCount="userCount" :archivedUserCount="archivedUserCount" />
+					<UserStats
+						:userCount="userCount"
+						:archivedUserCount="archivedUserCount"
+						:authUser="authUser"
+					/>
 				</div>
 			</div>
 			<div class="relative min-h-[100vh] flex-1 rounded-xl border border-sidebar-border/70 dark:border-sidebar-border md:min-h-min">

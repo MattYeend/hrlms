@@ -24,6 +24,10 @@ class DashboardController extends Controller
 
         return Inertia::render('Dashboard', [
             'data' => $data,
+            'authUser' => User::where(
+                'id',
+                auth()->id()
+            )->with('role:id,name')->first(),
         ]);
     }
 }
