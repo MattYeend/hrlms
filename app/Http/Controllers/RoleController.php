@@ -26,7 +26,7 @@ class RoleController extends Controller
     {
         $this->authorize('viewAny', Role::class);
 
-        $roles = Role::all()->map(function ($role) {
+        $roles = Role::paginate(10)->map(function ($role) {
             return [
                 'id' => $role->id,
                 'name' => $role->name,

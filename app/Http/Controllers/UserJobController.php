@@ -34,7 +34,7 @@ class UserJobController extends Controller
         return Inertia::render('jobs/Index', [
             'jobs' => UserJob::with([
                 'department:id,name',
-            ])->get(),
+            ])->paginate(10),
             'departments' => Department::select('id', 'name')->get(),
             'authUser' => User::where(
                 'id',
@@ -173,7 +173,7 @@ class UserJobController extends Controller
         return Inertia::render('jobs/Archived', [
             'jobs' => UserJob::onlyTrashed()->with([
                 'department:id,name',
-            ])->get(),
+            ])->paginate(10),
             'departments' => Department::select('id', 'name')->get(),
             'authUser' => User::where(
                 'id',

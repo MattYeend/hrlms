@@ -33,7 +33,7 @@ class LearningProviderController extends Controller
 
         $archivedCount = LearningProvider::onlyTrashed()->count();
 
-        $learningProvider = LearningProvider::with('businessType')->get();
+        $learningProvider = LearningProvider::with('businessType')->paginate(10);
 
         return Inertia::render('learningProvider/Index', [
             'learningProviders' => $learningProvider,
@@ -181,7 +181,7 @@ class LearningProviderController extends Controller
 
         $learningProvider = LearningProvider::onlyTrashed()
             ->with('businessType')
-            ->get();
+            ->paginate(10);
 
         $authUser = User::where('id', auth()->id())
             ->with('role:id,name')

@@ -38,7 +38,7 @@ class UserController extends Controller
                 'role:id,name',
                 'department:id,name',
                 'job:id,job_title',
-            ])->get(),
+            ])->paginate(10),
             'roles' => Role::select('id', 'name')->get(),
             'departments' => Department::select('id', 'name')->get(),
             'authUser' => User::where(
@@ -182,7 +182,7 @@ class UserController extends Controller
         $this->authorize('viewArchived', User::class);
         $archivedUsers = User::onlyTrashed()
             ->with(['role:id,name', 'department:id,name', 'job:id,job_title'])
-            ->get();
+            ->paginate(10);
 
         $roles = Role::select('id', 'name')->get();
         $departments = Department::select('id', 'name')->get();
