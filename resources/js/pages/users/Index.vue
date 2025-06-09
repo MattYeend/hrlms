@@ -6,16 +6,21 @@ import { computed } from 'vue'
 import { usePage } from '@inertiajs/vue3'
 
 defineProps<{
-	users: Array<{
-		id: number
-		name: string
-		email: string
-		role: { name: string }
-		department: { name: string }
-		job: { job_title: string }
-		is_archived: boolean
-		slug: string
-	}>
+	users: {
+		data: Array<{
+			id: number
+			name: string
+			email: string
+			role: { name: string }
+			department: { name: string }
+			job: { job_title: string}
+			is_archived: boolean
+			slug: string
+		}>
+		current_page: number
+		last_page: number
+		links: Array<any>
+	}
 	authUser: {
 		id: number
 		role: { name: string }
@@ -60,7 +65,7 @@ const breadcrumbs: BreadcrumbItem[] = [
 					</thead>
 					<tbody>
 						<tr 
-							v-for="user in users" 
+							v-for="user in users.data" 
 							:key="user.id" 
 							class="hover:bg-gray-50 dark:hover:bg-gray-700 transition"
 						>
@@ -96,6 +101,20 @@ const breadcrumbs: BreadcrumbItem[] = [
 						</tr>
 					</tbody>
 				</table>
+				<div class="mt-4 flex justify-center gap-2">
+					<Link
+						v-for="link in users.links"
+						:key="link.label"
+						:href="link.url || '#'"
+						v-html="link.label"
+						class="px-3 py-1 rounded text-sm"
+						:class="{
+							'bg-blue-500 text-white': link.active,
+							'text-gray-600 dark:text-gray-300': !link.active,
+							'pointer-events-none opacity-50': !link.url
+						}"
+					/>
+				</div>
 			</div>
 		</div>
 	</AppLayout>
