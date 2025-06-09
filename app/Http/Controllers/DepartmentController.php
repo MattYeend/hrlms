@@ -95,7 +95,7 @@ class DepartmentController extends Controller
     public function edit(Department $department)
     {
         $this->authorize('update', $department);
-        
+
         return Inertia::render('departments/Edit', [
             'department' => $department->load('deptLead')
                 ->only([

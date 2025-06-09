@@ -5,7 +5,6 @@ namespace App\Services;
 use App\Models\LearningProvider;
 use App\Models\Log;
 
-
 class LearningProviderLogger
 {
     /**
@@ -33,8 +32,10 @@ class LearningProviderLogger
     /**
      * Log showing a specific learning provider.
      */
-    public function show(LearningProvider $learningProvider, int $userId): array
-    {
+    public function show(
+        LearningProvider $learningProvider,
+        int $userId
+    ): array {
         return $this->log(
             Log::ACTION_SHOW_LEARNING_PROVIDER,
             [
@@ -49,8 +50,10 @@ class LearningProviderLogger
     /**
      * Log creating a new learning provider.
      */
-    public function create(LearningProvider $learningProvider, int $userId): array
-    {
+    public function create(
+        LearningProvider $learningProvider,
+        int $userId
+    ): array {
         return $this->log(
             Log::ACTION_CREATE_LEARNING_PROVIDER,
             [
@@ -67,8 +70,10 @@ class LearningProviderLogger
     /**
      * Log updating an existing learning provider.
      */
-    public function update(LearningProvider $learningProvider, int $userId): array
-    {
+    public function update(
+        LearningProvider $learningProvider,
+        int $userId
+    ): array {
         return $this->log(
             Log::ACTION_UPDATE_LEARNING_PROVIDER,
             [
@@ -85,8 +90,10 @@ class LearningProviderLogger
     /**
      * Log deleting a learning provider.
      */
-    public function delete(LearningProvider $learningProvider, int $userId): array
-    {
+    public function delete(
+        LearningProvider $learningProvider,
+        int $userId
+    ): array {
         return $this->log(
             Log::ACTION_DELETE_LEARNING_PROVIDER,
             [
@@ -103,8 +110,10 @@ class LearningProviderLogger
     /**
      * Log restoring a learning provider.
      */
-    public function restore(LearningProvider $learningProvider, int $userId): array
-    {
+    public function restore(
+        LearningProvider $learningProvider,
+        int $userId
+    ): array {
         return $this->log(
             Log::ACTION_REINSTATE_LEARNING_PROVIDER,
             [

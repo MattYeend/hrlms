@@ -4,7 +4,6 @@ namespace App\Policies;
 
 use App\Models\LearningProvider;
 use App\Models\User;
-use Illuminate\Auth\Access\Response;
 
 class LearningProviderPolicy
 {
@@ -46,8 +45,10 @@ class LearningProviderPolicy
     /**
      * Determine whether the user can delete the model.
      */
-    public function delete(User $user, LearningProvider $learningProvider): bool
-    {
+    public function delete(
+        User $user,
+        LearningProvider $learningProvider
+    ): bool {
         unset($learningProvider);
         return in_array($user->role->slug, ['admin', 'super-admin']);
     }
@@ -55,8 +56,10 @@ class LearningProviderPolicy
     /**
      * Determine whether the user can restore the model.
      */
-    public function restore(User $user, LearningProvider $learningProvider): bool
-    {
+    public function restore(
+        User $user,
+        LearningProvider $learningProvider
+    ): bool {
         unset($learningProvider);
         return in_array($user->role->slug, ['admin', 'super-admin']);
     }
@@ -64,8 +67,10 @@ class LearningProviderPolicy
     /**
      * Determine whether the user can permanently delete the model.
      */
-    public function forceDelete(User $user, LearningProvider $learningProvider): bool
-    {
+    public function forceDelete(
+        User $user,
+        LearningProvider $learningProvider
+    ): bool {
         unset($user, $learningProvider);
         return false;
     }

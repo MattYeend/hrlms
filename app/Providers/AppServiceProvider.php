@@ -33,7 +33,9 @@ class AppServiceProvider extends ServiceProvider
             'archivedJobs' => fn () => $this->hasArchivedJobs(),
             'archivedBlogs' => fn () => $this->hasArchivedBlogs(),
             'deniedBlogs' => fn () => $this->hasDeniedBlogs(),
-            'archivedLearningProviders' => fn () => $this->hasArchivedLearningProviders(),
+            'archivedLearningProviders' => function () {
+                return $this->hasArchivedLearningProviders();
+            },
             'isCSuiteOrHrStaff' => fn () => $this->isHighLevelOrHrStaff(),
         ]);
     }

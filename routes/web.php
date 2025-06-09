@@ -36,7 +36,7 @@ Route::bind('department', function ($value) {
         ->firstOrFail();
 });
 
-Route::bind('learningProvider', function ($value){
+Route::bind('learningProvider', function ($value) {
     return LearningProvider::withTrashed()
         ->where('slug', $value)
         ->firstOrFail();

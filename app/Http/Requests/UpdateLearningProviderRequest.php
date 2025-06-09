@@ -3,7 +3,6 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Validation\Rule;
 
 class UpdateLearningProviderRequest extends FormRequest
 {
@@ -24,6 +23,17 @@ class UpdateLearningProviderRequest extends FormRequest
     {
         $learningProvider = $this->route('learningProvider');
 
+        return array_merge(
+            $this->basicRules($learningProvider),
+            $this->addressRules(),
+            $this->extraRules()
+        );
+    }
+
+    private function basicRules(): array
+    {
+        $learningProvider = $this->route('learningProvider');
+
         return [
             'name' => 'required|string|max:255',
             'slug' => [
@@ -33,6 +43,12 @@ class UpdateLearningProviderRequest extends FormRequest
                 'unique:learning_providers,slug,' . $learningProvider->id,
             ],
             'business_type_id' => 'nullable|exists:business_types,id',
+        ];
+    }
+
+    private function addressRules(): array
+    {
+        return [
             'first_line' => 'required|string|max:255',
             'second_line' => 'nullable|string|max:255',
             'town' => 'nullable|string|max:255',
@@ -40,6 +56,12 @@ class UpdateLearningProviderRequest extends FormRequest
             'county' => 'nullable|string|max:255',
             'country' => 'nullable|string|max:255',
             'postcode' => 'required|string|max:20',
+        ];
+    }
+
+    private function extraRules(): array
+    {
+        return [
             'main_email_address' => 'required|email|max:255',
             'first_phone_number' => 'required|string|max:20',
             'second_phone_number' => 'nullable|string|max:20',

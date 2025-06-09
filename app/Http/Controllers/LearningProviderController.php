@@ -33,8 +33,10 @@ class LearningProviderController extends Controller
 
         $archivedCount = LearningProvider::onlyTrashed()->count();
 
+        $learningProvider = LearningProvider::with('businessType')->get();
+
         return Inertia::render('learningProvider/Index', [
-            'learningProviders' => LearningProvider::with('businessType')->get(),
+            'learningProviders' => $learningProvider,
             'authUser' => User::where('id', auth()->id())
                 ->with('role:id,name')
                 ->first(),
@@ -49,9 +51,12 @@ class LearningProviderController extends Controller
     {
         $this->authorize('create', LearningProvider::class);
 
+        $learningProviders = LearningProvider::with('businessType')->get();
+        $businessTypes = BusinessType::select('id', 'name')->get();
+
         return Inertia::render('learningProvider/Create', [
-            'learningProviders' => LearningProvider::with('businessType')->get(),
-            'businessTypes' => BusinessType::select('id', 'name')->get(),
+            'learningProviders' => $learningProviders,
+            'businessTypes' => $businessTypes,
         ]);
     }
 
@@ -174,11 +179,17 @@ class LearningProviderController extends Controller
 
         $this->logger->archived(auth()->id());
 
+        $learningProvider = LearningProvider::onlyTrashed()
+            ->with('businessType')
+            ->get();
+
+        $authUser = User::where('id', auth()->id())
+            ->with('role:id,name')
+            ->first();
+
         return Inertia::render('learningProvider/Archived', [
-            'learningProviders' => LearningProvider::onlyTrashed()->with('businessType')->get(),
-            'authUser' => User::where('id', auth()->id())
-                ->with('role:id,name')
-                ->first(),
+            'learningProviders' => $learningProvider,
+            'authUser' => $authUser,
         ]);
     }
 }
