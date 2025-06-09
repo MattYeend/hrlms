@@ -33,7 +33,8 @@ class LearningProviderController extends Controller
 
         $archivedCount = LearningProvider::onlyTrashed()->count();
 
-        $learningProvider = LearningProvider::with('businessType')->paginate(10);
+        $learningProvider = LearningProvider::with('businessType')
+            ->paginate(10);
 
         return Inertia::render('learningProvider/Index', [
             'learningProviders' => $learningProvider,

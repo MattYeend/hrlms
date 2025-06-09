@@ -4,11 +4,15 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Role extends Model
 {
-    /** @use HasFactory<\Database\Factories\RoleFactory> */
-    use HasFactory;
+    /**
+     * @use HasFactory<\Database\Factories\RoleFactory>
+     * @use SoftDeletes
+     */
+    use HasFactory, SoftDeletes;
 
     public const SUPER_ADMIN = 1;
     public const ADMIN = 2;
