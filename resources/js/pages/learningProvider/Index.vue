@@ -4,18 +4,23 @@ import AppLayout from '@/layouts/AppLayout.vue'
 import { type BreadcrumbItem } from '@/types'
 
 defineProps<{
-	learningProviders: Array<{
-		id: number
-		name: string
-		slug: string
-		business_type: {id: number, name: string }
-		first_line: string 
-        post_code: string
-        person_to_contact: string
-        main_email_address: string
-        first_phone_number: number
-		is_archived: boolean
-	}>
+	learningProviders: {
+		data: Array<{
+			id: number
+			name: string
+			slug: string
+			business_type: {id: number, name: string }
+			first_line: string 
+			post_code: string
+			person_to_contact: string
+			main_email_address: string
+			first_phone_number: number
+			is_archived: boolean
+		}>
+		current_page: number
+		last_page: number
+		links: Array<any>
+	}
 	authUser: {
 		id: number
 		role: { name: string }
@@ -57,7 +62,7 @@ const breadcrumbs: BreadcrumbItem[] = [
 					</thead>
 					<tbody>
 						<tr 
-							v-for="learningProvider in learningProviders" 
+							v-for="learningProvider in learningProviders.data" 
 							:key="learningProvider.id" 
 							class="hover:bg-gray-50 dark:hover:bg-gray-700 transition"
 						>
@@ -92,6 +97,20 @@ const breadcrumbs: BreadcrumbItem[] = [
 						</tr>
 					</tbody>
 				</table>
+				<div class="mt-4 flex justify-center gap-2">
+					<Link
+						v-for="link in learningProviders.links"
+						:key="link.label"
+						:href="link.url || '#'"
+						v-html="link.label"
+						class="px-3 py-1 rounded text-sm"
+						:class="{
+							'bg-blue-500 text-white': link.active,
+							'text-gray-600 dark:text-gray-300': !link.active,
+							'pointer-events-none opacity-50': !link.url
+						}"
+					/>
+				</div>
 			</div>
 		</div>
 	</AppLayout>
