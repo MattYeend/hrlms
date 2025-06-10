@@ -62,8 +62,46 @@ function userWithRoleForJobs(string $roleName): User
 
 // Guest access
 test('guests cannot access user jobs index and are redirected to login', function () {
-    $response = $this->get(route('jobs.index'));
-    $response->assertRedirect(route('login'));
+    $admin = userWithRoleForJobs('admin');
+    $jobs = UserJob::factory()->create([
+        'created_by' => $admin->id,
+        'updated_by' => $admin->id,
+    ]);
+
+    $routes = [
+        'get' => [
+            route('jobs.index'),
+            route('jobs.create'),
+            route('jobs.show', $jobs),
+            route('jobs.edit', $jobs),
+        ],
+        'post' => [
+            route('jobs.store'),
+            route('jobs.restore', $jobs),
+        ],
+        'put' => [
+            route('jobs.update', $jobs),
+        ],
+        'delete' => [
+            route('jobs.destroy', $jobs),
+        ],
+    ];
+
+    foreach ($routes['get'] as $url) {
+        $this->get($url)->assertRedirect('/login');
+    }
+
+    foreach ($routes['post'] as $url) {
+        $this->post($url, [])->assertRedirect('/login');
+    }
+
+    foreach ($routes['put'] as $url) {
+        $this->put($url, [])->assertRedirect('/login');
+    }
+
+    foreach ($routes['delete'] as $url) {
+        $this->delete($url)->assertRedirect('/login');
+    }
 });
 
 // Authenticated users (non-superadmin) can view user jobs index and show but not create or edit
