@@ -114,22 +114,20 @@ const mainNavItems = computed<NavItem[]>(() => {
 	}
 	items.push(blogItems);
 
-	if (isAtleastAdmin.value) {
-		const departmentsItem: NavItem = {
-			title: 'Departments',
-			href: '/departments',
-			icon: Layers2,
-			children: [],
-		};
-		if (archivedDepts.value) {
+	const departmentsItem: NavItem = {
+		title: 'Departments',
+		href: '/departments',
+		icon: Layers2,
+		children: [],
+	};
+	if (archivedDepts.value) {
 		departmentsItem.children!.push({
 			title: 'Archived Departments',
 			href: '/departments/archived',
 			icon: ArchiveIcon,
 		});
-		}
-		items.push(departmentsItem);
 	}
+	items.push(departmentsItem);
 
 	const jobsItem: NavItem = {
 		title: 'Jobs',

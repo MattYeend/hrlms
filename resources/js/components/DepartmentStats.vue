@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import StatCard from '@/components/StatCard.vue';
+import StatCard from '../components/StatCard.vue';
 
 const props = defineProps<{
 	departmentCount: number;
