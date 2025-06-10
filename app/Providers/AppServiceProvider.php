@@ -33,8 +33,8 @@ class AppServiceProvider extends ServiceProvider
             'archivedJobs' => fn () => $this->hasArchivedJobs(),
             'archivedBlogs' => fn () => $this->hasArchivedBlogs(),
             'deniedBlogs' => fn () => $this->hasDeniedBlogs(),
-            'approvedBlogs' => fn() => $this->hasApprovedBlogs(),
-            'pendingBlogs' => fn() => $this->hasPendingBlogs(),
+            'approvedBlogs' => fn () => $this->hasApprovedBlogs(),
+            'pendingBlogs' => fn () => $this->hasPendingBlogs(),
             'archivedLearningProviders' => function () {
                 return $this->hasArchivedLearningProviders();
             },

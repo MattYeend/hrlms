@@ -12,31 +12,12 @@ class DashboardController extends Controller
 {
     public function index()
     {
-        $blogCount = Blog::withoutTrashed()->count();
-        $departmentCount = Department::withoutTrashed()->count();
-        $learningProviderCount = LearningProvider::withoutTrashed()->count();
-        $userCount = User::withoutTrashed()->count();
-        $archivedBlogCount = Blog::onlyTrashed()->count();
-        $archivedDepartmentCount = Department::onlyTrashed()->count();
-        $archivedLearningProviderCount = LearningProvider::onlyTrashed()->count();
-        $archivedUserCount = User::onlyTrashed()->count();
-        $approvedBlogCount = Blog::where('denied', false)->where('approved', true)->count();
-        $deniedBlogCount = Blog::where('denied', true)->where('approved', false)->count();
-        $pendingBlogCount = Blog::where('denied', false)->where('approved', false)->count();
-
-        $data = [
-            'blogCount' => $blogCount,
-            'departmentCount' => $departmentCount,
-            'learningProviderCount' => $learningProviderCount,
-            'userCount' => $userCount,
-            'archivedBlogCount' => $archivedBlogCount,
-            'archivedDepartmentCount' => $archivedDepartmentCount,
-            'archivedLearningProviderCount' => $archivedLearningProviderCount,
-            'archivedUserCount' => $archivedUserCount,
-            'approvedBlogCount' => $approvedBlogCount,
-            'deniedBlogCount' => $deniedBlogCount,
-            'pendingBlogCount' => $pendingBlogCount,
-        ];
+        $data = array_merge(
+            $this->blogCounts(),
+            $this->departmentCounts(),
+            $this->learningPrividerCounts(),
+            $this->userCounts()
+        );
 
         return Inertia::render('Dashboard', [
             'data' => $data,
@@ -45,5 +26,67 @@ class DashboardController extends Controller
                 auth()->id()
             )->with('role:id,name')->first(),
         ]);
+    }
+
+    private function blogCounts()
+    {
+        $blogCount = Blog::withoutTrashed()->count();
+        $archivedBlogCount = Blog::onlyTrashed()->count();
+        $approvedBlogCount = Blog::where('denied', false)
+            ->where('approved', true)
+            ->count();
+        $deniedBlogCount = Blog::where('denied', true)
+            ->where('approved', false)
+            ->count();
+        $pendingBlogCount = Blog::where('denied', false)
+            ->where('approved', false)
+            ->count();
+
+        return [
+            'blogCount' => $blogCount,
+            'archivedBlogCount' => $archivedBlogCount,
+            'approvedBlogCount' => $approvedBlogCount,
+            'deniedBlogCount' => $deniedBlogCount,
+            'pendingBlogCount' => $pendingBlogCount,
+        ];
+    }
+
+    private function departmentCounts()
+    {
+        $departmentCount = Department::withoutTrashed()->count();
+        $archivedDepartmentCount = Department::onlyTrashed()->count();
+
+        return [
+            'departmentCount' => $departmentCount,
+            'archivedDepartmentCount' => $archivedDepartmentCount,
+        ];
+
+        return $departmentCounts;
+    }
+
+    private function learningPrividerCounts()
+    {
+        $learningProviderCount = LearningProvider::withoutTrashed()
+            ->count();
+        $archivedLearningProviderCount = LearningProvider::onlyTrashed()
+            ->count();
+
+        return [
+            'learningProviderCount' => $learningProviderCount,
+            'archivedLearningProviderCount' => $archivedLearningProviderCount,
+        ];
+
+        return $learningProviderCounts;
+    }
+
+    private function userCounts()
+    {
+        $userCount = User::withoutTrashed()->count();
+        $archivedUserCount = User::onlyTrashed()->count();
+
+        return [
+            'userCount' => $userCount,
+            'archivedUserCount' => $archivedUserCount,
+        ];
     }
 }
