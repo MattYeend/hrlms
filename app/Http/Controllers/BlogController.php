@@ -33,7 +33,6 @@ class BlogController extends Controller
         $query = Blog::with('approvedBy:id,name')
             ->where('denied', false);
 
-        // Apply filters
         if ($status === 'pending') {
             $query->where('approved', false);
             $query->where('denied', false);
