@@ -20,6 +20,9 @@ class DashboardController extends Controller
         $archivedDepartmentCount = Department::onlyTrashed()->count();
         $archivedLearningProviderCount = LearningProvider::onlyTrashed()->count();
         $archivedUserCount = User::onlyTrashed()->count();
+        $approvedBlogCount = Blog::where('denied', false)->where('approved', true)->count();
+        $deniedBlogCount = Blog::where('denied', true)->where('approved', false)->count();
+        $pendingBlogCount = Blog::where('denied', false)->where('approved', false)->count();
 
         $data = [
             'blogCount' => $blogCount,
@@ -30,6 +33,9 @@ class DashboardController extends Controller
             'archivedDepartmentCount' => $archivedDepartmentCount,
             'archivedLearningProviderCount' => $archivedLearningProviderCount,
             'archivedUserCount' => $archivedUserCount,
+            'approvedBlogCount' => $approvedBlogCount,
+            'deniedBlogCount' => $deniedBlogCount,
+            'pendingBlogCount' => $pendingBlogCount,
         ];
 
         return Inertia::render('Dashboard', [

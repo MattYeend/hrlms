@@ -33,6 +33,8 @@ class AppServiceProvider extends ServiceProvider
             'archivedJobs' => fn () => $this->hasArchivedJobs(),
             'archivedBlogs' => fn () => $this->hasArchivedBlogs(),
             'deniedBlogs' => fn () => $this->hasDeniedBlogs(),
+            'approvedBlogs' => fn() => $this->hasApprovedBlogs(),
+            'pendingBlogs' => fn() => $this->hasPendingBlogs(),
             'archivedLearningProviders' => function () {
                 return $this->hasArchivedLearningProviders();
             },
@@ -62,7 +64,17 @@ class AppServiceProvider extends ServiceProvider
 
     protected function hasDeniedBlogs(): bool
     {
-        return Blog::where('denied', true)->exists();
+        return Blog::where('denied', true)->where('approved', false)->exists();
+    }
+
+    protected function hasApprovedBlogs(): bool
+    {
+        return Blog::where('denied', false)->where('approved', true)->exists();
+    }
+
+    protected function hasPendingBlogs(): bool
+    {
+        return Blog::where('denied', false)->where('approved', false)->exists();
     }
 
     protected function hasArchivedLearningProviders(): bool

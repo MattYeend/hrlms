@@ -24,6 +24,9 @@ type DashboardData = {
 	archivedDepartmentCount: number;
 	archivedLearningProviderCount: number;
 	archivedUserCount: number;
+	approvedBlogCount: number;
+    deniedBlogCount: number;
+    pendingBlogCount: number;
 };
 
 const page = usePage();
@@ -38,6 +41,9 @@ const {
 	archivedDepartmentCount,
 	archivedLearningProviderCount,
 	archivedUserCount,
+	approvedBlogCount,
+    deniedBlogCount,
+    pendingBlogCount,
 } = ((page.props as unknown) as { data: DashboardData }).data;
 
 const authUser = (page.props as any).authUser;
@@ -78,6 +84,9 @@ const authUser = (page.props as any).authUser;
 				<BlogStats 
 					:blogCount="blogCount"
 					:archivedBlogCount="archivedBlogCount"
+					:approvedBlogCount="approvedBlogCount"
+					:deniedBlogCount="deniedBlogCount"
+					:pendingBlogCount="pendingBlogCount"
 					:authUser="authUser"
 					:text="text"
 				/>
