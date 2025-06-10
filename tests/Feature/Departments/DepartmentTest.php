@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Auth;
 
 uses(RefreshDatabase::class);
 
-function userWithRole(string $roleSlug): User {
+function userWithRoleForDepartments(string $roleSlug): User {
     $role = Role::factory()->create(['slug' => $roleSlug]);
     $admin = User::factory()->create();
 
@@ -84,12 +84,12 @@ test('guests cannot access any department routes', function () {
 
 // Viewing
 test('authenticated users can view departments index', function () {
-    $user = userWithRole('user');
+    $user = userWithRoleForDepartments('user');
     $this->actingAs($user)->get(route('departments.index'))->assertOk();
 });
 
 test('authenticated users can view a department', function () {
-    $user = userWithRole('user');
+    $user = userWithRoleForDepartments('user');
     $department = Department::factory()->create();
 
     $this->actingAs($user)->get(route('departments.show', $department))->assertOk();
@@ -97,7 +97,7 @@ test('authenticated users can view a department', function () {
 
 // Create
 test('admins can create a department', function () {
-    $admin = userWithRole('admin');
+    $admin = userWithRoleForDepartments('admin');
     $data = Department::factory()->make()->toArray();
     $data['slug'] = Str::slug($data['name']);
 
@@ -109,7 +109,7 @@ test('admins can create a department', function () {
 });
 
 test('non-admins cannot create a department', function () {
-    $user = userWithRole('user');
+    $user = userWithRoleForDepartments('user');
     $data = Department::factory()->make()->toArray();
     $data['slug'] = Str::slug($data['name']);
 
@@ -120,7 +120,7 @@ test('non-admins cannot create a department', function () {
 
 // Update
 test('admins can update a department', function () {
-    $admin = userWithRole('admin');
+    $admin = userWithRoleForDepartments('admin');
     $department = Department::factory()->create();
 
     $update = ['name' => 'Updated Name', 'slug' => 'updated-name'];
@@ -133,7 +133,7 @@ test('admins can update a department', function () {
 });
 
 test('non-admins cannot update a department', function () {
-    $user = userWithRole('user');
+    $user = userWithRoleForDepartments('user');
     $department = Department::factory()->create();
 
     $this->actingAs($user)
@@ -143,7 +143,7 @@ test('non-admins cannot update a department', function () {
 
 // Delete
 test('admins can delete a department', function () {
-    $admin = userWithRole('admin');
+    $admin = userWithRoleForDepartments('admin');
     $department = Department::factory()->create();
 
     $this->actingAs($admin)
@@ -154,7 +154,7 @@ test('admins can delete a department', function () {
 });
 
 test('non-admins cannot delete a department', function () {
-    $user = userWithRole('user');
+    $user = userWithRoleForDepartments('user');
     $department = Department::factory()->create();
 
     $this->actingAs($user)
@@ -164,7 +164,7 @@ test('non-admins cannot delete a department', function () {
 
 // Restore
 test('admins can restore a deleted department', function () {
-    $admin = userWithRole('admin');
+    $admin = userWithRoleForDepartments('admin');
     $department = Department::factory()->create();
     $department->delete();
 
@@ -177,7 +177,7 @@ test('admins can restore a deleted department', function () {
 });
 
 test('non-admins cannot restore a department', function () {
-    $user = userWithRole('user');
+    $user = userWithRoleForDepartments('user');
     $department = Department::factory()->create();
     $department->delete();
 

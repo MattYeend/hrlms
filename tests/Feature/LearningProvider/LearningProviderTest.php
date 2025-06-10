@@ -12,9 +12,30 @@ use Illuminate\Support\Facades\Auth;
 
 uses(RefreshDatabase::class);
 
+function userWithRoleForLearningProviders(string $roleSlug): User {
+    $role = Role::factory()->create(['slug' => $roleSlug]);
+    $admin = User::factory()->create();
+
+    $user = User::factory()->unverified()->create([
+        'role_id' => $role->id,
+        'department_id' => null,
+        'created_by' => $admin->id,
+        'updated_by' => $admin->id,
+    ]);
+
+    $department = Department::factory()->create([
+        'dept_lead' => $user->id
+    ]);
+
+    $user->update(['department_id' => $department->id]);
+    $user->save();
+
+    return $user;
+}
+
 // Guest access
 test('guests cannot access any learning provider routes', function () {
-    $admin = userWithRole('admin');
+    $admin = userWithRoleForLearningProviders('admin');
 
     $businessType = (new BusinessTypeFactory())->create([
         'created_by' => $admin->id,
@@ -64,13 +85,13 @@ test('guests cannot access any learning provider routes', function () {
 });
 
 test('authenticated users can view learning providers index', function (){
-    $user = userWithRole('user');
+    $user = userWithRoleForLearningProviders('user');
 
     $this->actingAs($user)->get(route('learningProviders.index'))->assertOk();
 });
 
 test('authenticated user can view individual learning provider', function (){
-    $user = userWithRole('user');
+    $user = userWithRoleForLearningProviders('user');
     
     $businessType = (new BusinessTypeFactory())->create([
         'created_by' => $user->id,
@@ -87,7 +108,7 @@ test('authenticated user can view individual learning provider', function (){
 });
 
 test('admins can create learning providers', function () {
-    $admin = userWithRole('admin');
+    $admin = userWithRoleForLearningProviders('admin');
     $businessType = (new BusinessTypeFactory())->create([
         'created_by' => $admin->id,
         'updated_by' => $admin->id,
@@ -111,7 +132,7 @@ test('admins can create learning providers', function () {
 });
 
 test('admins can update any learning provider', function () {
-    $admin = userWithRole('admin');
+    $admin = userWithRoleForLearningProviders('admin');
 
     $businessType = (new BusinessTypeFactory())->create([
         'created_by' => $admin->id,
@@ -141,7 +162,7 @@ test('admins can update any learning provider', function () {
 });
 
 test('admin, or super-admin can archive learning', function () {
-    $admin = userWithRole('admin');
+    $admin = userWithRoleForLearningProviders('admin');
     $businessType = (new BusinessTypeFactory())->create([
         'created_by' => $admin->id,
         'updated_by' => $admin->id,
@@ -161,7 +182,7 @@ test('admin, or super-admin can archive learning', function () {
 });
 
 test('non-authorized users cannot archive learning providers', function () {
-    $user = userWithRole('user');
+    $user = userWithRoleForLearningProviders('user');
     $businessType = (new BusinessTypeFactory())->create([
         'created_by' => $user->id,
         'updated_by' => $user->id,
@@ -179,7 +200,7 @@ test('non-authorized users cannot archive learning providers', function () {
 });
 
 test('admins can restore a learning providers', function () {
-    $admin = userWithRole('admin');
+    $admin = userWithRoleForLearningProviders('admin');
     $businessType = (new BusinessTypeFactory())->create([
         'created_by' => $admin->id,
         'updated_by' => $admin->id,
@@ -200,7 +221,7 @@ test('admins can restore a learning providers', function () {
 });
 
 test('non-admins cannot restore a learning provider', function () {
-    $user = userWithRole('user');
+    $user = userWithRoleForLearningProviders('user');
     $businessType = (new BusinessTypeFactory())->create([
         'created_by' => $user->id,
         'updated_by' => $user->id,
