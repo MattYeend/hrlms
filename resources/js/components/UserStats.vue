@@ -5,6 +5,7 @@ import StatCard from '../components/StatCard.vue';
 const props = defineProps<{
 	userCount: number;
 	archivedUserCount: number;
+	text: string;
 	authUser: {
 		id: number
 		role: { name: string }
@@ -17,7 +18,11 @@ const props = defineProps<{
 		<Link 
             :href="route('users.index')"
         >
-			<StatCard title="Users" :count="userCount" />
+			<StatCard 
+				title="Users" 
+				:count="userCount" 
+				text="All active users"
+			/>
 		</Link>
 		<Link 
 				v-if="archivedUserCount > 0 && ['Admin', 'Super Admin'].includes(props.authUser.role.name)" 
@@ -27,6 +32,7 @@ const props = defineProps<{
 				v-if="archivedUserCount > 0 && ['Admin', 'Super Admin'].includes(props.authUser.role.name)"
 				title="Archived Users"
 				:count="archivedUserCount"
+				text="Archived users"
 			/>
 		</Link>
 	</div>

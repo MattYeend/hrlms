@@ -15,6 +15,7 @@ const breadcrumbs: BreadcrumbItem[] = [
 ];
 
 type DashboardData = {
+	text: string;
 	blogCount: number;
 	departmentCount: number;
 	learningProviderCount: number;
@@ -28,6 +29,7 @@ type DashboardData = {
 const page = usePage();
 
 const {
+	text,
 	blogCount,
 	departmentCount,
 	learningProviderCount,
@@ -52,6 +54,7 @@ const authUser = (page.props as any).authUser;
 						:departmentCount="departmentCount"
 						:archivedDepartmentCount="archivedDepartmentCount"
 						:authUser="authUser"
+						:text="text"
 					/>
 				</div>
 				<div class="relative aspect-video overflow-hidden rounded-xl border border-sidebar-border/70 dark:border-sidebar-border">
@@ -59,6 +62,7 @@ const authUser = (page.props as any).authUser;
 						:learningProviderCount="learningProviderCount"
 						:archivedLearningProviderCount="archivedLearningProviderCount"
 						:authUser="authUser"
+						:text="text"
 					/>
 				</div>
 				<div class="relative aspect-video overflow-hidden rounded-xl border border-sidebar-border/70 dark:border-sidebar-border">
@@ -66,6 +70,7 @@ const authUser = (page.props as any).authUser;
 						:userCount="userCount"
 						:archivedUserCount="archivedUserCount"
 						:authUser="authUser"
+						:text="text"
 					/>
 				</div>
 			</div>
@@ -74,6 +79,7 @@ const authUser = (page.props as any).authUser;
 					:blogCount="blogCount"
 					:archivedBlogCount="archivedBlogCount"
 					:authUser="authUser"
+					:text="text"
 				/>
 			</div>
 		</div>

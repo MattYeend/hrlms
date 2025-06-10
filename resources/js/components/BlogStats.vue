@@ -5,6 +5,7 @@ import StatCard from '../components/StatCard.vue';
 const props = defineProps<{
 	blogCount: number;
 	archivedBlogCount: number;
+    text: string;
 	authUser: {
 		id: number
 		role: { name: string }
@@ -17,7 +18,11 @@ const props = defineProps<{
 		<Link 
             :href="route('blogs.index')"
         >
-			<StatCard title="Blogs" :count="blogCount" />
+			<StatCard 
+                title="Total Blogs" 
+                :count="blogCount" 
+                text="Pending and Approved blogs "
+            />
 		</Link>
 		<Link 
 				v-if="archivedBlogCount > 0 && ['Admin', 'Super Admin'].includes(props.authUser.role.name)" 
@@ -27,6 +32,7 @@ const props = defineProps<{
 				v-if="archivedBlogCount > 0 && ['Admin', 'Super Admin'].includes(props.authUser.role.name)"
 				title="Archived Blogs"
 				:count="archivedBlogCount"
+                text="Archived blog posts"
 			/>
 		</Link>
 	</div>
