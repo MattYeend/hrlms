@@ -2,10 +2,10 @@
 import AppLayout from '@/layouts/AppLayout.vue';
 import { type BreadcrumbItem } from '@/types';
 import { Head, usePage } from '@inertiajs/vue3';
-import PlaceholderPattern from '../components/PlaceholderPattern.vue';
-import DepartmentStats from '../components/DepartmentStats.vue';
-import LearningProvider from '../components/LearningProviderStats.vue';
-import UserStats from '../components/UserStats.vue';
+import BlogStats from '@/components/BlogStats.vue';
+import DepartmentStats from '@/components/DepartmentStats.vue';
+import LearningProvider from '@/components/LearningProviderStats.vue';
+import UserStats from '@/components/UserStats.vue';
 
 const breadcrumbs: BreadcrumbItem[] = [
 	{
@@ -15,9 +15,11 @@ const breadcrumbs: BreadcrumbItem[] = [
 ];
 
 type DashboardData = {
+	blogCount: number;
 	departmentCount: number;
 	learningProviderCount: number;
 	userCount: number;
+	archivedBlogCount: number;
 	archivedDepartmentCount: number;
 	archivedLearningProviderCount: number;
 	archivedUserCount: number;
@@ -26,9 +28,11 @@ type DashboardData = {
 const page = usePage();
 
 const {
+	blogCount,
 	departmentCount,
 	learningProviderCount,
 	userCount,
+	archivedBlogCount,
 	archivedDepartmentCount,
 	archivedLearningProviderCount,
 	archivedUserCount,
@@ -66,7 +70,11 @@ const authUser = (page.props as any).authUser;
 				</div>
 			</div>
 			<div class="relative min-h-[100vh] flex-1 rounded-xl border border-sidebar-border/70 dark:border-sidebar-border md:min-h-min">
-				<PlaceholderPattern />
+				<BlogStats 
+					:blogCount="blogCount"
+					:archivedBlogCount="archivedBlogCount"
+					:authUser="authUser"
+				/>
 			</div>
 		</div>
 	</AppLayout>
