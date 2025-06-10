@@ -28,14 +28,24 @@ class BlogController extends Controller
 
         $this->logger->index(auth()->id());
 
+        $status = request('status');
+
+        $query = Blog::with('approvedBy:id,name')
+            ->where('denied', false);
+
+        // Apply filters
+        if ($status === 'pending') {
+            $query->where('approved', false);
+            $query->where('denied', false);
+        } elseif ($status === 'approved') {
+            $query->where('approved', true);
+            $query->where('denied', false);
+        }
+
         $archivedCount = Blog::onlyTrashed()->count();
 
         return Inertia::render('blogs/Index', [
-            'blogs' => Blog::with([
-                'approvedBy:id,name',
-            ])
-                ->where('denied', false)
-                ->paginate(10),
+            'blogs' => $query->paginate(10),
             'authUser' => [
                 'id' => auth()->user()->id,
                 'role' => [

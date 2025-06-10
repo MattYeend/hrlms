@@ -26,7 +26,7 @@ const props = defineProps<{
         }"
     >
 		<Link 
-            :href="route('blogs.index')"
+            :href="route('blogs.index', { status: undefined })"
         >
 			<StatCard 
                 title="Total Blogs" 
@@ -36,7 +36,7 @@ const props = defineProps<{
 		</Link>
         <Link 
             v-if="props.pendingBlogCount > 0"
-            :href="route('blogs.index')"
+            :href="route('blogs.index', { status: 'pending' })"
         >
 			<StatCard 
                 v-if="props.pendingBlogCount > 0"
@@ -47,7 +47,7 @@ const props = defineProps<{
 		</Link>
         <Link 
             v-if="props.approvedBlogCount > 0"
-            :href="route('blogs.index')"
+            :href="route('blogs.index', { status: 'approved' })"
         >
             <StatCard 
                 v-if="props.approvedBlogCount > 0"
