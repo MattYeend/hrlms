@@ -11,7 +11,7 @@ class Blog extends Model
     /**
      * HasFactory Used for model factories
      * SoftDeletes Enables soft delete functionality
-     * Traits used by the user model:
+     * Traits used by the blog model:
      *
      * @use HasFactory<\Database\Factories\BlogFactory>
      *

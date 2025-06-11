@@ -10,8 +10,19 @@ use Illuminate\Support\Facades\Auth;
 
 class BlogLikeController extends Controller
 {
+    /**
+     * Declare a protected propert to hold the
+     * BlogLikeLogger instance.
+     */
     protected BlogLikeLogger $logger;
 
+    /**
+     * Constructor for the controller
+     *
+     * @param BlogLikeLogger $logger
+     * An instance of the UserLogger used for logging
+     * user-related activities
+     */
     public function __construct(BlogLikeLogger $logger)
     {
         $this->authorizeResource(BlogLike::class, 'blogLike');
