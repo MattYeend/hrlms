@@ -13,8 +13,19 @@ use Inertia\Inertia;
 
 class DepartmentController extends Controller
 {
+    /**
+     * Declare a protected propert to hold the
+     * BlogLikeLogger instance.
+     */
     protected DepartmentLogger $logger;
 
+    /**
+     * Constructor for the controller
+     *
+     * @param DepartmentLogger $logger
+     * An instance of the UserLogger used for logging
+     * user-related activities
+     */
     public function __construct(DepartmentLogger $logger)
     {
         $this->authorizeResource(Department::class, 'department');
@@ -150,7 +161,9 @@ class DepartmentController extends Controller
         return redirect()->route('departments.index')
             ->with('success', 'Department deleted successfully.');
     }
-
+    /**
+     * Restore the specified resource.
+     */
     public function restore(Department $department)
     {
         $this->authorize('restore', $department);
@@ -172,6 +185,9 @@ class DepartmentController extends Controller
         )->with('success', 'Department restored.');
     }
 
+    /**
+     * Display listed archived of the resource.
+     */
     public function archived()
     {
         $this->authorize('viewArchived', Department::class);
