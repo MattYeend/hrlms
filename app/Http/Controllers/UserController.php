@@ -14,8 +14,19 @@ use Inertia\Inertia;
 
 class UserController extends Controller
 {
+    /**
+     * Declare a protected propert to hold the 
+     * UserLogger instance.
+     */
     protected UserLogger $logger;
 
+    /**
+     * Constructor for the controller
+     *
+     * @param UserLogger $logger
+     * An instance of the UserLogger used for logging 
+     * user-related activities
+     */
     public function __construct(UserLogger $logger)
     {
         $this->authorizeResource(User::class, 'user');
@@ -156,6 +167,9 @@ class UserController extends Controller
             ->with('success', 'User deleted successfully.');
     }
 
+    /**
+     * Restore the specified resource.
+     */
     public function restore(User $user)
     {
         $this->authorize('restore', $user);
@@ -177,6 +191,9 @@ class UserController extends Controller
         )->with('success', 'User restored.');
     }
 
+    /**
+     * Display listed archived of the resource.
+     */
     public function archived()
     {
         $this->authorize('viewArchived', User::class);
