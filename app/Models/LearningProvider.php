@@ -9,8 +9,13 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class LearningProvider extends Model
 {
     /**
-     * @use HasFactory<\Database\Factories\LearningProviderFactory>
-     * @use SoftDeletes
+     * HasFactory Used for model factories
+     * SoftDeletes Enables soft delete functionality
+     * Traits used by the blog likes model:
+     *
+     * @use HasFactory<\Database\Factories\BlogLikeFactory>
+     *
+     * @see \Illuminate\Database\Eloquent\SoftDeletes
      */
     use HasFactory, SoftDeletes;
 
@@ -45,6 +50,11 @@ class LearningProvider extends Model
         'restored_at',
     ];
 
+    /**
+     * Get the attributes that should be cast.
+     *
+     * @return array<string, string>
+     */
     protected $casts = [
         'created_at' => 'datetime',
         'updated_at' => 'datetime',
@@ -64,21 +74,41 @@ class LearningProvider extends Model
         return 'slug';
     }
 
+    /**
+     * Get the user who deleted the like.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
     public function businessType()
     {
         return $this->belongsTo(BusinessType::class);
     }
 
+    /**
+     * Get the user who deleted the like.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
     public function createdBy()
     {
         return $this->belongsTo(User::class, 'created_by');
     }
 
+    /**
+     * Get the user who deleted the like.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
     public function updatedBy()
     {
         return $this->belongsTo(User::class, 'updated_by');
     }
 
+    /**
+     * Get the user who deleted the like.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
     public function deletedBy()
     {
         return $this->belongsTo(User::class, 'deleted_by');

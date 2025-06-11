@@ -15,7 +15,7 @@ class DepartmentController extends Controller
 {
     /**
      * Declare a protected propert to hold the
-     * BlogLikeLogger instance.
+     * DepartmentLogger instance.
      */
     protected DepartmentLogger $logger;
 
@@ -161,6 +161,7 @@ class DepartmentController extends Controller
         return redirect()->route('departments.index')
             ->with('success', 'Department deleted successfully.');
     }
+
     /**
      * Restore the specified resource.
      */

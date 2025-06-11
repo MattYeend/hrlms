@@ -14,8 +14,19 @@ use Inertia\Inertia;
 
 class LearningProviderController extends Controller
 {
+    /**
+     * Declare a protected propert to hold the
+     * LearningProviderLogger instance.
+     */
     protected LearningProviderLogger $logger;
 
+        /**
+     * Constructor for the controller
+     *
+     * @param LearningProviderLogger $logger
+     * An instance of the LearningProviderLogger used for logging
+     * user-related activities
+     */
     public function __construct(LearningProviderLogger $logger)
     {
         $this->authorizeResource(LearningProvider::class, 'learningProvider');
@@ -153,6 +164,9 @@ class LearningProviderController extends Controller
             ->with('success', 'Learning Provider deleted successfully.');
     }
 
+    /**
+     * Restore the specified resource.
+     */
     public function restore(LearningProvider $learningProvider)
     {
         $this->authorize('restore', $learningProvider);
@@ -174,6 +188,9 @@ class LearningProviderController extends Controller
         )->with('success', 'Learning Provider restored.');
     }
 
+    /**
+     * Display listed archived of the resource.
+     */
     public function archived()
     {
         $this->authorize('viewArchived', LearningProvider::class);

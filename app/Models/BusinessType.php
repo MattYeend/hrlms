@@ -7,6 +7,12 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class BusinessType extends Model
 {
+    /**
+     * SoftDeletes Enables soft delete functionality
+     * Traits used by the business types model:
+     *
+     * @see \Illuminate\Database\Eloquent\SoftDeletes
+     */
     use SoftDeletes;
 
     /**
@@ -29,6 +35,11 @@ class BusinessType extends Model
         'restored_at',
     ];
 
+    /**
+     * Get the attributes that should be cast.
+     *
+     * @return array<string, string>
+     */
     protected $casts = [
         'created_at' => 'datetime',
         'updated_at' => 'datetime',
@@ -48,6 +59,11 @@ class BusinessType extends Model
         return 'slug';
     }
 
+    /**
+     * Get all comments associated with the blog.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
     public function learningProviders()
     {
         return $this->hasMany(LearningProvider::class);
