@@ -11,8 +11,19 @@ use Illuminate\Support\Facades\Auth;
 
 class BlogCommentController extends Controller
 {
+    /**
+     * Declare a protected propert to hold the
+     * BlogCommentLogger instance.
+     */
     protected BlogCommentLogger $logger;
 
+    /**
+     * Constructor for the controller
+     *
+     * @param BlogCommentLogger $logger
+     * An instance of the UserLogger used for logging
+     * user-related activities
+     */
     public function __construct(BlogCommentLogger $logger)
     {
         $this->authorizeResource(BlogComment::class, 'blogComment');
