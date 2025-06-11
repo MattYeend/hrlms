@@ -8,10 +8,18 @@ use Inertia\Inertia;
 
 class RoleController extends Controller
 {
+    /**
+     * Declare a protected propert to hold the
+     * RoleLogger instance.
+     */
     protected RoleLogger $logger;
 
     /**
-     * Create a new controller instance.
+     * Constructor for the controller
+     *
+     * @param RoleLogger $logger
+     * An instance of the RoleLogger used for logging
+     * user-related activities
      */
     public function __construct(RoleLogger $logger)
     {

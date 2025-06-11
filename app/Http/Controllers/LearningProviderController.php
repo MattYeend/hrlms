@@ -20,7 +20,7 @@ class LearningProviderController extends Controller
      */
     protected LearningProviderLogger $logger;
 
-        /**
+    /**
      * Constructor for the controller
      *
      * @param LearningProviderLogger $logger

@@ -9,11 +9,20 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Role extends Model
 {
     /**
+     * HasFactory Used for model factories
+     * SoftDeletes Enables soft delete functionality
+     * Traits used by the role model:
+     *
      * @use HasFactory<\Database\Factories\RoleFactory>
-     * @use SoftDeletes
+     *
+     * @see \Illuminate\Database\Eloquent\SoftDeletes
      */
     use HasFactory, SoftDeletes;
 
+    /**
+     * Contstants for role IDs against role names
+     * Can be used as Role::SUPER_ADMIN, or Role::ADMIN
+     */
     public const SUPER_ADMIN = 1;
     public const ADMIN = 2;
     public const USER = 3;
@@ -38,6 +47,13 @@ class Role extends Model
         'restored_at',
     ];
 
+    /**
+     * Get the unique identifier for the blog.
+     * This method is used by route model binding to
+     * retrieve the blog by their slug.
+     *
+     * @return string
+     */
     public function getRouteKeyName()
     {
         return 'slug';
