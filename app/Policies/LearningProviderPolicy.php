@@ -24,7 +24,8 @@ class LearningProviderPolicy
      * Determine whether the user can view a specific learning provider.
      *
      * @param User $user The currently authenticated user.
-     * @param LearningProvider $learningProvider The learning provider being viewed.
+     * @param LearningProvider $learningProvider The learning provider
+     * being viewed.
      *
      * @return bool
      */
@@ -50,7 +51,8 @@ class LearningProviderPolicy
      * Determine whether the user can update a learning provider.
      *
      * @param User $user The currently authenticated user.
-     * @param LearningProvider $learningProvider The learning provider being updated.
+     * @param LearningProvider $learningProvider The learning provider
+     * being updated.
      *
      * @return bool
      */
@@ -64,7 +66,8 @@ class LearningProviderPolicy
      * Determine whether the user can delete a learning provider.
      *
      * @param User $user The currently authenticated user.
-     * @param LearningProvider $learningProvider The learning provider being deleted.
+     * @param LearningProvider $learningProvider The learning provider
+     * being deleted.
      *
      * @return bool
      */
@@ -78,12 +81,15 @@ class LearningProviderPolicy
      * Determine whether the user can restore a deleted learning provider.
      *
      * @param User $user The currently authenticated user.
-     * @param LearningProvider $learningProvider The learning provider being restored.
+     * @param LearningProvider $learningProvider The learning provider
+     * being restored.
      *
      * @return bool
      */
-    public function restore(User $user, LearningProvider $learningProvider): bool
-    {
+    public function restore(
+        User $user,
+        LearningProvider $learningProvider
+    ): bool {
         unset($learningProvider);
         return in_array($user->role->slug, ['admin', 'super-admin']);
     }
@@ -92,12 +98,15 @@ class LearningProviderPolicy
      * Determine whether the user can permanently delete a learning provider.
      *
      * @param User $user The currently authenticated user.
-     * @param LearningProvider $learningProvider The learning provider being permanently deleted.
+     * @param LearningProvider $learningProvider The learning provider
+     * being permanently deleted.
      *
      * @return bool
      */
-    public function forceDelete(User $user, LearningProvider $learningProvider): bool
-    {
+    public function forceDelete(
+        User $user,
+        LearningProvider $learningProvider
+    ): bool {
         unset($user, $learningProvider);
         return false;
     }
