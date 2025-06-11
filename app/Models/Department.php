@@ -8,7 +8,15 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Department extends Model
 {
-    /** @use HasFactory<\Database\Factories\DepartmentFactory> */
+/**
+     * HasFactory Used for model factories
+     * SoftDeletes Enables soft delete functionality
+     * Traits used by the departments model:
+     *
+     * @use HasFactory<\Database\Factories\DepartmentFactory>
+     *
+     * @see \Illuminate\Database\Eloquent\SoftDeletes
+     */
     use HasFactory, SoftDeletes;
 
     /**
