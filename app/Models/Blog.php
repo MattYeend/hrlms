@@ -14,6 +14,7 @@ class Blog extends Model
      * Traits used by the user model:
      *
      * @use HasFactory<\Database\Factories\BlogFactory>
+     *
      * @see \Illuminate\Database\Eloquent\SoftDeletes
      */
     use HasFactory, SoftDeletes;

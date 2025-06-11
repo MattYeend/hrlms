@@ -39,18 +39,7 @@ class BlogController extends Controller
 
         $this->logger->index(auth()->id());
 
-        $status = request('status');
-
-        $query = Blog::with('approvedBy:id,name')
-            ->where('denied', false);
-
-        if ($status === 'pending') {
-            $query->where('approved', false);
-            $query->where('denied', false);
-        } elseif ($status === 'approved') {
-            $query->where('approved', true);
-            $query->where('denied', false);
-        }
+        $query = $this->buildBlogQuery(request('status'));
 
         $archivedCount = Blog::onlyTrashed()->count();
 
@@ -296,5 +285,33 @@ class BlogController extends Controller
 
         return redirect()->route('blogs.index')
             ->with('success', 'Blog denied.');
+    }
+
+    /**
+     * Build the base query for retrieving blog posts based on approval status.
+     *
+     * This method filters out denied blogs and applies additional filters
+     * based on the provided status:
+     * - 'pending': blogs that are not approved
+     * - 'approved': blogs that are approved
+     *
+     * @param string|null $status The status filter to apply
+     * ('pending', 'approved', or null).
+     *
+     * @return \Illuminate\Database\Eloquent\Builder The constructed query
+     * builder instance.
+     */
+    private function buildBlogQuery(?string $status)
+    {
+        $query = Blog::with('approvedBy:id,name')
+            ->where('denied', false);
+
+        if ($status === 'pending') {
+            $query->where('approved', false);
+        } elseif ($status === 'approved') {
+            $query->where('approved', true);
+        }
+
+        return $query;
     }
 }

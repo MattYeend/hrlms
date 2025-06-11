@@ -97,9 +97,11 @@ class BlogPolicy
     }
 
     /**
-     * Determine whether the user can manage the model (delete, restore, force delete).
-     * 
-     * A user can manage the model if they are privileged (admin or high-level staff)
+     * Determine whether the user can manage the model
+     * (delete, restore, force delete).
+     *
+     * A user can manage the model if they are privileged
+     * (admin or high-level staff)
      * or if they are the original creator of the model.
      *
      * @param User $user The currently authenticated user.
@@ -117,7 +119,8 @@ class BlogPolicy
     }
 
     /**
-     * Check if the user has a privileged role (e.g., admin or high-level staff).
+     * Check if the user has a privileged role (e.g., admin or
+     * high-level staff).
      *
      * @param User $user The user whose role is being evaluated.
      *
