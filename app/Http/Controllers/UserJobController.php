@@ -13,8 +13,19 @@ use Inertia\Inertia;
 
 class UserJobController extends Controller
 {
+    /**
+     * Declare a protected propert to hold the
+     * UserJobLogger instance.
+     */
     protected UserJobLogger $logger;
 
+    /**
+     * Constructor for the controller
+     *
+     * @param UserJobLogger $logger
+     * An instance of the UserJobLogger used for logging
+     * user-related activities
+     */
     public function __construct(UserJobLogger $logger)
     {
         $this->authorizeResource(UserJob::class, 'job');
@@ -143,6 +154,9 @@ class UserJobController extends Controller
             ->with('success', 'Job deleted successfully.');
     }
 
+    /**
+     * Restore the specified resource.
+     */
     public function restore(UserJob $job)
     {
         $this->authorize('restore', $job);
@@ -164,6 +178,9 @@ class UserJobController extends Controller
         )->with('success', 'Job restored.');
     }
 
+    /**
+     * Display listed archived of the resource.
+     */
     public function archived()
     {
         $this->authorize('viewArchived', UserJob::class);

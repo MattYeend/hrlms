@@ -8,7 +8,15 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class UserJob extends Model
 {
-    /** @use HasFactory<\Database\Factories\UserJobsFactory> */
+    /**
+     * HasFactory Used for model factories
+     * SoftDeletes Enables soft delete functionality
+     * Traits used by the user job model:
+     *
+     * @use HasFactory<\Database\Factories\UserJobsFactory>
+     *
+     * @see \Illuminate\Database\Eloquent\SoftDeletes
+     */
     use HasFactory, SoftDeletes;
 
     // Constants for C Suite short codes
