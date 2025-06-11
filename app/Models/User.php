@@ -11,13 +11,19 @@ use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable
 {
-    /** 
+    /**
+     * HasApiTokens Enables API token authentication
+     * HasFactory Used for model factories
+     * Notifiable Allows sending notification
+     * SoftDeletes Enables soft delete functionality
      * Traits used by the user model:
      *
-     * @see \Laravel\Sanctum\HasApiTokens                Enables API token authentication.
-     * @use HasFactory<\Database\Factories\UserFactory>  Used for model factories.
-     * @see \Illuminate\Notifications\Notifiable         Allows sending notifications.
-     * @see \Illuminate\Database\Eloquent\SoftDeletes    Enables soft delete functionality.
+     * @see \Laravel\Sanctum\HasApiTokens
+     *
+     * @use HasFactory<\Database\Factories\UserFactory>
+     *
+     * @see \Illuminate\Notifications\Notifiable
+     * @see \Illuminate\Database\Eloquent\SoftDeletes
      */
     use HasApiTokens, HasFactory, Notifiable, SoftDeletes;
 

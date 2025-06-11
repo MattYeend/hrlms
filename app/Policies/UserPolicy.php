@@ -10,11 +10,12 @@ class UserPolicy
      * Determine whether the user can view any user models.
      *
      * @param User $user The currently authenticated user.
+     *
      * @return bool
      */
     public function viewAny(User $user): bool
     {
-        unset($user); // No specific check; allow all authenticated users
+        unset($user);
         return true;
     }
 
@@ -23,11 +24,12 @@ class UserPolicy
      *
      * @param User $user The currently authenticated user.
      * @param User $target The user being viewed.
+     *
      * @return bool
      */
     public function view(User $user, User $target): bool
     {
-        unset($user, $target); // No specific check; allow all authenticated users
+        unset($user, $target);
         return true;
     }
 
@@ -35,6 +37,7 @@ class UserPolicy
      * Determine whether the user can create new users.
      *
      * @param User $user The currently authenticated user.
+     *
      * @return bool
      */
     public function create(User $user): bool
@@ -44,9 +47,10 @@ class UserPolicy
 
     /**
      * Determine whether the user can update a specific user.
-     * 
+     *
      * @param User $user The currently authenticated user.
      * @param User $target The user being updated.
+     *
      * @return bool
      */
     public function update(User $user, User $target): bool
@@ -61,6 +65,7 @@ class UserPolicy
      *
      * @param User $user The currently authenticated user.
      * @param User $target The user being deleted.
+     *
      * @return bool
      */
     public function delete(User $user, User $target): bool
@@ -74,6 +79,7 @@ class UserPolicy
      *
      * @param User $user The currently authenticated user.
      * @param User $target The user being restored.
+     *
      * @return bool
      */
     public function restore(User $user, User $target): bool
@@ -87,6 +93,7 @@ class UserPolicy
      *
      * @param User $user The currently authenticated user.
      * @param User $target The user being permanently deleted.
+     *
      * @return bool
      */
     public function forceDelete(User $user, User $target): bool
@@ -99,6 +106,7 @@ class UserPolicy
      * Determine whether the user can view archived users.
      *
      * @param User $user The currently authenticated user.
+     *
      * @return bool
      */
     public function viewArchived(User $user): bool
@@ -107,9 +115,11 @@ class UserPolicy
     }
 
     /**
-     * Helper method to check if the user has a privileged role (admin or high-level staff).
+     * Helper method to check if the user has a privileged role
+     * (admin or high-level staff).
      *
      * @param User $user The user being checked.
+     *
      * @return bool
      */
     private function hasPrivilegedRole(User $user): bool
@@ -123,6 +133,7 @@ class UserPolicy
      *
      * @param User $user The currently authenticated user.
      * @param User $target The target user to compare against.
+     *
      * @return bool
      */
     private function isSelf(User $user, User $target): bool

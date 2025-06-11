@@ -16,14 +16,14 @@ class UpdateUserRequest extends FormRequest
     }
 
     /**
-    * Get the validation rules that apply to the request.
-    *
-    * Combines rules from basic user info, address, and employment sections.
-    * Uses the route-bound user ID (if available) to exclude the current user's
-    * email and slug from uniqueness validation.
-    *
-    * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
-    */
+     * Get the validation rules that apply to the request.
+     *
+     * Combines rules from basic user info, address, and employment sections.
+     * Uses the route-bound user ID (if available) to exclude the current user's
+     * email and slug from uniqueness validation.
+     *
+     * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
+     */
     public function rules(): array
     {
         $userId = $this->route('user')?->id ?? $this->user()->id;
@@ -38,8 +38,11 @@ class UpdateUserRequest extends FormRequest
     /**
      * Validation rules for basic user information.
      *
-     * @param int|string|null $userId The current user's ID, used to ignore them in unique checks.
-     * @return array<string, mixed> The rules for title, name, email, password, and slug.
+     * @param int|string|null $userId The current user's ID, used to ignore
+     * them in unique checks.
+     *
+     * @return array<string, mixed> The rules for title, name, email,
+     * password, and slug.
      */
     private function basicInfoRules(int|string|null $userId): array
     {
@@ -61,7 +64,8 @@ class UpdateUserRequest extends FormRequest
     /**
      * Validation rules for user address fields.
      *
-     * @return array<string, mixed> The rules for address-related fields like post code, city, and country.
+     * @return array<string, mixed> The rules for address-related fields
+     * like post code, city, and country.
      */
     private function addressRules(): array
     {
@@ -79,7 +83,8 @@ class UpdateUserRequest extends FormRequest
     /**
      * Validation rules for employment-related fields.
      *
-     * @return array<string, mixed> The rules for employment type and related foreign keys.
+     * @return array<string, mixed> The rules for employment type
+     * and related foreign keys.
      */
     private function employmentRules(): array
     {

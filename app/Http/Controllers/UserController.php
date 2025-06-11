@@ -15,7 +15,7 @@ use Inertia\Inertia;
 class UserController extends Controller
 {
     /**
-     * Declare a protected propert to hold the 
+     * Declare a protected propert to hold the
      * UserLogger instance.
      */
     protected UserLogger $logger;
@@ -24,7 +24,7 @@ class UserController extends Controller
      * Constructor for the controller
      *
      * @param UserLogger $logger
-     * An instance of the UserLogger used for logging 
+     * An instance of the UserLogger used for logging
      * user-related activities
      */
     public function __construct(UserLogger $logger)
