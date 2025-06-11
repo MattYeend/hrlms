@@ -11,8 +11,19 @@ use Inertia\Inertia;
 
 class BlogController extends Controller
 {
+    /**
+     * Declare a protected propert to hold the
+     * BlogLogger instance.
+     */
     protected BlogLogger $logger;
 
+    /**
+     * Constructor for the controller
+     *
+     * @param BlogLogger $logger
+     * An instance of the UserLogger used for logging
+     * user-related activities
+     */
     public function __construct(BlogLogger $logger)
     {
         $this->authorizeResource(Blog::class, 'blog');
@@ -174,6 +185,9 @@ class BlogController extends Controller
             ->with('success', 'Blog deleted successfully.');
     }
 
+    /**
+     * Restore the specified resource.
+     */
     public function restore(Blog $blog)
     {
         $this->authorize('restore', $blog);
@@ -195,6 +209,9 @@ class BlogController extends Controller
         )->with('success', 'Blog restored.');
     }
 
+    /**
+     * Display listed archived of the resource.
+     */
     public function archived()
     {
         $this->authorize('viewArchived', Blog::class);
@@ -214,6 +231,9 @@ class BlogController extends Controller
         ]);
     }
 
+    /**
+     * Display listed denied of the resource.
+     */
     public function denied()
     {
         $this->authorize('viewDenied', Blog::class);
@@ -236,6 +256,9 @@ class BlogController extends Controller
         ]);
     }
 
+    /**
+     * Approve specified resource.
+     */
     public function approve(Blog $blog)
     {
         $this->authorize('approve', $blog);
@@ -254,6 +277,9 @@ class BlogController extends Controller
             ->with('success', 'Blog approved successfully.');
     }
 
+    /**
+     * Deny specified resource.
+     */
     public function deny(Blog $blog)
     {
         $this->authorize('approve', $blog);
