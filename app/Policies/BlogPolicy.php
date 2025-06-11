@@ -96,6 +96,17 @@ class BlogPolicy
         return $this->isPrivileged($user);
     }
 
+    /**
+     * Determine whether the user can manage the model (delete, restore, force delete).
+     * 
+     * A user can manage the model if they are privileged (admin or high-level staff)
+     * or if they are the original creator of the model.
+     *
+     * @param User $user The currently authenticated user.
+     * @param Blog $blog The blog model instance being acted upon.
+     *
+     * @return bool True if the user is allowed to manage the blog.
+     */
     private function canManage(User $user, Blog $blog): bool
     {
         if ($this->isPrivileged($user)) {
@@ -105,6 +116,13 @@ class BlogPolicy
         return $user->id === $blog->created_by;
     }
 
+    /**
+     * Check if the user has a privileged role (e.g., admin or high-level staff).
+     *
+     * @param User $user The user whose role is being evaluated.
+     *
+     * @return bool True if the user is considered privileged.
+     */
     private function isPrivileged(User $user): bool
     {
         return $user->isAtleastAdmin() ||
