@@ -21,7 +21,7 @@ class BlogCommentController extends Controller
      * Constructor for the controller
      *
      * @param BlogCommentLogger $logger
-     * An instance of the UserLogger used for logging
+     * An instance of the BlogCommentLogger used for logging
      * user-related activities
      */
     public function __construct(BlogCommentLogger $logger)

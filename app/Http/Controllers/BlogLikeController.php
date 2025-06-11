@@ -20,7 +20,7 @@ class BlogLikeController extends Controller
      * Constructor for the controller
      *
      * @param BlogLikeLogger $logger
-     * An instance of the UserLogger used for logging
+     * An instance of the BlogLikeLogger used for logging
      * user-related activities
      */
     public function __construct(BlogLikeLogger $logger)

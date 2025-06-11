@@ -23,7 +23,7 @@ class DepartmentController extends Controller
      * Constructor for the controller
      *
      * @param DepartmentLogger $logger
-     * An instance of the UserLogger used for logging
+     * An instance of the DepartmentLogger used for logging
      * user-related activities
      */
     public function __construct(DepartmentLogger $logger)
