@@ -28,7 +28,9 @@ class RoleController extends Controller
     }
 
     /**
-     * Display a listing of the resource.
+     * Display a list of all roles.
+     *
+     * @return \Inertia\Response
      */
     public function index()
     {
@@ -52,7 +54,11 @@ class RoleController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * Display a single role's details.
+     *
+     * @param Role $role
+     *
+     * @return \Inertia\Response
      */
     public function show(Role $role)
     {
