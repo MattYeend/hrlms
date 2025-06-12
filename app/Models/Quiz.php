@@ -76,6 +76,16 @@ class Quiz extends Model
     }
 
     /**
+     * Get the users that have completed the quiz
+     *
+     *  @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function completedBy()
+    {
+        return $this->hasMany(User::class);
+    }
+
+    /**
      * Get the user who created the quiz.
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
