@@ -122,6 +122,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
         '/blog-likes/{blogLike}',
         [BlogLikeController::class, 'destroy']
     )->name('blog-likes.destroy');
+    Route::post(
+        '/blogs/{blog}/like-toggle',
+        [BlogLikeController::class, 'toggle']
+    )->name('blog-likes.toggle');
 
     Route::get(
         '/blogs/archived',

@@ -31,7 +31,19 @@ const breadcrumbs: BreadcrumbItem[] = [
 ]
 
 const commentText = ref('')
-// const isLiking = ref(false)
+const isLiking = ref(false)
+
+function toggleLike() {
+	isLiking.value = true
+	router.post(route('blog-likes.toggle', { blog: props.blog.slug }), {}, {
+		onFinish: () => {
+			isLiking.value = false
+		},
+		onSuccess: () => {
+			router.reload({ only: ['blog'] }) // reload blog data
+		}
+	})
+}
 
 function submitComment() {
 	if (!commentText.value.trim()) return
@@ -57,11 +69,11 @@ function submitComment() {
 				<p><strong>Approved By:</strong> {{ blog.approved_by?.name ?? 'Not yet approved' }}</p>
 				<p><strong>Created By:</strong> {{ blog.created_by.name }}</p>
 			</div>
-            <!-- <div class="flex items-center space-x-4 mt-4">
+            <div class="flex items-center space-x-4 mt-4">
 				<button @click="toggleLike" :disabled="isLiking" class="btn btn-sm btn-outline">
 					👍 Like ({{ blog.likes_count }})
 				</button>
-			</div> -->
+			</div>
             <div class="bg-white dark:bg-gray-800 rounded-xl shadow p-6">
 				<h2 class="text-xl font-semibold mb-4">Comments ({{ blog.comments.length }})</h2>
 
