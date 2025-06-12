@@ -59,7 +59,7 @@ class BlogComment extends Model
     }
 
     /**
-     * Get the user who created the like.
+     * Get the user who created the comment.
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
@@ -69,7 +69,7 @@ class BlogComment extends Model
     }
 
     /**
-     * Get the user who created the like.
+     * Get the user who created the comment.
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
@@ -79,7 +79,7 @@ class BlogComment extends Model
     }
 
     /**
-     * Get the user who updated the like.
+     * Get the user who updated the comment.
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
@@ -89,7 +89,7 @@ class BlogComment extends Model
     }
 
     /**
-     * Get the user who deleted the like.
+     * Get the user who deleted the comment.
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */

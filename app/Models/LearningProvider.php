@@ -75,7 +75,7 @@ class LearningProvider extends Model
     }
 
     /**
-     * Get the user who deleted the like.
+     * Get the business type the provider is related to.
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
@@ -85,7 +85,7 @@ class LearningProvider extends Model
     }
 
     /**
-     * Get the user who deleted the like.
+     * Get the user who created the learning provider.
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
@@ -95,7 +95,7 @@ class LearningProvider extends Model
     }
 
     /**
-     * Get the user who deleted the like.
+     * Get the user who updated the learning provider.
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
@@ -105,7 +105,7 @@ class LearningProvider extends Model
     }
 
     /**
-     * Get the user who deleted the like.
+     * Get the user who deleted the learning provider.
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
