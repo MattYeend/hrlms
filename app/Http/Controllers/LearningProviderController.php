@@ -34,7 +34,9 @@ class LearningProviderController extends Controller
     }
 
     /**
-     * Display a listing of the resource.
+     * Display a paginated list of active learning providers.
+     *
+     * @return \Inertia\Response
      */
     public function index()
     {
@@ -57,7 +59,9 @@ class LearningProviderController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
+     * Show the form to create a new learning provider.
+     *
+     * @return \Inertia\Response
      */
     public function create()
     {
@@ -73,7 +77,11 @@ class LearningProviderController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Store a new learning provider in the database.
+     *
+     * @param StoreLearningProviderRequest $request
+     *
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function store(StoreLearningProviderRequest $request)
     {
@@ -92,7 +100,12 @@ class LearningProviderController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * Display the specified learning provider.
+     *
+     * @param LearningProvider $learningProvider
+     * @param Request $request
+     *
+     * @return \Inertia\Response
      */
     public function show(LearningProvider $learningProvider, Request $request)
     {
@@ -107,7 +120,11 @@ class LearningProviderController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
+     * Show the form for editing a learning provider.
+     *
+     * @param LearningProvider $learningProvider
+     *
+     * @return \Inertia\Response
      */
     public function edit(LearningProvider $learningProvider)
     {
@@ -120,7 +137,12 @@ class LearningProviderController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * Update the specified learning provider.
+     *
+     * @param UpdateLearningProviderRequest $request
+     * @param LearningProvider $learningProvider
+     *
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function update(
         UpdateLearningProviderRequest $request,
@@ -145,7 +167,11 @@ class LearningProviderController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Soft-delete (archive) the learning provider.
+     *
+     * @param LearningProvider $learningProvider
+     *
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function destroy(LearningProvider $learningProvider)
     {
@@ -165,7 +191,11 @@ class LearningProviderController extends Controller
     }
 
     /**
-     * Restore the specified resource.
+     * Restore a previously deleted learning provider.
+     *
+     * @param LearningProvider $learningProvider
+     *
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function restore(LearningProvider $learningProvider)
     {
@@ -189,7 +219,9 @@ class LearningProviderController extends Controller
     }
 
     /**
-     * Display listed archived of the resource.
+     * Display a list of archived learning providers.
+     *
+     * @return \Inertia\Response
      */
     public function archived()
     {
