@@ -222,7 +222,7 @@ class UserController extends Controller
     }
 
     /**
-     * Display a list of archived (soft-deleted) users.
+     * Display a list of archived users.
      *
      * @return \Inertia\Response
      */
