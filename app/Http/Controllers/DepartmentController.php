@@ -33,7 +33,9 @@ class DepartmentController extends Controller
     }
 
     /**
-     * Display a listing of the resource.
+     * Display a paginated list of active departments.
+     *
+     * @return \Inertia\Response
      */
     public function index()
     {
@@ -55,7 +57,9 @@ class DepartmentController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
+     * Show form to create a new department.
+     *
+     * @return \Inertia\Response
      */
     public function create()
     {
@@ -67,7 +71,11 @@ class DepartmentController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Store a new department in the database.
+     *
+     * @param StoreDepartmentRequest $request
+     *
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function store(StoreDepartmentRequest $request)
     {
@@ -86,7 +94,12 @@ class DepartmentController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * Display a specific department's details.
+     *
+     * @param Department $department
+     * @param Request $request
+     *
+     * @return \Inertia\Response
      */
     public function show(Department $department, Request $request)
     {
@@ -101,7 +114,11 @@ class DepartmentController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
+     * Show form to edit a department.
+     *
+     * @param Department $department
+     *
+     * @return \Inertia\Response
      */
     public function edit(Department $department)
     {
@@ -123,7 +140,12 @@ class DepartmentController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * Update an existing department.
+     *
+     * @param UpdateDepartmentRequest $request
+     * @param Department $department
+     *
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function update(
         UpdateDepartmentRequest $request,
@@ -143,7 +165,11 @@ class DepartmentController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Soft-delete the specified department.
+     *
+     * @param Department $department
+     *
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function destroy(Department $department)
     {
@@ -163,7 +189,11 @@ class DepartmentController extends Controller
     }
 
     /**
-     * Restore the specified resource.
+     * Soft-delete (archive) a department.
+     *
+     * @param Department $department
+     *
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function restore(Department $department)
     {
@@ -187,7 +217,9 @@ class DepartmentController extends Controller
     }
 
     /**
-     * Display listed archived of the resource.
+     * Display a list of archived departments.
+     *
+     * @return \Inertia\Response
      */
     public function archived()
     {
