@@ -46,9 +46,6 @@ class BlogLikeController extends Controller
 
         $blogLike = $this->createBlogLike($user, $blog);
         $this->logger->like($blogLike, $user->id);
-
-        return redirect()->route('blogs.show', $blog)
-            ->with('success', 'Blog liked successfully.');
     }
 
     /**
@@ -65,10 +62,6 @@ class BlogLikeController extends Controller
         $this->authorizeUnlike($user, $blogLike->blog);
 
         $this->deleteBlogLike($blogLike, $user);
-
-        // Redirect back with success message
-        return redirect()->route('blogs.index')
-            ->with('success', 'Blog unliked successfully.');
     }
 
     /**
@@ -91,8 +84,6 @@ class BlogLikeController extends Controller
         } else {
             $this->likeBlog($user, $blog);
         }
-
-        return back()->with('success', 'Blog like status updated.');
     }
 
     /**

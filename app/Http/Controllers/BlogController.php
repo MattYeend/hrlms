@@ -95,7 +95,9 @@ class BlogController extends Controller
     {
         $this->authorize('view', $blog);
 
-        $this->logger->show($blog, auth()->id());
+        if (! request()->header('X-Inertia-Partial-Component')) {
+            $this->logger->show($blog, auth()->id());
+        }
 
         $blog->load(['comments.user', 'createdBy', 'approvedBy']);
         $blog->loadCount('likes');
