@@ -31,8 +31,11 @@ class UserJobController extends Controller
         $this->authorizeResource(UserJob::class, 'job');
         $this->logger = $logger;
     }
+
     /**
-     * Display a listing of the resource.
+     * Display a list of all user jobs.
+     *
+     * @return \Inertia\Response
      */
     public function index()
     {
@@ -56,7 +59,9 @@ class UserJobController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
+     * Show the form for creating a new user job.
+     *
+     * @return \Inertia\Response
      */
     public function create()
     {
@@ -68,7 +73,11 @@ class UserJobController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Store a newly created job in storage.
+     *
+     * @param StoreUserJobRequest $request
+     *
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function store(StoreUserJobRequest $request)
     {
@@ -86,7 +95,12 @@ class UserJobController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * Display the specified user job.
+     *
+     * @param UserJob $userJob
+     * @param Request $request
+     *
+     * @return \Inertia\Response
      */
     public function show(UserJob $userJob, Request $request)
     {
@@ -104,7 +118,11 @@ class UserJobController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
+     * Show the form for editing the specified user job.
+     *
+     * @param UserJob $userJob
+     *
+     * @return \Inertia\Response
      */
     public function edit(UserJob $userJob)
     {
@@ -117,7 +135,12 @@ class UserJobController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * Update the specified job in storage.
+     *
+     * @param UpdateUserJobRequest $request
+     * @param UserJob $userJob
+     *
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function update(UpdateUserJobRequest $request, UserJob $userJob)
     {
@@ -135,7 +158,11 @@ class UserJobController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Soft delete the specified job and mark as archived.
+     *
+     * @param UserJob $userJob
+     *
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function destroy(UserJob $userJob)
     {
@@ -155,7 +182,11 @@ class UserJobController extends Controller
     }
 
     /**
-     * Restore the specified resource.
+     * Restore a soft-deleted user job.
+     *
+     * @param UserJob $job
+     *
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function restore(UserJob $job)
     {
@@ -179,7 +210,9 @@ class UserJobController extends Controller
     }
 
     /**
-     * Display listed archived of the resource.
+     * Display a listing of archived jobs.
+     *
+     * @return \Inertia\Response
      */
     public function archived()
     {
