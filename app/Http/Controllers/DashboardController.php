@@ -10,6 +10,11 @@ use Inertia\Inertia;
 
 class DashboardController extends Controller
 {
+    /**
+     * Display the dashboard view with all entity statistics.
+     *
+     * @return \Inertia\Response
+     */
     public function index()
     {
         $data = array_merge(
@@ -28,6 +33,11 @@ class DashboardController extends Controller
         ]);
     }
 
+    /**
+     * Get blog-related statistics.
+     *
+     * @return array
+     */
     private function blogCounts()
     {
         $blogCount = Blog::withoutTrashed()->count();
@@ -51,6 +61,11 @@ class DashboardController extends Controller
         ];
     }
 
+    /**
+     * Get department-related statistics.
+     *
+     * @return array
+     */
     private function departmentCounts()
     {
         $departmentCount = Department::withoutTrashed()->count();
@@ -60,10 +75,13 @@ class DashboardController extends Controller
             'departmentCount' => $departmentCount,
             'archivedDepartmentCount' => $archivedDepartmentCount,
         ];
-
-        return $departmentCounts;
     }
 
+    /**
+     * Get learning provider-related statistics.
+     *
+     * @return array
+     */
     private function learningPrividerCounts()
     {
         $learningProviderCount = LearningProvider::withoutTrashed()
@@ -75,10 +93,13 @@ class DashboardController extends Controller
             'learningProviderCount' => $learningProviderCount,
             'archivedLearningProviderCount' => $archivedLearningProviderCount,
         ];
-
-        return $learningProviderCounts;
     }
 
+    /**
+     * Get user-related statistics.
+     *
+     * @return array
+     */
     private function userCounts()
     {
         $userCount = User::withoutTrashed()->count();
