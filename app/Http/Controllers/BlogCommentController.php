@@ -31,7 +31,12 @@ class BlogCommentController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Store a newly created BlogComment resource in storage.
+     *
+     * @param StoreBlogCommentRequest $request
+     * Validated request instance containing blog_id and comment content.
+     *
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function store(StoreBlogCommentRequest $request)
     {
@@ -53,7 +58,14 @@ class BlogCommentController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * Update the specified BlogComment resource in storage.
+     *
+     * @param UpdateBlogCommentRequest $request
+     * Validated request instance containing updated comment text.
+     * @param BlogComment $blogComment
+     * The blog comment model instance to be updated.
+     *
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function update(
         UpdateBlogCommentRequest $request,
@@ -74,7 +86,12 @@ class BlogCommentController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Remove the specified BlogComment resource from storage.
+     *
+     * @param BlogComment $blogComment
+     * The blog comment instance to be soft-deleted.
+     *
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function destroy(BlogComment $blogComment)
     {
