@@ -75,6 +75,7 @@ const archivedJobs = computed(() => page.props.archivedJobs);
 const archivedBlogs = computed(() => page.props.archivedBlogs);
 const deniedBlogs = computed(() => page.props.deniedBlogs);
 const archivedLearningProviders = computed(() => page.props.archivedLearningProviders);
+const archivedQuizzes = computed(() => page.props.archivedQuizzes);
 
 const isCurrentRoute = computed(() => (url: string) => page.url === url);
 
@@ -158,6 +159,21 @@ const mainNavItems = computed<NavItem[]>(() => {
 		});
 	}
 	items.push(learningProviderItem);
+
+	const quizItem: NavItem = {
+		title: 'Quizzes',
+		href: '/quizzes',
+		icon: BookOpen,
+		children: [],
+	};
+	if (isAtleastAdmin && archivedQuizzes.value){
+		quizItem.children!.push({
+			title: 'Archived Quizzes',
+			href: '/quizzes/archived',
+			icon: ArchiveIcon,
+		});
+	}
+	items.push(quizItem);
 
 	if (isAtleastAdmin.value) {
 		items.push({

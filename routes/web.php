@@ -6,6 +6,7 @@ use App\Http\Controllers\BlogLikeController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DepartmentController;
 use App\Http\Controllers\LearningProviderController;
+use App\Http\Controllers\QuizController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\UserJobController;
@@ -13,6 +14,7 @@ use App\Models\Blog;
 use App\Models\BusinessType;
 use App\Models\Department;
 use App\Models\LearningProvider;
+use App\Models\Quiz;
 use App\Models\User;
 use App\Models\UserJob;
 use Illuminate\Support\Facades\Route;
@@ -38,6 +40,12 @@ Route::bind('department', function ($value) {
 
 Route::bind('learningProvider', function ($value) {
     return LearningProvider::withTrashed()
+        ->where('slug', $value)
+        ->firstOrFail();
+});
+
+Route::bind('quiz', function ($value) {
+    return Quiz::withTrashed()
         ->where('slug', $value)
         ->firstOrFail();
 });
@@ -163,4 +171,15 @@ Route::middleware(['auth', 'verified'])->group(function () {
         'learningProviders/{learningProvider}/restore',
         [LearningProviderController::class, 'restore']
     )->name('learningProviders.restore');
+
+    // Quiz routes
+    Route::get(
+        '/quizzes/archived',
+        [QuizController::class, 'archived']
+    )->name('quizzes.archived');
+    Route::resource('quizzes', QuizController::class);
+    Route::post(
+        'quizzes/{quiz}/restore',
+        [QuizController::class, 'restore']
+    )->name('quizzes.restore');
 });
