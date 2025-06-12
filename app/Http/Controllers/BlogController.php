@@ -31,7 +31,9 @@ class BlogController extends Controller
     }
 
     /**
-     * Display a listing of the resource.
+     * Display a listing of the blog resources.
+     *
+     * @return \Inertia\Response
      */
     public function index()
     {
@@ -56,7 +58,9 @@ class BlogController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
+     * Show the form for creating a new blog.
+     *
+     * @return \Inertia\Response
      */
     public function create()
     {
@@ -66,7 +70,11 @@ class BlogController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Store a newly created blog in storage.
+     *
+     * @param StoreBlogRequest $request
+     *
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function store(StoreBlogRequest $request)
     {
@@ -89,7 +97,11 @@ class BlogController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * Display the specified blog resource.
+     *
+     * @param Blog $blog
+     *
+     * @return \Inertia\Response
      */
     public function show(Blog $blog)
     {
@@ -122,7 +134,11 @@ class BlogController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
+     * Show the form for editing the specified blog.
+     *
+     * @param Blog $blog
+     *
+     * @return \Inertia\Response
      */
     public function edit(Blog $blog)
     {
@@ -134,7 +150,12 @@ class BlogController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * Update the specified blog in storage.
+     *
+     * @param UpdateBlogRequest $request
+     * @param Blog $blog
+     *
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function update(UpdateBlogRequest $request, Blog $blog)
     {
@@ -157,7 +178,11 @@ class BlogController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Soft-delete the specified blog.
+     *
+     * @param Blog $blog
+     *
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function destroy(Blog $blog)
     {
@@ -177,7 +202,11 @@ class BlogController extends Controller
     }
 
     /**
-     * Restore the specified resource.
+     * Restore a previously deleted blog.
+     *
+     * @param Blog $blog
+     *
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function restore(Blog $blog)
     {
@@ -201,7 +230,9 @@ class BlogController extends Controller
     }
 
     /**
-     * Display listed archived of the resource.
+     * Display a listing of archived blogs.
+     *
+     * @return \Inertia\Response
      */
     public function archived()
     {
@@ -223,7 +254,9 @@ class BlogController extends Controller
     }
 
     /**
-     * Display listed denied of the resource.
+     * Display a listing of denied blogs.
+     *
+     * @return \Inertia\Response
      */
     public function denied()
     {
@@ -248,7 +281,11 @@ class BlogController extends Controller
     }
 
     /**
-     * Approve specified resource.
+     * Approve a blog post.
+     *
+     * @param Blog $blog
+     *
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function approve(Blog $blog)
     {
@@ -269,7 +306,11 @@ class BlogController extends Controller
     }
 
     /**
-     * Deny specified resource.
+     * Deny a blog post.
+     *
+     * @param Blog $blog
+     *
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function deny(Blog $blog)
     {
@@ -290,18 +331,12 @@ class BlogController extends Controller
     }
 
     /**
-     * Build the base query for retrieving blog posts based on approval status.
+     * Build the query to retrieve blogs based on approval status.
      *
-     * This method filters out denied blogs and applies additional filters
-     * based on the provided status:
-     * - 'pending': blogs that are not approved
-     * - 'approved': blogs that are approved
+     * @param string|null $status
+     * The status filter ('pending', 'approved', or null).
      *
-     * @param string|null $status The status filter to apply
-     * ('pending', 'approved', or null).
-     *
-     * @return \Illuminate\Database\Eloquent\Builder The constructed query
-     * builder instance.
+     * @return \Illuminate\Database\Eloquent\Builder
      */
     private function buildBlogQuery(?string $status)
     {
