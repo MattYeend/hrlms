@@ -148,6 +148,27 @@ class QuizLogger
     }
 
     /**
+     * Log user completing a quiz.
+     */
+    public function complete(
+        Quiz $quiz,
+        int $userId,
+        float $score,
+        bool $passed
+    ): array {
+        return $this->log(
+            Log::ACTION_COMPLETE_QUIZ,
+            [
+                'quiz_id' => $quiz->id,
+                'user_id' => $userId,
+                'score' => $score,
+                'passed' => $passed,
+            ],
+            $userId,
+        );
+    }
+
+    /**
      * Helper method to log actions.
      */
     private function log(string $action, array $data, int $userId): array

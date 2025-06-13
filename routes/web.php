@@ -177,6 +177,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
         '/quizzes/archived',
         [QuizController::class, 'archived']
     )->name('quizzes.archived');
+    Route::post(
+        '/quizzes/{quiz}/complete',
+        [QuizController::class, 'complete']
+    )->name('quizzes.complete');
     Route::resource('quizzes', QuizController::class);
     Route::post(
         'quizzes/{quiz}/restore',
