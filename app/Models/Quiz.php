@@ -119,6 +119,19 @@ class Quiz extends Model
     }
 
     /**
+     * Check if the quiz has already been started.
+     *
+     * A quiz is considered started if at least one user is
+     * associated with it in the quiz_user pivot table.
+     *
+     * @return bool
+     */
+    public function isStarted(): bool
+    {
+        return $this->completedBy()->exists();
+    }
+
+    /**
      * Scope a query to only include active jobs.
      *
      * @param \Illuminate\Database\Eloquent\Builder $query
