@@ -115,6 +115,26 @@ class LearningProvider extends Model
     }
 
     /**
+     * Get the quizs that the learning provider created
+     *
+     * @param \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function quizzes()
+    {
+        return $this->hasMany(Quiz::class);
+    }
+
+    /**
+     * Get the total number of quizzes created by this learning provider.
+     *
+     * @return int
+     */
+    public function quizzesCount()
+    {
+        return $this->quizzes()->count();
+    }
+
+    /**
      * Scope a query to only include active jobs.
      *
      * @param \Illuminate\Database\Eloquent\Builder $query
