@@ -4,7 +4,6 @@ namespace App\Policies;
 
 use App\Models\Quiz;
 use App\Models\User;
-use Illuminate\Auth\Access\Response;
 
 class QuizPolicy
 {
@@ -60,7 +59,7 @@ class QuizPolicy
         if ($quiz->completedBy()->exists()) {
             return false;
         }
-    
+
         return in_array($user->role->slug, ['admin', 'super-admin']);
     }
 

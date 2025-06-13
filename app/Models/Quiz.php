@@ -72,7 +72,10 @@ class Quiz extends Model
      */
     public function learningProvider()
     {
-        return $this->belongsTo(LearningProvider::class, 'learning_provider_id');
+        return $this->belongsTo(
+            LearningProvider::class,
+            'learning_provider_id'
+        );
     }
 
     /**

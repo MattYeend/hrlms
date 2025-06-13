@@ -535,8 +535,8 @@ class User extends Authenticatable
     public function quizzes()
     {
         return $this->belongsToMany(Quiz::class)
-                    ->withPivot(['completed_at', 'score', 'passed'])
-                    ->withTimestamps();
+            ->withPivot(['completed_at', 'score', 'passed'])
+            ->withTimestamps();
     }
 
     /**

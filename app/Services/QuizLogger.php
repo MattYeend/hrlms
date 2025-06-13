@@ -15,7 +15,7 @@ class QuizLogger
         // Empty
     }
 
-        /**
+    /**
      * Index method to log viewing all quizzes.
      */
     public function index(int $userId): array

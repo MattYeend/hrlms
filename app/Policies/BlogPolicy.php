@@ -8,7 +8,11 @@ use App\Models\User;
 class BlogPolicy
 {
     /**
-     * Determine whether the user can view any models.
+     * Determine whether the user can view any blog models.
+     *
+     * @param User $user The currently authenticated user.
+     *
+     * @return bool
      */
     public function viewAny(User $user): bool
     {
@@ -17,7 +21,12 @@ class BlogPolicy
     }
 
     /**
-     * Determine whether the user can view the model.
+     * Determine whether the user can view a specific blog.
+     *
+     * @param User $user The currently authenticated user.
+     * @param Blog $blog The blog being viewed.
+     *
+     * @return bool
      */
     public function view(User $user, Blog $blog): bool
     {
@@ -26,7 +35,11 @@ class BlogPolicy
     }
 
     /**
-     * Determine whether the user can create models.
+     * Determine whether the user can create a blog.
+     *
+     * @param User $user The currently authenticated user.
+     *
+     * @return bool
      */
     public function create(User $user): bool
     {
@@ -35,7 +48,12 @@ class BlogPolicy
     }
 
     /**
-     * Determine whether the user can update the model.
+     * Determine whether the user can update a blog.
+     *
+     * @param User $user The currently authenticated user.
+     * @param Blog $blog The blog being updated.
+     *
+     * @return bool
      */
     public function update(User $user, Blog $blog): bool
     {
@@ -48,7 +66,12 @@ class BlogPolicy
     }
 
     /**
-     * Determine whether the user can delete the model.
+     * Determine whether the user can delete a blog.
+     *
+     * @param User $user The currently authenticated user.
+     * @param Blog $blog The blog being deleted.
+     *
+     * @return bool
      */
     public function delete(User $user, Blog $blog): bool
     {
@@ -56,7 +79,12 @@ class BlogPolicy
     }
 
     /**
-     * Determine whether the user can restore the model.
+     * Determine whether the user can restore a deleted blog.
+     *
+     * @param User $user The currently authenticated user.
+     * @param Blog $blog The blog being restored.
+     *
+     * @return bool
      */
     public function restore(User $user, Blog $blog): bool
     {
@@ -64,7 +92,12 @@ class BlogPolicy
     }
 
     /**
-     * Determine whether the user can permanently delete the model.
+     * Determine whether the user can permanently delete a blog.
+     *
+     * @param User $user The currently authenticated user.
+     * @param Blog $blog The blog being permanently deleted.
+     *
+     * @return bool
      */
     public function forceDelete(User $user, Blog $blog): bool
     {
@@ -72,7 +105,11 @@ class BlogPolicy
     }
 
     /**
-     * Determine whether the user can view the archived model.
+     * Determine whether the user can view archived blogs.
+     *
+     * @param User $user The currently authenticated user.
+     *
+     * @return bool
      */
     public function viewArchived(User $user): bool
     {
@@ -80,7 +117,11 @@ class BlogPolicy
     }
 
     /**
-     * Determine whether the user can view the denied model
+     * Determine whether the user can view denied blos.
+     *
+     * @param User $user The currently authenticated user.
+     *
+     * @return bool
      */
     public function viewDenied(User $user): bool
     {
@@ -88,7 +129,12 @@ class BlogPolicy
     }
 
     /**
-     * Determine whether the user can approve model.
+     * Determine whether the user can approve the current blog.
+     *
+     * @param User $user The currently authenticated user.
+     * @param Blog $blog The blog being approved
+     *
+     * @return bool
      */
     public function approve(User $user, Blog $blog)
     {

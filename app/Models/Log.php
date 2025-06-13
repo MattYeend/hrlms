@@ -149,7 +149,6 @@ class Log extends Model
     public const ACTION_REINSTATE_QUIZ = 97;
     public const ACTION_VIEW_ARCHIVED_QUIZZES = 98;
 
-
     protected $table = 'logs';
 
     protected $fillable = [
