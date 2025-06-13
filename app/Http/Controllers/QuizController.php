@@ -29,7 +29,7 @@ class QuizController extends Controller
      */
     public function __construct(QuizLogger $logger)
     {
-        $this->authorizeResource(QuizLogger::class, 'quizLogger');
+        $this->authorizeResource(Quiz::class, 'quiz');
         $this->logger = $logger;
     }
 
@@ -46,10 +46,10 @@ class QuizController extends Controller
 
         $archivedCount = Quiz::onlyTrashed()->count();
 
-        $quiz = Quiz::with('learingProvider, completedBy')
+        $quiz = Quiz::with(['learningProvider', 'completedBy'])
             ->paginate(10);
 
-        return Inertia::render('learningProvider/Index', [
+        return Inertia::render('quizzes/Index', [
             'quizzes' => $quiz,
             'authUser' => User::where('id', auth()->id())
                 ->with('role:id,name')
@@ -71,7 +71,7 @@ class QuizController extends Controller
         $learningProviders = LearningProvider::select('id', 'name')->get();
         $users = User::select('id', 'name')->get();
 
-        return Inertia::render('learningProvider/Create', [
+        return Inertia::render('quizzes/Create', [
             'quizzes' => $quizzes,
             'learningProviders' => $learningProviders,
             'users' => $users,
@@ -90,7 +90,7 @@ class QuizController extends Controller
         $this->authorize('create', Quiz::class);
 
         $data = $request->validated();
-        $data['slug'] = Str::slug($data['name']);
+        $data['slug'] = Str::slug($data['title']);
         $data['created_by'] = auth()->id();
 
         $quiz = Quiz::create($data);
@@ -100,6 +100,7 @@ class QuizController extends Controller
         return redirect()->route('quizzes.show', $quiz)
             ->with('success', 'Quiz created successfully.');
     }
+
     /**
      * Display the specified learning provider.
      *
@@ -114,7 +115,7 @@ class QuizController extends Controller
 
         $this->logger->show($quiz, auth()->id());
 
-        return Inertia::render('quiz/Show', [
+        return Inertia::render('quizzes/Show', [
             'quiz' => $quiz->load('learningProvider'),
             'from' => $request->query('from', 'index'),
         ]);
@@ -134,7 +135,7 @@ class QuizController extends Controller
         $learningProviders = LearningProvider::select('id', 'name')->get();
         $users = User::select('id', 'name')->get();
 
-        return Inertia::render('quiz/Edit', [
+        return Inertia::render('quizzes/Edit', [
             'quiz' => $quiz,
             'learningProviders' => $learningProviders,
             'users' => $users,
@@ -233,15 +234,15 @@ class QuizController extends Controller
         $this->logger->archived(auth()->id());
 
         $quiz = Quiz::onlyTrashed()
-            ->with('learningProvider, completedBy')
+            ->with(['learningProvider', 'completedBy'])
             ->paginate(10);
 
         $authUser = User::where('id', auth()->id())
             ->with('role:id,name')
             ->first();
 
-        return Inertia::render('learningProvider/Archived', [
-            'quiz' => $quiz,
+        return Inertia::render('quizzes/Archived', [
+            'quizzes' => $quiz,
             'authUser' => $authUser,
         ]);
     }

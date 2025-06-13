@@ -65,7 +65,7 @@ const breadcrumbs: BreadcrumbItem[] = [
 							<td class="p-3">{{ learningProvider.person_to_contact }} {{ learningProvider.first_phone_number }} {{ learningProvider.main_email_address }}</td>
 							<td class="p-3">
 								<Link 
-									:href="route('learningProviders.show', { learningProvider: learningProvider.slug }) + `?from=index`" 
+									:href="route('learningProviders.show', { learningProvider: learningProvider.slug }) + `?from=archived`" 
 									class="text-sm text-blue-600 dark:text-blue-400"
 								>
 									View
