@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('title');
             $table->string('slug')->unique();
             $table->text('description')->nullable();
-            $table->float('pass_percentage');
+            $table->float('pass_percentage', 5, 2);
             $table->foreignId('learning_provider_id')->nullable()->constrained('learning_providers')->onDelete('set null');
             $table->boolean('is_archived')->default(false);
             $table->foreignId('created_by')->nullable()->constrained('users')->onDelete('set null');

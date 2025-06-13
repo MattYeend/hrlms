@@ -528,6 +528,38 @@ class User extends Authenticatable
     }
 
     /**
+     * Get the quizs that the user created
+     *
+     * @param \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function quizzes()
+    {
+        return $this->belongsToMany(Quiz::class)
+                    ->withPivot(['completed_at', 'score', 'passed'])
+                    ->withTimestamps();
+    }
+
+    /**
+     * Get the total number of quizzes created by this user.
+     *
+     * @return int
+     */
+    public function quizzesCount()
+    {
+        return $this->quizzes()->count();
+    }
+
+    public function quizzesStarted()
+    {
+        return $this->quizzes();
+    }
+
+    public function quizzesCompleted()
+    {
+        return $this->quizzes()->wherePivotNotNull('completed_at');
+    }
+
+    /**
      * Scope a query to only include active jobs.
      *
      * @param \Illuminate\Database\Eloquent\Builder $query

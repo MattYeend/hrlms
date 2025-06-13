@@ -72,17 +72,17 @@ class Quiz extends Model
      */
     public function learningProvider()
     {
-        return $this->belongsTo(LearningProvider::class, 'earning_provider_id');
+        return $this->belongsTo(LearningProvider::class, 'learning_provider_id');
     }
 
     /**
      * Get the users that have completed the quiz
      *
-     *  @return \Illuminate\Database\Eloquent\Relations\HasMany
+     *  @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
     public function completedBy()
     {
-        return $this->hasMany(User::class);
+        return $this->belongsToMany(User::class, 'quiz_user')->withTimestamps();
     }
 
     /**
