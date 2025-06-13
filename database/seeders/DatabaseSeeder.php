@@ -27,6 +27,8 @@ class DatabaseSeeder extends Seeder
             BlogSeeder::class,
             BusinessTypeSeeder::class,
             LearningProviderSeeder::class,
+            QuizSeeder::class,
+            QuizUserSeeder::class,
             // Add other seeders here
         ]);
     }
