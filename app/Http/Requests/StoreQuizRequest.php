@@ -11,7 +11,7 @@ class StoreQuizRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,11 @@ class StoreQuizRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'title' => 'required|string|max:255',
+            'slug' => 'nullable|string|max:255|unique:quizzes,slug',
+            'description' => 'nullable|string',
+            'pass_percentage' => 'required|numeric|min:0|max:100',
+            'learning_provider_id' => 'nullable|exists:learning_providers,id',
         ];
     }
 }
