@@ -41,6 +41,11 @@ class BlogCommentController extends Controller
     public function store(StoreBlogCommentRequest $request)
     {
         $blog = Blog::findOrFail($request->input('blog_id'));
+
+        if (! $blog->approved || $blog->is_archived || $blog->denied) {
+            abort(403, 'Cannot comment on this blog.');
+        }
+
         $user = $request->user();
 
         $comment = BlogComment::create([

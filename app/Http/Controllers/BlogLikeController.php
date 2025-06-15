@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\Auth;
 class BlogLikeController extends Controller
 {
     /**
-     * Declare a protected propert to hold the
+     * Declare a protected property to hold the
      * BlogLikeLogger instance.
      */
     protected BlogLikeLogger $logger;
@@ -35,14 +35,14 @@ class BlogLikeController extends Controller
      *
      * @param StoreBlogLikeRequest $request
      *
-     * @return \Illuminate\Http\RedirectResponse
+     * @return void
      */
-    public function store(StoreBlogLikeRequest $request)
+    public function store(StoreBlogLikeRequest $request): void
     {
         $blog = Blog::findOrFail($request->input('blog_id'));
         $user = $request->user();
 
-        $this->authorizeLike($user, $blog);
+        $this->authorizeAction('like', $user, $blog);
 
         $blogLike = $this->createBlogLike($user, $blog);
         $this->logger->like($blogLike, $user->id);
@@ -53,14 +53,13 @@ class BlogLikeController extends Controller
      *
      * @param BlogLike $blogLike
      *
-     * @return \Illuminate\Http\RedirectResponse
+     * @return void
      */
-    public function destroy(BlogLike $blogLike)
+    public function destroy(BlogLike $blogLike): void
     {
         $user = Auth::user();
 
-        $this->authorizeUnlike($user, $blogLike->blog);
-
+        $this->authorizeAction('unlike', $user, $blogLike->blog);
         $this->deleteBlogLike($blogLike, $user);
     }
 
@@ -69,61 +68,54 @@ class BlogLikeController extends Controller
      *
      * @param Blog $blog
      *
-     * @return \Illuminate\Http\RedirectResponse
+     * @return void
      */
-    public function toggle(Blog $blog)
+    public function toggle(Blog $blog): void
     {
-        $user = Auth::user();
+        $this->canLikeBlog($blog);
 
-        $existing = BlogLike::where('blog_id', $blog->id)
-            ->where('user_id', $user->id)
-            ->first();
+        $user = Auth::user();
+        $existing = $this->findUserLike($blog->id, $user->id);
 
         if ($existing) {
-            $this->unlikeBlog($existing, $user, $blog);
-        } else {
-            $this->likeBlog($user, $blog);
+            $this->authorizeAction('unlike', $user, $blog);
+            $this->deleteBlogLike($existing, $user);
+            return;
         }
+
+        $this->authorizeAction('like', $user, $blog);
+        $blogLike = $this->createBlogLike($user, $blog);
+        $this->logger->like($blogLike, $user->id);
     }
 
     /**
-     * Private helper to check authorization to like a blog.
+     * Consolidated authorization helper.
      *
-     * @param $user
+     * @param string $action
+     * @param mixed $user
      * @param Blog $blog
      *
      * @return void
+     *
+     * @throws \Symfony\Component\HttpKernel\Exception\HttpException
      */
-    private function authorizeLike($user, Blog $blog): void
+    private function authorizeAction(string $action, $user, Blog $blog): void
     {
         $policy = new BlogLikePolicy();
 
-        if (! $policy->like($user, $blog)) {
-            abort(403, 'You have already liked this blog.');
-        }
-    }
-
-    /**
-     * Private helper to check authorization to unlike a blog.
-     *
-     * @param $user
-     * @param Blog $blog
-     *
-     * @return void
-     */
-    private function authorizeUnlike($user, Blog $blog): void
-    {
-        $policy = new BlogLikePolicy();
-
-        if (! $policy->unlike($user, $blog)) {
-            abort(403, 'You have not liked this blog.');
+        if (! $policy->{$action}($user, $blog)) {
+            $messages = [
+                'like' => 'You have already liked this blog.',
+                'unlike' => 'You have not liked this blog.',
+            ];
+            abort(403, $messages[$action] ?? 'Unauthorized action.');
         }
     }
 
     /**
      * Private helper to create a new BlogLike record.
      *
-     * @param $user
+     * @param mixed $user
      * @param Blog $blog
      *
      * @return BlogLike
@@ -142,7 +134,7 @@ class BlogLikeController extends Controller
      * Private helper to delete (soft-delete) a BlogLike record.
      *
      * @param BlogLike $blogLike
-     * @param $user
+     * @param mixed $user
      *
      * @return void
      */
@@ -152,42 +144,48 @@ class BlogLikeController extends Controller
             'deleted_by' => $user->id,
             'deleted_at' => now(),
         ]);
-
         $blogLike->delete();
-
         $this->logger->unlike($blogLike, $user->id);
     }
 
     /**
-     * Private helper to unlike blog inside toggle method.
+     * Private helper to see if a blog can be liked.
      *
-     * @param BlogLike $blogLike
-     * @param $user
      * @param Blog $blog
      *
      * @return void
      */
-    private function unlikeBlog(BlogLike $blogLike, $user, Blog $blog): void
+    private function canLikeBlog(Blog $blog): void
     {
-        $this->authorizeUnlike($user, $blog);
-
-        $this->deleteBlogLike($blogLike, $user);
+        if (! $this->isBlogLikeable($blog)) {
+            abort(403, 'Cannot like an unapproved or archived blog.');
+        }
     }
 
     /**
-     * Private helper to like blog inside toggle method.
+     * Private helper to check if blog is likeable.
      *
-     * @param $user
      * @param Blog $blog
      *
-     * @return void
+     * @return bool
      */
-    private function likeBlog($user, Blog $blog): void
+    private function isBlogLikeable(Blog $blog): bool
     {
-        $this->authorizeLike($user, $blog);
+        return $blog->approved && ! $blog->denied;
+    }
 
-        $blogLike = $this->createBlogLike($user, $blog);
-
-        $this->logger->like($blogLike, $user->id);
+    /**
+     * Private helper to find an existing like by user and blog.
+     *
+     * @param int $blogId
+     * @param int $userId
+     *
+     * @return BlogLike|null
+     */
+    private function findUserLike(int $blogId, int $userId): ?BlogLike
+    {
+        return BlogLike::where('blog_id', $blogId)
+            ->where('user_id', $userId)
+            ->first();
     }
 }
