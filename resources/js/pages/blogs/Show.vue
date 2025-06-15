@@ -40,7 +40,7 @@ function toggleLike() {
 			isLiking.value = false
 		},
 		onSuccess: () => {
-			router.reload({ only: ['blog'] }) // reload blog data
+			router.reload({ only: ['blog'] })
 		}
 	})
 }
@@ -69,18 +69,33 @@ function submitComment() {
 				<p><strong>Approved By:</strong> {{ blog.approved_by?.name ?? 'Not yet approved' }}</p>
 				<p><strong>Created By:</strong> {{ blog.created_by.name }}</p>
 			</div>
-            <div class="flex items-center space-x-4 mt-4">
+			<div 
+				v-if="blog.approved && !blog.is_archived" 
+				class="flex items-center space-x-4 mt-4"
+			>
 				<button @click="toggleLike" :disabled="isLiking" class="btn btn-sm btn-outline">
 					👍 Like ({{ blog.likes_count }})
 				</button>
 			</div>
-            <div class="bg-white dark:bg-gray-800 rounded-xl shadow p-6">
+			<div 
+				v-if="blog.approved && !blog.is_archived" 
+				class="bg-white dark:bg-gray-800 rounded-xl shadow p-6"
+			>
 				<h2 class="text-xl font-semibold mb-4">Comments ({{ blog.comments.length }})</h2>
 
-				<div v-if="blog.comments.length === 0" class="text-gray-500">No comments yet.</div>
+				<div 
+					v-if="blog.comments.length === 0" 
+					class="text-gray-500"
+				>
+					No comments yet.
+				</div>
 
 				<ul class="space-y-4">
-					<li v-for="comment in blog.comments" :key="comment.id" class="border-b border-gray-200 dark:border-gray-700 pb-2">
+					<li 
+						v-for="comment in blog.comments" 
+						:key="comment.id" 
+						class="border-b border-gray-200 dark:border-gray-700 pb-2"
+					>
 						<p class="text-sm text-gray-600 dark:text-gray-300">
 							<strong>{{ comment.user.name }}</strong>:
 						</p>
