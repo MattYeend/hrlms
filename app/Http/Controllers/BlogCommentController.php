@@ -46,7 +46,6 @@ class BlogCommentController extends Controller
             abort(403, 'Cannot comment on this blog.');
         }
 
-        $user = $request->user();
         $userId = auth()->id();
 
         $comment = BlogComment::create([
@@ -77,9 +76,8 @@ class BlogCommentController extends Controller
         UpdateBlogCommentRequest $request,
         BlogComment $blogComment
     ) {
-        $this->authorize('update', $blogComment); 
+        $this->authorize('update', $blogComment);
 
-        $user = $request->user();
         $userId = auth()->id();
 
         $validated = $request->validate([
@@ -109,7 +107,7 @@ class BlogCommentController extends Controller
     public function destroy(BlogComment $blogComment)
     {
         $this->authorize('delete', $blogComment);
-        
+
         $blogComment->update([
             'deleted_by' => Auth::id(),
             'deleted_at' => now(),

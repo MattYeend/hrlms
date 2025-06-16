@@ -58,14 +58,7 @@ class BlogCommentPolicy
      */
     public function update(User $user, BlogComment $blogComment): bool
     {
-        if ($this->hasPrivilegedRole($user)) {
-            return true;
-        }
-
-        $blog = $blogComment->blog;
-
-        return $user->id === $blog->created_by ||
-               $user->id === optional($blog->approvedBy)->id;
+        return $this->canManage($user, $blogComment);
     }
 
     /**
@@ -132,7 +125,10 @@ class BlogCommentPolicy
      */
     private function canManage(User $user, BlogComment $blogComment): bool
     {
-        if ($user->id === $blogComment->user_id || $this->hasPrivilegedRole($user)) {
+        if (
+            $user->id === $blogComment->user_id ||
+            $this->hasPrivilegedRole($user)
+        ) {
             return true;
         }
 
