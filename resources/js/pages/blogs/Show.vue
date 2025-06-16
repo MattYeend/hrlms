@@ -148,7 +148,10 @@ function canDeleteComment(commentUserId: number): boolean {
 							<p class="text-gray-800 dark:text-white">{{ comment.comment }}</p>
 						</div>
 
-						<div class="mt-1 space-x-2 text-sm">
+						<div 
+							v-if="editingMode !== comment.id" 
+							class="mt-1 space-x-2 text-sm"
+						>
 							<button
 								v-if="canEditComment(comment.user.id)"
 								@click="startEditing(comment.id, comment.comment)"
