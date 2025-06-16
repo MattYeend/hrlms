@@ -47,16 +47,17 @@ class BlogCommentController extends Controller
         }
 
         $user = $request->user();
+        $userId = auth()->id();
 
         $comment = BlogComment::create([
             'blog_id' => $blog->id,
-            'user_id' => $user->id,
+            'user_id' => $userId,
             'comment' => $request->input('comment'),
-            'created_by' => $user->id,
+            'created_by' => $userId,
             'created_at' => now(),
         ]);
 
-        $this->logger->create($comment, $user->id);
+        $this->logger->create($comment, $userId);
 
         return redirect()->route('blogs.show', $blog->slug)
             ->with('success', 'Comment posted successfully.');
@@ -76,15 +77,22 @@ class BlogCommentController extends Controller
         UpdateBlogCommentRequest $request,
         BlogComment $blogComment
     ) {
+        $this->authorize('update', $blogComment); 
+
         $user = $request->user();
+        $userId = auth()->id();
+
+        $validated = $request->validate([
+            'comment' => 'required|string',
+        ]);
 
         $blogComment->update([
-            'comment' => $request->input('comment'),
-            'updated_by' => $user->id,
+            'comment' => $validated['comment'],
+            'updated_by' => $userId,
             'updated_at' => now(),
         ]);
 
-        $this->logger->update($blogComment, $user->id);
+        $this->logger->update($blogComment, $userId);
 
         return redirect()->route('blogs.show', $blogComment->blog->slug)
             ->with('success', 'Comment updated successfully.');
@@ -100,6 +108,8 @@ class BlogCommentController extends Controller
      */
     public function destroy(BlogComment $blogComment)
     {
+        $this->authorize('delete', $blogComment);
+        
         $blogComment->update([
             'deleted_by' => Auth::id(),
             'deleted_at' => now(),

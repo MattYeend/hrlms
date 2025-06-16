@@ -58,7 +58,14 @@ class BlogCommentPolicy
      */
     public function update(User $user, BlogComment $blogComment): bool
     {
-        return $user->id === $blogComment->user_id;
+        if ($this->hasPrivilegedRole($user)) {
+            return true;
+        }
+
+        $blog = $blogComment->blog;
+
+        return $user->id === $blog->created_by ||
+               $user->id === optional($blog->approvedBy)->id;
     }
 
     /**
@@ -125,8 +132,15 @@ class BlogCommentPolicy
      */
     private function canManage(User $user, BlogComment $blogComment): bool
     {
-        return $user->id === $blogComment->user_id ||
-               $this->hasPrivilegedRole($user);
+        if ($user->id === $blogComment->user_id || $this->hasPrivilegedRole($user)) {
+            return true;
+        }
+
+        $blog = $blogComment->blog;
+
+        // Allow blog creator or approver to delete comments
+        return $user->id === $blog->created_by ||
+                $user->id === optional($blog->approvedBy)->id;
     }
 
     /**
