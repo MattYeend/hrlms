@@ -18,7 +18,7 @@ return [
     'description' => 'Description',
     'department' => 'Department',
     'details' => 'Job Details',
-    'archived' => 'Archived', 
+    'archived' => 'Archived',
     'created_by' => 'Created By',
     'created_at' => 'Created At',
     'updated_by' => 'Updated By',

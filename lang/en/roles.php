@@ -8,7 +8,7 @@ return [
     |--------------------------------------------------------------------------
     |
     | This file contains the default language lines related to roles.
-    | These messages are used across the application wherever role data is 
+    | These messages are used across the application wherever role data is
     | displayed, validated, or interacted with.
     |
     */
@@ -19,7 +19,7 @@ return [
     'yes' => 'Yes',
     'no' => 'No',
     'details' => 'Role Details',
-    'archived' => 'Archived', 
+    'archived' => 'Archived',
     'created_by' => 'Created By',
     'created_at' => 'Created At',
     'updated_by' => 'Updated By',

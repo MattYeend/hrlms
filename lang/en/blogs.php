@@ -8,7 +8,7 @@ return [
     |--------------------------------------------------------------------------
     |
     | This file contains the default language lines related to blogs.
-    | These messages are used across the application wherever blog data is 
+    | These messages are used across the application wherever blog data is
     | displayed, validated, or interacted with.
     |
     */
@@ -27,7 +27,7 @@ return [
     'delete_comment' => 'Delete Comment',
     'post_comment' => 'Post Comment',
     'details' => 'Blog Details',
-    'archived' => 'Archived', 
+    'archived' => 'Archived',
     'created_by' => 'Created By',
     'created_at' => 'Created At',
     'updated_by' => 'Updated By',

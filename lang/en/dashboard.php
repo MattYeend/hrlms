@@ -8,7 +8,7 @@ return [
     |--------------------------------------------------------------------------
     |
     | This file contains the default language lines related to the dashboard.
-    | These messages are used across the application wherever dashboard data is 
+    | These messages are used across the application wherever dashboard data is
     | displayed, validated, or interacted with.
     |
     */

@@ -8,8 +8,8 @@ return [
     |--------------------------------------------------------------------------
     |
     | This file contains the default language lines related to departments.
-    | These messages are used across the application wherever department data is 
-    | displayed, validated, or interacted with.
+    | These messages are used across the application wherever department data
+    | is displayed, validated, or interacted with.
     |
     */
 
@@ -17,7 +17,7 @@ return [
     'description' => 'Description',
     'lead' => 'Lead',
     'details' => 'Department Details',
-    'archived' => 'Archived', 
+    'archived' => 'Archived',
     'created_by' => 'Created By',
     'created_at' => 'Created At',
     'updated_by' => 'Updated By',

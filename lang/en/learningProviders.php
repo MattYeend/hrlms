@@ -29,7 +29,7 @@ return [
     'main_phone_number' => 'Main Phone Number',
     'second_phone_number' => 'Secondary Phone Number',
     'details' => 'Learning Provider Details',
-    'archived' => 'Archived', 
+    'archived' => 'Archived',
     'created_by' => 'Created By',
     'created_at' => 'Created At',
     'updated_by' => 'Updated By',
