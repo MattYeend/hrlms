@@ -29,6 +29,7 @@ class DatabaseSeeder extends Seeder
             LearningProviderSeeder::class,
             QuizSeeder::class,
             QuizUserSeeder::class,
+            LearningMaterialSeeder::class,
             // Add other seeders here
         ]);
     }

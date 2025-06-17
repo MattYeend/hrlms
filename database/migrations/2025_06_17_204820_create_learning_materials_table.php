@@ -13,7 +13,19 @@ return new class extends Migration
     {
         Schema::create('learning_materials', function (Blueprint $table) {
             $table->id();
+            $table->string('title');
+            $table->string('slug')->unique();
+            $table->text('description')->nullable();
+            $table->string('file_path')->nullable();
+            $table->foreignId('learning_provider_id')->nullable()->constrained('learning_providers')->onDelete('set null');
+            $table->boolean('is_archived')->default(false);
+            $table->foreignId('created_by')->nullable()->constrained('users')->onDelete('set null');
+            $table->foreignId('updated_by')->nullable()->constrained('users')->onDelete('set null');
+            $table->foreignId('deleted_by')->nullable()->constrained('users')->onDelete('set null');
             $table->timestamps();
+            $table->softDeletes();
+            $table->foreignId('restored_by')->nullable()->constrained('users')->onDelete('set null');
+            $table->timestamp('restored_at')->nullable();
         });
     }
 
