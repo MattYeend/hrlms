@@ -45,5 +45,6 @@ return [
     'create' => 'Create A User',
     'view' => 'View',
     'edit' => 'Edit',
+    'actions' => 'Actions',
 
 ];
