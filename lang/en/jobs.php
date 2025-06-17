@@ -17,6 +17,7 @@ return [
     'short_code' => 'Short Code',
     'description' => 'Description',
     'department' => 'Department',
+    'details' => 'Job Details',
     'archived' => 'Archived', 
     'created_by' => 'Created By',
     'created_at' => 'Created At',

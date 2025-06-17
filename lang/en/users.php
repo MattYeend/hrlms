@@ -33,6 +33,7 @@ return [
     'role' => 'Role',
     'department' => 'Department', 
     'job' => 'Job',
+    'details' => 'User Details',
     'archived' => 'Archived', 
     'created_by' => 'Created By',
     'created_at' => 'Created At',
