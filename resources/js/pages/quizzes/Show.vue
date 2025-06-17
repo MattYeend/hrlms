@@ -14,7 +14,12 @@ const props = defineProps<{
         pass_percentage: number
         learning_provider?: { id: number; name: string }
         is_archived: boolean
+        completed_by?: Array<any>
     }
+    authUser: {
+		id: number
+		role: { name: string }
+	}
     from: 'index' | 'archived'
 }>()
 
@@ -48,6 +53,7 @@ const pageFrom = computed(() => page.props.from ?? 'index')
 
             <div class="flex space-x-4">
                 <Link
+                    v-if="['Admin', 'Super Admin'].includes(authUser.role.name) && (!quiz.completed_by || quiz.completed_by.length === 0)"
                     :href="route('quizzes.edit', quiz.slug)"
                     class="text-sm btn btn-primary"
                 >

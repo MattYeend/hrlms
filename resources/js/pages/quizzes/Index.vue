@@ -12,7 +12,8 @@ defineProps<{
             pass_percentage: number
             description?: string
             learning_provider?: { id: number; name: string }
-            is_archived: boolean
+			is_archived: boolean
+			completed_by?: Array<any>
         }>
         current_page: number
         last_page: number
@@ -67,7 +68,7 @@ const breadcrumbs: BreadcrumbItem[] = [
                             <td class="p-3">{{ quiz.learning_provider?.name ?? '-' }}</td>
                             <td class="p-3">{{ quiz.pass_percentage }}%</td>
                             <td class="p-3">{{ quiz.description ?? '-' }}</td>
-                            <td class="p-3">
+                            <td class="p-1">
 								<Link 
                                     :href="route('quizzes.show', { quiz: quiz.slug }) + `?from=index`" 
                                     class="text-sm text-blue-600 dark:text-blue-400"
@@ -75,7 +76,7 @@ const breadcrumbs: BreadcrumbItem[] = [
                                     View
                                 </Link>
                                 <Link 
-                                    v-if="['Admin', 'Super Admin'].includes(authUser.role.name)"
+                                    v-if="['Admin', 'Super Admin'].includes(authUser.role.name) && (!quiz.completed_by || quiz.completed_by.length === 0)"
                                     :href="route('quizzes.edit', { quiz: quiz.slug })" 
                                     class="text-sm text-blue-600 dark:text-blue-400 ml-2"
                                 >
