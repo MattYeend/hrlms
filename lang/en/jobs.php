@@ -30,4 +30,6 @@ return [
     'view' => 'View',
     'edit' => 'Edit',
     'actions' => 'Actions',
+    'update' => 'Update Job',
+    'back' => 'Back',
 ];

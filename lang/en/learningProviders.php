@@ -4,23 +4,19 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | User Language Lines
+    | Learning Providers Language Lines
     |--------------------------------------------------------------------------
     |
-    | This file contains the default language lines related to user messages.
-    | These messages are typically used by the User class for validation,
-    | notifications, or other user-related responses.
-    |
-    | You can customize these messages to better fit your application's tone
-    | or localization needs. Some messages may have multiple variations,
-    | such as those for size or format rules.
+    | This file contains the default language lines related to learning
+    | providers. These messages are used across the application wherever
+    | learning provider data is displayed, validated, or interacted with.
     |
     */
 
-    'users' => 'Users',
     'name' => 'Name',
-    'email' => 'Email',
-    'password' => 'Password',
+    'business_type' => 'Business Type',
+    'address' => 'Address',
+    'main_contact' => 'Main Contact',
     'first_line' => 'First Line',
     'second_line' => 'Second Line',
     'town' => 'Town',
@@ -28,11 +24,10 @@ return [
     'county' => 'County',
     'country' => 'Country',
     'post_code' => 'Post Code',
-    'full_time' => 'Full Time', 
-    'part_time' => 'Part Time', 
-    'role' => 'Role',
-    'department' => 'Department', 
-    'job' => 'Job',
+    'person_to_contact' => 'Person To Contact',
+    'main_email_address' => 'Main Email Address',
+    'main_phone_number' => 'Main Phone Number',
+    'second_phone_number' => 'Secondary Phone Number',
     'archived' => 'Archived', 
     'created_by' => 'Created By',
     'created_at' => 'Created At',
@@ -42,11 +37,10 @@ return [
     'deleted_at' => 'Deleted At',
     'restore' => 'Restore',
     'archive' => 'Archive',
-    'create' => 'Create A User',
+    'create' => 'Create A Learning Provider',
     'view' => 'View',
     'edit' => 'Edit',
     'actions' => 'Actions',
-    'update' => 'Update User',
+    'update' => 'Update Learning Provider',
     'back' => 'Back',
-
 ];
