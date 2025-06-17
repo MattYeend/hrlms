@@ -61,7 +61,15 @@ Follow these steps to set up the project locally:
     ```bash
     php artisan migrate
     ```
-6. **Run the development servers**
+6. **Seed all tables:**
+    ```bash
+    php artisan seed
+    ```
+7. **Set up storage**
+    ```bash
+    php artisan storage:link
+    ```
+8. **Run the development servers**
     ```bash
     php artisan serve
     npm run dev
