@@ -59,7 +59,7 @@ const breadcrumbs: BreadcrumbItem[] = [
                             :key="learningProvider.id" 
 							class="hover:bg-gray-50 dark:hover:bg-gray-700 transition"
 						>
-                        <td class="p-3">{{ learningProvider.name }}</td>
+                        	<td class="p-3">{{ learningProvider.name }}</td>
 							<td class="p-3">{{ learningProvider.business_type?.name ?? '-' }}</td>
 							<td class="p-3">{{ learningProvider?.first_line }} {{ learningProvider?.post_code }}</td>
 							<td class="p-3">{{ learningProvider.person_to_contact }} {{ learningProvider.first_phone_number }} {{ learningProvider.main_email_address }}</td>

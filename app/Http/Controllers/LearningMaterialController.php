@@ -49,7 +49,7 @@ class LearningMaterialController extends Controller
         $archivedCount = LearningMaterial::onlyTrashed()->count();
 
         $learningMaterial = LearningMaterial::with(
-            ['learningMaterial', 'departments']
+            ['learningProvider', 'department']
         )->paginate(10);
 
         return Inertia::render('learningMaterial/Index', [

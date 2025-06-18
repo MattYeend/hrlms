@@ -76,6 +76,7 @@ const archivedBlogs = computed(() => page.props.archivedBlogs);
 const deniedBlogs = computed(() => page.props.deniedBlogs);
 const archivedLearningProviders = computed(() => page.props.archivedLearningProviders);
 const archivedQuizzes = computed(() => page.props.archivedQuizzes);
+const archivedLearningMaterials = computed(() => page.props.archivedLearningMaterials);
 
 const isCurrentRoute = computed(() => (url: string) => page.url === url);
 
@@ -144,6 +145,21 @@ const mainNavItems = computed<NavItem[]>(() => {
 		});
 	}
 	items.push(jobsItem);
+
+	const learningMaterialItem: NavItem = {
+		title: 'Learning Materials',
+		href: '/learningMaterials',
+		icon: Library,
+		children: []
+	};
+	if (isAtleastAdmin.value && archivedLearningMaterials.value){
+		learningMaterialItem.children!.push({
+			title: 'Archived Learning Materials',
+			href: '/learningMaterials/archived',
+			icon: ArchiveIcon,
+		});
+	}
+	items.push(learningMaterialItem);
 
 	const learningProviderItem: NavItem = {
 		title: 'Learning Providers',

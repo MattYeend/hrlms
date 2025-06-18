@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use App\Models\Blog;
 use App\Models\Department;
+use App\Models\LearningMaterial;
 use App\Models\LearningProvider;
 use App\Models\Quiz;
 use App\Models\User;
@@ -40,6 +41,9 @@ class AppServiceProvider extends ServiceProvider
                 return $this->hasArchivedLearningProviders();
             },
             'archivedQuizzes' => fn () => $this->hasArchivedQuizzes(),
+            'archivedLearningMaterial' => function () {
+                return $this->hasArchivedLearningMaterial();
+            },
             'isCSuiteOrHrStaff' => fn () => $this->isHighLevelOrHrStaff(),
         ]);
     }
@@ -87,6 +91,11 @@ class AppServiceProvider extends ServiceProvider
     protected function hasArchivedQuizzes(): bool
     {
         return Quiz::onlyTrashed()->exists();
+    }
+
+    protected function hasArchivedLearningMaterial(): bool
+    {
+        return LearningMaterial::onlyTrashed()->exists();
     }
 
     protected function isHighLevelOrHrStaff(): bool
