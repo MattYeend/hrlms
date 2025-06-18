@@ -591,12 +591,12 @@ class User extends Authenticatable
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      *
-     * @see LearningMaterial
+     * @see LearningMaterials
      */
-    public function learningMaterial()
+    public function learningMaterials()
     {
         return $this->belongsToMany(LearningMaterial::class)
-            ->withPivot(['completed_at'])
+            ->withPivot(['completed_at', 'status'])
             ->withTimestamps();
     }
 

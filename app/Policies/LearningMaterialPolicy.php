@@ -63,8 +63,9 @@ class LearningMaterialPolicy
         }
 
         $hasBeenCompleted = $learningMaterial->completedBy()->exists();
+        $hasStarted = $learningMaterial->hasStarted()->exists();
 
-        return ! $hasBeenCompleted && $user->id ===
+        return ! $hasBeenCompleted && ! $hasStarted && $user->id ===
             $learningMaterial->created_by;
     }
 

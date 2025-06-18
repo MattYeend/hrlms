@@ -32,6 +32,7 @@ class LearningMaterialUser extends Model
     protected $fillable = [
         'learning_material_id',
         'user_id',
+        'status',
         'completed_at',
         'created_at',
         'updated_at',

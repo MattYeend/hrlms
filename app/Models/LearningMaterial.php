@@ -154,4 +154,16 @@ class LearningMaterial extends Model
         return $this->belongsToMany(User::class, 'learning_material_user')
             ->withTimestamps();
     }
+
+    /**
+     * Get the users that have started the material
+     *
+     *  @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function hasStarted()
+    {
+        return $this->belongsToMany(User::class, 'learning_material_user')
+            ->wherePivot('status', '!=', 1)
+            ->withTimestamps();
+    }
 }
