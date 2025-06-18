@@ -5,6 +5,7 @@ use App\Http\Controllers\BlogController;
 use App\Http\Controllers\BlogLikeController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DepartmentController;
+use App\Http\Controllers\LearningMaterialController;
 use App\Http\Controllers\LearningProviderController;
 use App\Http\Controllers\QuizController;
 use App\Http\Controllers\RoleController;
@@ -13,6 +14,7 @@ use App\Http\Controllers\UserJobController;
 use App\Models\Blog;
 use App\Models\BusinessType;
 use App\Models\Department;
+use App\Models\LearningMaterial;
 use App\Models\LearningProvider;
 use App\Models\Quiz;
 use App\Models\User;
@@ -34,6 +36,12 @@ Route::bind('businessType', function ($value) {
 
 Route::bind('department', function ($value) {
     return Department::withTrashed()
+        ->where('slug', $value)
+        ->firstOrFail();
+});
+
+Route::bind('learningMaterial', function ($value) {
+    return LearningMaterial::withTrashed()
         ->where('slug', $value)
         ->firstOrFail();
 });
@@ -160,6 +168,17 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::resource('blogComments', BlogCommentController::class)->only([
         'store', 'update', 'destroy',
     ]);
+
+    // Learning Material routes
+    Route::get(
+        '/learningMaterials/archived',
+        [LearningMaterialController::class, 'archived']
+    )->name('learningMaterials.archived');
+    Route::resource('learningMaterials', LearningMaterialController::class);
+    Route::post(
+        'learningMaterials/{learningMaterial}/restore',
+        [LearningMaterialController::class, 'restore']
+    )->name('learningMaterials.restore');
 
     // Learning Provider routes
     Route::get(
