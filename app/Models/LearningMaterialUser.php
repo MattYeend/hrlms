@@ -48,6 +48,14 @@ class LearningMaterialUser extends Model
     ];
 
     /**
+     * Constants for status
+     */
+    public const NOT_STARTED = 1;
+    public const STARTED = 2;
+    public const IN_PROGRESS = 3;
+    public const COMPLETED = 4; 
+
+    /**
      * Get the learning material who this reloates to.
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo<LearningProvider>

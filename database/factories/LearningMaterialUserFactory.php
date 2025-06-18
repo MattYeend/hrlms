@@ -3,6 +3,7 @@
 namespace Database\Factories;
 
 use App\Models\LearningMaterial;
+use App\Models\LearningMaterialUser;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
@@ -18,11 +19,21 @@ class LearningMaterialUserFactory extends Factory
      */
     public function definition(): array
     {
-        $completedAt = $this->faker->optional(0.8)->dateTimeBetween('-1 year', 'now');
-
+        $status = $this->faker->randomElement([
+            LearningMaterialUser::NOT_STARTED,
+            LearningMaterialUser::STARTED,
+            LearningMaterialUser::IN_PROGRESS,
+            LearningMaterialUser::COMPLETED,
+        ]);
+        
+        $completedAt = $status === LearningMaterialUser::NOT_STARTED 
+            ? null 
+            : $this->faker->dateTimeBetween('-1 year', 'now');
+        
         return [
             'learning_material_id' => LearningMaterial::inRandomOrder()->first()?->id,
             'user_id' => User::inRandomOrder()->first()?->id,
+            'status' => $status,
             'completed_at' => $completedAt,
             'created_at' => now(),
             'updated_at' => now(),

@@ -25,7 +25,7 @@ class LearningMaterialFactory extends Factory
             'slug' => Str::slug($title),
             'key_objectives' => $this->faker->paragraph(), 
             'description' => $this->faker->paragraph(),
-            'file_path' => $this->faker->optional()->url(),
+            'file_path' => $this->faker->optional()->filePath(),
             'learning_provider_id' => LearningProvider::inRandomOrder()->first()?->id ?? LearningProvider::factory(),
             'department_id' => Department::inRandomOrder()->first()?->id ?? Department::factory(),
             'is_archived' => false,
