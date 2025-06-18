@@ -47,7 +47,7 @@ const pageFrom = computed(() => page.props.from ?? 'index')
                 <p><strong>Description:</strong> {{ learningMaterial.description }}</p>
                 <p><strong>File:</strong> {{ learningMaterial.file_path }}</p>
 				<p><strong>Learning Provider:</strong> {{ learningMaterial.learning_provider?.name ?? '-' }}</p>
-				<p><strong>Department:</strong> {{ learningMaterial.learning_provider?.name ?? '-' }}</p>
+                <p><strong>Department:</strong> {{ learningMaterial.department?.name ?? '-' }}</p>
 			</div>
 
 			<div class="flex space-x-4">

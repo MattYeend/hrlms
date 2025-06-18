@@ -34,16 +34,15 @@ class UpdateLearningMaterialRequest extends FormRequest
      *
      * @return array
      */
-    private function basicInfoRules(): array
+    private function basicInfoRules($learningMaterial): array
     {
-        $learningMaterial = $this->route('learningMaterial');
         return [
             'title' => ['required', 'string', 'max:255'],
             'slug' => [
                 'nullable',
                 'string',
                 'max:255',
-                'unique:learing_material,slug,' . $learningMaterial->id,
+                'unique:learning_materials,slug,' . $learningMaterial->id,
             ],
         ];
     }

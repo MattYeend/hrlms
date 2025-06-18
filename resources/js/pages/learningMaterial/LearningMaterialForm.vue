@@ -18,21 +18,19 @@ const form = useForm({
 	title: '',
     key_objectives: '',
     description: '',
-	file_path: null as File | null,
-	learning_provider_id: null as number | null,
+    file: null as File | null,	
+    learning_provider_id: null as number | null,
     department_id: null as number | null,
 })
 
 watchEffect(() => {
 	if (props.isEdit && props.learningMaterial) {
-		Object.assign(form, {
-			title: props.learningMaterial.title ?? '',
-            key_objectives: props.learningMaterial.key_objectives ?? '',
-            description: props.learningMaterial.description ?? '',
-            file_path: props.learningMaterial.file_path ?? '',
-			learning_provider_id: props.learningMaterial.learning_provider_id ?? null,
-            departments: props.learningMaterial.departments ?? '',
-		})
+		form.title = props.learningMaterial.title ?? ''
+		form.key_objectives = props.learningMaterial.key_objectives ?? ''
+		form.description = props.learningMaterial.description ?? ''
+		form.file = null
+		form.learning_provider_id = props.learningMaterial.learning_provider_id ?? null
+		form.department_id = props.learningMaterial.department_id ?? null
 	}
 })
 
@@ -70,20 +68,33 @@ const submit = () => {
 			</div>
 
             <div class="grid gap-2">
-                <Label for="file_path">Upload File</Label>
+                <Label for="file">Upload File</Label>
+
+                <!-- Show link to existing file if editing -->
+                <div v-if="props.isEdit && props.learningMaterial?.file_path" class="text-sm text-muted-foreground">
+                    Current File:
+                    <a
+                        :href="`/storage/${props.learningMaterial.file_path}`"
+                        class="text-blue-600 underline"
+                        target="_blank"
+                    >
+                        Download
+                    </a>
+                </div>
+
                 <Input
-                    id="file_path"
+                    id="file"
                     type="file"
-                    @change="(e: Event) => form.file_path = (e.target as HTMLInputElement).files?.[0] ?? null"
+                    @change="(e: Event) => form.file = (e.target as HTMLInputElement).files?.[0] ?? null"
                 />
-                <InputError :message="form.errors.file_path" />
+                <InputError :message="form.errors.file" />
             </div>
 
 			<!-- Learning Provider -->
 			<div class="grid gap-2">
 				<Label for="learning_provider_id">Learning Provider</Label>
 				<select v-model="form.learning_provider_id" id="learning_provider_id" class="input">
-					<option :value="null" disabled>Select a department</option>
+					<option :value="null" disabled>Select a learning provider</option>
 					<option v-for="learningProvider in learningProvider" :key="learningProvider.id" :value="learningProvider.id">
 						{{ learningProvider.name }}
 					</option>
@@ -110,7 +121,7 @@ const submit = () => {
 					class="text-sm btn btn-secondary cursor-pointer"
 					:disabled="form.processing"
 				>
-					{{ isEdit ? 'Update Learning Provider' : 'Create Learning Provider' }}
+					{{ isEdit ? 'Update Learning Material' : 'Create Learning Material' }}
 				</button>
 				<Link 
 					:href="route('learningProviders.index')"

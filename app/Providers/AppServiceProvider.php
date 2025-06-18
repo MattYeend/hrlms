@@ -41,8 +41,8 @@ class AppServiceProvider extends ServiceProvider
                 return $this->hasArchivedLearningProviders();
             },
             'archivedQuizzes' => fn () => $this->hasArchivedQuizzes(),
-            'archivedLearningMaterial' => function () {
-                return $this->hasArchivedLearningMaterial();
+            'archivedLearningMaterials' => function () {
+                return $this->hasArchivedLearningMaterials();
             },
             'isCSuiteOrHrStaff' => fn () => $this->isHighLevelOrHrStaff(),
         ]);
@@ -93,7 +93,7 @@ class AppServiceProvider extends ServiceProvider
         return Quiz::onlyTrashed()->exists();
     }
 
-    protected function hasArchivedLearningMaterial(): bool
+    protected function hasArchivedLearningMaterials(): bool
     {
         return LearningMaterial::onlyTrashed()->exists();
     }

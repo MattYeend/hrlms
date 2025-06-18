@@ -27,9 +27,11 @@ class LearningMaterial extends Model
     protected $fillable = [
         'title',
         'slug',
+        'key_objectives',
         'description',
         'file_path',
         'learning_provider_id',
+        'department_id',
         'is_archived',
         'created_by',
         'updated_by',

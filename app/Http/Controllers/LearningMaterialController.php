@@ -48,12 +48,12 @@ class LearningMaterialController extends Controller
 
         $archivedCount = LearningMaterial::onlyTrashed()->count();
 
-        $learningMaterial = LearningMaterial::with(
+        $learningMaterials = LearningMaterial::with(
             ['learningProvider', 'department']
         )->paginate(10);
 
         return Inertia::render('learningMaterial/Index', [
-            'learningMaterial' => $learningMaterial,
+            'learningMaterials' => $learningMaterials,
             'authUser' => User::where('id', auth()->id())
                 ->with('role:id,name')
                 ->first(),
@@ -70,14 +70,14 @@ class LearningMaterialController extends Controller
     {
         $this->authorize('create', LearningProvider::class);
 
-        $learningMaterial = LearningMaterial::with(
+        $learningMaterials = LearningMaterial::with(
             ['learningProvider', 'department']
         )->get();
         $learningProviders = LearningProvider::with('businessType')->get();
         $departments = Department::with('deptLead')->get();
 
-        return Inertia::render('learningProvider/Create', [
-            'learningMaterial' => $learningMaterial,
+        return Inertia::render('learningMaterial/Create', [
+            'learningMaterials' => $learningMaterials,
             'learningProviders' => $learningProviders,
             'departments' => $departments,
         ]);
@@ -100,9 +100,7 @@ class LearningMaterialController extends Controller
 
         if ($request->hasFile('file')) {
             $file = $request->file('file');
-            $path = $file->store('learning_materials', 'public');
-            $validated = [];
-            $validated['file_path'] = $path;
+            $data['file_path'] = $file->store('learning_materials', 'public');
         }
 
         $learningMaterial = LearningMaterial::create($data);
@@ -127,9 +125,9 @@ class LearningMaterialController extends Controller
 
         $this->logger->show($learningMaterial, auth()->id());
 
-        return Inertia::render('learningProvider/Show', [
-            'learning$learningMaterial' => $learningMaterial
-                ->load(['learningMaterial', 'department']),
+        return Inertia::render('learningMaterial/Show', [
+            'learningMaterial' => $learningMaterial
+                ->load(['learningProvider', 'department']),
             'from' => $request->query('from', 'index'),
         ]);
     }
@@ -145,15 +143,13 @@ class LearningMaterialController extends Controller
     {
         $this->authorize('update', $learningMaterial);
 
-        $learningMaterial = LearningMaterial::with(
-            ['learningProvider', 'department']
-        )->get();
+        $learningMaterial->load(['learningProvider', 'department']);
 
-        return Inertia::render('learningProvider/Edit', [
+        return Inertia::render('learningMaterial/Edit', [
             'learningMaterial' => $learningMaterial,
             'learningProviders' => LearningProvider::select('id', 'name')
                 ->get(),
-            'depatments' => Department::select('id', 'name')->get(),
+            'departments' => Department::select('id', 'name')->get(),
         ]);
     }
 
@@ -253,7 +249,7 @@ class LearningMaterialController extends Controller
 
         $this->logger->archived(auth()->id());
 
-        $learningMaterial = LearningMaterial::onlyTrashed()
+        $learningMaterials = LearningMaterial::onlyTrashed()
             ->with(['learningProvider', 'department'])
             ->paginate(10);
 
@@ -262,7 +258,7 @@ class LearningMaterialController extends Controller
             ->first();
 
         return Inertia::render('learningMaterial/Archived', [
-            'learningMaterials' => $learningMaterial,
+            'learningMaterials' => $learningMaterials,
             'authUser' => $authUser,
         ]);
     }

@@ -5,7 +5,7 @@ import LearningMaterialForm from '../learningMaterial/LearningMaterialForm.vue'
 import { type BreadcrumbItem } from '@/types'
 
 defineProps<{
-	learningMaterial: Array<{
+    learningMaterial: {
 		id: number
 		title: string
 		slug: string
@@ -15,14 +15,14 @@ defineProps<{
         learning_provider_id: number | null
         department_id: number | null
 		is_archived: boolean
-	}>
-	learningProvider: Array<{ id: number, name: string }>
-    department: Array<{ id: number, name: string }>
+	}
+	learningProviders: Array<{ id: number, name: string }>
+    departments: Array<{ id: number, name: string }>
 }>()
 
 const breadcrumbs: BreadcrumbItem[] = [
 	{ title: 'Dashboard', href: route('dashboard') },
-	{ title: 'Learning Material', href: route('learningMaterial.index') },
+	{ title: 'Learning Material', href: route('learningMaterials.index') },
 	{ title: 'Edit', href: '#' },
 ]
 </script>
@@ -35,8 +35,8 @@ const breadcrumbs: BreadcrumbItem[] = [
 			<LearningMaterialForm 
 				:is-edit="true"  
                 :learningMaterial="learningMaterial"
-                :learningProvider="learningProvider"
-                :department="department"
+                :learningProvider="learningProviders"
+                :department="departments"
 			/>
 		</div>
 	</AppLayout>
