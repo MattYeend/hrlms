@@ -9,58 +9,156 @@ use Illuminate\Auth\Access\Response;
 class LearningMaterialPolicy
 {
     /**
-     * Determine whether the user can view any models.
+     * Determine whether the user can view any learning material models.
+     *
+     * @param User $user The currently authenticated user.
+     *
+     * @return bool
      */
     public function viewAny(User $user): bool
     {
-        return false;
+        unset($user);
+        return true;
     }
 
     /**
-     * Determine whether the user can view the model.
+     * Determine whether the user can view a specific learning material.
+     *
+     * @param User $user The currently authenticated user.
+     * @param LearningMaterial $learningMaterial The learning material being viewed.
+     *
+     * @return bool
      */
     public function view(User $user, LearningMaterial $learningMaterial): bool
     {
-        return false;
+        unset($user, $learningMaterial);
+        return true;
     }
 
     /**
-     * Determine whether the user can create models.
+     * Determine whether the user can create a learning material.
+     *
+     * @param User $user The currently authenticated user.
+     *
+     * @return bool
      */
     public function create(User $user): bool
     {
-        return false;
+        return $this->isPrivileged($user);
     }
 
     /**
-     * Determine whether the user can update the model.
+     * Determine whether the user can update a learning material.
+     *
+     * @param User $user The currently authenticated user.
+     * @param LearningMaterial $learingMaterial The learning material being updated.
+     *
+     * @return bool
      */
     public function update(User $user, LearningMaterial $learningMaterial): bool
     {
-        return false;
+        if ($this->isPrivileged($user)) {
+            return true;
+        }
+
+        $hasBeenCompleted = $learningMaterial->completedBy()->exists();
+
+        return !$hasBeenCompleted && $user->id === $learningMaterial->created_by;
     }
 
     /**
-     * Determine whether the user can delete the model.
+     * Determine whether the user can delete a learning material.
+     *
+     * @param User $user The currently authenticated user.
+     * @param LearningMaterial $learningMaterial The learning material
+     * being deleted.
+     *
+     * @return bool
      */
     public function delete(User $user, LearningMaterial $learningMaterial): bool
     {
+        unset($learingMaterial);
+        return $this->isPrivileged($user);
+    }
+
+    /**
+     * Determine whether the user can restore a deleted learning material.
+     *
+     * @param User $user The currently authenticated user.
+     * @param LearningMaterial $learningMaterial The learning material
+     * being restored.
+     *
+     * @return bool
+     */
+    public function restore(
+        User $user,
+        LearningMaterial $learningMaterial
+    ): bool {
+        unset($learingMaterial);
+        return $this->isPrivileged($user);
+    }
+
+    /**
+     * Determine whether the user can permanently delete a learning material.
+     *
+     * @param User $user The currently authenticated user.
+     * @param LearningMaterial $learningMaterial The learning material
+     * being permanently deleted.
+     *
+     * @return bool
+     */
+    public function forceDelete(
+        User $user,
+        LearningMaterial $learningMaterial
+    ): bool {
+        unset($user, $learingMaterial);
         return false;
     }
 
     /**
-     * Determine whether the user can restore the model.
+     * Determine whether the user can view archived learning materials.
+     *
+     * @param User $user The currently authenticated user.
+     *
+     * @return bool
      */
-    public function restore(User $user, LearningMaterial $learningMaterial): bool
+    public function viewArchived(User $user): bool
     {
-        return false;
+        return $this->isPrivileged($user);
     }
 
     /**
-     * Determine whether the user can permanently delete the model.
+     * Determine whether the user can manage the model.
+     *
+     * A user can manage the model if they are privileged
+     * (admin or high-level staff)
+     * or if they are the original creator of the model.
+     *
+     * @param User $user The currently authenticated user.
+     * @param LearningMaterial $learningMaterial The learning material model instance being acted upon.
+     *
+     * @return bool True if the user is allowed to manage the learning material.
      */
-    public function forceDelete(User $user, LearningMaterial $learningMaterial): bool
+    private function canManage(User $user, LearningMaterial $learningMaterial): bool
     {
-        return false;
+        if ($this->isPrivileged($user)) {
+            return true;
+        }
+
+        return $user->id === $learningMaterial->created_by;
+    }
+
+    /**
+     * Check if the user has a privileged role (e.g., admin or
+     * high-level staff).
+     *
+     * @param User $user The user whose role is being evaluated.
+     *
+     * @return bool True if the user is considered privileged.
+     */
+    private function isPrivileged(User $user): bool
+    {
+        return $user->isAtleastAdmin() ||
+           $user->isHighLevelStaff();
     }
 }
