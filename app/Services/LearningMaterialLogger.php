@@ -151,4 +151,3 @@ class LearningMaterialLogger
         return is_array($log) ? $log : [];
     }
 }
-

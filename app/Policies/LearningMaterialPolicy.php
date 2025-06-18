@@ -4,7 +4,6 @@ namespace App\Policies;
 
 use App\Models\LearningMaterial;
 use App\Models\User;
-use Illuminate\Auth\Access\Response;
 
 class LearningMaterialPolicy
 {
@@ -25,7 +24,8 @@ class LearningMaterialPolicy
      * Determine whether the user can view a specific learning material.
      *
      * @param User $user The currently authenticated user.
-     * @param LearningMaterial $learningMaterial The learning material being viewed.
+     * @param LearningMaterial $learningMaterial The learning material
+     * being viewed.
      *
      * @return bool
      */
@@ -51,7 +51,8 @@ class LearningMaterialPolicy
      * Determine whether the user can update a learning material.
      *
      * @param User $user The currently authenticated user.
-     * @param LearningMaterial $learingMaterial The learning material being updated.
+     * @param LearningMaterial $learingMaterial The learning material being
+     * updated.
      *
      * @return bool
      */
@@ -63,7 +64,8 @@ class LearningMaterialPolicy
 
         $hasBeenCompleted = $learningMaterial->completedBy()->exists();
 
-        return !$hasBeenCompleted && $user->id === $learningMaterial->created_by;
+        return ! $hasBeenCompleted && $user->id ===
+            $learningMaterial->created_by;
     }
 
     /**
@@ -77,7 +79,7 @@ class LearningMaterialPolicy
      */
     public function delete(User $user, LearningMaterial $learningMaterial): bool
     {
-        unset($learingMaterial);
+        unset($learningMaterial);
         return $this->isPrivileged($user);
     }
 
@@ -94,7 +96,7 @@ class LearningMaterialPolicy
         User $user,
         LearningMaterial $learningMaterial
     ): bool {
-        unset($learingMaterial);
+        unset($learningMaterial);
         return $this->isPrivileged($user);
     }
 
@@ -111,7 +113,7 @@ class LearningMaterialPolicy
         User $user,
         LearningMaterial $learningMaterial
     ): bool {
-        unset($user, $learingMaterial);
+        unset($user, $learningMaterial);
         return false;
     }
 
@@ -125,27 +127,6 @@ class LearningMaterialPolicy
     public function viewArchived(User $user): bool
     {
         return $this->isPrivileged($user);
-    }
-
-    /**
-     * Determine whether the user can manage the model.
-     *
-     * A user can manage the model if they are privileged
-     * (admin or high-level staff)
-     * or if they are the original creator of the model.
-     *
-     * @param User $user The currently authenticated user.
-     * @param LearningMaterial $learningMaterial The learning material model instance being acted upon.
-     *
-     * @return bool True if the user is allowed to manage the learning material.
-     */
-    private function canManage(User $user, LearningMaterial $learningMaterial): bool
-    {
-        if ($this->isPrivileged($user)) {
-            return true;
-        }
-
-        return $user->id === $learningMaterial->created_by;
     }
 
     /**

@@ -19,7 +19,7 @@ class LearningMaterial extends Model
      */
     use HasFactory, SoftDeletes;
 
-        /**
+    /**
      * The attributes that are mass assignable.
      *
      * @var list<string>
@@ -102,7 +102,10 @@ class LearningMaterial extends Model
      */
     public function learningProvider()
     {
-        return $this->belongsTo(LearningProvider::class, 'learning_provider_id');
+        return $this->belongsTo(
+            LearningProvider::class,
+            'learning_provider_id'
+        );
     }
 
     /**
@@ -146,6 +149,7 @@ class LearningMaterial extends Model
      */
     public function completedBy()
     {
-        return $this->belongsToMany(User::class, 'learning_material_user')->withTimestamps();
+        return $this->belongsToMany(User::class, 'learning_material_user')
+            ->withTimestamps();
     }
 }

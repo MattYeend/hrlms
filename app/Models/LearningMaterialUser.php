@@ -2,8 +2,8 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 
 class LearningMaterialUser extends Model
 {
@@ -18,7 +18,8 @@ class LearningMaterialUser extends Model
     /**
      * The table associated with the model.
      *
-     * Laravel assumes the plural form (learning_material_users), so we explicitly define
+     * Laravel assumes the plural form (learning_material_users),
+     * so we explicitly define
      * the correct singular table name used for this pivot-like model.
      */
     protected $table = 'learning_material_user';
