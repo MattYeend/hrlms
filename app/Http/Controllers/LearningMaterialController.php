@@ -95,7 +95,7 @@ class LearningMaterialController extends Controller
         $this->authorize('create', LearningMaterial::class);
 
         $data = $request->validated();
-        $data['slug'] = Str::slug($data['name']);
+        $data['slug'] = Str::slug($data['title']);
         $data['created_by'] = auth()->id();
 
         if ($request->hasFile('file')) {
