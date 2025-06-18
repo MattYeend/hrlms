@@ -15,9 +15,11 @@ return new class extends Migration
             $table->id();
             $table->string('title');
             $table->string('slug')->unique();
+            $table->text('key_objectives')->nullable();
             $table->text('description')->nullable();
             $table->string('file_path')->nullable();
             $table->foreignId('learning_provider_id')->nullable()->constrained('learning_providers')->onDelete('set null');
+            $table->foreignId('department_id')->nullable()->constrained('departments')->onDelete('set null');
             $table->boolean('is_archived')->default(false);
             $table->foreignId('created_by')->nullable()->constrained('users')->onDelete('set null');
             $table->foreignId('updated_by')->nullable()->constrained('users')->onDelete('set null');

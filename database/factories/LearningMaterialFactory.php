@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\Department;
 use App\Models\LearningProvider;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
@@ -22,9 +23,11 @@ class LearningMaterialFactory extends Factory
         return [
             'title' => $title,
             'slug' => Str::slug($title),
+            'key_objectives' => $this->faker->paragraph(), 
             'description' => $this->faker->paragraph(),
             'file_path' => $this->faker->optional()->url(),
             'learning_provider_id' => LearningProvider::inRandomOrder()->first()?->id ?? LearningProvider::factory(),
+            'department_id' => Department::inRandomOrder()->first()?->id ?? Department::factory(),
             'is_archived' => false,
             'created_by' => null,
             'updated_by' => null,

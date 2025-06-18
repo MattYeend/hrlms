@@ -68,7 +68,7 @@ class LearningMaterial extends Model
     /**
      * Get the user who created the learning provider.
      *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo<User>
      */
     public function createdBy()
     {
@@ -78,7 +78,7 @@ class LearningMaterial extends Model
     /**
      * Get the user who updated the learning provider.
      *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo<User>
      */
     public function updatedBy()
     {
@@ -88,7 +88,7 @@ class LearningMaterial extends Model
     /**
      * Get the user who deleted the learning provider.
      *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo<User>
      */
     public function deletedBy()
     {
@@ -98,11 +98,21 @@ class LearningMaterial extends Model
     /**
      * Get the learning provider that the material belongs to.
      *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo<LearningProvider>
      */
     public function learningProvider()
     {
         return $this->belongsTo(LearningProvider::class, 'learning_provider_id');
+    }
+
+    /**
+     * Get the department that the material belongs to.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo<Department>
+     */
+    public function department()
+    {
+        return $this->belongsTo(Department::class, 'department');
     }
 
     /**
@@ -127,5 +137,15 @@ class LearningMaterial extends Model
     public function scopeArchived($query)
     {
         return $query->where('is_archived', true);
+    }
+
+    /**
+     * Get the users that have completed the material
+     *
+     *  @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function completedBy()
+    {
+        return $this->belongsToMany(User::class, 'learning_material_user')->withTimestamps();
     }
 }

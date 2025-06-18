@@ -30,6 +30,7 @@ class DatabaseSeeder extends Seeder
             QuizSeeder::class,
             QuizUserSeeder::class,
             LearningMaterialSeeder::class,
+            LearningMaterialUserSeeder::class,
             // Add other seeders here
         ]);
     }

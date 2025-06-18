@@ -77,7 +77,7 @@ class LearningProvider extends Model
     /**
      * Get the business type the provider is related to.
      *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo<BusinessType>
      */
     public function businessType()
     {
@@ -87,7 +87,7 @@ class LearningProvider extends Model
     /**
      * Get the user who created the learning provider.
      *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo<User>
      */
     public function createdBy()
     {
@@ -97,7 +97,7 @@ class LearningProvider extends Model
     /**
      * Get the user who updated the learning provider.
      *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo<User>
      */
     public function updatedBy()
     {
@@ -107,7 +107,7 @@ class LearningProvider extends Model
     /**
      * Get the user who deleted the learning provider.
      *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo<User>
      */
     public function deletedBy()
     {

@@ -528,9 +528,13 @@ class User extends Authenticatable
     }
 
     /**
-     * Get the quizs that the user created
+     * Get all quizzes associated with the user.
+     * This includes quizzes the user has taken or interacted with,
+     * rather than quizzes they authored.
      *
-     * @param \Illuminate\Database\Eloquent\Relations\HasMany
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     *
+     * @see Quiz
      */
     public function quizzes()
     {
@@ -540,23 +544,88 @@ class User extends Authenticatable
     }
 
     /**
-     * Get the total number of quizzes created by this user.
+     * Get the total number of quizzes associated with the user.
+     * This counts all quizzes linked to the user via the pivot table.
      *
      * @return int
+     *
+     * @see self::quizzes
      */
     public function quizzesCount()
     {
         return $this->quizzes()->count();
     }
 
+    /**
+     * Determine if the user has started any quizzes.
+     * This simply checks if there are any associated quiz records.
+     *
+     * @return bool
+     *
+     * @see self::quizzes
+     */
     public function quizzesStarted()
     {
         return $this->quizzes();
     }
 
+    /**
+     * Determine if the user has completed any quizzes.
+     * Completion is identified by a non-null 'completed_at' field
+     * in the pivot table.
+     *
+     * @return bool
+     *
+     * @see self::quizzes
+     */
     public function quizzesCompleted()
     {
-        return $this->quizzes()->wherePivotNotNull('completed_at');
+        return $this->quizzes()
+            ->wherePivotNotNull('completed_at')
+            ->exists();
+    }
+
+    /**
+     * Get all learning materials associated with the user.
+     * These are materials the user is assigned or linked to.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     *
+     * @see LearningMaterial
+     */
+    public function learningMaterial()
+    {
+        return $this->belongsToMany(LearningMaterial::class)
+            ->withPivot(['completed_at'])
+            ->withTimestamps();
+    }
+
+    /**
+     * Get the total number of learning materials associated with the user.
+     *
+     * @return int
+     *
+     * @see self::learningMaterial
+     */
+    public function learningMaterialCount()
+    {
+        return $this->learningMaterial()->count();
+    }
+
+    /**
+     * Determine if the user has completed any learning materials.
+     * Completion is indicated by a non-null 'completed_at' value
+     * in the pivot table.
+     *
+     * @return bool
+     *
+     * @see self::learningMaterial
+     */
+    public function learningMaterialCompleted()
+    {
+        return $this->learningMaterial()
+            ->wherePivotNotNull('completed_at')
+            ->exists();
     }
 
     /**

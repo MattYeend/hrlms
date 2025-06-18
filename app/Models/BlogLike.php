@@ -50,7 +50,7 @@ class BlogLike extends Model
     /**
      * Get the blog it is related to.
      *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo<Blog>
      */
     public function blog()
     {
@@ -60,7 +60,7 @@ class BlogLike extends Model
     /**
      * Get the user who created the like.
      *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo<User>
      */
     public function user()
     {
@@ -70,7 +70,7 @@ class BlogLike extends Model
     /**
      * Get the user who created the like.
      *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo<User>
      */
     public function createdBy()
     {
@@ -80,7 +80,7 @@ class BlogLike extends Model
     /**
      * Get the user who updated the like.
      *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo<User>
      */
     public function updatedBy()
     {
@@ -90,7 +90,7 @@ class BlogLike extends Model
     /**
      * Get the user who deleted the like.
      *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo<User>
      */
     public function deletedBy()
     {
@@ -100,7 +100,7 @@ class BlogLike extends Model
     /**
      * Get the user who approved the like.
      *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo<User>
      */
     public function approvedBy()
     {

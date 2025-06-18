@@ -2,14 +2,14 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
-class QuizUser extends Model
+class LearningMaterialUser extends Model
 {
     /**
      * HasFactory Used for model factories
-     * Traits used by the quiz user model:
+     * Traits used by the learning material user model:
      *
      * @use HasFactory<\Database\Factories\RoleFactory>
      */
@@ -18,10 +18,10 @@ class QuizUser extends Model
     /**
      * The table associated with the model.
      *
-     * Laravel assumes the plural form (quiz_users), so we explicitly define
+     * Laravel assumes the plural form (learning_material_users), so we explicitly define
      * the correct singular table name used for this pivot-like model.
      */
-    protected $table = 'quiz_user';
+    protected $table = 'learning_material_user';
 
     /**
      * The attributes that are mass assignable.
@@ -29,11 +29,9 @@ class QuizUser extends Model
      * @var list<string>
      */
     protected $fillable = [
-        'quiz_id',
+        'learning_material_id',
         'user_id',
         'completed_at',
-        'score',
-        'passed',
         'created_at',
         'updated_at',
     ];
@@ -49,13 +47,13 @@ class QuizUser extends Model
     ];
 
     /**
-     * Get the quiz who this reloates to.
+     * Get the learning material who this reloates to.
      *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo<Quiz>
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo<LearningProvider>
      */
-    public function quiz()
+    public function learningMaterial()
     {
-        return $this->belongsTo(Quiz::class);
+        return $this->belongsTo(LearningMaterial::class);
     }
 
     /**

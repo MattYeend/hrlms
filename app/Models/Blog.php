@@ -93,7 +93,7 @@ class Blog extends Model
     /**
      * Get the user who created the blog.
      *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo<User>
      */
     public function createdBy()
     {
@@ -103,7 +103,7 @@ class Blog extends Model
     /**
      * Get the user who last updated the blog.
      *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo<User>
      */
     public function updatedBy()
     {
@@ -113,7 +113,7 @@ class Blog extends Model
     /**
      * Get the user who deleted the blog (if soft deleted).
      *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo<User>
      */
     public function deletedBy()
     {
@@ -123,7 +123,7 @@ class Blog extends Model
     /**
      * Get the user who approved the blog.
      *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo<User>
      */
     public function approvedBy()
     {
@@ -133,7 +133,7 @@ class Blog extends Model
     /**
      * Get the user who denied the blog.
      *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo<User>
      */
     public function deniedBy()
     {

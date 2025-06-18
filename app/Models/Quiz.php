@@ -68,7 +68,7 @@ class Quiz extends Model
     /**
      * Get the learning provider that created the quiz
      *
-     *  @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     *  @return \Illuminate\Database\Eloquent\Relations\BelongsTo<LearningProvider>
      */
     public function learningProvider()
     {
@@ -91,7 +91,7 @@ class Quiz extends Model
     /**
      * Get the user who created the quiz.
      *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo<User>
      */
     public function createdBy()
     {
@@ -101,7 +101,7 @@ class Quiz extends Model
     /**
      * Get the user who updated the quiz.
      *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo<User>
      */
     public function updatedBy()
     {
@@ -111,7 +111,7 @@ class Quiz extends Model
     /**
      * Get the user who deleted the like.
      *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo<User>
      */
     public function deletedBy()
     {
