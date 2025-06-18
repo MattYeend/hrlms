@@ -560,7 +560,7 @@ class User extends Authenticatable
     }
 
     /**
-     * Scope a query to only include active jobs.
+     * Scope a query to only include active users.
      *
      * @param \Illuminate\Database\Eloquent\Builder $query
      *
@@ -572,7 +572,7 @@ class User extends Authenticatable
     }
 
     /**
-     * Scope a query to only include archived jobs.
+     * Scope a query to only include archived users.
      *
      * @param \Illuminate\Database\Eloquent\Builder $query
      *

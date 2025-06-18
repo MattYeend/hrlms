@@ -141,7 +141,7 @@ class Blog extends Model
     }
 
     /**
-     * Scope a query to only include active jobs.
+     * Scope a query to only include active blogs.
      *
      * @param \Illuminate\Database\Eloquent\Builder $query
      *
@@ -153,7 +153,7 @@ class Blog extends Model
     }
 
     /**
-     * Scope a query to only include archived jobs.
+     * Scope a query to only include archived blogs.
      *
      * @param \Illuminate\Database\Eloquent\Builder $query
      *

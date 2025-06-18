@@ -70,7 +70,7 @@ class BusinessType extends Model
     }
 
     /**
-     * Scope a query to only include active jobs.
+     * Scope a query to only include active business types.
      *
      * @param \Illuminate\Database\Eloquent\Builder $query
      *
@@ -82,7 +82,7 @@ class BusinessType extends Model
     }
 
     /**
-     * Scope a query to only include archived jobs.
+     * Scope a query to only include archived business types.
      *
      * @param \Illuminate\Database\Eloquent\Builder $query
      *

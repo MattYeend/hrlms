@@ -13,7 +13,7 @@ class LearningProvider extends Model
      * SoftDeletes Enables soft delete functionality
      * Traits used by the blog likes model:
      *
-     * @use HasFactory<\Database\Factories\BlogLikeFactory>
+     * @use HasFactory<\Database\Factories\LearningProviderFactory>
      *
      * @see \Illuminate\Database\Eloquent\SoftDeletes
      */
@@ -135,7 +135,7 @@ class LearningProvider extends Model
     }
 
     /**
-     * Scope a query to only include active jobs.
+     * Scope a query to only include active learning providers.
      *
      * @param \Illuminate\Database\Eloquent\Builder $query
      *
@@ -147,7 +147,7 @@ class LearningProvider extends Model
     }
 
     /**
-     * Scope a query to only include archived jobs.
+     * Scope a query to only include archived learning providers.
      *
      * @param \Illuminate\Database\Eloquent\Builder $query
      *

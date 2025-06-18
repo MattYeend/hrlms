@@ -132,7 +132,7 @@ class Quiz extends Model
     }
 
     /**
-     * Scope a query to only include active jobs.
+     * Scope a query to only include active quizzes.
      *
      * @param \Illuminate\Database\Eloquent\Builder $query
      *
@@ -144,7 +144,7 @@ class Quiz extends Model
     }
 
     /**
-     * Scope a query to only include archived jobs.
+     * Scope a query to only include archived quizzes.
      *
      * @param \Illuminate\Database\Eloquent\Builder $query
      *

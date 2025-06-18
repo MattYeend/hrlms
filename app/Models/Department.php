@@ -82,7 +82,7 @@ class Department extends Model
     }
 
     /**
-     * Scope a query to only include active jobs.
+     * Scope a query to only include active departments.
      *
      * @param \Illuminate\Database\Eloquent\Builder $query
      *
@@ -94,7 +94,7 @@ class Department extends Model
     }
 
     /**
-     * Scope a query to only include archived jobs.
+     * Scope a query to only include archived departments.
      *
      * @param \Illuminate\Database\Eloquent\Builder $query
      *
