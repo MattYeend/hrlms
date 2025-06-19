@@ -19,6 +19,7 @@ const form = useForm({
     key_objectives: '',
     description: '',
     file: null as File | null,	
+    url: '',
     learning_provider_id: null as number | null,
     department_id: null as number | null,
 })
@@ -29,6 +30,7 @@ watchEffect(() => {
 		form.key_objectives = props.learningMaterial.key_objectives ?? ''
 		form.description = props.learningMaterial.description ?? ''
 		form.file = null
+        form.url = props.learningMaterial.url ?? ''
 		form.learning_provider_id = props.learningMaterial.learning_provider_id ?? null
 		form.department_id = props.learningMaterial.department_id ?? null
 	}
@@ -89,6 +91,13 @@ const submit = () => {
                 />
                 <InputError :message="form.errors.file" />
             </div>
+
+            <!-- URL -->
+            <div class="grid gap-2">
+				<Label for="url">URL</Label>
+				<Input id="url" v-model="form.url" type="text" placeholder="Enter the URL" />
+				<InputError :message="form.errors.url" />
+			</div>
 
 			<!-- Learning Provider -->
 			<div class="grid gap-2">

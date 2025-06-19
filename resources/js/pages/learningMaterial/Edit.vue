@@ -12,6 +12,7 @@ defineProps<{
         key_objectives: string
         description: string
         file_path: string
+        url: string
         learning_provider_id: number | null
         department_id: number | null
 		is_archived: boolean

@@ -63,6 +63,7 @@ class UpdateLearningMaterialRequest extends FormRequest
                 'mimes:pdf,doc,docx,ppt,pptx,mp4',
                 'max:10240',
             ],
+            'url' => ['nullable', 'string'],
         ];
     }
 

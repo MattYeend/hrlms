@@ -16,6 +16,7 @@ const props = defineProps<{
         key_objectives: string
         description: string
         file_path: string
+		url: string
         learning_provider: {id: number, name: string }
         department: {id: number, name: string }
 		is_archived: boolean
@@ -46,6 +47,7 @@ const pageFrom = computed(() => page.props.from ?? 'index')
                 <p><strong>Key Objectives:</strong> {{ learningMaterial.key_objectives }}</p>
                 <p><strong>Description:</strong> {{ learningMaterial.description }}</p>
                 <p><strong>File:</strong> {{ learningMaterial.file_path }}</p>
+				<p><strong>URL:</strong> {{ learningMaterial.url }}</p>
 				<p><strong>Learning Provider:</strong> {{ learningMaterial.learning_provider?.name ?? '-' }}</p>
                 <p><strong>Department:</strong> {{ learningMaterial.department?.name ?? '-' }}</p>
 			</div>

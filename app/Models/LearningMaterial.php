@@ -30,6 +30,7 @@ class LearningMaterial extends Model
         'key_objectives',
         'description',
         'file_path',
+        'url',
         'learning_provider_id',
         'department_id',
         'is_archived',
