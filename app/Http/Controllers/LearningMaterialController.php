@@ -6,13 +6,16 @@ use App\Http\Requests\StoreLearningMaterialRequest;
 use App\Http\Requests\UpdateLearningMaterialRequest;
 use App\Models\Department;
 use App\Models\LearningMaterial;
+use App\Models\LearningMaterialUser;
 use App\Models\LearningProvider;
 use App\Models\User;
 use App\Services\LearningMaterialLogger;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Inertia\Inertia;
+use Illuminate\Http\RedirectResponse;
 
 class LearningMaterialController extends Controller
 {
@@ -125,10 +128,28 @@ class LearningMaterialController extends Controller
 
         $this->logger->show($learningMaterial, auth()->id());
 
+        $user = auth()->user();
+
+        $pivot = $learningMaterial->users()
+            ->where('user_id', $user->id)
+            ->first()?->pivot;
+
+        $started = $pivot && (int)$pivot->status !== \App\Models\LearningMaterialUser::STATUS_NOT_STARTED;
+        $ended = $pivot && (int)$pivot->status === \App\Models\LearningMaterialUser::STATUS_COMPLETED;
+
         return Inertia::render('learningMaterial/Show', [
-            'learningMaterial' => $learningMaterial
-                ->load(['learningProvider', 'department']),
+            'learningMaterial' => array_merge(
+                $learningMaterial->load(['learningProvider', 'department'])->toArray(),
+                [
+                    'started' => $started,
+                    'ended' => $ended,
+                ]
+            ),
             'from' => $request->query('from', 'index'),
+            'userStatus' => $pivot ? [
+                'status' => $pivot->status,
+                'completed_at' => $pivot->completed_at,
+            ] : null,
         ]);
     }
 
@@ -261,6 +282,51 @@ class LearningMaterialController extends Controller
             'learningMaterials' => $learningMaterials,
             'authUser' => $authUser,
         ]);
+    }
+
+    /**
+     * Mark a learning material as started by the authenticated user.
+     *
+     * @param \App\Models\LearningMaterial $learningMaterial
+     *
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function start(LearningMaterial $learningMaterial): RedirectResponse
+    {
+        $this->authorize('canStart', $learningMaterial);
+        $user = auth()->user();
+
+        $learningMaterial->users()->syncWithoutDetaching([
+            $user->id => [
+                'status' => LearningMaterialUser::STATUS_STARTED,
+                'completed_at' => null,
+            ],
+        ]);
+
+        return redirect()->route('learningMaterials.show', $learningMaterial->slug);
+    }
+
+    /**
+     * Mark a learning material as completed by the authenticated user.
+     *
+     * @param \App\Models\LearningMaterial $learningMaterial
+     *
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function end(LearningMaterial $learningMaterial): RedirectResponse
+    {
+        $this->authorize('canEnd', $learningMaterial);
+        $user = auth()->user();
+
+        DB::table('learning_material_user')
+            ->where('learning_material_id', $learningMaterial->id)
+            ->where('user_id', $user->id)
+            ->update([
+                'status' => LearningMaterialUser::STATUS_COMPLETED,
+                'completed_at' => now(),
+            ]);
+
+        return redirect()->route('learningMaterials.show', $learningMaterial->slug);
     }
 
     /**

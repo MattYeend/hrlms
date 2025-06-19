@@ -1,7 +1,8 @@
 <script setup lang="ts">
 import { 
 	Head, 
-	Link 
+	Link,
+	router
 } from '@inertiajs/vue3'
 import AppLayout from '@/layouts/AppLayout.vue'
 import { type BreadcrumbItem } from '@/types'
@@ -20,6 +21,8 @@ const props = defineProps<{
         learning_provider: {id: number, name: string }
         department: {id: number, name: string }
 		is_archived: boolean
+		started: boolean
+		ended: boolean
 	}, 
 	from: 'index' | 'archived'
 }>()
@@ -32,6 +35,14 @@ const breadcrumbs: BreadcrumbItem[] = [
 
 const page = usePage()
 const pageFrom = computed(() => page.props.from ?? 'index')
+
+const submitStart = () => {
+	router.post(route('learningMaterials.start', props.learningMaterial.slug))
+}
+
+const submitEnd = () => {
+	router.post(route('learningMaterials.end', props.learningMaterial.slug))
+}
 
 </script>
 
@@ -46,7 +57,18 @@ const pageFrom = computed(() => page.props.from ?? 'index')
 				<p><strong>Title:</strong> {{ learningMaterial.title }}</p>
                 <p><strong>Key Objectives:</strong> {{ learningMaterial.key_objectives }}</p>
                 <p><strong>Description:</strong> {{ learningMaterial.description }}</p>
-                <p><strong>File:</strong> {{ learningMaterial.file_path }}</p>
+                <p>
+					<strong>File:</strong>
+					<a 
+						v-if="learningMaterial.file_path" 
+						:href="`/storage/${learningMaterial.file_path}`" 
+						target="_blank"
+						class="text-blue-500 hover:underline"
+					>
+						Download
+					</a>
+					<span v-else>-</span>
+				</p>
 				<p><strong>URL:</strong> {{ learningMaterial.url }}</p>
 				<p><strong>Learning Provider:</strong> {{ learningMaterial.learning_provider?.name ?? '-' }}</p>
                 <p><strong>Department:</strong> {{ learningMaterial.department?.name ?? '-' }}</p>
@@ -65,6 +87,22 @@ const pageFrom = computed(() => page.props.from ?? 'index')
 				>
 					Back
 				</Link>
+
+				<button 
+					@click="submitStart" 
+					v-if="!learningMaterial.is_archived && !learningMaterial.started" 
+					class="text-sm btn btn-success"
+				>
+				Start
+				</button>
+
+				<button 
+					@click="submitEnd" 
+					v-if="!learningMaterial.is_archived && learningMaterial.started && !learningMaterial.ended" 
+					class="text-sm btn btn-secondary"
+				>
+				End
+				</button>
 			</div>
 		</div>
 	</AppLayout>

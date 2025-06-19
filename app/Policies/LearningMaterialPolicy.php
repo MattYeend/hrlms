@@ -131,6 +131,32 @@ class LearningMaterialPolicy
     }
 
     /**
+     * Determine whether the user can start the learning material.
+     *
+     * @param User $user The currently authenticated user.
+     *
+     * @return bool
+     */
+    public function canStart(User $user): bool
+    {
+        unset($user);
+        return true;
+    }
+
+        /**
+     * Determine whether the user can end the learning material.
+     *
+     * @param User $user The currently authenticated user.
+     *
+     * @return bool
+     */
+    public function canEnd(User $user): bool
+    {
+        unset($user);
+        return true;
+    }
+
+    /**
      * Check if the user has a privileged role (e.g., admin or
      * high-level staff).
      *

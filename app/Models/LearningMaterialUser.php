@@ -3,9 +3,9 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\Pivot;
 
-class LearningMaterialUser extends Model
+class LearningMaterialUser extends Pivot
 {
     /**
      * HasFactory Used for model factories
@@ -34,8 +34,6 @@ class LearningMaterialUser extends Model
         'user_id',
         'status',
         'completed_at',
-        'created_at',
-        'updated_at',
     ];
 
     /**
@@ -44,6 +42,8 @@ class LearningMaterialUser extends Model
      * @return array<string, string>
      */
     protected $casts = [
+        'status' => 'integer',
+        'completed_at' => 'datetime',
         'created_at' => 'datetime',
         'updated_at' => 'datetime',
     ];
@@ -51,13 +51,13 @@ class LearningMaterialUser extends Model
     /**
      * Constants for status
      */
-    public const NOT_STARTED = 1;
-    public const STARTED = 2;
-    public const IN_PROGRESS = 3;
-    public const COMPLETED = 4; 
+    public const STATUS_NOT_STARTED = 1;
+    public const STATUS_STARTED = 2;
+    public const STATUS_IN_PROGRESS = 3;
+    public const STATUS_COMPLETED = 4; 
 
     /**
-     * Get the learning material who this reloates to.
+     * Get the learning material who this relates to.
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo<LearningProvider>
      */
@@ -67,7 +67,7 @@ class LearningMaterialUser extends Model
     }
 
     /**
-     * Get the user who this reloates to.
+     * Get the user who this relates to.
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo<User>
      */

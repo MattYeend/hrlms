@@ -157,6 +157,18 @@ class LearningMaterial extends Model
     }
 
     /**
+     * Get the users associated with the learning material.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function users()
+    {
+        return $this->belongsToMany(User::class, 'learning_material_user')
+            ->withPivot('status', 'completed_at')
+            ->withTimestamps();
+    }
+
+    /**
      * Get the users that have started the material
      *
      *  @return \Illuminate\Database\Eloquent\Relations\BelongsToMany

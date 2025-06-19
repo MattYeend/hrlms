@@ -179,6 +179,14 @@ Route::middleware(['auth', 'verified'])->group(function () {
         'learningMaterials/{learningMaterial}/restore',
         [LearningMaterialController::class, 'restore']
     )->name('learningMaterials.restore');
+    Route::post(
+        '/learning-materials/{learningMaterial}/start',
+        [LearningMaterialController::class, 'start']
+    )->name('learningMaterials.start');
+    Route::post(
+        '/learning-materials/{learningMaterial}/end',
+        [LearningMaterialController::class, 'end']
+    )->name('learningMaterials.end');
 
     // Learning Provider routes
     Route::get(
