@@ -53,7 +53,16 @@ class LearningMaterialController extends Controller
 
         $learningMaterials = LearningMaterial::with(
             ['learningProvider', 'department']
-        )->paginate(10);
+        )
+        ->withCount([
+            'users as has_activity' => function ($query) {
+                $query->whereIn('learning_material_user.status', [
+                    LearningMaterialUser::STATUS_STARTED,
+                    LearningMaterialUser::STATUS_COMPLETED,
+                ]);
+            },
+        ])
+        ->paginate(10);
 
         return Inertia::render('learningMaterial/Index', [
             'learningMaterials' => $learningMaterials,

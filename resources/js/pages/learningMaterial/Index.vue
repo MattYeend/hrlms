@@ -15,6 +15,7 @@ defineProps<{
 			learning_provider: {id: number, name: string }
             department: {id: number, name: string }
 			is_archived: boolean
+			has_activity: number
 		}>
 		current_page: number
 		last_page: number
@@ -79,14 +80,14 @@ const breadcrumbs: BreadcrumbItem[] = [
 									View
 								</Link>
 								<Link 
-									v-if="['Admin', 'Super Admin'].includes(authUser.role.name)"
+									v-if="['Admin', 'Super Admin'].includes(authUser.role.name) && learningMaterial.has_activity === 0"
 									:href="route('learningMaterials.edit', { learningMaterial: learningMaterial.slug })" 
 									class="text-sm text-blue-600 dark:text-blue-400"
 								>
 									Edit
 								</Link>
 								<Link 
-                                    v-if="['Admin', 'Super Admin'].includes(authUser.role.name)"
+                                    v-if="['Admin', 'Super Admin'].includes(authUser.role.name) && learningMaterial.has_activity === 0"
                                     :href="route('learningMaterials.destroy', { learningMaterial: learningMaterial.slug })"
                                     method="delete"
                                     as="button"
