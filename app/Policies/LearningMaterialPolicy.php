@@ -143,7 +143,7 @@ class LearningMaterialPolicy
         return true;
     }
 
-        /**
+    /**
      * Determine whether the user can end the learning material.
      *
      * @param User $user The currently authenticated user.

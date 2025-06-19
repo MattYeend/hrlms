@@ -16,6 +16,14 @@ class LearningMaterialUser extends Pivot
     use HasFactory;
 
     /**
+     * Constants for status
+     */
+    public const STATUS_NOT_STARTED = 1;
+    public const STATUS_STARTED = 2;
+    public const STATUS_IN_PROGRESS = 3;
+    public const STATUS_COMPLETED = 4;
+
+    /**
      * The table associated with the model.
      *
      * Laravel assumes the plural form (learning_material_users),
@@ -47,14 +55,6 @@ class LearningMaterialUser extends Pivot
         'created_at' => 'datetime',
         'updated_at' => 'datetime',
     ];
-
-    /**
-     * Constants for status
-     */
-    public const STATUS_NOT_STARTED = 1;
-    public const STATUS_STARTED = 2;
-    public const STATUS_IN_PROGRESS = 3;
-    public const STATUS_COMPLETED = 4; 
 
     /**
      * Get the learning material who this relates to.

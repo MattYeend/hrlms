@@ -10,20 +10,22 @@ use App\Models\LearningMaterialUser;
 use App\Models\LearningProvider;
 use App\Models\User;
 use App\Services\LearningMaterialLogger;
+use App\Services\LearningMaterialService;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Str;
 use Inertia\Inertia;
-use Illuminate\Http\RedirectResponse;
 
 class LearningMaterialController extends Controller
 {
     /**
-     * Declare a protected propert to hold the
+     * Declare a protected property to hold the
      * LearningMaterialLogger instance.
+     * Declare a protected property to hold the
+     * LearningMaterialServise instance.
      */
     protected LearningMaterialLogger $logger;
+    protected LearningMaterialService $learningMaterialService;
 
     /**
      * Constructor for the controller
@@ -31,11 +33,18 @@ class LearningMaterialController extends Controller
      * @param LearningMaterialLogger $logger
      * An instance of the LearningMaterialLogger used for logging
      * user-related activities
+     *
+     * @param LearningMaterialService $learningMaterialService
+     * An instance of learningMaterialService used for general
+     * user-related activities
      */
-    public function __construct(LearningMaterialLogger $logger)
-    {
+    public function __construct(
+        LearningMaterialLogger $logger,
+        LearningMaterialService $learningMaterialService
+    ) {
         $this->authorizeResource(LearningMaterial::class, 'learningMaterial');
         $this->logger = $logger;
+        $this->learningMaterialService = $learningMaterialService;
     }
 
     /**
@@ -49,26 +58,13 @@ class LearningMaterialController extends Controller
 
         $this->logger->index(auth()->id());
 
-        $archivedCount = LearningMaterial::onlyTrashed()->count();
-
-        $learningMaterials = LearningMaterial::with(
-            ['learningProvider', 'department']
-        )
-        ->withCount([
-            'users as has_activity' => function ($query) {
-                $query->whereIn('learning_material_user.status', [
-                    LearningMaterialUser::STATUS_STARTED,
-                    LearningMaterialUser::STATUS_COMPLETED,
-                ]);
-            },
-        ])
-        ->paginate(10);
+        $archivedCount = $this->getArchivedCount();
+        $learningMaterials = $this->getPaginatedLearningMaterials();
+        $authUser = $this->getAuthUserWithRole();
 
         return Inertia::render('learningMaterial/Index', [
             'learningMaterials' => $learningMaterials,
-            'authUser' => User::where('id', auth()->id())
-                ->with('role:id,name')
-                ->first(),
+            'authUser' => $authUser,
             'hasArchivedLearningMaterials' => $archivedCount > 0,
         ]);
     }
@@ -106,16 +102,10 @@ class LearningMaterialController extends Controller
     {
         $this->authorize('create', LearningMaterial::class);
 
-        $data = $request->validated();
-        $data['slug'] = Str::slug($data['title']);
-        $data['created_by'] = auth()->id();
-
-        if ($request->hasFile('file')) {
-            $file = $request->file('file');
-            $data['file_path'] = $file->store('learning_materials', 'public');
-        }
-
-        $learningMaterial = LearningMaterial::create($data);
+        $learningMaterial = $this->learningMaterialService->create(
+            $request,
+            auth()->id()
+        );
 
         $this->logger->create($learningMaterial, auth()->id());
 
@@ -138,27 +128,22 @@ class LearningMaterialController extends Controller
         $this->logger->show($learningMaterial, auth()->id());
 
         $user = auth()->user();
+        $pivot = $this->getUserLearningMaterialPivot(
+            $learningMaterial,
+            $user->id
+        );
 
-        $pivot = $learningMaterial->users()
-            ->where('user_id', $user->id)
-            ->first()?->pivot;
-
-        $started = $pivot && (int)$pivot->status !== \App\Models\LearningMaterialUser::STATUS_NOT_STARTED;
-        $ended = $pivot && (int)$pivot->status === \App\Models\LearningMaterialUser::STATUS_COMPLETED;
+        $started = $this->hasStarted($pivot);
+        $ended = $this->hasEnded($pivot);
 
         return Inertia::render('learningMaterial/Show', [
-            'learningMaterial' => array_merge(
-                $learningMaterial->load(['learningProvider', 'department'])->toArray(),
-                [
-                    'started' => $started,
-                    'ended' => $ended,
-                ]
+            'learningMaterial' => $this->prepareLearningMaterialForShow(
+                $learningMaterial,
+                $started,
+                $ended
             ),
             'from' => $request->query('from', 'index'),
-            'userStatus' => $pivot ? [
-                'status' => $pivot->status,
-                'completed_at' => $pivot->completed_at,
-            ] : null,
+            'userStatus' => $this->getUserStatusArray($pivot),
         ]);
     }
 
@@ -197,18 +182,11 @@ class LearningMaterialController extends Controller
     ) {
         $this->authorize('update', $learningMaterial);
 
-        $data = $request->validated();
-
-        if ($request->hasFile('file')) {
-            $this->replaceFile($learningMaterial);
-            $data['file_path'] = $request->file('file')
-                ->store('learning_materials', 'public');
-        }
-
-        $learningMaterial->update(array_merge($data, [
-            'updated_by' => auth()->id(),
-            'updated_at' => now(),
-        ]));
+        $learningMaterial = $this->learningMaterialService->update(
+            $request,
+            $learningMaterial,
+            auth()->id()
+        );
 
         $this->logger->update($learningMaterial, auth()->id());
 
@@ -312,7 +290,8 @@ class LearningMaterialController extends Controller
             ],
         ]);
 
-        return redirect()->route('learningMaterials.show', $learningMaterial->slug);
+        return redirect()
+            ->route('learningMaterials.show', $learningMaterial->slug);
     }
 
     /**
@@ -335,25 +314,137 @@ class LearningMaterialController extends Controller
                 'completed_at' => now(),
             ]);
 
-        return redirect()->route('learningMaterials.show', $learningMaterial->slug);
+        return redirect()
+            ->route('learningMaterials.show', $learningMaterial->slug);
     }
 
     /**
-     * Deletes the existing file associated with the given learning material
-     * from the public storage disk, if it exists.
+     * Get the count of archived (soft deleted) learning materials.
      *
-     * @param \App\Models\LearningMaterial $learningMaterial  The learning
-     * material whose file should be replaced.
-     *
-     * @return void
+     * @return int
      */
-    protected function replaceFile(LearningMaterial $learningMaterial): void
+    private function getArchivedCount(): int
     {
-        if (
-            $learningMaterial->file_path &&
-            Storage::disk('public')->exists($learningMaterial->file_path)
-        ) {
-            Storage::disk('public')->delete($learningMaterial->file_path);
+        return LearningMaterial::onlyTrashed()->count();
+    }
+
+    /**
+     * Retrieve paginated learning materials with related providers
+     * and departments, including a count of users with activity status.
+     *
+     * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
+     */
+    private function getPaginatedLearningMaterials()
+    {
+        return LearningMaterial::with(['learningProvider', 'department'])
+            ->withCount([
+                'users as has_activity' => function ($query) {
+                    $query->whereIn('learning_material_user.status', [
+                        LearningMaterialUser::STATUS_STARTED,
+                        LearningMaterialUser::STATUS_COMPLETED,
+                    ]);
+                },
+            ])
+            ->paginate(10);
+    }
+
+    /**
+     * Retrieve the authenticated user with their role.
+     *
+     * @return \App\Models\User|null
+     */
+    private function getAuthUserWithRole()
+    {
+        return User::where('id', auth()->id())
+            ->with('role:id,name')
+            ->first();
+    }
+
+    /**
+     * Get the pivot table record linking the given user and learning material.
+     *
+     * @param LearningMaterial $learningMaterial
+     * @param int $userId
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\Pivot|null
+     */
+    private function getUserLearningMaterialPivot(
+        LearningMaterial $learningMaterial,
+        int $userId
+    ) {
+        return $learningMaterial->users()
+            ->where('user_id', $userId)
+            ->first()?->pivot;
+    }
+
+    /**
+     * Determine if the learning material has been started by the user.
+     *
+     * @param mixed $pivot
+     *
+     * @return bool
+     */
+    private function hasStarted($pivot): bool
+    {
+        return $pivot &&
+            (int) $pivot->status !== LearningMaterialUser::STATUS_NOT_STARTED;
+    }
+
+    /**
+     * Determine if the learning material has been completed by the user.
+     *
+     * @param mixed $pivot
+     *
+     * @return bool
+     */
+    private function hasEnded($pivot): bool
+    {
+        return $pivot &&
+            (int) $pivot->status === LearningMaterialUser::STATUS_COMPLETED;
+    }
+
+    /**
+     * Prepare the learning material data for the show view,
+     * including started and ended flags.
+     *
+     * @param LearningMaterial $learningMaterial
+     * @param bool $started
+     * @param bool $ended
+     *
+     * @return array
+     */
+    private function prepareLearningMaterialForShow(
+        LearningMaterial $learningMaterial,
+        bool $started,
+        bool $ended
+    ): array {
+        return array_merge(
+            $learningMaterial->load(
+                ['learningProvider', 'department']
+            )->toArray(),
+            [
+                'started' => $started,
+                'ended' => $ended,
+            ]
+        );
+    }
+
+    /**
+     * Get the user's status array from the pivot, or null if none.
+     *
+     * @param mixed $pivot
+     *
+     * @return array|null
+     */
+    private function getUserStatusArray($pivot): ?array
+    {
+        if (! $pivot) {
+            return null;
         }
+
+        return [
+            'status' => $pivot->status,
+            'completed_at' => $pivot->completed_at,
+        ];
     }
 }
