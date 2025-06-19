@@ -199,3 +199,57 @@ test('admin can update learning materials if not started', function () {
 
     $this->assertDatabaseHas('learning_materials', ['id' => $material->id, 'title' => 'Admin Update']);
 });
+
+test('users can start learning materials', function () {
+    $admin = userWithRoleForLearningMaterials('admin');
+    $businessType = (new BusinessTypeFactory())->create([
+        'created_by' => $admin->id,
+        'updated_by' => $admin->id,
+    ]);
+    $material = LearningMaterial::factory()->create([
+        'created_by' => $admin->id,
+        'updated_by' => $admin->id,
+    ]);
+
+    $user = userWithRoleForLearningMaterials('user');
+
+    $response = $this->actingAs($user)
+        ->post(route('learningMaterials.start', $material));
+
+    $response->assertRedirect(route('learningMaterials.show', $material->slug));
+
+    $this->assertDatabaseHas('learning_material_user', [
+        'learning_material_id' => $material->id,
+        'user_id' => $user->id,
+        'status' => \App\Models\LearningMaterialUser::STATUS_STARTED,
+    ]);
+});
+
+test('users can end learning materials', function () {
+    $admin = userWithRoleForLearningMaterials('admin');
+    $businessType = (new BusinessTypeFactory())->create([
+        'created_by' => $admin->id,
+        'updated_by' => $admin->id,
+    ]);
+    $material = LearningMaterial::factory()->create([
+        'created_by' => $admin->id,
+        'updated_by' => $admin->id,
+    ]);
+    $user = userWithRoleForLearningMaterials('user');
+
+    // Start the learning material first
+    $this->actingAs($user)
+        ->post(route('learningMaterials.start', $material));
+
+    // Then mark it as completed
+    $response = $this->actingAs($user)
+        ->post(route('learningMaterials.end', $material));
+
+    $response->assertRedirect(route('learningMaterials.show', $material->slug));
+
+    $this->assertDatabaseHas('learning_material_user', [
+        'learning_material_id' => $material->id,
+        'user_id' => $user->id,
+        'status' => \App\Models\LearningMaterialUser::STATUS_COMPLETED,
+    ]);
+});
