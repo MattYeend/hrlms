@@ -31,6 +31,10 @@ const breadcrumbs: BreadcrumbItem[] = [
 	{ title: 'Dashboard', href: route('dashboard') },
 	{ title: 'Learning Materials', href: route('learningMaterials.index') },
 ]
+
+const truncate = (text: string, length = 100) => {
+	return text.length > length ? text.slice(0, length) + '…' : text
+}
 </script>
 
 <template>
@@ -68,8 +72,8 @@ const breadcrumbs: BreadcrumbItem[] = [
 							class="hover:bg-gray-50 dark:hover:bg-gray-700 transition"
 						>
                             <td class="p-3">{{ learningMaterial.title }}</td>
-                            <td class="p-3">{{ learningMaterial.key_objectives }}</td>
-                            <td class="p-3">{{ learningMaterial.description }}</td>
+							<td class="p-3">{{ truncate(learningMaterial.key_objectives, 100)?? '-' }}</td>
+							<td class="p-3">{{ truncate(learningMaterial.description, 100)?? '-' }}</td>
 							<td class="p-3">{{ learningMaterial.learning_provider?.name ?? '-' }}</td>
                             <td class="p-3">{{ learningMaterial.department?.name ?? '-' }}</td>
 							<td class="p-3">
