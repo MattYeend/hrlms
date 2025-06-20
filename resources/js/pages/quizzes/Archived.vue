@@ -10,7 +10,7 @@ defineProps<{
             title: string
             slug: string
             pass_percentage: number
-            description?: string
+            description: string
             learning_provider?: { id: number; name: string }
             is_archived: boolean
         }>
@@ -28,6 +28,10 @@ const breadcrumbs: BreadcrumbItem[] = [
 	{ title: 'Dashboard', href: route('dashboard') },
 	{ title: 'Quizzes', href: route('quizzes.index') },
 ]
+
+const truncate = (text: string, length = 100) => {
+	return text.length > length ? text.slice(0, length) + '…' : text
+}
 </script>
 
 <template>
@@ -59,7 +63,7 @@ const breadcrumbs: BreadcrumbItem[] = [
                             <td class="p-3">{{ quiz.title }}</td>
                             <td class="p-3">{{ quiz.learning_provider?.name ?? '-' }}</td>
                             <td class="p-3">{{ quiz.pass_percentage }}%</td>
-                            <td class="p-3">{{ quiz.description ?? '-' }}</td>
+							<td class="p-3 line-clamp-2 max-w-md">{{ truncate(quiz.description, 100)?? '-' }}</td>
                             <td class="p-3">
 								<Link 
 									:href="route('quizzes.show', { quiz: quiz.slug }) + `?from=archived`" 
